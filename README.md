@@ -121,14 +121,19 @@ git push origin {브랜치명}
 
 ```
 master -> develop -> FE_develop -> feat/기능명
-master -> develop -> BE_develop -> feat/기능명
+	   -> develop -> BE_develop -> feat/기능명
+	   -> develop -> docs
 ```
 
-
+- master
+  - develop
+    - BE_develop
+    - FE_develop
+    - docs
 
 #### merge
 
-
+- 각 파트 maintainer들만 merge 권한
 
 #### commit 메시지 
 
@@ -151,3 +156,4 @@ FE(BE)_날짜_개발한(중인)기능: 개발 내용
 7/11~7/17
 
 -화면명세서, 기능명세서, ERD, 개발일정 명확하게
+
