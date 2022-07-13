@@ -113,8 +113,8 @@ git push origin {브랜치명}
 #### branch 
 
 ```
-master -> develop -> FE_develop -> feat/기능명
-master -> develop -> BE_develop -> feat/기능명
+master -> develop -> FE develop -> feat/기능명
+master -> develop -> BE develop -> feat/기능명
 ```
 
 
