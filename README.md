@@ -15,7 +15,7 @@
 <br/>
 
 ## 프로젝트 소개 
-
+새콤달콤 notion : https://rainy-ixia-034.notion.site/adcfe6c242624dcd922986681bafe7ba
 
 
 <br/>
