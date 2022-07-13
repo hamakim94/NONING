@@ -21,10 +21,8 @@
 <br/>
 
 ## 사용언어, 기술스택 
-
-JAVA
-
-Vue
+<img src="https://img.shields.io/badge/Language-JAVA-red"/>
+<img src="https://img.shields.io/badge/Frontend-Vue-brightgreen"/>
 
 <br/>
 
