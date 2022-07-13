@@ -21,14 +21,13 @@
 <br/>
 
 ## 사용언어, 기술스택 
-<img src="https://img.shields.io/badge/Language-JAVA-red"/>
+<img src="https://img.shields.io/badge/Language-JAVA-red"/> 
+ 
 <img src="https://img.shields.io/badge/Frontend-Vue-brightgreen"/>
 
 <br/>
 
 ## 버전 관리
-
-
 
 
 <br/>
