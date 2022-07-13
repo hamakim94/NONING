@@ -108,7 +108,13 @@ git push origin {브랜치명}
 <br/>
 
 ## Develop Rules
+### 주의사항 
+
+#### 1. 수정 전 git pull 받고 시작하기 
+#### 2. 수정 전 git branch 잘 확인하기 
+
 <br/>
+
 #### branch 
 
 ```
