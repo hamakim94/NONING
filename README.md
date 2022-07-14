@@ -170,9 +170,20 @@ FE(BE)_날짜_개발한(중인)기능: 개발 내용
   - Jira Epic(Plan) 등록
   - wireframe 초안 제작(진행중) (w. 모두)
   - 14:30 질문할거 생각해보기 
+<br/>
+
 - 재순
   - wireframe 확인 (w. @모두)
   - Git branch 수정
+<br/>
+
 - 도엽
   - 14:30 질문 대답 -> 기능에 대해 좀더 많이 생각해보기
   - wireframe 초안 제작중(실제 figma로 했을때 어떻게 할지도 같이 구상)
+<br/>
+
+- 승연 
+  - git 관련 회의 
+  - Intellij 신청 
+  - 팀 회의 (w. 컨설턴트님)
+  - wireframe 초안 제작중 (w. 모두) 
