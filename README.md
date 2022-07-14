@@ -22,7 +22,7 @@
 
 ## 사용언어, 기술스택 
 <img src="https://img.shields.io/badge/Language-JAVA-red"/> 
- 
+
 <img src="https://img.shields.io/badge/Frontend-Vue-brightgreen"/>
 
 <br/>
@@ -154,3 +154,9 @@ FE(BE)_날짜_개발한(중인)기능: 개발 내용
 
 -화면명세서, 기능명세서, ERD, 개발일정 명확하게
 
+7/14
+
+- 민균
+  - Jira Epic(Plan) 등록
+  - wireframe 초안 제작(진행중) (w. @이보나 @이도엽)
+  - 14:30 질문할거 생각해보기 
