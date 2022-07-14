@@ -15,7 +15,7 @@
 <br/>
 
 ## 프로젝트 소개 
-
+새콤달콤 notion : https://rainy-ixia-034.notion.site/adcfe6c242624dcd922986681bafe7ba
 
 
 <br/>
@@ -23,6 +23,8 @@
 ## 사용언어, 기술스택 
 
 JAVA
+
+Vue
 
 <br/>
 
@@ -108,20 +110,30 @@ git push origin {브랜치명}
 <br/>
 
 ## Develop Rules
+### 주의사항 
+
+#### 1. 수정 전 git pull 받고 시작하기 
+#### 2. 수정 전 git branch 잘 확인하기 
+
 <br/>
 
 #### branch 
 
 ```
-master -> develop -> FE develop -> feat/기능명
-master -> develop -> BE develop -> feat/기능명
+master -> develop -> FE_develop -> feat/기능명
+	   -> develop -> BE_develop -> feat/기능명
+	   -> develop -> docs
 ```
 
-
+- master
+  - develop
+    - BE_develop
+    - FE_develop
+    - docs
 
 #### merge
 
-
+- 각 파트 maintainer들만 merge 권한
 
 #### commit 메시지 
 
@@ -144,3 +156,4 @@ FE(BE)_날짜_개발한(중인)기능: 개발 내용
 7/11~7/17
 
 -화면명세서, 기능명세서, ERD, 개발일정 명확하게
+
