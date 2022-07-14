@@ -15,6 +15,16 @@
 <br/>
 
 ## 프로젝트 소개 
+“넌 가능해? 난 불가능!”
+
+쉽게 접하는 사소한 논쟁거리!
+
+실시간으로 가능한 고민상담까지!!
+
+**새콤달콤한 깻잎**에서 만나보세요.
+
+<br/>
+
 새콤달콤 notion : https://rainy-ixia-034.notion.site/adcfe6c242624dcd922986681bafe7ba
 
 
@@ -22,7 +32,7 @@
 
 ## 사용언어, 기술스택 
 <img src="https://img.shields.io/badge/Language-JAVA-red"/> 
- 
+
 <img src="https://img.shields.io/badge/Frontend-Vue-brightgreen"/>
 
 <br/>
@@ -154,3 +164,26 @@ FE(BE)_날짜_개발한(중인)기능: 개발 내용
 
 -화면명세서, 기능명세서, ERD, 개발일정 명확하게
 
+7/14
+
+- 민균
+  - Jira Epic(Plan) 등록
+  - wireframe 초안 제작(진행중) (w. 모두)
+  - 14:30 질문할거 생각해보기 
+<br/>
+
+- 재순
+  - wireframe 확인 (w. @모두)
+  - Git branch 수정
+<br/>
+
+- 도엽
+  - 14:30 질문 대답 -> 기능에 대해 좀더 많이 생각해보기
+  - wireframe 초안 제작중(실제 figma로 했을때 어떻게 할지도 같이 구상)
+<br/>
+
+- 승연 
+  - git 관련 회의 
+  - Intellij 신청 
+  - 팀 회의 (w. 컨설턴트님)
+  - wireframe 초안 제작중 (w. 모두) 
