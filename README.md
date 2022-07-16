@@ -45,6 +45,7 @@
 ## 기획
 
 #### 기능명세서
+https://rainy-ixia-034.notion.site/02145f77a865406c806b8f886c348a18?v=55311276537b4783ae4deb995fba81e0
 
 <br/>
 
