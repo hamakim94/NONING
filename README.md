@@ -47,6 +47,9 @@
 #### 기능명세서
 https://rainy-ixia-034.notion.site/02145f77a865406c806b8f886c348a18?v=55311276537b4783ae4deb995fba81e0
 
+#### 프로젝트 계획서
+https://rainy-ixia-034.notion.site/dee646f3456e42f7934d8852ca9ad2bb
+
 <br/>
 
 ## 서비스 설명 
