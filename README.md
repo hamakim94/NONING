@@ -4,13 +4,13 @@
 
 #### 이승연(팀장/ Backend)
 
-#### 이도엽(maintainer/ Frontend)
+#### 이도엽(FE maintainer/ Frontend)
 
 #### 이보나(Frontend)
 
-#### 김민균(Frontend)
+#### 김민균(Jira maintainer/ Frontend)
 
-#### 이재순(maintainer/ Backend)
+#### 이재순(BE maintainer/ Backend)
 
 <br/>
 
@@ -55,10 +55,17 @@ https://rainy-ixia-034.notion.site/dee646f3456e42f7934d8852ca9ad2bb
 ## 서비스 설명 
 
 #### 폴더 구조 - Frontend
+```
+
+```
+
 <br/>
 
-
 #### 폴더 구조 - Backend
+```
+
+```
+
 <br/>
 
 
@@ -155,58 +162,8 @@ FE(BE)_날짜_개발한(중인)기능: 개발 내용
 
 
 #### code style
+| Frontend                                                                       | Backend                                                                   |
+|--------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| 1. 폴더명: Camel case <br><br> 2. 파일명: Pascal case <br><br> 3. state명: Camel case | 1. 폴더명: Camel case <br><br> 2. 파일명/클래스명: Pascal case <br><br> 3. 경로명: 소문자 | 
 
 
-
-
-
-## 개발 일정 
-
-
-
-7/11~7/17
-
--화면명세서, 기능명세서, ERD, 개발일정 명확하게
-
-7/14
-
-- 민균
-  - Jira Epic(Plan) 등록
-  - wireframe 초안 제작(진행중) (w. 모두)
-  - 14:30 질문할거 생각해보기 
-<br/>
-
-- 재순
-  - wireframe 확인 (w. @모두)
-  - Git branch 수정
-<br/>
-
-- 도엽
-  - 14:30 질문 대답 -> 기능에 대해 좀더 많이 생각해보기
-  - wireframe 초안 제작중(실제 figma로 했을때 어떻게 할지도 같이 구상)
-<br/>
-
-- 승연 
-  - git 관련 회의 
-  - Intellij 신청 
-  - 팀 회의 (w. 컨설턴트님)
-  - wireframe 초안 제작중 (w. 모두) 
-
-
-7/15
-- 재순
-  - wireframe 초안 마무리 (w. @모두)
-  - 기능명세서 작성 (w. @승연 이 )
-  - 계획서 작성 (w. @승연 이  )
-  - Jira, Git 활용하기
-
-- 승연
-  - wireframe 초안 마무리 (w. @모두)
-  - 기능명세서 작성 (w. @재순 이 )
-  - 계획서 작성 (w. @재순 이 )
-  - Jira 사용법 익히기
-
-- 민균
-  - wireframe 초안 완료 (w. @모두)
-  - wireframe 작성 시작(Figma)
-  - 지라 공부
