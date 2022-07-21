@@ -128,10 +128,6 @@ git push origin {브랜치명}
 <br/>
 
 ## Develop Rules
-### 주의사항 
-
-#### 1. 수정 전 git pull 받고 시작하기 
-#### 2. 수정 전 git branch 잘 확인하기 
 
 <br/>
 
@@ -156,14 +152,30 @@ master -> develop -> FE_develop -> feat/기능명
 #### commit 메시지 
 
 ```
-FE(BE)_날짜_개발한(중인)기능: 개발 내용   
+FE/BE/Docs_날짜_개발한(중인)기능: 개발 내용 (진행중/ 완료/ 수정 완료/ 수정 진행중) 
 ```
 
-
+#### commit 주의사항 및 규칙
+```
+- 수정 전 git pull 받고 시작하기 
+- 수정 전 git branch 잘 확인하기 
+- git add . 사용 금지 
+- 관련 있는 코드들끼리만 commit (commit 메세지 잘 쓰기)
+```
 
 #### code style
+- 이름 규칙 <br/>
+
 | Frontend                                                                       | Backend                                                                   |
 |--------------------------------------------------------------------------------|---------------------------------------------------------------------------|
 | 1. 폴더명: Camel case <br><br> 2. 파일명: Pascal case <br><br> 3. state명: Camel case | 1. 폴더명: Camel case <br><br> 2. 파일명/클래스명: Pascal case <br><br> 3. 경로명: 소문자 | 
 
+- Boolean 타입의 변수 작명규칙 <br/>
+  : is 접두사 사용 -> (ex) isExist <br/>
+<br/>
+- 들여쓰기 (indent) <br/> 
+  : 4 space 방식  <br/>
+<br/>
+- 작은따옴표(')를 사용할 건지, 큰따옴표(")를 사용할 건지 <br/>
+  : 큰따옴표(") 사용 
 
