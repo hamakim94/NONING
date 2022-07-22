@@ -186,9 +186,12 @@ FE/BE/Docs_날짜_개발한(중인)기능: 개발 내용 (진행중/ 완료/ 수
   : 4 space 방식  <br/>
 <br/>
 - 작은따옴표(')를 사용할 건지, 큰따옴표(")를 사용할 건지 <br/>
-  : 큰따옴표(") 사용 
+  : 큰따옴표(") 사용
+<br/>
 
-## JIRA 태스크 컨벤션
+이외 https://naver.github.io/hackday-conventions-java/ 참고
+
+## JIRA 테스크 컨벤션
 - 머릿말에 [BE], [FE], [Design], [Extra]를 달아서 분류한다.
 - 영어로 작성한다.
 - ex) [FE] UX login form ..
