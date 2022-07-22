@@ -4,13 +4,13 @@
 
 #### 이승연(팀장/ Backend)
 
-#### 이도엽(maintainer/ Frontend)
+#### 이도엽(FE maintainer/ Frontend)
 
 #### 이보나(Frontend)
 
-#### 김민균(Frontend)
+#### 김민균(Jira maintainer/ Frontend)
 
-#### 이재순(maintainer/ Backend)
+#### 이재순(BE maintainer/ Backend)
 
 <br/>
 
@@ -37,6 +37,15 @@
 
 <br/>
 
+## 협업툴 
+
+#### Git
+#### Jira
+#### Notion
+#### MatterMost
+#### Webex
+
+
 ## 버전 관리
 
 
@@ -45,16 +54,27 @@
 ## 기획
 
 #### 기능명세서
+https://rainy-ixia-034.notion.site/02145f77a865406c806b8f886c348a18?v=55311276537b4783ae4deb995fba81e0
+
+#### 프로젝트 계획서
+https://rainy-ixia-034.notion.site/dee646f3456e42f7934d8852ca9ad2bb
 
 <br/>
 
 ## 서비스 설명 
 
 #### 폴더 구조 - Frontend
+```
+
+```
+
 <br/>
 
-
 #### 폴더 구조 - Backend
+```
+
+```
+
 <br/>
 
 
@@ -117,10 +137,6 @@ git push origin {브랜치명}
 <br/>
 
 ## Develop Rules
-### 주의사항 
-
-#### 1. 수정 전 git pull 받고 시작하기 
-#### 2. 수정 전 git branch 잘 확인하기 
 
 <br/>
 
@@ -145,45 +161,39 @@ master -> develop -> FE_develop -> feat/기능명
 #### commit 메시지 
 
 ```
-FE(BE)_날짜_개발한(중인)기능: 개발 내용   
+FE/BE/Docs_날짜_개발한(중인)기능: 개발 내용 (진행중/ 완료/ 수정 완료/ 수정 진행중) 
 ```
 
-
+#### commit 주의사항 및 규칙
+```
+- 수정 전 git pull 받고 시작하기 
+- 수정 전 git branch 잘 확인하기 
+- git add . 사용 금지 
+- 관련 있는 코드들끼리만 commit (commit 메세지 잘 쓰기)
+```
 
 #### code style
+- 이름 규칙 <br/>
 
+| Frontend                                                                       | Backend                                                                                                                        |
+|--------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
+| 1. 폴더명: Camel case <br><br> 2. 파일명: Pascal case <br><br> 3. state명: Camel case | 1. 폴더명: Camel case <br><br> 2. 파일명/클래스명: Pascal case <br><br> 3. URL: https://velog.io/@pjh612/REST-API-URI-%EA%B7%9C%EC%B9%99 | 
 
-
-
-
-## 개발 일정 
-
-
-
-7/11~7/17
-
--화면명세서, 기능명세서, ERD, 개발일정 명확하게
-
-7/14
-
-- 민균
-  - Jira Epic(Plan) 등록
-  - wireframe 초안 제작(진행중) (w. 모두)
-  - 14:30 질문할거 생각해보기 
+- Boolean 타입의 변수 작명규칙 <br/>
+  : is 접두사 사용 -> (ex) isExist <br/>
+<br/>
+- 들여쓰기 (indent) <br/> 
+  : 4 space 방식  <br/>
+<br/>
+- 작은따옴표(')를 사용할 건지, 큰따옴표(")를 사용할 건지 <br/>
+  : 큰따옴표(") 사용
 <br/>
 
-- 재순
-  - wireframe 확인 (w. @모두)
-  - Git branch 수정
-<br/>
+이외 https://naver.github.io/hackday-conventions-java/ 참고
 
-- 도엽
-  - 14:30 질문 대답 -> 기능에 대해 좀더 많이 생각해보기
-  - wireframe 초안 제작중(실제 figma로 했을때 어떻게 할지도 같이 구상)
-<br/>
+## JIRA 테스크 컨벤션
+- 머릿말에 [BE], [FE], [Design], [Extra]를 달아서 분류한다.
+- 영어로 작성한다.
+- ex) [FE] UX login form ..
+- ex) [BE] use swagger ...
 
-- 승연 
-  - git 관련 회의 
-  - Intellij 신청 
-  - 팀 회의 (w. 컨설턴트님)
-  - wireframe 초안 제작중 (w. 모두) 
