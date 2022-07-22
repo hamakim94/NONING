@@ -21,7 +21,6 @@ public class UserData {
     @Id
     @Column(name = "user_data_id")
     long id;
-
     String email;
     @Column(name = "is_email_verified")
     boolean isEmailVerified;

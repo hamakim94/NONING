@@ -16,7 +16,6 @@ import java.util.Set;
 @Configuration
 @EnableWebMvc
 public class SwaggerConfig {
-
     private ApiInfo swaggerInfo() {
         return new ApiInfoBuilder().title("Noning API")
                 .description("Noning API Docs").build();
