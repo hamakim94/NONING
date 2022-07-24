@@ -1,7 +1,11 @@
 package com.fivenonjangi.noning.data.dto;
 
+import com.fivenonjangi.noning.data.entity.User;
 import com.fivenonjangi.noning.data.entity.UserData;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+
+import javax.persistence.ManyToOne;
 
 @Getter
 @Setter
@@ -17,7 +21,8 @@ public class UserDataDTO {
     private String password;
     private String nickname;
     private String img;
-    private long userId;
+    private UserDTO user;
+
 
     public UserData toEntity(){
         return UserData.builder()
@@ -27,7 +32,7 @@ public class UserDataDTO {
                 .password(password)
                 .nickname(nickname)
                 .img(img)
-                .userId(userId)
+                .user(user.toEntity())
                 .build();
     }
 }
