@@ -1,15 +1,13 @@
 package com.fivenonjangi.noning.data.entity.user;
 
 import com.fivenonjangi.noning.data.dto.user.UserCommentDTO;
+import com.fivenonjangi.noning.data.entity.comment.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -20,18 +18,29 @@ import javax.persistence.Table;
 public class UserComment {
     @Id
     @Column(name = "user_comment_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    @Column(name = "comment_id")
-    long commentId;
-    @Column(name = "user_id")
-    long userId;
+    @ManyToOne
+    @JoinColumn(name = "comment_id")
+    Comment comment;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    User user;
     boolean like;
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
+    }
 
     public UserCommentDTO toDTO(){
         return UserCommentDTO.builder()
                 .id(id)
-                .commentId(commentId)
-                .userId(userId)
+//                .commentId(commentId)
+//                .userId(userId)
                 .like(like)
                 .build();
     }
