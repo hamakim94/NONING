@@ -34,6 +34,10 @@ public class Report {
 
     LocalDateTime reg;
 
+    public void setWriter(User writer) {
+        this.writer = writer;
+    }
+
     public ReportDTO toDto(){
         return ReportDTO.builder()
                 .id(id)

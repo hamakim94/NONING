@@ -31,6 +31,9 @@ public class Inquire {
 
     LocalDateTime reg;
 
+    public void setWriter(User writer) {
+        this.writer = writer;
+    }
 
     public InquireDTO toDto(){
         return InquireDTO.builder()
