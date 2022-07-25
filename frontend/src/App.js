@@ -1,17 +1,12 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import HomeStack from './navigations/HomeStack';
-import BottomTabsScreen from './screens/BottomTabsScreen';
-import FollowerScreen from './screens/FollowerScreen';
+import BottomTabsNav from './navigations/BottomTabsNav';
 
 export default function App() {
   return (
-    // <NavigationContainer>
-    //   <HomeStack />
-    // </NavigationContainer>
     <NavigationContainer>
-      <FollowerScreen></FollowerScreen>
-      <BottomTabsScreen></BottomTabsScreen>
+      <HomeStack />
     </NavigationContainer>
   );
 }

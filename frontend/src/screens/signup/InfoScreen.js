@@ -200,7 +200,7 @@ function InfoScreen() {
         </View>
         <Controller
           control={control}
-          render={({field: {onChange, onBlur, value}}) => (
+          render={({field: {onChange, value}}) => (
             <View style={{flexDirection: 'row'}}>
               <TextInput
                 style={nicknameStyle}
@@ -240,7 +240,7 @@ function InfoScreen() {
               </View>
               <Controller
                 control={control}
-                render={({field: {onChange, onBlur, value}}) => (
+                render={({field: {onChange, value}}) => (
                   <View style={{flexDirection: 'row'}}>
                     <TextInput
                       style={nameStyle}
@@ -341,7 +341,7 @@ function InfoScreen() {
                 </View>
                 <Controller
                   control={control}
-                  render={({field: {onChange, onBlur, value}}) => (
+                  render={({field: {onChange}}) => (
                     <View style={{flexDirection: 'row'}}>
                       <SelectDropdown
                         data={MbtiGroup}

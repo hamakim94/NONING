@@ -1,37 +1,44 @@
 import React from 'react';
-import HomeScreen from '../screens/HomeScreen';
+import HomeScreen from '../screens/bottomtab/HomeScreen';
 import SignUpNav from './SignUpNav';
-import PasswordEdit from '../screens/useredit/PasswordEdit';
-import ProfileEdit from '../screens/useredit/ProfileEdit';
+import BottomTabsNav from './BottomTabsNav';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import LoginNav from './LoginNav';
+import SearchNav from './SearchNav';
 
 const Stack = createNativeStackNavigator();
 
 function HomeStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen
+        name="BottomTabsNav"
+        component={BottomTabsNav}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="LoginNav"
+        component={LoginNav}
+        options={{
+          title: '로그인',
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="SearchNav"
+        component={SearchNav}
+        options={{
+          title: '검색',
+        }}
+      />
+      {/* <Stack.Screen
         name="SignUpNav"
         component={SignUpNav}
         options={{
           title: '회원가입',
+          headerRight: true,
         }}
-      />
-      <Stack.Screen
-        name="ProfileEdit"
-        component={ProfileEdit}
-        options={{
-          title: '프로필수정',
-        }}
-      />
-      <Stack.Screen
-        name="PasswordEdit"
-        component={PasswordEdit}
-        options={{
-          title: '비밀번호수정',
-        }}
-      />
+      /> 상세페이지*/}
     </Stack.Navigator>
   );
 }
