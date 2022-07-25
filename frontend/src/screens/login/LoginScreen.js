@@ -1,6 +1,6 @@
 import {View, StyleSheet, Image, TouchableOpacity, Text} from 'react-native';
 import React from 'react';
-import LoginForm from '../components/loginScreen/LoginForm';
+import LoginForm from '../../components/loginScreen/LoginForm';
 
 const INSTAGRAM_LOGO =
   'https://cdn2.iconfinder.com/data/icons/social-icons-33/128/Instagram-256.png';
@@ -12,7 +12,12 @@ const LoginScreen = ({navigation}) => (
       <LoginForm></LoginForm>
       <View style={styles.passwordSignupContainer}>
         <View style={{flex: 1, alignItems: 'center'}}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('PasswordChangeScreen', {
+                screen: 'PasswordChangeScreen',
+              })
+            }>
             <Text style={{color: '#FF5F5F'}}>비밀번호 찾기</Text>
           </TouchableOpacity>
         </View>

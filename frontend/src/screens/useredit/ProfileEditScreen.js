@@ -15,7 +15,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Avatar} from '@rneui/themed';
 
-function ProfileEdit() {
+function ProfileEditScreen() {
   const inputRef = useRef([]);
   const [emailStyle, setEmailStyle] = useState(styles.checkBlurInput);
   const [pwStyle, setPwStyle] = useState(styles.blurInput);
@@ -495,4 +495,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileEdit;
+export default ProfileEditScreen;

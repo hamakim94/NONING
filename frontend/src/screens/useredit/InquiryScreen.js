@@ -1,10 +1,10 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
-export default function MyPageScreen() {
+export default function InquiryScreen() {
   return (
     <View>
-      <Text>MyPageScreen</Text>
+      <Text>InquiryScreen</Text>
     </View>
   );
 }

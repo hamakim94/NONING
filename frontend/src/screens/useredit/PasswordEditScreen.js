@@ -11,7 +11,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-function PasswordEdit() {
+function PasswordEditScreen() {
   const inputRef = useRef([]);
   const [currentpwStyle, setCurrentPwStyle] = useState(styles.blurInput);
   const [pwStyle, setPwStyle] = useState(styles.blurInput);
@@ -195,4 +195,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PasswordEdit;
+export default PasswordEditScreen;

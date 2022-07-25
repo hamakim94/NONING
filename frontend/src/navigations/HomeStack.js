@@ -1,7 +1,7 @@
 import React from 'react';
 import HomeScreen from '../screens/bottomtab/HomeScreen';
 import SignUpNav from './SignUpNav';
-import BottomTabsNav from './BottomTabsNav';
+import DetailScreen from '../screens/board/DetailScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LoginNav from './LoginNav';
 import SearchNav from './SearchNav';
@@ -31,14 +31,13 @@ function HomeStack() {
           title: '검색',
         }}
       />
-      {/* <Stack.Screen
-        name="SignUpNav"
-        component={SignUpNav}
+      <Stack.Screen
+        name="HomeDetail"
+        component={DetailScreen}
         options={{
-          title: '회원가입',
-          headerRight: true,
+          title: '디테일',
         }}
-      /> 상세페이지*/}
+      />
     </Stack.Navigator>
   );
 }
