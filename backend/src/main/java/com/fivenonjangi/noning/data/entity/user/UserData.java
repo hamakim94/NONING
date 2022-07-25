@@ -26,7 +26,7 @@ public class UserData {
     String nickname;
     String img;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id")
     User user;
 

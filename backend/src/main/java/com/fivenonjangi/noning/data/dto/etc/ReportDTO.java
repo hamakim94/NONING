@@ -1,5 +1,6 @@
 package com.fivenonjangi.noning.data.dto.etc;
 
+import com.fivenonjangi.noning.data.dto.user.UserDTO;
 import com.fivenonjangi.noning.data.entity.etc.Report;
 import lombok.*;
 
@@ -16,7 +17,7 @@ public class ReportDTO {
     private long id;
     private long boardId;
     private long commentId;
-    private long writerId;
+    private UserDTO writer;
     private String reportCode;
     private boolean isCompleted;
     private LocalDateTime reg;
@@ -26,7 +27,7 @@ public class ReportDTO {
                 .id(id)
                 .boardId(boardId)
                 .commentId(commentId)
-                .writerId(writerId)
+                .writer(writer.toEntity())
                 .reportCode(reportCode)
                 .isCompleted(isCompleted)
                 .reg(reg)

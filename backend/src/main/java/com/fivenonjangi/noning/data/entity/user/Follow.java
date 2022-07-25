@@ -6,10 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -21,16 +18,26 @@ public class Follow {
     @Id
     @Column(name = "follow_id")
     long id;
-    @Column(name = "from_user_id")
-    long fromUserId;
-    @Column(name = "to_user_id")
-    long toUserId;
+    @ManyToOne
+    @JoinColumn(name = "from_user_id")
+    User fromUser;
+    @ManyToOne
+    @JoinColumn(name = "to_user_id")
+    User toUser;
+
+    public void setFromUser(User fromUser) {
+        this.fromUser = fromUser;
+    }
+
+    public void setToUser(User toUser) {
+        this.toUser = toUser;
+    }
 
     public FollowDTO toDto() {
         return FollowDTO.builder()
                 .id(id)
-                .fromUserId(fromUserId)
-                .toUserId(toUserId)
+                .fromUser(fromUser.toDto())
+                .toUser(toUser.toDto())
                 .build();
     }
 }

@@ -1,15 +1,13 @@
 package com.fivenonjangi.noning.data.entity.etc;
 
 import com.fivenonjangi.noning.data.dto.etc.ReportDTO;
+import com.fivenonjangi.noning.data.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,8 +24,9 @@ public class Report {
     long boardId;
     @Column(name = "comment_id")
     long commentId;
-    @Column(name = "writer_id")
-    long writerId;
+    @ManyToOne
+    @JoinColumn(name = "writer_id")
+    User writer;
     @Column(name = "report_code")
     String reportCode;
     @Column(name = "is_completed")
@@ -40,7 +39,7 @@ public class Report {
                 .id(id)
                 .boardId(boardId)
                 .commentId(commentId)
-                .writerId(writerId)
+                .writer(writer.toDto())
                 .reportCode(reportCode)
                 .isCompleted(isCompleted)
                 .reg(reg)

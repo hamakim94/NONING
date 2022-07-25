@@ -1,5 +1,6 @@
 package com.fivenonjangi.noning.data.dto.etc;
 
+import com.fivenonjangi.noning.data.dto.user.UserDTO;
 import com.fivenonjangi.noning.data.entity.etc.Inquire;
 import lombok.*;
 
@@ -16,7 +17,7 @@ public class InquireDTO {
     private long id;
     private String title;
     private String content;
-    private long writerId;
+    private UserDTO writer;
     private String file;
     private boolean isDeleted;
     private LocalDateTime reg;
@@ -26,7 +27,7 @@ public class InquireDTO {
                 .id(id)
                 .title(title)
                 .content(content)
-                .writerId(writerId)
+                .writer(writer.toEntity())
                 .file(file)
                 .isDeleted(isDeleted)
                 .reg(reg)

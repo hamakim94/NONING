@@ -41,6 +41,8 @@ public class User {
     @Column(name = "is_deleted")
     boolean isDeleted;
 
+
+
     public UserDTO toDto(){
         return UserDTO.builder()
                 .id(id)
