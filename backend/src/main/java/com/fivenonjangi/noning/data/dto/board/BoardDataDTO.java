@@ -1,6 +1,6 @@
-package com.fivenonjangi.noning.data.dto;
+package com.fivenonjangi.noning.data.dto.board;
 
-import com.fivenonjangi.noning.data.entity.BoardData;
+import com.fivenonjangi.noning.data.entity.board.BoardData;
 import lombok.*;
 
 @Data

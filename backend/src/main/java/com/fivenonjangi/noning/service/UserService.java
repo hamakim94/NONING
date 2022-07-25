@@ -1,7 +1,7 @@
 package com.fivenonjangi.noning.service;
 
-import com.fivenonjangi.noning.data.dto.UserDTO;
-import com.fivenonjangi.noning.data.dto.UserDataDTO;
+import com.fivenonjangi.noning.data.dto.user.UserDTO;
+import com.fivenonjangi.noning.data.dto.user.UserDataDTO;
 
 public interface UserService {
 

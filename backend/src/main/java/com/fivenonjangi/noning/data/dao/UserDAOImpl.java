@@ -1,7 +1,7 @@
 package com.fivenonjangi.noning.data.dao;
 
-import com.fivenonjangi.noning.data.entity.User;
-import com.fivenonjangi.noning.data.entity.UserData;
+import com.fivenonjangi.noning.data.entity.user.User;
+import com.fivenonjangi.noning.data.entity.user.UserData;
 import com.fivenonjangi.noning.data.repository.UserDataRepository;
 import com.fivenonjangi.noning.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

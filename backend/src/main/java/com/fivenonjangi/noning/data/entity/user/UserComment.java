@@ -1,6 +1,6 @@
-package com.fivenonjangi.noning.data.entity;
+package com.fivenonjangi.noning.data.entity.user;
 
-import com.fivenonjangi.noning.data.dto.CommentLikeDTO;
+import com.fivenonjangi.noning.data.dto.user.UserCommentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,22 +16,23 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "comment_like")
-public class CommentLike {
+@Table(name = "user_comment")
+public class UserComment {
     @Id
-    @Column(name = "comment_like_id")
+    @Column(name = "user_comment_id")
     long id;
-    int like;
-    int dislike;
     @Column(name = "comment_id")
     long commentId;
+    @Column(name = "user_id")
+    long userId;
+    boolean like;
 
-    public CommentLikeDTO toDTO(){
-        return CommentLikeDTO.builder()
+    public UserCommentDTO toDTO(){
+        return UserCommentDTO.builder()
                 .id(id)
-                .like(like)
-                .dislike(dislike)
                 .commentId(commentId)
+                .userId(userId)
+                .like(like)
                 .build();
     }
 }

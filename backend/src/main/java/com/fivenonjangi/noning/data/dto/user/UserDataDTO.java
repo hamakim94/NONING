@@ -1,11 +1,7 @@
-package com.fivenonjangi.noning.data.dto;
+package com.fivenonjangi.noning.data.dto.user;
 
-import com.fivenonjangi.noning.data.entity.User;
-import com.fivenonjangi.noning.data.entity.UserData;
+import com.fivenonjangi.noning.data.entity.user.UserData;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-
-import javax.persistence.ManyToOne;
 
 @Getter
 @Setter

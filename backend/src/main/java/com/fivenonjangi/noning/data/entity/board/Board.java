@@ -1,13 +1,10 @@
-package com.fivenonjangi.noning.data.entity;
+package com.fivenonjangi.noning.data.entity.board;
 
-import com.fivenonjangi.noning.data.dto.BoardDTO;
+import com.fivenonjangi.noning.data.dto.board.BoardDTO;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter

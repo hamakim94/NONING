@@ -1,16 +1,11 @@
 package com.fivenonjangi.noning.controller;
 
-import com.fivenonjangi.noning.data.dto.UserDTO;
-import com.fivenonjangi.noning.data.dto.UserDataDTO;
-import com.fivenonjangi.noning.data.entity.UserData;
+import com.fivenonjangi.noning.data.dto.user.UserDataDTO;
 import com.fivenonjangi.noning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")

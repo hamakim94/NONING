@@ -1,6 +1,6 @@
-package com.fivenonjangi.noning.data.dto;
+package com.fivenonjangi.noning.data.dto.etc;
 
-import com.fivenonjangi.noning.data.entity.Inquire;
+import com.fivenonjangi.noning.data.entity.etc.Inquire;
 import lombok.*;
 
 @Getter

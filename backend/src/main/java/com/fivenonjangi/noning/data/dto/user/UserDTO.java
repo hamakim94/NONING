@@ -1,9 +1,8 @@
-package com.fivenonjangi.noning.data.dto;
+package com.fivenonjangi.noning.data.dto.user;
 
-import com.fivenonjangi.noning.data.entity.User;
+import com.fivenonjangi.noning.data.entity.user.User;
 import lombok.*;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Getter

@@ -1,6 +1,6 @@
-package com.fivenonjangi.noning.data.dto;
+package com.fivenonjangi.noning.data.dto.user;
 
-import com.fivenonjangi.noning.data.entity.UserComment;
+import com.fivenonjangi.noning.data.entity.user.UserComment;
 import lombok.*;
 
 

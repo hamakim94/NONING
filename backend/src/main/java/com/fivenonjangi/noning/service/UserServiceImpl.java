@@ -1,10 +1,10 @@
 package com.fivenonjangi.noning.service;
 
 import com.fivenonjangi.noning.data.dao.UserDAO;
-import com.fivenonjangi.noning.data.dto.UserDTO;
-import com.fivenonjangi.noning.data.dto.UserDataDTO;
-import com.fivenonjangi.noning.data.entity.User;
-import com.fivenonjangi.noning.data.entity.UserData;
+import com.fivenonjangi.noning.data.dto.user.UserDTO;
+import com.fivenonjangi.noning.data.dto.user.UserDataDTO;
+import com.fivenonjangi.noning.data.entity.user.User;
+import com.fivenonjangi.noning.data.entity.user.UserData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

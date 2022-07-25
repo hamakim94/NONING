@@ -1,6 +1,6 @@
-package com.fivenonjangi.noning.data.dto;
+package com.fivenonjangi.noning.data.dto.etc;
 
-import com.fivenonjangi.noning.data.entity.Report;
+import com.fivenonjangi.noning.data.entity.etc.Report;
 import lombok.*;
 
 @Data

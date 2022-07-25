@@ -1,6 +1,6 @@
-package com.fivenonjangi.noning.data.entity;
+package com.fivenonjangi.noning.data.entity.etc;
 
-import com.fivenonjangi.noning.data.dto.ReportDTO;
+import com.fivenonjangi.noning.data.dto.etc.ReportDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

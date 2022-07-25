@@ -1,6 +1,6 @@
-package com.fivenonjangi.noning.data.dto;
+package com.fivenonjangi.noning.data.dto.comment;
 
-import com.fivenonjangi.noning.data.entity.CommentLike;
+import com.fivenonjangi.noning.data.entity.comment.CommentLike;
 import lombok.*;
 
 @Getter

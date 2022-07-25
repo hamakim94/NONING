@@ -1,10 +1,9 @@
-package com.fivenonjangi.noning.data.dto;
+package com.fivenonjangi.noning.data.dto.board;
 
 
-import com.fivenonjangi.noning.data.entity.BoardVote;
+import com.fivenonjangi.noning.data.entity.board.BoardVote;
 import lombok.*;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 @Data

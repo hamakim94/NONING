@@ -1,6 +1,6 @@
-package com.fivenonjangi.noning.data.entity;
+package com.fivenonjangi.noning.data.entity.comment;
 
-import com.fivenonjangi.noning.data.dto.CommentDTO;
+import com.fivenonjangi.noning.data.dto.comment.CommentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

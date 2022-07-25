@@ -1,6 +1,6 @@
-package com.fivenonjangi.noning.data.dto;
+package com.fivenonjangi.noning.data.dto.comment;
 
-import com.fivenonjangi.noning.data.entity.Comment;
+import com.fivenonjangi.noning.data.entity.comment.Comment;
 import lombok.*;
 
 import java.sql.Timestamp;

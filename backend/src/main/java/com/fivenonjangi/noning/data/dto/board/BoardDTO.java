@@ -1,7 +1,7 @@
-package com.fivenonjangi.noning.data.dto;
+package com.fivenonjangi.noning.data.dto.board;
 
 
-import com.fivenonjangi.noning.data.entity.Board;
+import com.fivenonjangi.noning.data.entity.board.Board;
 import lombok.*;
 
 import java.sql.Timestamp;

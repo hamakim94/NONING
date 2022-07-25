@@ -1,6 +1,6 @@
-package com.fivenonjangi.noning.data.dto;
+package com.fivenonjangi.noning.data.dto.user;
 
-import com.fivenonjangi.noning.data.entity.Follow;
+import com.fivenonjangi.noning.data.entity.user.Follow;
 import lombok.*;
 
 @Getter
