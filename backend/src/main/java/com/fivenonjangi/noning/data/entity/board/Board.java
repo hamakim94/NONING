@@ -1,6 +1,7 @@
 package com.fivenonjangi.noning.data.entity.board;
 
 import com.fivenonjangi.noning.data.dto.board.BoardDTO;
+import com.fivenonjangi.noning.data.entity.user.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 public class Board {
     @Id
     @Column(name = "board_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     String title;
     String opt1;
@@ -28,8 +30,9 @@ public class Board {
     boolean isDeleted;
     @Column(name = "is_live")
     boolean isLive;
-    @Column(name = "writer_id")
-    long writerId;
+    @OneToOne
+    @JoinColumn(name = "writer_id")
+    User writer;
     @Column(name = "live_id")
     long liveId;
 
@@ -43,7 +46,7 @@ public class Board {
                 .reg(reg)
                 .isDeleted(isDeleted)
                 .isLive(isLive)
-                .writerId(writerId)
+                .writer(writer.toDto())
                 .liveId(liveId)
                 .build();
     }

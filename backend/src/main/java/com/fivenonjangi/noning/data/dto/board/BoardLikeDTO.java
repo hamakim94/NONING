@@ -1,5 +1,6 @@
 package com.fivenonjangi.noning.data.dto.board;
 
+import com.fivenonjangi.noning.data.dto.user.UserDTO;
 import com.fivenonjangi.noning.data.entity.board.BoardLike;
 import lombok.*;
 
@@ -15,15 +16,15 @@ import java.time.LocalDateTime;
 @Setter
 public class BoardLikeDTO {
     private long id;
-    private long boardId;
-    private long userId;
+    private BoardDTO board;
+    private UserDTO user;
     private LocalDateTime reg;
 
     public BoardLike toEntity() {
         return BoardLike.builder()
                 .id(id)
-                .boardId(boardId)
-                .userId(userId)
+                .board(board.toEntity())
+                .user(user.toEntity())
                 .reg(reg)
                 .build();
     }

@@ -1,7 +1,9 @@
 package com.fivenonjangi.noning.data.dto.board;
 
 
+import com.fivenonjangi.noning.data.dto.user.UserDTO;
 import com.fivenonjangi.noning.data.entity.board.Board;
+import com.fivenonjangi.noning.data.entity.user.User;
 import lombok.*;
 
 import java.sql.Timestamp;
@@ -23,7 +25,7 @@ public class BoardDTO {
     private LocalDateTime reg;
     private boolean isDeleted;
     private boolean isLive;
-    private long writerId;
+    private UserDTO writer;
     private long liveId;
 
     public Board toEntity() {
@@ -36,7 +38,7 @@ public class BoardDTO {
                 .reg(reg)
                 .isDeleted(isDeleted)
                 .isLive(isLive)
-                .writerId(writerId)
+                .writer(writer.toEntity())
                 .liveId(liveId)
                 .build();
     }

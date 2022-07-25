@@ -1,15 +1,14 @@
 package com.fivenonjangi.noning.data.entity.comment;
 
 import com.fivenonjangi.noning.data.dto.comment.CommentDTO;
+import com.fivenonjangi.noning.data.entity.board.Board;
+import com.fivenonjangi.noning.data.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -22,6 +21,7 @@ import java.time.LocalDateTime;
 public class Comment {
     @Id
     @Column(name = "comment_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     String content;
     byte level;
@@ -30,10 +30,12 @@ public class Comment {
     boolean isDeleted;
     @Column(name = "parent_id")
     long parentId;
-    @Column(name = "writer_id")
-    long writerId;
-    @Column(name = "board_id")
-    long boardId;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    User writer;
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    Board board;
 
     public CommentDTO toDto(){
         return CommentDTO.builder()
@@ -43,8 +45,8 @@ public class Comment {
                 .reg(reg)
                 .isDeleted(isDeleted)
                 .parentId(parentId)
-                .writerId(writerId)
-                .boardId(boardId)
+                .writer(writer.toDto())
+                .board(board.toDto())
                 .build();
     }
 }

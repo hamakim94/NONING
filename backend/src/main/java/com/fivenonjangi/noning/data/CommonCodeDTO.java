@@ -1,4 +1,4 @@
-package com.fivenonjangi.noning.data.dto.comment;
+package com.fivenonjangi.noning.data;
 
 import com.fivenonjangi.noning.data.entity.CommonCode;
 import lombok.*;

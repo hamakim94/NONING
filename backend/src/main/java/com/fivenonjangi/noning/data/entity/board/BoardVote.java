@@ -1,6 +1,7 @@
 package com.fivenonjangi.noning.data.entity.board;
 
 import com.fivenonjangi.noning.data.dto.board.BoardVoteDTO;
+import com.fivenonjangi.noning.data.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,20 +20,23 @@ import java.time.LocalDateTime;
 public class BoardVote {
     @Id
     @Column(name = "board_vote_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     boolean vote;
-    @Column(name = "board_id")
-    long boardId;
-    @Column(name = "user_id")
-    long userId;
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    Board board;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    User user;
     LocalDateTime reg;
 
     public BoardVoteDTO toDto() {
         return BoardVoteDTO.builder()
                 .id(id)
                 .vote(vote)
-                .boardId(boardId)
-                .userId(userId)
+                .board(board.toDto())
+                .user(user.toDto())
                 .reg(reg)
                 .build();
     }
