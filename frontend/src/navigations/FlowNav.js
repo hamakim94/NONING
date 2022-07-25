@@ -1,8 +1,7 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import FlowScreen from '../screens/bottomtab/FlowScreen';
-import DetailScreen from '../screens/DetailScreen';
+import DetailScreen from '../screens/board/DetailScreen';
 const Stack = createNativeStackNavigator();
 export default function FlowNav() {
   return (

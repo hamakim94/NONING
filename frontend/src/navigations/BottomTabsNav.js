@@ -1,7 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import PlusScreen from '../screens/bottomtab/PlusScreen';
-import MyPageScreen from '../screens/bottomtab/MyPageScreen';
+import UserPageNav from './UserPageNav';
 import HomeStack from './HomeStack';
 import FlowNav from './FlowNav';
 import LiveNav from './LiveNav';
@@ -41,7 +41,6 @@ function BottomTabsNav() {
         component={PlusScreen}
         options={{
           tabBarLabel: 'Plus',
-          headerShown: false,
         }}
       />
       <Tab.Screen
@@ -51,14 +50,16 @@ function BottomTabsNav() {
           tabBarLabel: 'Live',
           headerShown: false,
         }}
+        listeners={tabBarListeners}
       />
       <Tab.Screen
-        name="MyPageScreen"
-        component={MyPageScreen}
+        name="UserPageNav"
+        component={UserPageNav}
         options={{
-          tabBarLabel: 'MyPage',
+          tabBarLabel: 'UserPage',
           headerShown: false,
         }}
+        listeners={tabBarListeners}
       />
     </Tab.Navigator>
   );

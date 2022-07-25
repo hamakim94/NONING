@@ -1,13 +1,13 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 
-export default function LiveScreen({navigation}) {
+export default function UserPageScreen({navigation}) {
   return (
     <View>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.push('ChatNav', {screen: 'ChatNav'})}>
-        <Text>채팅방리스트</Text>
+        onPress={() => navigation.push('SettingNav', {screen: 'SettingNav'})}>
+        <Text>세팅</Text>
       </TouchableOpacity>
     </View>
   );

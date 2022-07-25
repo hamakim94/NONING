@@ -1,10 +1,8 @@
 import React from 'react';
-import HomeScreen from '../screens/bottomtab/HomeScreen';
 import SignUpNav from './SignUpNav';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import BottomTabsNav from './BottomTabsNav';
-import LoginScreen from '../screens/LoginScreen';
-
+import LoginScreen from '../screens/login/LoginScreen';
+import PasswordChangeScreen from '../screens/login/PasswordChangeScreen';
 const Stack = createNativeStackNavigator();
 
 function LoginNav() {
@@ -17,6 +15,10 @@ function LoginNav() {
         options={{
           title: '회원가입',
         }}
+      />
+      <Stack.Screen
+        name="PasswordChangeScreen"
+        component={PasswordChangeScreen}
       />
     </Stack.Navigator>
   );

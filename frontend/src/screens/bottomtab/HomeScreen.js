@@ -39,6 +39,13 @@ function HomeScreen({navigation}) {
             }>
             <Text>검색</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() =>
+              navigation.navigate('HomeDetail', {screen: 'HomeDetail'})
+            }>
+            <Text>상세페이지</Text>
+          </TouchableOpacity>
         </View>
         <Text style={{fontSize: 18, textAlign: 'center', color: 'grey'}}>
           React Native Bottom Navigation
