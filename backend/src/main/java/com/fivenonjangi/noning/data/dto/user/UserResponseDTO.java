@@ -1,7 +1,16 @@
 package com.fivenonjangi.noning.data.dto.user;
 
+import lombok.*;
+
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
 public class UserResponseDTO {
     private long id;
     private String nickname;

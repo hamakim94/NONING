@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserDataRepository extends JpaRepository<UserData, Long> {
     public UserData findByUser_Id(long id);
+    public UserData findByEmail(String email);
 }

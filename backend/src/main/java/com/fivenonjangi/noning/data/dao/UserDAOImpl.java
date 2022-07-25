@@ -7,6 +7,8 @@ import com.fivenonjangi.noning.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class UserDAOImpl implements UserDAO {
 
@@ -37,6 +39,17 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public UserData getUserData(long userId) {
         return userDataRepository.findByUser_Id(userId);
+    }
+
+    @Override
+    public UserData findByEmail(String email) {
+        return userDataRepository.findByEmail(email);
+    }
+
+    @Override
+    public User login(User user, LocalDateTime curTime) {
+        user.setLastLogin(curTime);
+        return userRepository.save(user);
     }
 
 //    UserRepository userRepository;
