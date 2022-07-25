@@ -1,15 +1,15 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
-import FlowScreen from '../screens/bottomtab/FlowScreen';
 import PlusScreen from '../screens/bottomtab/PlusScreen';
-import LiveScreen from '../screens/bottomtab/LiveScreen';
 import MyPageScreen from '../screens/bottomtab/MyPageScreen';
-import LoginNav from './LoginNav';
 import HomeStack from './HomeStack';
-import HomeScreen from '../screens/bottomtab/HomeScreen';
+import FlowNav from './FlowNav';
+import LiveNav from './LiveNav';
 
 const Tab = createBottomTabNavigator();
-
+const tabBarListeners = ({navigation, route}) => ({
+  tabPress: () => navigation.navigate(route.name),
+});
 function BottomTabsNav() {
   return (
     <Tab.Navigator
@@ -25,14 +25,16 @@ function BottomTabsNav() {
           title: '논잉',
           headerShown: false,
         }}
+        listeners={tabBarListeners}
       />
       <Tab.Screen
-        name="FlowScreen"
-        component={FlowScreen}
+        name="FlowNav"
+        component={FlowNav}
         options={{
           tabBarLabel: 'Flow',
           headerShown: false,
         }}
+        listeners={tabBarListeners}
       />
       <Tab.Screen
         name="PlusScreen"
@@ -43,10 +45,10 @@ function BottomTabsNav() {
         }}
       />
       <Tab.Screen
-        name="LiveScreen"
-        component={LiveScreen}
+        name="LiveNav"
+        component={LiveNav}
         options={{
-          tabBarLabel: 'Plus',
+          tabBarLabel: 'Live',
           headerShown: false,
         }}
       />
@@ -54,7 +56,7 @@ function BottomTabsNav() {
         name="MyPageScreen"
         component={MyPageScreen}
         options={{
-          tabBarLabel: 'Plus',
+          tabBarLabel: 'MyPage',
           headerShown: false,
         }}
       />
