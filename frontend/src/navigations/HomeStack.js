@@ -12,8 +12,8 @@ function HomeStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="BottomTabsNav"
-        component={BottomTabsNav}
+        name="HomeScreen"
+        component={HomeScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen

@@ -6,7 +6,7 @@ import BottomTabsNav from './navigations/BottomTabsNav';
 export default function App() {
   return (
     <NavigationContainer>
-      <HomeStack />
+      <BottomTabsNav />
     </NavigationContainer>
   );
 }

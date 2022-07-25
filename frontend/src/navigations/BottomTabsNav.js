@@ -13,16 +13,17 @@ const Tab = createBottomTabNavigator();
 function BottomTabsNav() {
   return (
     <Tab.Navigator
-      initialRouteName="HomeScreen"
+      initialRouteName="HomeStack"
       screenOptions={{
         tabBarActiveTintColor: '#e91e63',
       }}>
       <Tab.Screen
-        name="HomeScreen"
-        component={HomeScreen}
+        name="HomeStack"
+        component={HomeStack}
         options={{
           tabBarLabel: 'Home',
           title: '논잉',
+          headerShown: false,
         }}
       />
       <Tab.Screen
