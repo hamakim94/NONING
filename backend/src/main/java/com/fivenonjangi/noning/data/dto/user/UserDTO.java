@@ -1,9 +1,9 @@
-package com.fivenonjangi.noning.data.dto;
+package com.fivenonjangi.noning.data.dto.user;
 
-import com.fivenonjangi.noning.data.entity.User;
+import com.fivenonjangi.noning.data.entity.user.User;
 import lombok.*;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -21,9 +21,9 @@ public class UserDTO {
     private String mbti4Code;
     private byte age;
     private String ageRangeCode;
-    private Timestamp reg;
-    private Timestamp lastLogin;
-    private Timestamp deleteDate;
+    private LocalDateTime reg;
+    private LocalDateTime lastLogin;
+    private LocalDateTime deleteDate;
     private boolean isDeleted;
 
     public User toEntity(){

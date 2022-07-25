@@ -1,16 +1,13 @@
-package com.fivenonjangi.noning.data.entity;
+package com.fivenonjangi.noning.data.entity.user;
 
-import com.fivenonjangi.noning.data.dto.UserDTO;
+import com.fivenonjangi.noning.data.dto.user.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.sql.Timestamp;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -21,6 +18,7 @@ import java.sql.Timestamp;
 public class User {
     @Id
     @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     @Column(name = "gender_code")
     String genderCode;
@@ -35,13 +33,15 @@ public class User {
     byte age;
     @Column(name = "age_range_code")
     String ageRangeCode;
-    Timestamp reg;
+    LocalDateTime reg;
     @Column(name = "last_login")
-    Timestamp lastLogin;
+    LocalDateTime lastLogin;
     @Column(name = "delete_date")
-    Timestamp deleteDate;
+    LocalDateTime deleteDate;
     @Column(name = "is_deleted")
     boolean isDeleted;
+
+
 
     public UserDTO toDto(){
         return UserDTO.builder()

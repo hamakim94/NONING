@@ -1,6 +1,6 @@
-package com.fivenonjangi.noning.data.dto;
+package com.fivenonjangi.noning.data.dto.user;
 
-import com.fivenonjangi.noning.data.entity.UserData;
+import com.fivenonjangi.noning.data.entity.user.UserData;
 import lombok.*;
 
 @Getter
@@ -17,7 +17,8 @@ public class UserDataDTO {
     private String password;
     private String nickname;
     private String img;
-    private long userId;
+    private UserDTO user;
+
 
     public UserData toEntity(){
         return UserData.builder()
@@ -27,7 +28,7 @@ public class UserDataDTO {
                 .password(password)
                 .nickname(nickname)
                 .img(img)
-                .userId(userId)
+                .user(user.toEntity())
                 .build();
     }
 }

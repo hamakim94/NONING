@@ -1,10 +1,13 @@
-package com.fivenonjangi.noning.data.dto;
+package com.fivenonjangi.noning.data.dto.board;
 
 
-import com.fivenonjangi.noning.data.entity.Board;
+import com.fivenonjangi.noning.data.dto.user.UserDTO;
+import com.fivenonjangi.noning.data.entity.board.Board;
+import com.fivenonjangi.noning.data.entity.user.User;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -19,10 +22,10 @@ public class BoardDTO {
     private String opt1;
     private String opt2;
     private String categoryCode;
-    private Timestamp reg;
+    private LocalDateTime reg;
     private boolean isDeleted;
     private boolean isLive;
-    private long writerId;
+    private UserDTO writer;
     private long liveId;
 
     public Board toEntity() {
@@ -35,7 +38,7 @@ public class BoardDTO {
                 .reg(reg)
                 .isDeleted(isDeleted)
                 .isLive(isLive)
-                .writerId(writerId)
+                .writer(writer.toEntity())
                 .liveId(liveId)
                 .build();
     }

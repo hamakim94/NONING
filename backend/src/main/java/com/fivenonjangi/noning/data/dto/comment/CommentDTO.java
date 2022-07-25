@@ -1,9 +1,12 @@
-package com.fivenonjangi.noning.data.dto;
+package com.fivenonjangi.noning.data.dto.comment;
 
-import com.fivenonjangi.noning.data.entity.Comment;
+import com.fivenonjangi.noning.data.dto.board.BoardDTO;
+import com.fivenonjangi.noning.data.dto.user.UserDTO;
+import com.fivenonjangi.noning.data.entity.comment.Comment;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -16,11 +19,11 @@ public class CommentDTO {
     private long id;
     private String content;
     private byte level;
-    private Timestamp reg;
+    private LocalDateTime reg;
     private boolean isDeleted;
     private long parentId;
-    private long writerId;
-    private long boardId;
+    private UserDTO writer;
+    private BoardDTO board;
 
     public Comment toEntity(){
         return Comment.builder()
@@ -29,8 +32,8 @@ public class CommentDTO {
                 .reg(reg)
                 .isDeleted(isDeleted)
                 .parentId(parentId)
-                .writerId(writerId)
-                .boardId(boardId)
+                .writer(writer.toEntity())
+                .board(board.toEntity())
                 .build();
     }
 }

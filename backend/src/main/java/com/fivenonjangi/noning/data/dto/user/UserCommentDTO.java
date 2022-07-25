@@ -1,6 +1,7 @@
-package com.fivenonjangi.noning.data.dto;
+package com.fivenonjangi.noning.data.dto.user;
 
-import com.fivenonjangi.noning.data.entity.UserComment;
+import com.fivenonjangi.noning.data.dto.comment.CommentDTO;
+import com.fivenonjangi.noning.data.entity.user.UserComment;
 import lombok.*;
 
 
@@ -13,15 +14,15 @@ import lombok.*;
 @ToString
 public class UserCommentDTO {
     private long id;
-    private long commentId;
-    private long userId;
+    private CommentDTO commentDTO;
+    private UserDTO userDTO;
     private boolean like;
 
     public UserComment toEntity(){
         return UserComment.builder()
                 .id(id)
-                .commentId(commentId)
-                .userId(userId)
+//                .commentId(commentId)
+//                .userId(userId)
                 .like(like)
                 .build();
     }

@@ -1,15 +1,14 @@
-package com.fivenonjangi.noning.data.entity;
+package com.fivenonjangi.noning.data.entity.etc;
 
-import com.fivenonjangi.noning.data.dto.InquireDTO;
+import com.fivenonjangi.noning.data.dto.etc.InquireDTO;
+import com.fivenonjangi.noning.data.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -23,20 +22,28 @@ public class Inquire {
     long id;
     String title;
     String content;
-    @Column(name = "writer_id")
-    long writerId;
+    @ManyToOne
+    @JoinColumn(name = "writer_id")
+    User writer;
     String file;
     @Column(name = "is_deleted")
     boolean isDeleted;
+
+    LocalDateTime reg;
+
+    public void setWriter(User writer) {
+        this.writer = writer;
+    }
 
     public InquireDTO toDto(){
         return InquireDTO.builder()
                 .id(id)
                 .title(title)
                 .content(content)
-                .writerId(writerId)
+                .writer(writer.toDto())
                 .file(file)
                 .isDeleted(isDeleted)
+                .reg(reg)
                 .build();
     }
 

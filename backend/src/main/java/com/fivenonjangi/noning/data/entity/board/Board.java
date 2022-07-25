@@ -1,13 +1,12 @@
-package com.fivenonjangi.noning.data.entity;
+package com.fivenonjangi.noning.data.entity.board;
 
-import com.fivenonjangi.noning.data.dto.BoardDTO;
+import com.fivenonjangi.noning.data.dto.board.BoardDTO;
+import com.fivenonjangi.noning.data.entity.user.User;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -19,19 +18,21 @@ import java.util.Set;
 public class Board {
     @Id
     @Column(name = "board_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     String title;
     String opt1;
     String opt2;
     @Column(name = "category_code")
     String categoryCode;
-    Timestamp reg;
+    LocalDateTime reg;
     @Column(name = "is_deleted")
     boolean isDeleted;
     @Column(name = "is_live")
     boolean isLive;
-    @Column(name = "writer_id")
-    long writerId;
+    @ManyToOne
+    @JoinColumn(name = "writer_id")
+    User writer;
     @Column(name = "live_id")
     long liveId;
 
@@ -45,7 +46,7 @@ public class Board {
                 .reg(reg)
                 .isDeleted(isDeleted)
                 .isLive(isLive)
-                .writerId(writerId)
+                .writer(writer.toDto())
                 .liveId(liveId)
                 .build();
     }

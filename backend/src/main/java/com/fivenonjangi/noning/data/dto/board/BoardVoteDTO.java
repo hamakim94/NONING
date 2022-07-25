@@ -1,11 +1,12 @@
-package com.fivenonjangi.noning.data.dto;
+package com.fivenonjangi.noning.data.dto.board;
 
 
-import com.fivenonjangi.noning.data.entity.BoardVote;
+import com.fivenonjangi.noning.data.dto.user.UserDTO;
+import com.fivenonjangi.noning.data.entity.board.BoardVote;
 import lombok.*;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -17,16 +18,16 @@ import java.sql.Timestamp;
 public class BoardVoteDTO {
     private long id;
     private boolean vote;
-    private long boardId;
-    private long userId;
-    private Timestamp reg;
+    private BoardDTO board;
+    private UserDTO user;
+    private LocalDateTime reg;
 
     public BoardVote toEntity() {
         return BoardVote.builder()
                 .id(id)
                 .vote(vote)
-                .boardId(boardId)
-                .userId(userId)
+                .board(board.toEntity())
+                .user(user.toEntity())
                 .reg(reg)
                 .build();
     }
