@@ -1,12 +1,13 @@
 package com.fivenonjangi.noning.service;
 
-import com.fivenonjangi.noning.data.dao.UserDAO;
 import com.fivenonjangi.noning.data.dto.user.SignupRequestDTO;
 import com.fivenonjangi.noning.data.dto.user.UserDTO;
 import com.fivenonjangi.noning.data.dto.user.UserDataDTO;
 import com.fivenonjangi.noning.data.dto.user.UserResponseDTO;
 import com.fivenonjangi.noning.data.entity.user.User;
 import com.fivenonjangi.noning.data.entity.user.UserData;
+import com.fivenonjangi.noning.data.repository.UserDataRepository;
+import com.fivenonjangi.noning.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +18,15 @@ import java.time.LocalDateTime;
 @Service
 public class UserServiceImpl implements UserService{
 
-    private final UserDAO userDAO;
+    private final UserRepository userRepository;
+    private final UserDataRepository userDataRepository;
 
     @Autowired
-    public UserServiceImpl(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public UserServiceImpl(UserRepository userRepository, UserDataRepository userDataRepository) {
+        this.userRepository = userRepository;
+        this.userDataRepository = userDataRepository;
     }
+
 
     @Override
     public void signupUser(SignupRequestDTO signupRequestDTO) {
@@ -45,9 +49,8 @@ public class UserServiceImpl implements UserService{
                     .nickname(signupRequestDTO.getNickname())
                     .img(signupRequestDTO.getImg())
                     .build();
-            userData.setUser(userDAO.saveUser(user));
-            System.out.println("UserID : "+user.getId());
-            userDAO.saveUserData(userData);
+            userData.setUser(userRepository.save(user));
+            userDataRepository.save(userData);
         }
         catch (Exception e){
             System.out.println(e.getStackTrace());
@@ -57,25 +60,25 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDTO getUser(long userId) {
-        return userDAO.getUser(userId).toDto();
+        return userRepository.findById(userId).get().toDto();
     }
 
     @Override
     public UserDataDTO getUserDataDto(long userId) {
-        UserData  userData = userDAO.getUserData(userId);
-        System.out.println("UserID : "+userData.getUser().getId());
+        UserData  userData = userDataRepository.findByUser_Id(userId);
         return userData.toDTO();
     }
 
     @Override
     public UserResponseDTO login(String email, String password, LocalDateTime curTime) {
         try {
-            UserData userData = userDAO.findByEmail(email);
+            UserData userData = userDataRepository.findByEmail(email);
             if (userData == null) return null;
             String salt = userData.getSalt();
             password = Hashing(password.getBytes(), salt);
             if (userData.getPassword().equals(password)){
-            userDAO.login(userData.getUser(), curTime);
+                userData.getUser().setLastLogin(curTime);
+            userRepository.save(userData.getUser());
             return UserResponseDTO.builder()
                     .id(userData.getUser().getId())
                     .nickname(userData.getNickname())
