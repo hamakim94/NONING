@@ -36,6 +36,7 @@ public class UserData {
         this.user = user;
     }
 
+
     public UserDataDTO toDTO(){
         return UserDataDTO.builder()
                 .id(id)

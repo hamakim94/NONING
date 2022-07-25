@@ -41,7 +41,9 @@ public class User {
     @Column(name = "is_deleted")
     boolean isDeleted;
 
-
+    public void setLastLogin(LocalDateTime lastLogin) {
+        this.lastLogin = lastLogin;
+    }
 
     public UserDTO toDto(){
         return UserDTO.builder()
