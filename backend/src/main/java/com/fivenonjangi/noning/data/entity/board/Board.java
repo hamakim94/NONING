@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -22,7 +23,7 @@ public class Board {
     String opt2;
     @Column(name = "category_code")
     String categoryCode;
-    Timestamp reg;
+    LocalDateTime reg;
     @Column(name = "is_deleted")
     boolean isDeleted;
     @Column(name = "is_live")

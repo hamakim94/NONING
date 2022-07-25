@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -32,6 +33,8 @@ public class Report {
     @Column(name = "is_completed")
     boolean isCompleted;
 
+    LocalDateTime reg;
+
     public ReportDTO toDto(){
         return ReportDTO.builder()
                 .id(id)
@@ -40,6 +43,7 @@ public class Report {
                 .writerId(writerId)
                 .reportCode(reportCode)
                 .isCompleted(isCompleted)
+                .reg(reg)
                 .build();
     }
 }

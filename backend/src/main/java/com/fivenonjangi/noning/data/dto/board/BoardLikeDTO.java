@@ -4,6 +4,7 @@ import com.fivenonjangi.noning.data.entity.board.BoardLike;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -16,7 +17,7 @@ public class BoardLikeDTO {
     private long id;
     private long boardId;
     private long userId;
-    private Timestamp reg;
+    private LocalDateTime reg;
 
     public BoardLike toEntity() {
         return BoardLike.builder()

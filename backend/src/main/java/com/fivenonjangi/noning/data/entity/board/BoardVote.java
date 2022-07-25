@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -24,7 +25,7 @@ public class BoardVote {
     long boardId;
     @Column(name = "user_id")
     long userId;
-    Timestamp reg;
+    LocalDateTime reg;
 
     public BoardVoteDTO toDto() {
         return BoardVoteDTO.builder()

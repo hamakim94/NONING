@@ -3,6 +3,8 @@ package com.fivenonjangi.noning.data.dto.etc;
 import com.fivenonjangi.noning.data.entity.etc.Inquire;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Data
@@ -17,6 +19,7 @@ public class InquireDTO {
     private long writerId;
     private String file;
     private boolean isDeleted;
+    private LocalDateTime reg;
 
     public Inquire toEntity() {
         return Inquire.builder()
@@ -26,6 +29,7 @@ public class InquireDTO {
                 .writerId(writerId)
                 .file(file)
                 .isDeleted(isDeleted)
+                .reg(reg)
                 .build();
     }
 }

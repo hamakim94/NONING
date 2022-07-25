@@ -5,6 +5,7 @@ import com.fivenonjangi.noning.data.entity.board.BoardVote;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -18,7 +19,7 @@ public class BoardVoteDTO {
     private boolean vote;
     private long boardId;
     private long userId;
-    private Timestamp reg;
+    private LocalDateTime reg;
 
     public BoardVote toEntity() {
         return BoardVote.builder()

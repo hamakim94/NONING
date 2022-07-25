@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -29,6 +30,9 @@ public class Inquire {
     @Column(name = "is_deleted")
     boolean isDeleted;
 
+    LocalDateTime reg;
+
+
     public InquireDTO toDto(){
         return InquireDTO.builder()
                 .id(id)
@@ -37,6 +41,7 @@ public class Inquire {
                 .writerId(writerId)
                 .file(file)
                 .isDeleted(isDeleted)
+                .reg(reg)
                 .build();
     }
 

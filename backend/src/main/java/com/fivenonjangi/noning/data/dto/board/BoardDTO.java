@@ -5,6 +5,7 @@ import com.fivenonjangi.noning.data.entity.board.Board;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -19,7 +20,7 @@ public class BoardDTO {
     private String opt1;
     private String opt2;
     private String categoryCode;
-    private Timestamp reg;
+    private LocalDateTime reg;
     private boolean isDeleted;
     private boolean isLive;
     private long writerId;

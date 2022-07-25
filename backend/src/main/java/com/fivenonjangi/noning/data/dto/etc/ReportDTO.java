@@ -3,6 +3,8 @@ package com.fivenonjangi.noning.data.dto.etc;
 import com.fivenonjangi.noning.data.entity.etc.Report;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,6 +19,7 @@ public class ReportDTO {
     private long writerId;
     private String reportCode;
     private boolean isCompleted;
+    private LocalDateTime reg;
 
     public Report toEntity() {
         return Report.builder()
@@ -26,6 +29,7 @@ public class ReportDTO {
                 .writerId(writerId)
                 .reportCode(reportCode)
                 .isCompleted(isCompleted)
+                .reg(reg)
                 .build();
     }
 }

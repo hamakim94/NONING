@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -27,7 +28,7 @@ public class BoardLike {
     long boardId;
     @Column(name = "user_id")
     long userId;
-    Timestamp reg;
+    LocalDateTime reg;
 
     public BoardLikeDTO toDto() {
         return BoardLikeDTO.builder()

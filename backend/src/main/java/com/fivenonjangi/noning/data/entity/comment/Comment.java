@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -24,7 +25,7 @@ public class Comment {
     long id;
     String content;
     byte level;
-    Timestamp reg;
+    LocalDateTime reg;
     @Column(name = "is_deleted")
     boolean isDeleted;
     @Column(name = "parent_id")

@@ -4,6 +4,7 @@ import com.fivenonjangi.noning.data.entity.comment.Comment;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -16,7 +17,7 @@ public class CommentDTO {
     private long id;
     private String content;
     private byte level;
-    private Timestamp reg;
+    private LocalDateTime reg;
     private boolean isDeleted;
     private long parentId;
     private long writerId;
