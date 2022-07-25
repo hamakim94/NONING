@@ -30,6 +30,8 @@ public class UserData {
     @JoinColumn(name = "user_id")
     User user;
 
+    String salt;
+
     public void setUser(User user) {
         this.user = user;
     }

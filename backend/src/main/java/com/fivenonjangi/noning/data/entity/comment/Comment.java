@@ -31,7 +31,7 @@ public class Comment {
     @Column(name = "parent_id")
     long parentId;
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "writer_id")
     User writer;
     @ManyToOne
     @JoinColumn(name = "board_id")

@@ -30,7 +30,7 @@ public class Board {
     boolean isDeleted;
     @Column(name = "is_live")
     boolean isLive;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "writer_id")
     User writer;
     @Column(name = "live_id")

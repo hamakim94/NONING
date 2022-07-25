@@ -1,5 +1,6 @@
 package com.fivenonjangi.noning.controller;
 
+import com.fivenonjangi.noning.data.dto.user.SignupRequestDTO;
 import com.fivenonjangi.noning.data.dto.user.UserDataDTO;
 import com.fivenonjangi.noning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,9 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity signupUser(@RequestBody UserDataDTO userDataDTO) {
-        userService.saveUser(userDataDTO.getUser(), userDataDTO);
+    public ResponseEntity signupUser(@RequestBody SignupRequestDTO signupRequestDTO) {
+
+        userService.saveUser(signupRequestDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
