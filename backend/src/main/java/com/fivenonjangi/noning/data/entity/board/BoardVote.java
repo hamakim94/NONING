@@ -22,7 +22,7 @@ public class BoardVote {
     @Column(name = "board_vote_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    boolean vote;
+    byte vote;
     @ManyToOne
     @JoinColumn(name = "board_id")
     Board board;

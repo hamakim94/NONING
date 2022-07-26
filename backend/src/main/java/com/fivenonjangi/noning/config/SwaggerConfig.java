@@ -1,4 +1,4 @@
-package com.fivenonjangi.noning.swagger;
+package com.fivenonjangi.noning.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

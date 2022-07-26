@@ -1,21 +1,29 @@
 package com.fivenonjangi.noning.service;
 
 import com.fivenonjangi.noning.data.dto.board.BoardRequestDTO;
+import com.fivenonjangi.noning.data.dto.board.BoardResponseDTO;
 import com.fivenonjangi.noning.data.entity.board.Board;
 import com.fivenonjangi.noning.data.entity.user.User;
 import com.fivenonjangi.noning.data.repository.BoardRepository;
+import com.fivenonjangi.noning.data.repository.BoardRepositoryCustom;
+import com.fivenonjangi.noning.data.repository.BoardRepositoryImpl;
 import com.fivenonjangi.noning.data.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class BoardServiceImpl implements BoardService{
     public final BoardRepository boardRepository;
+    public final BoardRepositoryCustom boardRepositoryCustom;
     public final UserRepository userRepository;
 
-    public BoardServiceImpl(BoardRepository boardRepository, UserRepository userRepository) {
+    @Autowired
+    public BoardServiceImpl(BoardRepository boardRepository, BoardRepositoryCustom boardRepositoryCustom, UserRepository userRepository) {
         this.boardRepository = boardRepository;
+        this.boardRepositoryCustom = boardRepositoryCustom;
         this.userRepository = userRepository;
     }
 
@@ -41,5 +49,10 @@ public class BoardServiceImpl implements BoardService{
         board.deleteBoard();
 
         boardRepository.save(board);
+    }
+
+    @Override
+    public List<BoardResponseDTO> getBoardList(long userId, String categoryCode) {
+        return boardRepositoryCustom.findBoardResponseDTObyUserIdCateCode(userId, categoryCode);
     }
 }
