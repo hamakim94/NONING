@@ -9,11 +9,8 @@ import com.fivenonjangi.noning.data.entity.user.UserData;
 import com.fivenonjangi.noning.data.repository.UserDataRepository;
 import com.fivenonjangi.noning.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.security.MessageDigest;
-import java.security.SecureRandom;
 import java.time.LocalDateTime;
 
 @Service
@@ -21,13 +18,11 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final UserDataRepository userDataRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserDataRepository userDataRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, UserDataRepository userDataRepository) {
         this.userRepository = userRepository;
         this.userDataRepository = userDataRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -46,7 +41,7 @@ public class UserServiceImpl implements UserService{
                     .build();
             UserData userData = UserData.builder()
                     .email(signupRequestDTO.getEmail())
-                    .password(passwordEncoder.encode(signupRequestDTO.getPassword()))
+                    .password(signupRequestDTO.getPassword())
                     .nickname(signupRequestDTO.getNickname())
                     .img(signupRequestDTO.getImg())
                     .build();
@@ -74,10 +69,10 @@ public class UserServiceImpl implements UserService{
     public UserResponseDTO login(String email, String password, LocalDateTime curTime) {
         try {
             UserData userData = userDataRepository.findByEmail(email);
+
             if (userData == null || !userData.isEmailVerified()) return null;
 
-            if (passwordEncoder.matches(password,userData.getPassword())){
-                userData.getUser().setLastLogin(curTime);
+            userData.getUser().setLastLogin(curTime);
             userRepository.save(userData.getUser());
             return UserResponseDTO.builder()
                     .id(userData.getUser().getId())
@@ -91,14 +86,11 @@ public class UserServiceImpl implements UserService{
                     .age(userData.getUser().getAge())
                     .ageRangeCode(userData.getUser().getAgeRangeCode())
                     .build();
-            }
         }
         catch (Exception e){
-            System.out.println(4);
             e.getStackTrace();
             return null;
         }
-        return null;
     }
 
     @Override

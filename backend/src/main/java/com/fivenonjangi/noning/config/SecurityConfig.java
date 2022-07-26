@@ -3,6 +3,7 @@ package com.fivenonjangi.noning.config;
 import com.fivenonjangi.noning.config.security.JwtTokenFilter;
 import com.fivenonjangi.noning.config.security.JwtTokenProvider;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@AllArgsConstructor
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig{
@@ -24,12 +24,17 @@ public class SecurityConfig{
     private final JwtTokenProvider jwtTokenProvider;
 
     private static final String[] PUBLIC_API_URI = {
-            "/api/users/signup", "/api/login", "/api/boards/list/"
+            "/api/users/signup", "/api/users/login", "/api/boards/list/"
     };
     private static final String[] PUBLIC_WEB_URI = {
            "/swagger-ui/**", "/swagger-resources/**",
-            "/swagger-ui.html", "/webjars/**", "/swagger/**"
+            "/swagger-ui.html", "/webjars/**", "/swagger/**", "/v2/api-docs"
     };
+    @Autowired
+    public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
+
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -59,13 +64,13 @@ public class SecurityConfig{
                 .antMatchers("/h2-console/**/**");
     }
 
-    @Bean
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("admin").password(passwordEncoder().encode("1234")).roles("ADMIN")
-                .and()
-                .withUser("guest").password(passwordEncoder().encode("guest")).roles("GUEST");
-    }
+//    @Bean
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.inMemoryAuthentication()
+//                .withUser("admin").password(passwordEncoder().encode("1234")).roles("ADMIN")
+//                .and()
+//                .withUser("guest").password(passwordEncoder().encode("guest")).roles("GUEST");
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

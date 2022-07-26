@@ -22,4 +22,5 @@ public class UserResponseDTO {
     private String mbti4Code;
     private byte age;
     private String ageRangeCode;
+    private String AccessToken;
 }

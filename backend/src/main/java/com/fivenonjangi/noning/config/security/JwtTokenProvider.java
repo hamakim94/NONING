@@ -11,12 +11,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Key;
 import java.util.Date;
 
+@Component
 public class JwtTokenProvider {
 
     @Value("${JWT.SECRET}")
@@ -67,7 +69,7 @@ public class JwtTokenProvider {
     // Jwt 토큰의 유효성 + 만료일자 확인
     public boolean validateToken(String jwtToken) {
         try {
-            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(jwtToken);
+            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
             return false;
