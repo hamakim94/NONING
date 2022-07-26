@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Setter
 public class BoardVoteDTO {
     private long id;
-    private boolean vote;
+    private byte vote;
     private BoardDTO board;
     private UserDTO user;
     private LocalDateTime reg;
