@@ -31,7 +31,7 @@ public class BoardController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/api/boards/{boardid}/delete")
+    @PutMapping("/{boardid}/delete")
     public ResponseEntity deleteBoard(@PathVariable("boardid") long boardId){
         boardService.deleteBoard(boardId);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -41,5 +41,11 @@ public class BoardController {
     public ResponseEntity getBoardList(@PathVariable("userid") long userId, @RequestParam("categorycode") String categoryCode){
         List<BoardResponseDTO> boardResponseDTOList = boardService.getBoardList(userId, categoryCode);
         return new ResponseEntity<>(boardResponseDTOList, HttpStatus.OK);
+    }
+
+    @GetMapping("/{boardid}/detail")
+    public ResponseEntity getBoardDetail(@PathVariable("boardid") long boardId){
+
+        return null;
     }
 }
