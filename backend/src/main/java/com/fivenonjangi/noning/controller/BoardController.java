@@ -28,18 +28,21 @@ public class BoardController {
     @PostMapping("/write")
     public ResponseEntity writeBoard(@RequestBody BoardRequestDTO boardRequestDTO){
         boardService.writeBoard(boardRequestDTO);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/{boardid}/delete")
     public ResponseEntity deleteBoard(@PathVariable("boardid") long boardId){
         boardService.deleteBoard(boardId);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/list/{userid}")
     public ResponseEntity getBoardList(@PathVariable("userid") long userId, @RequestParam("categorycode") String categoryCode){
         List<BoardResponseDTO> boardResponseDTOList = boardService.getBoardList(userId, categoryCode);
+
         return new ResponseEntity<>(boardResponseDTOList, HttpStatus.OK);
     }
 

@@ -9,6 +9,7 @@ public interface CommentService {
     void writeComment(long boardId, CommentRequestDTO commentRequestDTO);
     void deleteComment(long commentId);
     List<CommentResponseDTO> getCommentList(long boardId, long userId);
-
     List<CommentResponseDTO> getNestedCommentList(long boardId, long commentId, long userId);
+    void likeComment(long commentId, long userId);
+    void dislikeComment(long commentId, long userId);
 }

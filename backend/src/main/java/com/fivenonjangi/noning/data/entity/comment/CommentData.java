@@ -25,6 +25,14 @@ public class CommentData {
     @JoinColumn(name = "comment_id")
     Comment comment;
 
+    public void like(){
+        this.likes++;
+    }
+
+    public void dislike(){
+        this.dislikes++;
+    }
+
     public CommentDataDTO toDTO(){
         return CommentDataDTO.builder()
                 .id(id)
