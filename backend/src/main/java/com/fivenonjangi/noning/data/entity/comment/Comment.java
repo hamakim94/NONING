@@ -3,10 +3,7 @@ package com.fivenonjangi.noning.data.entity.comment;
 import com.fivenonjangi.noning.data.dto.comment.CommentDTO;
 import com.fivenonjangi.noning.data.entity.board.Board;
 import com.fivenonjangi.noning.data.entity.user.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -18,6 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Table(name = "comment")
+@ToString
 public class Comment {
     @Id
     @Column(name = "comment_id")
@@ -29,7 +27,7 @@ public class Comment {
     @Column(name = "is_deleted")
     boolean isDeleted;
     @Column(name = "parent_id")
-    long parentId;
+    Long parentId;
     @OneToOne
     @JoinColumn(name = "writer_id")
     User writer;
