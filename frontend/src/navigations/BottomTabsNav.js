@@ -1,6 +1,6 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
-import PlusScreen from '../screens/bottomtab/PlusScreen';
+import PlusScreen from '../screens/bottomTab/PlusScreen';
 import UserPageNav from './UserPageNav';
 import HomeStack from './HomeStack';
 import FlowNav from './FlowNav';
