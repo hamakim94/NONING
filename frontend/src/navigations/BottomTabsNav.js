@@ -19,6 +19,7 @@ function BottomTabsNav() {
       initialRouteName="HomeStack"
       screenOptions={{
         tabBarActiveTintColor: '#FF7171',
+        tabBarHideOnKeyboard: true,
       }}>
       <Tab.Screen
         name="HomeStack"

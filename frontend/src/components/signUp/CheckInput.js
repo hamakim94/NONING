@@ -40,7 +40,11 @@ export default function CheckInput({
               onChangeText={value => onChange(value.replace(blank, ''))}
               value={value}
               returnKeyType="next"
-              onSubmitEditing={() => inputRef.current[index + 1].focus()}
+              onSubmitEditing={() =>
+                inputRef.current.length == index + 1
+                  ? inputRef.current[index].focus()
+                  : inputRef.current[index + 1].focus()
+              }
               selectionColor={'#FF7171'}
             />
             <TouchableOpacity
