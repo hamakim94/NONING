@@ -81,12 +81,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom{
                                     .userLike(tuple.get(15, Boolean.class))
                                     .userVote(tuple.get(16, Byte.class))
                                     .build();
+
             result.add(boardResponseDTO);
-//            System.out.println(tuple.get(board.categoryCode));
-//            System.out.println(tuple.get(userData.nickname));
-//            System.out.println(tuple.get(boardData.id));
-//            System.out.println(tuple.get(15, Boolean.class));
-//            System.out.println(tuple.get(16, Byte.class));
         }
 
         return result;
