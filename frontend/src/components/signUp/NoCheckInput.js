@@ -45,7 +45,11 @@ export default function NoCheckInput({
               onChangeText={value => onChange(value.replace(blank, ''))}
               value={value}
               returnKeyType="next"
-              onSubmitEditing={() => inputRef.current[index + 1].focus()}
+              onSubmitEditing={() =>
+                inputRef.current.length == index + 1
+                  ? inputRef.current[index].focus()
+                  : inputRef.current[index + 1].focus()
+              }
               secureTextEntry={blind}
               selectionColor={'#FF7171'}
             />

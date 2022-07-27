@@ -95,13 +95,14 @@ function InfoScreen() {
             <Avatar
               size={100}
               rounded
-              title="+"
-              titleStyle={{color: '#808080'}}
               containerStyle={{
                 backgroundColor: 'white',
                 borderWidth: 2,
                 borderColor: '#808080',
                 marginBottom: '5%',
+              }}
+              source={{
+                uri: 'https://cdn.pixabay.com/photo/2019/11/08/11/56/kitten-4611189_960_720.jpg',
               }}
             />
           </TouchableOpacity>
