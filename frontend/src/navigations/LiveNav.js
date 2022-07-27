@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import LiveScreen from '../screens/bottomtab/LiveScreen';
+import LiveScreen from '../screens/bottomTab/LiveScreen';
 import ChatNav from './ChatNav';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 

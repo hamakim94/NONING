@@ -1,8 +1,8 @@
 import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import ApproveScreen from '../screens/signup/ApproveScreen';
-import InfoScreen from '../screens/signup/InfoScreen';
-import CompleteScreen from '../screens/signup/CompleteScreen';
+import ApproveScreen from '../screens/signUp/ApproveScreen';
+import InfoScreen from '../screens/signUp/InfoScreen';
+import CompleteScreen from '../screens/signUp/CompleteScreen';
 import {StyleSheet} from 'react-native';
 
 const Tab = createMaterialTopTabNavigator();
