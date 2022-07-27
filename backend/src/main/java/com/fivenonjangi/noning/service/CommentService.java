@@ -4,4 +4,5 @@ import com.fivenonjangi.noning.data.dto.comment.CommentRequestDTO;
 
 public interface CommentService {
     void writeComment(long boardId, CommentRequestDTO commentRequestDTO);
+    void deleteComment(long commentId);
 }
