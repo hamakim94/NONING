@@ -1,23 +1,25 @@
 import {StyleSheet, Text, View} from 'react-native';
 
-import React from 'react';
+import React, { useState } from 'react';
 import BoardHeader from './BoardHeader';
 import BoardBar from './BoardBar';
 import BoardFooter from './BoardFooter';
 
-export default function Boards() {
+export default function Boards({board, navigation, setBoard}) {
+  const [user_vote, setUserVote] = useState(board.user_vote)
+  const [user_like, setUserLike] = useState(board.user_like)
+  
   return (
     <View>
       <View style={styles.container}>
-        <BoardHeader></BoardHeader>
-        <View style={styles.titleContainer}>
+        <BoardHeader board = {board} user_vote={user_vote} navigation = {navigation}></BoardHeader>
+        <View style={styles.titleContainer} >
           <Text style={styles.titleText}>
-            퇴근 후 데이트 가는 길에 조수석에 이성 직장동료가 앉아있다 {'\n'}
-            내가 뒷자리에 앉아서 타야된다면?
+            {board.title}
           </Text>
         </View>
-        <BoardBar></BoardBar>
-        <BoardFooter></BoardFooter>
+        <BoardBar board={board} user_vote={user_vote} setUserVote={setUserVote} ></BoardBar>
+        <BoardFooter board={board} user_like = {user_like} setUserLike= {setUserLike} ></BoardFooter>
       </View>
     </View>
   );
@@ -26,7 +28,8 @@ export default function Boards() {
 const styles = StyleSheet.create({
   container: {
     marginTop: 10,
-    height: 300,
+    marginBottom:30,
+    height: 250,
     width: '100%',
     borderWidth: 1,
     borderRadius: 5,
@@ -38,7 +41,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   titleContainer: {
-    height: 150,
+    height: 120,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',

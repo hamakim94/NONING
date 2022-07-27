@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   logo: {
-    width: 60,
-    height: 30,
+    width: 100,
+    height: 50,
     resizeMode: 'contain',
   },
   iconsContainer: {

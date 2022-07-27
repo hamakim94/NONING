@@ -1,14 +1,13 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import React from 'react';
+import React, { useState } from 'react';
 
-export default function BoardHeader({navigation}) {
-  const is_live = 0;
-  const user_vote = 1
+export default function BoardHeader({board, user_vote, navigation}) {
+  const [is_live, setIsLive] = useState(board.is_live)
   return (
     <View style={styles.liveContainer}>
-      <Text style={styles.liveButton(is_live)}>LIVE</ Text>
-      <TouchableOpacity style={styles.votedDetail} onPress={() =>
+      <Text style={styles.liveButton(is_live)} >LIVE</ Text>
+      <TouchableOpacity style={{marginHorizontal:6}} disabled={user_vote === 0} onPress={() =>
               navigation.navigate('HomeDetail', {screen: 'HomeDetail'})
             }>
         <AntDesign style={styles.detail(user_vote)} name="doubleright" size={20} />
@@ -44,16 +43,4 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     color : user_vote > 0 ? '#000000' : '#ffffff',
   }),
-  votedDetail: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 1,
-    marginHorizontal: 5,
-  },
-  notVotedDetail: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 1,
-    marginHorizontal: 5,
-  },
 });
