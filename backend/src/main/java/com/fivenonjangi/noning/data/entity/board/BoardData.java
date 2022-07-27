@@ -23,7 +23,7 @@ public class BoardData {
     int opt1Selected;
     @Column(name = "opt2_selected")
     int opt2Selected;
-    int like;
+    int likes;
     @OneToOne
     @JoinColumn(name = "board_id")
     Board board;
@@ -33,7 +33,7 @@ public class BoardData {
                 .id(id)
                 .opt1Selected(opt1Selected)
                 .opt2Selected(opt2Selected)
-                .like(like)
+                .likes(likes)
                 .board(board.toDto())
                 .build();
     }
