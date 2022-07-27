@@ -3,7 +3,6 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import ApproveScreen from '../screens/signUp/ApproveScreen';
 import InfoScreen from '../screens/signUp/InfoScreen';
 import CompleteScreen from '../screens/signUp/CompleteScreen';
-import {StyleSheet} from 'react-native';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -11,7 +10,7 @@ function SignUpNav() {
   return (
     <Tab.Navigator
       style={{backgroundColor: 'white'}}
-      initialRouteName="Approve"
+      initialRouteName="ApproveScreen"
       screenOptions={{
         tabBarActiveTintColor: '#FF7171',
         tabBarInactiveTintColor: '#808080',
@@ -30,19 +29,19 @@ function SignUpNav() {
         swipeEnabled: true,
       }}>
       <Tab.Screen
-        name="Approve"
+        name="ApproveScreen"
         component={ApproveScreen}
         options={{
           tabBarLabel: '약관동의',
         }}
       />
       <Tab.Screen
-        name="Info"
+        name="InfoScreen"
         component={InfoScreen}
         options={{tabBarLabel: '회원정보'}}
       />
       <Tab.Screen
-        name="Complete"
+        name="CompleteScreen"
         component={CompleteScreen}
         options={{tabBarLabel: '가입완료'}}
       />

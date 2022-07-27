@@ -11,12 +11,14 @@ function CompleteScreen({navigation}) {
           회원가입이 <Text style={styles.highlightText}>완료</Text> 되었습니다
         </Text>
         <View style={{flexDirection: 'row', marginTop: '20%'}}>
-          <TouchableOpacity style={styles.loginButton}>
+          <TouchableOpacity
+            style={styles.loginButton}
+            onPress={() => navigation.navigate('LoginScreen')}>
             <Text style={styles.loginText}>로그인</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.homeButton}
-            onPress={() => navigation.navigate('Home')}>
+            onPress={() => navigation.navigate('HomeScreen')}>
             <Text style={styles.homeText}>홈으로</Text>
           </TouchableOpacity>
         </View>
