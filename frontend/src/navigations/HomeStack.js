@@ -1,5 +1,5 @@
 import React from 'react';
-import HomeScreen from '../screens/bottomtab/HomeScreen';
+import HomeScreen from '../screens/bottomTab/HomeScreen';
 import SignUpNav from './SignUpNav';
 import DetailScreen from '../screens/board/DetailScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';

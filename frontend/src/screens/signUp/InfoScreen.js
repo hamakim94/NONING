@@ -2,16 +2,16 @@ import React, {useState, useRef} from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import schema from '../../components/signup/Validation';
+import schema from '../../components/signUp/Validation';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import CheckBox from '@react-native-community/checkbox';
 import SelectDropdown from 'react-native-select-dropdown';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Avatar} from '@rneui/themed';
-import InputLabel from '../../components/signup/InputLabel';
-import CheckInput from '../../components/signup/CheckInput';
-import NoCheckInput from '../../components/signup/NoCheckInput';
-import styles from '../../components/signup/InfoStyles';
+import InputLabel from '../../components/signUp/InputLabel';
+import CheckInput from '../../components/signUp/CheckInput';
+import NoCheckInput from '../../components/signUp/NoCheckInput';
+import styles from '../../components/signUp/InfoStyles';
 import axios from 'axios';
 
 function InfoScreen() {

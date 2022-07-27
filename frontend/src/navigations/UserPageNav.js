@@ -1,6 +1,6 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import UserPageScreen from '../screens/bottomtab/UserPageScreen';
+import UserPageScreen from '../screens/bottomTab/UserPageScreen';
 import SettingNav from './SettingNav';
 const Stack = createNativeStackNavigator();
 
