@@ -31,7 +31,7 @@ public class SwaggerConfig {
     public Docket swaggerApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .securityContexts(Arrays.asList(securityContext()))
-                .securitySchemes(Arrays.asList(apiKey()))
+                .securitySchemes(Arrays.asList(apiKey1(), apiKey2()))
                 .consumes(getConsumeContentTypes())
                 .produces(getProduceContentTypes())
                 .apiInfo(swaggerInfo()).select()
@@ -63,10 +63,13 @@ public class SwaggerConfig {
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        return Arrays.asList(new SecurityReference("JWT", authorizationScopes));
+        return Arrays.asList(new SecurityReference("ACCESS-JWT", authorizationScopes), new SecurityReference("REFRESH-JWT", authorizationScopes));
     }
-    private ApiKey apiKey() {
-        return new ApiKey("JWT", "X-AUTH-TOKEN", "header");
+    private ApiKey apiKey1() {
+        return new ApiKey("ACCESS-JWT", "ACCESSTOKEN", "header");
+    }
+    private ApiKey apiKey2() {
+        return new ApiKey("REFRESH-JWT", "REFRESHTOKEN", "header");
     }
 
 }

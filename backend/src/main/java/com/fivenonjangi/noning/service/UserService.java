@@ -13,7 +13,7 @@ public interface UserService {
     void signupUser(SignupRequestDTO signupRequestDTO);
     UserDTO getUser(long userId);
     UserDataDTO getUserDataDto(long userId);
-    UserResponseDTO login(String email, String password, LocalDateTime curTime);
+    UserResponseDTO login(Long userId, String password, LocalDateTime curTime);
     UserData getUserByEmail(String email);
     UserData getUserById(long id);
 }

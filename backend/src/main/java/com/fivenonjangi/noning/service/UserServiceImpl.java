@@ -66,9 +66,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserResponseDTO login(String email, String password, LocalDateTime curTime) {
+    public UserResponseDTO login(Long userId, String password, LocalDateTime curTime) {
         try {
-            UserData userData = userDataRepository.findByEmail(email);
+            UserData userData = userDataRepository.findByUser_Id(userId);
 
             if (userData == null || !userData.isEmailVerified()) return null;
 

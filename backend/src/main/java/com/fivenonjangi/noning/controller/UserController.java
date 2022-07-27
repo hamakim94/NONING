@@ -5,7 +5,6 @@ import com.fivenonjangi.noning.data.dto.user.LoginRequestDTO;
 import com.fivenonjangi.noning.data.dto.user.SignupRequestDTO;
 import com.fivenonjangi.noning.data.dto.user.UserDataDTO;
 import com.fivenonjangi.noning.data.dto.user.UserResponseDTO;
-import com.fivenonjangi.noning.data.entity.user.UserData;
 import com.fivenonjangi.noning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
 @RestController
@@ -47,14 +47,21 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginRequestDTO){
         UserDataDTO userDataDTO = userService.getUserByEmail(loginRequestDTO.getEmail()).toDTO();
         if (passwordEncoder.matches(loginRequestDTO.getPassword(), userDataDTO.getPassword())){
-            UserResponseDTO userResponseDTO = userService.login(loginRequestDTO.getEmail(), loginRequestDTO.getPassword(), LocalDateTime.now());
+            UserResponseDTO userResponseDTO = userService.login(userDataDTO.getUser().getId(), loginRequestDTO.getPassword(), LocalDateTime.now());
             if (userResponseDTO != null) {
                 Authentication authentication = new UsernamePasswordAuthenticationToken(userResponseDTO.getId(), loginRequestDTO.getPassword());
-                String token = jwtTokenProvider.createToken(loginRequestDTO.getEmail());
-                userResponseDTO.setAccessToken(token);
-                return ResponseEntity.ok().header("X-AUTH-TOKEN", token).body(userResponseDTO);
+                String accessToken = jwtTokenProvider.createAccessToken(userResponseDTO.getId());
+                String refreshToken = jwtTokenProvider.createRefreshToken(userResponseDTO.getId());
+                userResponseDTO.setAccessToken(accessToken);
+                return ResponseEntity.ok().header("ACCESSTOKEN", accessToken).header("REFRESHTOKEN", refreshToken).body(userResponseDTO);
             }
         }
         return new ResponseEntity<>("invalid ID",HttpStatus.UNAUTHORIZED);
+    }
+    @GetMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request){
+        String accesstoken = jwtTokenProvider.resolveToken(request, "ACCESSTOKEN");
+        jwtTokenProvider.logout(accesstoken, jwtTokenProvider.getUserPk(accesstoken));
+        return ResponseEntity.ok().build();
     }
 }

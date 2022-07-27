@@ -26,13 +26,14 @@ public class JwtTokenFilter extends OncePerRequestFilter  {
     // Request로 들어오는 Jwt Token의 유효성을 검증(jwtTokenProvider.validateToken)하는 filter를 filterChain에 등록합니다.
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        String token = jwtTokenProvider.resolveToken(request);
-        if (token != null && jwtTokenProvider.validateToken(token)) {
-            try {
-                Authentication auth = jwtTokenProvider.getAuthentication(token);
-                SecurityContextHolder.getContext().setAuthentication(auth);
-            } catch (Exception e) {
-                System.out.println("error");
+        String accessToken = jwtTokenProvider.resolveToken(request, "ACCESSTOKEN");
+        if (accessToken != null) {
+            if (jwtTokenProvider.validateToken(accessToken)) {
+                try {
+                    Authentication auth = jwtTokenProvider.getAuthentication(accessToken);
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                } catch (Exception e) {
+                    System.out.println("error");
 //                CommonResult result = new CommonResult();
 //                result.setOutput(-1000);
 //                result.setMsg("This member not exist");
@@ -41,7 +42,19 @@ public class JwtTokenFilter extends OncePerRequestFilter  {
 //                PrintWriter out = res.getWriter();
 //                out.print(mapper.writeValueAsString(result));
 //                out.flush();
-                return;
+                    return;
+                }
+            }
+            else{
+                String refreshToken = jwtTokenProvider.resolveToken(request, "REFRESHTOKEN");
+                String email = jwtTokenProvider.getUserPk(accessToken);
+                if (refreshToken.equals(jwtTokenProvider.getRefreshToken(email))) {
+                    System.out.println("재발급");
+                    accessToken = jwtTokenProvider.createAccessToken(Long.parseLong(jwtTokenProvider.getUserPk(refreshToken)));
+                    response.setHeader("ACCESSTOKEN", accessToken);
+                    Authentication auth = jwtTokenProvider.getAuthentication(accessToken);
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                }
             }
         }
         filterChain.doFilter(request, response);

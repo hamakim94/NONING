@@ -18,18 +18,18 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final UserService userService;
 
     @Override
-    public UserDetails loadUserByUsername(String email) {
+    public UserDetails loadUserByUsername(String userId) {
         UserData userData = null;
         try {
-            userData =userService.getUserByEmail(email);
+            userData =userService.getUserById(Long.parseLong(userId));
             if (userData == null) {
-                throw new UsernameNotFoundException("User '" + email + "' not found");
+                throw new UsernameNotFoundException("User '" + userId + "' not found");
             }
         } catch (Exception e){
             e.printStackTrace();
         }
         return User
-                .withUsername(email)
+                .withUsername(userId)
                 .password(userData.getPassword())
                 .authorities(new ArrayList<GrantedAuthority>())
                 .accountExpired(false)
