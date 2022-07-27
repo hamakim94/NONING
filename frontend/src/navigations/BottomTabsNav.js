@@ -5,6 +5,9 @@ import UserPageNav from './UserPageNav';
 import HomeStack from './HomeStack';
 import FlowNav from './FlowNav';
 import LiveNav from './LiveNav';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const Tab = createBottomTabNavigator();
 const tabBarListeners = ({navigation, route}) => ({
@@ -15,15 +18,17 @@ function BottomTabsNav() {
     <Tab.Navigator
       initialRouteName="HomeStack"
       screenOptions={{
-        tabBarActiveTintColor: '#e91e63',
+        tabBarActiveTintColor: '#FF7171',
       }}>
       <Tab.Screen
         name="HomeStack"
         component={HomeStack}
         options={{
-          tabBarLabel: 'Home',
-          title: '논잉',
           headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({color, size}) => (
+            <AntDesign name="home" color={color} size={size} />
+          ),
         }}
         listeners={tabBarListeners}
       />
@@ -32,7 +37,11 @@ function BottomTabsNav() {
         component={FlowNav}
         options={{
           tabBarLabel: 'Flow',
+          tabBarShowLabel: false,
           headerShown: false,
+          tabBarIcon: ({color, size}) => (
+            <MaterialCommunityIcons name="waves" color={color} size={size} />
+          ),
         }}
         listeners={tabBarListeners}
       />
@@ -40,15 +49,29 @@ function BottomTabsNav() {
         name="PlusScreen"
         component={PlusScreen}
         options={{
-          tabBarLabel: 'Plus',
+          tabBarShowLabel: false,
+          tabBarIcon: ({size}) => (
+            <MaterialCommunityIcons
+              name="plus-circle"
+              color="#FF7171"
+              size={size}
+            />
+          ),
         }}
       />
       <Tab.Screen
         name="LiveNav"
         component={LiveNav}
         options={{
-          tabBarLabel: 'Live',
+          tabBarShowLabel: false,
           headerShown: false,
+          tabBarIcon: ({color, size}) => (
+            <MaterialCommunityIcons
+              name="broadcast"
+              color={color}
+              size={size}
+            />
+          ),
         }}
         listeners={tabBarListeners}
       />
@@ -56,8 +79,11 @@ function BottomTabsNav() {
         name="UserPageNav"
         component={UserPageNav}
         options={{
-          tabBarLabel: 'UserPage',
+          tabBarShowLabel: false,
           headerShown: false,
+          tabBarIcon: ({color, size}) => (
+            <FontAwesome name="user-circle-o" color={color} size={size} />
+          ),
         }}
         listeners={tabBarListeners}
       />
