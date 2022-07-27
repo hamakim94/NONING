@@ -13,7 +13,7 @@ export const BOARDS = [
         opt1_selected : 45,
         opt2_selected : 500,
         user_like :0,
-        user_vote :0
+        user_vote :0 // 0,1,2 여기서 어떤걸 선택했는지 알 수 있음.
     },
     {
         board_id : 2,
@@ -23,7 +23,7 @@ export const BOARDS = [
         is_live : 1,
         writer : {
             id : 'mgk',
-            nickname : '김하마',
+            nickname : '김쵸킹',
             img : 'https://i.imgur.com/YcP0tik.jpeg'
         },
         opt1_selected : 45,

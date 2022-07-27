@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Divider } from '@rneui/base/dist/Divider';
+import React, {useState} from 'react';
+import {Divider} from '@rneui/base/dist/Divider';
 import {
   TouchableOpacity,
   StyleSheet,
@@ -10,7 +10,9 @@ import {
   ScrollView,
 } from 'react-native';
 import LogoSearch from '../../components/home/LogoSearch';
-import FilterButtonTabs, { filterButtons } from '../../components/home/FilterButtonTabs';
+import FilterButtonTabs, {
+  filterButtons,
+} from '../../components/home/FilterButtonTabs';
 import Boards from '../../components/home/Boards';
 
 function HomeScreen({navigation}) {
@@ -20,16 +22,17 @@ function HomeScreen({navigation}) {
     <SafeAreaView style={{flex: 1}}>
       <View style={{flex: 1, padding: 16}}>
         <LogoSearch navigation={navigation}></LogoSearch>
-        <Divider width={0.5} ></Divider>
-        <FilterButtonTabs setFilterName={setFilterName}/>
-        <Divider width={0.5} ></Divider>
-        <Boards></Boards>
+        <Divider width={0.5}></Divider>
+        <FilterButtonTabs setFilterName={setFilterName} />
+        <Divider width={0.5}></Divider>
+        <Boards navigation = {navigation}></Boards>
+
         <View
           style={{
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
-          }}> 
+          }}>
           <TouchableOpacity
             style={styles.button}
             onPress={() =>
@@ -56,14 +59,13 @@ function HomeScreen({navigation}) {
   );
 }
 const styles = StyleSheet.create({
-  buttonContainer:{
-    flex:1,
-    justifyContent : 'space-between',
-    alignItems:'center',
-    flexDirection:'row',
-    height:30,
-    marginBottom:5,
-
+  buttonContainer: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    height: 30,
+    marginBottom: 5,
   },
   button: {
     alignItems: 'center',
@@ -73,21 +75,17 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   scrollContainer: {
-    container:{
-      justifyContent : 'space-between',
-      alignItems:'center',
-      flexDirection:'row',
-      height:30,
-      marginBottom:5,
-
+    container: {
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      flexDirection: 'row',
+      height: 30,
+      marginBottom: 5,
     },
   },
-  textFocused :{
-    color: '#FF7171'
+  textFocused: {
+    color: '#FF7171',
   },
-  textNotFocused :{
-
-  },
-
+  textNotFocused: {},
 });
 export default HomeScreen;
