@@ -2,8 +2,8 @@ export const BOARDS = [
     {
         board_id : 1,
         title : '나는 바보?',
-        opt1 : 0,
-        opt2 : 0,
+        opt1 : '그렇게 보인다',
+        opt2 : '다르게 보인다',
         is_live : 0,
         writer : {
             id : 'mgk',

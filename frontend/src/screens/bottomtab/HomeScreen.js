@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Divider } from '@rneui/base/dist/Divider';
 import {
   TouchableOpacity,
@@ -10,48 +10,26 @@ import {
   ScrollView,
 } from 'react-native';
 import LogoSearch from '../../components/home/LogoSearch';
-
-
+import FilterButtonTabs, { filterButtons } from '../../components/home/FilterButtonTabs';
+import Boards from '../../components/home/Boards';
 
 function HomeScreen({navigation}) {
+  const [filterName, setFilterName] = useState('전체');
+  // console.log(filterName)
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={{flex: 1, padding: 16}}>
         <LogoSearch navigation={navigation}></LogoSearch>
-        <Divider ></Divider>
-        <View style={styles.scrollContainer}>
-          <ScrollView 
-            horizontal 
-            showsHorizontalScrollIndicator={false}
-            style={{borderBottomWidth:1, height:40}}>
-            <Text style={{margin:10, fontWeight:'bold', fontSize:15}}>전체</Text>
-            <Text style={{margin:10, fontWeight:'bold', fontSize:15}}>연애</Text>
-            <Text style={{margin:10, fontWeight:'bold', fontSize:15}}>음식</Text>
-            <Text style={{margin:10, fontWeight:'bold', fontSize:15}}>게임</Text>
-            <Text style={{margin:10, fontWeight:'bold', fontSize:15}}>고민</Text>
-            <Text style={{margin:10, fontWeight:'bold', fontSize:15}}>운동</Text>
-            <Text style={{margin:10, fontWeight:'bold', fontSize:15}}>직장</Text>
-            <Text style={{margin:10, fontWeight:'bold', fontSize:15}}>갈등</Text>
-            <Text style={{margin:10, fontWeight:'bold', fontSize:15}}>싸피</Text>
-          </ScrollView>
-        </View>
-        <ScrollView>
-
-        </ScrollView>
+        <Divider width={0.5} ></Divider>
+        <FilterButtonTabs setFilterName={setFilterName}/>
+        <Divider width={0.5} ></Divider>
+        <Boards></Boards>
         <View
           style={{
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
           }}> 
-          <Text
-            style={{
-              fontSize: 25,
-              textAlign: 'center',
-              marginBottom: 16,
-            }}>
-            You are on Home Screen
-          </Text>
           <TouchableOpacity
             style={styles.button}
             onPress={() =>
