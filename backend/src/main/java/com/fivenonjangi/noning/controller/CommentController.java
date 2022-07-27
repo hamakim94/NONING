@@ -22,4 +22,10 @@ public class CommentController {
         commentService.writeComment(boardId, commentRequestDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PutMapping("/{commentid}/delete")
+    public ResponseEntity deleteComment(@PathVariable("boardid") long boardId, @PathVariable("commentid") long commentId){
+        commentService.deleteComment(commentId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

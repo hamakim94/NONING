@@ -35,6 +35,10 @@ public class Comment {
     @JoinColumn(name = "board_id")
     Board board;
 
+    public void deleteComment(){
+        this.isDeleted = true;
+    }
+
     public CommentDTO toDto(){
         return CommentDTO.builder()
                 .id(id)
