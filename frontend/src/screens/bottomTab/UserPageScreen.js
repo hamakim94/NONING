@@ -35,14 +35,16 @@ export default function UserPageScreen({navigation}) {
                     <View style={styles.followsBox}>
                         {USERS.map((profile, index) => (
                             <View key={index} style={styles.follows}>
-                                <View>
+                                <TouchableOpacity
+                                    onPress={() => navigation.push('FollowerScreen', {screen: 'FollowerScreen'})}>
                                     <Text> follower</Text>
                                     <Text style={{alignSelf: 'center'}}> {profile.follower}</Text>
-                                </View>
-                                <View>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() => navigation.push('FollowerScreen', {screen: 'FollowerScreen'})}>
                                     <Text> following</Text>
                                     <Text style={{alignSelf: 'center'}}> {profile.following}</Text>
-                                </View>
+                                </TouchableOpacity>
                             </View>
                         ))}
                     </View>
