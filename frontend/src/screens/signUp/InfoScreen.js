@@ -14,6 +14,25 @@ import NoCheckInput from '../../components/signUp/NoCheckInput';
 import styles from '../../components/signUp/InfoStyles';
 import axios from 'axios';
 
+const MbtiGroup = [
+  'ENFJ',
+  'ENFP',
+  'ENTJ',
+  'ENTP',
+  'ESFJ',
+  'ESFP',
+  'ESTJ',
+  'ESTP',
+  'INFJ',
+  'INFP',
+  'INTJ',
+  'INTP',
+  'ISFJ',
+  'ISFP',
+  'ISTJ',
+  'ISTP',
+];
+
 function InfoScreen() {
   const inputRef = useRef([]);
   const [emailStyle, setEmailStyle] = useState(styles.checkBlurInput);
@@ -26,24 +45,6 @@ function InfoScreen() {
   const [femaleCheckBox, setFemaleCheckBox] = useState(false);
   const [emailCheck, setEmailCheck] = useState(false);
   const [nickNameCheck, setNickNameCheck] = useState(false);
-  const MbtiGroup = [
-    'ENFJ',
-    'ENFP',
-    'ENTJ',
-    'ENTP',
-    'ESFJ',
-    'ESFP',
-    'ESTJ',
-    'ESTP',
-    'INFJ',
-    'INFP',
-    'INTJ',
-    'INTP',
-    'ISFJ',
-    'ISFP',
-    'ISTJ',
-    'ISTP',
-  ];
 
   const {
     handleSubmit,
@@ -81,7 +82,6 @@ function InfoScreen() {
         setCheck(false);
       });
   };
-
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView keyboardShouldPersistTaps={'handled'}>
@@ -102,7 +102,8 @@ function InfoScreen() {
                 marginBottom: '5%',
               }}
               source={{
-                uri: 'https://cdn.pixabay.com/photo/2019/11/08/11/56/kitten-4611189_960_720.jpg',
+                uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                // https://cdn.pixabay.com/photo/2019/11/08/11/56/kitten-4611189_960_720.jpg
               }}
             />
           </TouchableOpacity>

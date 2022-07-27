@@ -46,6 +46,7 @@ export default function CheckInput({
                   : inputRef.current[index + 1].focus()
               }
               selectionColor={'#FF7171'}
+              autoFocus={index == 0 ? true : false}
             />
             <TouchableOpacity
               style={
