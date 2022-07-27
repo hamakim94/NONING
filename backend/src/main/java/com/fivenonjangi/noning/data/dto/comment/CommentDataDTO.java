@@ -1,6 +1,6 @@
 package com.fivenonjangi.noning.data.dto.comment;
 
-import com.fivenonjangi.noning.data.entity.comment.CommentLike;
+import com.fivenonjangi.noning.data.entity.comment.CommentData;
 import lombok.*;
 
 @Getter
@@ -10,17 +10,17 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @ToString
-public class CommentLikeDTO {
+public class CommentDataDTO {
     private long id;
-    private int like;
-    private int dislike;
+    private int likes;
+    private int dislikes;
     private CommentDTO comment;
 
-    public CommentLike toEntity(){
-        return CommentLike.builder()
+    public CommentData toEntity(){
+        return CommentData.builder()
                 .id(id)
-                .like(like)
-                .dislike(dislike)
+                .likes(likes)
+                .dislikes(dislikes)
                 .comment(comment.toEntity())
                 .build();
     }

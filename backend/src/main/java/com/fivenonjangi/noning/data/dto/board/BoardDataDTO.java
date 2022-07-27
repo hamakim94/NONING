@@ -14,7 +14,7 @@ public class BoardDataDTO {
     private long id;
     private int opt1Selected;
     private int opt2Selected;
-    private int like;
+    private int likes;
     private BoardDTO board;
 
     public BoardData toEntity(){
@@ -22,7 +22,7 @@ public class BoardDataDTO {
                 .id(id)
                 .opt1Selected(opt1Selected)
                 .opt2Selected(opt2Selected)
-                .like(like)
+                .likes(likes)
                 .board(board.toEntity())
                 .build();
     }

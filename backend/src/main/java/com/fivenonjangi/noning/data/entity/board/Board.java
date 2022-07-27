@@ -36,6 +36,10 @@ public class Board {
     @Column(name = "live_id")
     long liveId;
 
+    public void deleteBoard(){
+        this.isDeleted = true;
+    }
+
     public BoardDTO toDto(){
         return BoardDTO.builder()
                 .id(id)

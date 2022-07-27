@@ -1,6 +1,7 @@
 package com.fivenonjangi.noning.data.entity.comment;
 
 import com.fivenonjangi.noning.data.dto.comment.CommentLikeDTO;
+import com.fivenonjangi.noning.data.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,18 +20,28 @@ public class CommentLike {
     @Column(name = "comment_like_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    int like;
-    int dislike;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "comment_id")
     Comment comment;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    User user;
+    boolean isLike;
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
+    }
 
     public CommentLikeDTO toDTO(){
         return CommentLikeDTO.builder()
                 .id(id)
-                .like(like)
-                .dislike(dislike)
-                .comment(comment.toDto())
+//                .commentId(commentId)
+//                .userId(userId)
+                .isLike(isLike)
                 .build();
     }
 }
