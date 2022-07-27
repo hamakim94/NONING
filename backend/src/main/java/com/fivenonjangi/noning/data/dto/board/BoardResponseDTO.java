@@ -31,7 +31,7 @@ public class BoardResponseDTO {
     private long boardDataId;
     private int opt1Selected; // 1안 투표수
     private int opt2Selected; // 2안 투표수
-    private int like; // 해당 게시물 찜 수
+    private int likes; // 해당 게시물 찜 수
     /////////////board_like
     private boolean userLike; // user의 찜여부
     /////////////board_vote

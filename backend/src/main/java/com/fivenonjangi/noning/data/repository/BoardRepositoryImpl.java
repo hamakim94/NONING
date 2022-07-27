@@ -36,7 +36,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom{
     public List<BoardResponseDTO> findBoardResponseDTObyUserIdCateCode(long userId, String categoryCode) {
         List<Tuple> tuples = queryFactory.select(board.id, board.title, board.opt1, board.opt2, board.categoryCode, board.reg, board.isLive, board.liveId, board.writer.id,
                         userData.nickname, userData.img,
-                        boardData.id, boardData.opt1Selected, boardData.opt2Selected, boardData.like,
+                        boardData.id, boardData.opt1Selected, boardData.opt2Selected, boardData.likes,
                         new CaseBuilder()
                                 .when(boardLike.user.id.isNotNull())
                                 .then(true)
@@ -77,16 +77,12 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom{
                                     .boardDataId(tuple.get(boardData.id))
                                     .opt1Selected(tuple.get(boardData.opt1Selected))
                                     .opt2Selected(tuple.get(boardData.opt2Selected))
-                                    .like(tuple.get(boardData.like))
+                                    .likes(tuple.get(boardData.likes))
                                     .userLike(tuple.get(15, Boolean.class))
                                     .userVote(tuple.get(16, Byte.class))
                                     .build();
+
             result.add(boardResponseDTO);
-//            System.out.println(tuple.get(board.categoryCode));
-//            System.out.println(tuple.get(userData.nickname));
-//            System.out.println(tuple.get(boardData.id));
-//            System.out.println(tuple.get(15, Boolean.class));
-//            System.out.println(tuple.get(16, Byte.class));
         }
 
         return result;
