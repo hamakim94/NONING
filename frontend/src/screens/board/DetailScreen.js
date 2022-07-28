@@ -1,20 +1,45 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, Dimensions, StatusBar, Text} from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const FirstRoute = () => (
-  <View style={[styles.scene, {backgroundColor: 'white'}]} />
+  <View
+    style={[
+      styles.scene,
+      {
+        backgroundColor: 'white',
+        // borderTopWidth: 0.3,
+        // borderTopColor: '#808080',
+      },
+    ]}>
+    <KeyboardAwareScrollView keyboardShouldPersistTaps={'handled'}>
+      <View>
+        <View></View>
+      </View>
+    </KeyboardAwareScrollView>
+  </View>
 );
 
 const SecondRoute = () => (
-  <View style={[styles.scene, {backgroundColor: 'white'}]} />
+  <View
+    style={[
+      styles.scene,
+      {
+        backgroundColor: 'white',
+        // borderTopWidth: 0.3,
+        // borderTopColor: '#808080',
+      },
+    ]}
+  />
 );
 
 const renderTabBar = props => (
   <TabBar
     {...props}
     indicatorStyle={{
-      backgroundColor: '#FF7171',
+      borderWidth: 1.5,
+      borderColor: '#FF7171',
       width: '30%',
       marginHorizontal: '6.5%',
     }}
@@ -27,15 +52,24 @@ const renderTabBar = props => (
     style={{
       backgroundColor: 'white',
       shadowColor: 'white',
-      // borderWidth: 1,
+      borderBottomWidth: 0.3,
+      borderBottomColor: '#808080',
+      borderTopWidth: 0.3,
+      borderTopColor: '#808080',
       marginHorizontal: '7%',
     }}
     renderLabel={({route, focused, color}) => (
       <Text
         style={
           focused
-            ? {color: '#FF7171', margin: 0, padding: 0, fontWeight: 'bold'}
-            : {margin: 0, padding: 0, color: '#808080'}
+            ? {
+                color: '#FF7171',
+                margin: 0,
+                padding: 0,
+                fontWeight: 'bold',
+                fontSize: 15,
+              }
+            : {margin: 0, padding: 0, color: '#808080', fontSize: 15}
         }>
         {route.title}
       </Text>
