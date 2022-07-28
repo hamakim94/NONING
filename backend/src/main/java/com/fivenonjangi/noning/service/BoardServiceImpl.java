@@ -2,6 +2,7 @@ package com.fivenonjangi.noning.service;
 
 import com.fivenonjangi.noning.data.dto.board.BoardRequestDTO;
 import com.fivenonjangi.noning.data.dto.board.BoardResponseDTO;
+import com.fivenonjangi.noning.data.dto.user.UserResponseDTO;
 import com.fivenonjangi.noning.data.entity.board.Board;
 import com.fivenonjangi.noning.data.entity.user.User;
 import com.fivenonjangi.noning.data.repository.BoardRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -53,6 +55,16 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public List<BoardResponseDTO> getBoardList(long userId, String categoryCode) {
-        return boardRepositoryCustom.findBoardResponseDTObyUserIdCateCode(userId, categoryCode);
+        return boardRepositoryCustom.findByUserIdAndCateCode(userId, categoryCode);
+    }
+
+    @Override
+    public BoardResponseDTO getBoard(long userId, long boardId) {
+        return boardRepositoryCustom.findByUserIdAndBoardId(userId, boardId);
+    }
+
+    @Override
+    public Map<String, List<UserResponseDTO>> getParticipate(long boardId) {
+        return boardRepositoryCustom.findByBoardId(boardId);
     }
 }

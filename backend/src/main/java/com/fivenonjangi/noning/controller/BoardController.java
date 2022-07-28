@@ -3,6 +3,7 @@ package com.fivenonjangi.noning.controller;
 import com.fivenonjangi.noning.config.security.JwtTokenProvider;
 import com.fivenonjangi.noning.data.dto.board.BoardRequestDTO;
 import com.fivenonjangi.noning.data.dto.board.BoardResponseDTO;
+import com.fivenonjangi.noning.data.dto.user.UserResponseDTO;
 import com.fivenonjangi.noning.service.BoardService;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -12,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //@ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
 //        @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
@@ -53,8 +56,16 @@ public class BoardController {
     }
 
     @GetMapping("/{boardid}/detail")
-    public ResponseEntity getBoardDetail(@PathVariable("boardid") long boardId){
+    public ResponseEntity getBoardDetail(HttpServletRequest request, @PathVariable("boardid") long boardId) {
+        long userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
+        BoardResponseDTO boardResponseDTO = boardService.getBoard(userId, boardId);
 
-        return null;
+        Map<String, List<UserResponseDTO>> participates = boardService.getParticipate(boardId);
+        Map<String, Object> result = new HashMap<>();
+        result.put("participate1List", participates.get("participate1List"));
+        result.put("participate2List", participates.get("participate2List"));
+        result.put("board", boardResponseDTO);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
