@@ -28,8 +28,8 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public void writeBoard(BoardRequestDTO boardRequestDTO) {
-        User user = userRepository.getReferenceById(boardRequestDTO.getWriterId());
+    public void writeBoard(BoardRequestDTO boardRequestDTO, long userId) {
+        User user = userRepository.getReferenceById(userId);
 
         Board board = Board.builder()
                 .title(boardRequestDTO.getTitle())
