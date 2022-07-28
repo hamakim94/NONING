@@ -17,5 +17,4 @@ public class CommentRequestDTO {
     private String content;
     private byte level;
     private long parentId;
-    private long writerId;
 }

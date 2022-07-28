@@ -28,12 +28,20 @@ public class CommentLike {
     User user;
     boolean isLike;
 
-    public void setUser(User user) {
-        this.user = user;
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
+//
+//    public void setComment(Comment comment) {
+//        this.comment = comment;
+//    }
+
+    public void like(){
+        this.isLike = true;
     }
 
-    public void setComment(Comment comment) {
-        this.comment = comment;
+    public void dislike(){
+        this.isLike = false;
     }
 
     public CommentLikeDTO toDTO(){

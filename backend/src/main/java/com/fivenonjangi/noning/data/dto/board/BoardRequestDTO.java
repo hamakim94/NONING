@@ -19,5 +19,4 @@ public class BoardRequestDTO {
     private String opt2;
     private String categoryCode;
     private LocalDateTime reg;
-    private long writerId;
 }

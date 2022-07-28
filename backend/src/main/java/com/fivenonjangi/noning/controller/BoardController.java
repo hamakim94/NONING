@@ -1,5 +1,6 @@
 package com.fivenonjangi.noning.controller;
 
+import com.fivenonjangi.noning.config.security.JwtTokenProvider;
 import com.fivenonjangi.noning.data.dto.board.BoardRequestDTO;
 import com.fivenonjangi.noning.data.dto.board.BoardResponseDTO;
 import com.fivenonjangi.noning.service.BoardService;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 //@ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
@@ -20,26 +22,33 @@ import java.util.List;
 @RequestMapping("/api/boards")
 public class BoardController {
     private final BoardService boardService;
+    private final JwtTokenProvider jwtTokenProvider;
+
     @Autowired
-    public BoardController(BoardService boardService) {
+    public BoardController(BoardService boardService, JwtTokenProvider jwtTokenProvider) {
         this.boardService = boardService;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @PostMapping("/write")
-    public ResponseEntity writeBoard(@RequestBody BoardRequestDTO boardRequestDTO){
-        boardService.writeBoard(boardRequestDTO);
+    public ResponseEntity writeBoard(HttpServletRequest request, @RequestBody BoardRequestDTO boardRequestDTO){
+        long userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
+        boardService.writeBoard(boardRequestDTO, userId);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/{boardid}/delete")
     public ResponseEntity deleteBoard(@PathVariable("boardid") long boardId){
         boardService.deleteBoard(boardId);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/list/{userid}")
     public ResponseEntity getBoardList(@PathVariable("userid") long userId, @RequestParam("categorycode") String categoryCode){
         List<BoardResponseDTO> boardResponseDTOList = boardService.getBoardList(userId, categoryCode);
+
         return new ResponseEntity<>(boardResponseDTOList, HttpStatus.OK);
     }
 
