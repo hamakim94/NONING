@@ -1,25 +1,19 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, Dimensions, StatusBar, Text} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  Text,
+  FlatList,
+  TextInput,
+  ScrollView,
+  KeyboardAvoidingView,
+} from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-
-const FirstRoute = () => (
-  <View
-    style={[
-      styles.scene,
-      {
-        backgroundColor: 'white',
-        // borderTopWidth: 0.3,
-        // borderTopColor: '#808080',
-      },
-    ]}>
-    <KeyboardAwareScrollView keyboardShouldPersistTaps={'handled'}>
-      <View>
-        <View></View>
-      </View>
-    </KeyboardAwareScrollView>
-  </View>
-);
+import {Avatar} from '@rneui/themed';
+import CommentScreen from './CommentScreen';
 
 const SecondRoute = () => (
   <View
@@ -39,13 +33,13 @@ const renderTabBar = props => (
     {...props}
     indicatorStyle={{
       borderWidth: 1.5,
-      borderColor: '#FF7171',
+      borderColor: '#FF5A6E',
       width: '30%',
       marginHorizontal: '6.5%',
     }}
     tabStyle={{
-      marginHorizontal: 30,
-      // borderWidth: 1,
+      paddingBottom: '15%',
+      paddingTop: '1%',
     }}
     pressColor={'white'}
     indicatorContainerStyle={{}}
@@ -57,13 +51,14 @@ const renderTabBar = props => (
       borderTopWidth: 0.3,
       borderTopColor: '#808080',
       marginHorizontal: '7%',
+      height: '12%',
     }}
-    renderLabel={({route, focused, color}) => (
+    renderLabel={({route, focused}) => (
       <Text
         style={
           focused
             ? {
-                color: '#FF7171',
+                color: '#FF5A6E',
                 margin: 0,
                 padding: 0,
                 fontWeight: 'bold',
@@ -80,26 +75,26 @@ const renderTabBar = props => (
 const initialLayout = {width: Dimensions.get('window').width};
 
 const renderScene = SceneMap({
-  first: FirstRoute,
-  second: SecondRoute,
+  0: CommentScreen,
+  1: SecondRoute,
 });
 
 export default function DetailScreen() {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
-    {key: 'first', title: '댓글'},
-    {key: 'second', title: '분석'},
+    {key: 0, title: '댓글'},
+    {key: 1, title: '분석'},
   ]);
 
   return (
     <View style={styles.container}>
-      <View style={{flex: 6, borderWidth: 2}}>
+      <View style={{flex: 2.4, borderWidth: 2}}>
         <Text>DetailScreen1</Text>
       </View>
-      <View style={{flex: 1, borderWidth: 2}}>
+      <View style={{flex: 0.2, borderWidth: 2}}>
         <Text>DetailScreen2</Text>
       </View>
-      <View style={{flex: 6}}>
+      <View style={{flex: 3.2, marginTop: '1%'}}>
         <TabView
           navigationState={{index, routes}}
           renderScene={renderScene}
@@ -108,6 +103,7 @@ export default function DetailScreen() {
           renderTabBar={renderTabBar}
         />
       </View>
+      <TextInput></TextInput>
     </View>
   );
 }
