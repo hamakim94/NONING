@@ -37,9 +37,9 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public void writeComment(long boardId, CommentRequestDTO commentRequestDTO) {
+    public void writeComment(long boardId, CommentRequestDTO commentRequestDTO, long userId) {
         Board board = boardRepository.getReferenceById(boardId);
-        User user = userRepository.getReferenceById(commentRequestDTO.getWriterId());
+        User user = userRepository.getReferenceById(userId);
 
         Comment comment = Comment.builder()
                 .content(commentRequestDTO.getContent())
@@ -88,6 +88,12 @@ public class CommentServiceImpl implements CommentService{
         if(!commentLike.isEmpty()){
             commentLike.get().like();
             commentLikeRepository.save(commentLike.get());
+
+            // comment_data 업데이트 (dislikes-1, likes+1)
+            CommentData commentData = commentDataRepository.findByCommentId(commentId).get();
+            commentData.like(true);
+
+            commentDataRepository.save(commentData);
         } else {
             CommentLike commentLikeUpdate = CommentLike.builder()
                     .comment(comment)
@@ -96,13 +102,13 @@ public class CommentServiceImpl implements CommentService{
                     .build();
 
             commentLikeRepository.save(commentLikeUpdate);
+
+            // comment_data 업데이트 (likes+1)
+            CommentData commentData = commentDataRepository.findByCommentId(commentId).get();
+            commentData.like(false);
+
+            commentDataRepository.save(commentData);
         }
-
-        // comment_data 업데이트 (likes+1)
-        CommentData commentData = commentDataRepository.findByCommentId(commentId).get();
-        commentData.like();
-
-        commentDataRepository.save(commentData);
     }
 
     @Override
@@ -116,6 +122,12 @@ public class CommentServiceImpl implements CommentService{
         if(!commentLike.isEmpty()){
             commentLike.get().dislike();
             commentLikeRepository.save(commentLike.get());
+
+            // comment_data 업데이트 (likes-1, dislikes+1)
+            CommentData commentData = commentDataRepository.findByCommentId(commentId).get();
+            commentData.dislike(true);
+
+            commentDataRepository.save(commentData);
         }else {
             CommentLike commentLikeUpdate = CommentLike.builder()
                 .comment(comment)
@@ -124,12 +136,12 @@ public class CommentServiceImpl implements CommentService{
                 .build();
 
             commentLikeRepository.save(commentLikeUpdate);
+
+            // comment_data 업데이트 (dislikes+1)
+            CommentData commentData = commentDataRepository.findByCommentId(commentId).get();
+            commentData.dislike(false);
+
+            commentDataRepository.save(commentData);
         }
-
-        // comment_data 업데이트 (dislikes+1)
-        CommentData commentData = commentDataRepository.findByCommentId(commentId).get();
-        commentData.dislike();
-
-        commentDataRepository.save(commentData);
     }
 }

@@ -25,12 +25,22 @@ public class CommentData {
     @JoinColumn(name = "comment_id")
     Comment comment;
 
-    public void like(){
-        this.likes++;
+    public void like(boolean isExist){
+        if(isExist){
+            this.dislikes--;
+            this.likes++;
+        } else {
+            this.likes++;
+        }
     }
 
-    public void dislike(){
-        this.dislikes++;
+    public void dislike(boolean isExist){
+        if(isExist){
+            this.likes--;
+            this.dislikes++;
+        } else {
+            this.dislikes++;
+        }
     }
 
     public CommentDataDTO toDTO(){
