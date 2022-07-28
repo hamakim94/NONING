@@ -1,7 +1,8 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
-// 투표 : /api/boards/{boardid}/vote 
-export default function BoardBar({board, user_vote, setUserVote, setOpt1Selected, setOpt2Selected , opt1_selected, opt2_selected}) {
+// 투표 : /api/lives/{liveid}/vote 
+
+export default function LiveBar({live, user_vote, setUserVote,setOpt1Selected, setOpt2Selected , opt1_selected, opt2_selected}) {
   // 이제 여기서 props로 넣어줄거야, 그래서 voted가 1 이상이면 터치 못 하게 해야해
   const opt1_ratio = Math.round(
     (opt1_selected / (opt1_selected + opt2_selected)) * 100,
@@ -15,8 +16,8 @@ export default function BoardBar({board, user_vote, setUserVote, setOpt1Selected
       <TouchableOpacity
         style={styles.leftBar(user_vote, leftSize)}
         disabled={user_vote > 0}
-        onPress={() => [setUserVote(1), setOpt1Selected(board.opt1_selected + 1)]}>
-        <Text style={styles.leftInnerText(user_vote)}>{board.opt1}</Text>
+        onPress={() => [setUserVote(1), setOpt1Selected(live.opt1_selected + 1)]}>
+        <Text style={styles.leftInnerText(user_vote)}>{live.opt1}</Text>
         {user_vote > 0 && (
           <Text style={styles.leftInnerText(user_vote)}>{leftSize}</Text>
         )}
@@ -24,8 +25,8 @@ export default function BoardBar({board, user_vote, setUserVote, setOpt1Selected
       <TouchableOpacity
         style={styles.rightBar(user_vote, rightSize)}
         disabled={user_vote > 0}
-        onPress={() => [setUserVote(2), setOpt2Selected(board.opt2_selected + 1)]}>
-        <Text style={styles.rightInnerText(user_vote)}>{board.opt2}</Text>
+        onPress={() => [setUserVote(2), setOpt2Selected(live.opt2_selected + 1)]}>
+        <Text style={styles.rightInnerText(user_vote)}>{live.opt2}</Text>
         {user_vote > 0 && (
           <Text style={styles.rightInnerText(user_vote)}>
             {rightSize}
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 5,
     justifyContent: 'center',
     backgroundColor:
-      user_vote === 1 ? 'rgba(255,90,110,1)' : 'rgba(255,90,110,0.3)',
+      user_vote === 1 ? 'rgba(255,99,99,1)' : 'rgba(255,99,99,0.3)',
   }),
   rightBar: (user_vote, rightSize) => ({
     width: user_vote === 0 ? '50%' : rightSize,

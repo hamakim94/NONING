@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   Button,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import LogoSearch from '../../components/home/LogoSearch';
 import FilterButtonTabs, {
@@ -19,31 +20,38 @@ import axios from 'axios';
 
 // 게시글 가져오기 :  /api/boards/list/{userid}  인풋 : userId, categoryCode, order?categorycode=””
 function HomeScreen({navigation}) {
+
   const [filterName, setFilterName] = useState('전체');
   const [boards, setBoards] = useState([]);
 
   useEffect(() => {
-    (async ()=> {
+    (async () => {
       // const {data} = await axios.get("님들 서버 URL");
       setBoards(BOARDS);
-    })  ()
-  }, [boards])
-  
+    })();
+  }, [boards]);
+
+  // const toggleLike = (board_id) => {
+  //   setBoards([...boards].map(board => board.board_id === board_id 
+  //     ? {...boards, user_like: Math.abs(1-board.user_like)} 
+  //     : board))
+  // }
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={{flex: 1, padding: 16}}>
         <LogoSearch navigation={navigation}></LogoSearch>
         <Divider width={0.5}></Divider>
-        <FilterButtonTabs setFilterName={setFilterName} />
+        <FilterButtonTabs filterName = {filterName} setFilterName={setFilterName} />
         <Divider width={0.5}></Divider>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {boards.map((board, index) => (
-            <Boards 
-              board={board} 
-              key={index} 
-              navigation={navigation} />
-          ))}
-        </ScrollView>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={boards}
+          renderItem={({item}) => (
+            <Boards board={item} navigation={navigation}></Boards>
+          )}
+          keyExtractor={item => item.board_id}>
+        </FlatList>
       </View>
     </SafeAreaView>
   );
