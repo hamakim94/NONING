@@ -2,15 +2,15 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import React, { useState } from 'react';
 
-export default function BoardHeader({board, navigation}) {
+export default function LiveHeader({live, navigation}) {
 
   return (
     <View style={styles.liveContainer}>
-      <Text style={styles.liveButton(board.is_live)} >LIVE</ Text>
-      <TouchableOpacity style={{marginHorizontal:6}} disabled={board.user_vote === 0} onPress={() =>
+      <Text style={styles.liveButton(live.is_live)} >LIVE</ Text>
+      <TouchableOpacity style={{marginHorizontal:6}} disabled={live.user_vote === 0} onPress={() =>
               navigation.navigate('HomeDetail', {screen: 'HomeDetail'})
             }>
-        <AntDesign style={styles.detail(board.user_vote)} name="doubleright" size={20} />
+        <AntDesign style={styles.detail(live.user_vote)} name="doubleright" size={20} />
       </TouchableOpacity>
     </View>
   );
