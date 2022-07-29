@@ -8,9 +8,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 export default function BoardFooter({board, boards, setBoards}) {
   
   const toggleLike = () => {
-    setBoards(boards.map(item => item.board_id === board.board_id
-      ? {...item, user_like: Math.abs(1 - item.user_like) } 
-      : item))
+    setBoards({...board, user_like : Math.abs(1-board.user_like)})
+
   }
   
   return (

@@ -24,7 +24,7 @@ function LiveScreen({navigation}) {
       // const {data} = await axios.get("님들 서버 URL");
       setLives(LIVES);
     })  ()
-  }, [lives])
+  }, [LIVES])
   
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -37,7 +37,7 @@ function LiveScreen({navigation}) {
           showsVerticalScrollIndicator={false}
           data={lives}
           renderItem={({item}) => (
-            <Lives live={item} navigation={navigation}></Lives>
+            <Lives live={item} lives={lives} setLives={setLives} navigation={navigation}></Lives>
           )}
           keyExtractor={item => item.board_id}>
         </FlatList>

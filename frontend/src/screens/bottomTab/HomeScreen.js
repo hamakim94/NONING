@@ -15,18 +15,14 @@ import axios from 'axios';
 
 // 게시글 가져오기 :  /api/boards/list/{userid}  인풋 : userId, categoryCode, order?categorycode=””
 function HomeScreen({navigation}) {
-
   const [filterName, setFilterName] = useState('전체');
   const [boards, setBoards] = useState([]);
-
   useEffect(() => {
     (async () => {
       // const {data} = await axios.get("님들 서버 URL");
       setBoards(BOARDS);
     })();
   }, []);
-
-
 
   return (
     <SafeAreaView style={{flex: 1}}>

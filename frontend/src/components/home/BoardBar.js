@@ -11,14 +11,10 @@ export default function BoardBar({board,  boards, setBoards}) {
   const rightSize = opt2_ratio + '%';
 
   const setOpt1Selected = () => {
-    setBoards(boards.map(item => item.board_id === board.board_id
-      ? {...item, opt1_selected: item.opt1_selected + 1, user_vote : 1 } 
-      : item))
+    setBoards({...board, opt1_selected: board.opt1_selected + 1, user_vote : 1})
   };
   const setOpt2Selected = () => {
-    setBoards(boards.map(item => item.board_id === board.board_id
-      ? {...item, opt2_selected: item.opt2_selected + 1, user_vote : 2} 
-      : item))
+    setBoards({...board, opt2_selected: board.opt2_selected + 1, user_vote : 2})
   };
 
   return (

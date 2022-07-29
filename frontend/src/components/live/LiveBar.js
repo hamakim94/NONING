@@ -2,33 +2,40 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 // 투표 : /api/lives/{liveid}/vote 
 
-export default function LiveBar({live, user_vote, setUserVote,setOpt1Selected, setOpt2Selected , opt1_selected, opt2_selected}) {
+export default function LiveBar({live, lives, setLives}) {
   // 이제 여기서 props로 넣어줄거야, 그래서 voted가 1 이상이면 터치 못 하게 해야해
   const opt1_ratio = Math.round(
-    (opt1_selected / (opt1_selected + opt2_selected)) * 100,
+    (live.opt1_selected / (live.opt1_selected + live.opt2_selected)) * 100,
   );
   const opt2_ratio = 100 - opt1_ratio;
   const leftSize = opt1_ratio + '%';
   const rightSize = opt2_ratio + '%';
 
+  const setOpt1Selected = () => {
+    setLives({...live, opt1_selected: live.opt1_selected + 1, user_vote : 1})
+  };
+  const setOpt2Selected = () => {
+    setLives({...live, opt2_selected: live.opt2_selected + 1, user_vote : 2})
+  };
+
   return (
     <View style={styles.barContainer}>
       <TouchableOpacity
-        style={styles.leftBar(user_vote, leftSize)}
-        disabled={user_vote > 0}
-        onPress={() => [setUserVote(1), setOpt1Selected(live.opt1_selected + 1)]}>
-        <Text style={styles.leftInnerText(user_vote)}>{live.opt1}</Text>
-        {user_vote > 0 && (
-          <Text style={styles.leftInnerText(user_vote)}>{leftSize}</Text>
+        style={styles.leftBar(live.user_vote, leftSize)}
+        disabled={live.user_vote > 0}
+        onPress={() => setOpt1Selected()}>
+        <Text style={styles.leftInnerText(live.user_vote)}>{live.opt1}</Text>
+        {live.user_vote > 0 && (
+          <Text style={styles.leftInnerText(live.user_vote)}>{leftSize}</Text>
         )}
       </TouchableOpacity>
       <TouchableOpacity
-        style={styles.rightBar(user_vote, rightSize)}
-        disabled={user_vote > 0}
-        onPress={() => [setUserVote(2), setOpt2Selected(live.opt2_selected + 1)]}>
-        <Text style={styles.rightInnerText(user_vote)}>{live.opt2}</Text>
-        {user_vote > 0 && (
-          <Text style={styles.rightInnerText(user_vote)}>
+        style={styles.rightBar(live.user_vote, rightSize)}
+        disabled={live.user_vote > 0}
+        onPress={() => setOpt2Selected()}>
+        <Text style={styles.rightInnerText(live.user_vote)}>{live.opt2}</Text>
+        {live.user_vote > 0 && (
+          <Text style={styles.rightInnerText(live.user_vote)}>
             {rightSize}
           </Text>
         )}

@@ -2,7 +2,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import React, { useState } from 'react';
 
-export default function BoardHeader({board, boards, setBoards, navigation}) {
+export default function BoardHeader({board, navigation}) {
 
   return (
     <View style={styles.liveContainer}>

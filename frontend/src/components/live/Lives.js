@@ -6,21 +6,18 @@ import LiveBar from './LiveBar';
 import LiveFooter from './LiveFooter';
 
 export default function Lives({live, navigation}) {
-  const [user_vote, setUserVote] = useState(live.user_vote)
-  const [user_like, setUserLike] = useState(live.user_like)
-  const [opt1_selected, setOpt1Selected] = useState(live.opt1_selected);
-  const [opt2_selected, setOpt2Selected] = useState(live.opt2_selected);
+  const [liveData, setLiveData] = useState(live)
   return (
     <View>
       <View style={styles.container}>
-        <LiveHeader live = {live} user_vote={user_vote} navigation = {navigation}></LiveHeader>
+        <LiveHeader live = {liveData} navigation = {navigation}></LiveHeader>
         <View style={styles.titleContainer} >
           <Text style={styles.titleText}>
             {live.title}
           </Text>
         </View>
-        <LiveBar live={live} user_vote={user_vote} setUserVote={setUserVote} setOpt1Selected={setOpt1Selected} setOpt2Selected={setOpt2Selected} opt1_selected={opt1_selected} opt2_selected={opt2_selected} ></LiveBar>
-        <LiveFooter live={live} user_like = {user_like} setUserLike= {setUserLike} opt1_selected={opt1_selected} opt2_selected={opt2_selected} ></LiveFooter>
+        <LiveBar live={liveData} setLives={setLiveData} ></LiveBar>
+        <LiveFooter live={liveData}  setLives={setLiveData} ></LiveFooter>
       </View>
     </View>
   );

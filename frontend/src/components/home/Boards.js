@@ -1,21 +1,22 @@
 import {StyleSheet, Text, View, ActivityIndicator } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import BoardHeader from './BoardHeader';
 import BoardBar from './BoardBar';
 import BoardFooter from './BoardFooter';
 
 export default function Boards({board, boards, setBoards, navigation}) {
+  const [boardData, setBoardData] = useState(board)
   return (
     <View>
       <View style={styles.container}>
-        <BoardHeader board = {board} boards = {boards} setBoards={setBoards} navigation = {navigation}></BoardHeader>
+        <BoardHeader board = {boardData}  navigation = {navigation}></BoardHeader>
         <View style={styles.titleContainer} >
           <Text style={styles.titleText}>
             {board.title}
           </Text>
         </View>
-        <BoardBar board={board} boards={boards} setBoards={setBoards} ></BoardBar>
-        <BoardFooter board={board} boards={boards} setBoards={setBoards} ></BoardFooter>
+        <BoardBar board={boardData} setBoards={setBoardData} ></BoardBar>
+        <BoardFooter board={boardData} setBoards={setBoardData} ></BoardFooter>
       </View>
     </View>
   );
