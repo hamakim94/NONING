@@ -4,16 +4,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   View,
-  Text,
   SafeAreaView,
-  Button,
-  ScrollView,
   FlatList,
 } from 'react-native';
 import LogoSearch from '../../components/home/LogoSearch';
-import FilterButtonTabs, {
-  filterButtons,
-} from '../../components/home/FilterButtonTabs';
+import FilterButtonTabs from '../../components/home/FilterButtonTabs';
 import Boards from '../../components/home/Boards';
 import {BOARDS} from '../../data/boards';
 import axios from 'axios';
@@ -29,13 +24,9 @@ function HomeScreen({navigation}) {
       // const {data} = await axios.get("님들 서버 URL");
       setBoards(BOARDS);
     })();
-  }, [boards]);
+  }, []);
 
-  // const toggleLike = (board_id) => {
-  //   setBoards([...boards].map(board => board.board_id === board_id 
-  //     ? {...boards, user_like: Math.abs(1-board.user_like)} 
-  //     : board))
-  // }
+
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -48,9 +39,9 @@ function HomeScreen({navigation}) {
           showsVerticalScrollIndicator={false}
           data={boards}
           renderItem={({item}) => (
-            <Boards board={item} navigation={navigation}></Boards>
+            <Boards board={item} boards={boards} setBoards={setBoards} navigation={navigation}></Boards>
           )}
-          keyExtractor={item => item.board_id}>
+          keyExtractor={board => board.board_id}>
         </FlatList>
       </View>
     </SafeAreaView>
