@@ -7,7 +7,7 @@ export default CommentTestData = [
     userLike: 25,
     userDislike: 15,
     like: false,
-    disLike: false,
+    dislike: false,
   },
   {
     id: 1,
@@ -17,7 +17,7 @@ export default CommentTestData = [
     userLike: 25,
     userDislike: 10,
     like: false,
-    disLike: false,
+    dislike: false,
   },
   {
     id: 2,
@@ -27,7 +27,7 @@ export default CommentTestData = [
     userLike: 25,
     userDislike: 10,
     like: false,
-    disLike: false,
+    dislike: false,
   },
   {
     id: 3,
@@ -37,7 +37,7 @@ export default CommentTestData = [
     userLike: 25,
     userDislike: 10,
     like: false,
-    disLike: false,
+    dislike: false,
   },
   {
     id: 4,
@@ -47,6 +47,6 @@ export default CommentTestData = [
     userLike: 25,
     userDislike: 10,
     like: false,
-    disLike: false,
+    dislike: false,
   },
 ];

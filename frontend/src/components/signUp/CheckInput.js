@@ -53,37 +53,38 @@ function CheckInput({
                 Check ? styles.confirmTrueButton : styles.confirmFalseButton
               }
               onPress={() => {
-                property == 'email'
-                  ? axios({
-                      url: `http://10.0.2.2:9999/api/signin`,
-                      method: 'GET',
-                      params: {email: value},
-                    })
-                      .then(res => {
-                        console.log(res);
-                        alert('확인되었습니다.');
-                        setCheck(true);
-                      })
-                      .catch(err => {
-                        console.log(err);
-                        alert('사용 중인 이메일입니다.');
-                        setCheck(false);
-                      })
-                  : axios({
-                      url: `http://10.0.2.2:9999/api/signin`,
-                      method: 'GET',
-                      params: {nickname: value},
-                    })
-                      .then(res => {
-                        console.log(res.data);
-                        alert('확인되었습니다.');
-                        setCheck(true);
-                      })
-                      .catch(err => {
-                        console.log(err);
-                        alert('사용 중인 별명입니다.');
-                        setCheck(false);
-                      });
+                property == 'email';
+                setCheck(true);
+                // ? axios({
+                //     url: `http://10.0.2.2:9999/api/signin`,
+                //     method: 'GET',
+                //     params: {email: value},
+                //   })
+                //     .then(res => {
+                //       console.log(res);
+                //       alert('확인되었습니다.');
+                //       setCheck(true);
+                //     })
+                //     .catch(err => {
+                //       console.log(err);
+                //       alert('사용 중인 이메일입니다.');
+                //       setCheck(false);
+                //     })
+                // : axios({
+                //     url: `http://10.0.2.2:9999/api/signin`,
+                //     method: 'GET',
+                //     params: {nickname: value},
+                //   })
+                //     .then(res => {
+                //       console.log(res.data);
+                //       alert('확인되었습니다.');
+                //       setCheck(true);
+                //     })
+                //     .catch(err => {
+                //       console.log(err);
+                //       alert('사용 중인 별명입니다.');
+                //       setCheck(false);
+                //     });
               }}>
               <Text style={styles.confirmText}>중복확인</Text>
             </TouchableOpacity>

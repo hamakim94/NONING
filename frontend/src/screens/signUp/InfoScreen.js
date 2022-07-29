@@ -67,19 +67,27 @@ function InfoScreen() {
 
   const onSubmit = data => {
     axios({
-      url: `http://10.0.2.2:9999/api/signin`,
-      method: 'GET',
-      params: {data},
+      url: `http://i7a202.p.ssafy.io:9999/api/users/signup`,
+      method: 'POST',
+      data: {
+        age: data.age,
+        email: data.email,
+        genderCode: 'G0101',
+        img: '이미지123',
+        mbti1Code: 'M0101',
+        mbti2Code: 'M0201',
+        mbti3Code: 'M0301',
+        mbti4Code: 'M0401',
+        nickname: data.nickname,
+        password: data.password,
+      },
     })
       .then(res => {
         console.log(res);
-        alert('확인되었습니다.');
-        setCheck(true);
+        console.log(res.data);
       })
       .catch(err => {
         console.log(err);
-        alert('사용 중인 이메일입니다.');
-        setCheck(false);
       });
   };
   return (
