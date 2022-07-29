@@ -32,17 +32,15 @@ const renderTabBar = props => (
   <TabBar
     {...props}
     indicatorStyle={{
-      borderWidth: 1.5,
-      borderColor: '#FF5A6E',
+      backgroundColor: '#FF5A6E',
       width: '30%',
       marginHorizontal: '6.5%',
     }}
     tabStyle={{
-      paddingBottom: '15%',
+      paddingBottom: '10%',
       paddingTop: '1%',
     }}
-    pressColor={'white'}
-    indicatorContainerStyle={{}}
+    pressColor={'transparent'}
     style={{
       backgroundColor: 'white',
       shadowColor: 'white',

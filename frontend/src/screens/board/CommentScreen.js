@@ -3,11 +3,14 @@ import {View, StyleSheet, FlatList} from 'react-native';
 import CommentList from './CommentList';
 import CommentTestData from './CommentTestData';
 
-export default function CommentScreen() {
+function CommentScreen() {
   const [comments, setComments] = useState([]);
   useEffect(() => {
     setComments(CommentTestData);
   }, []);
+  const renderItem = ({item}) => (
+    <CommentList comment={item} comments={comments} setComments={setComments} />
+  );
   return (
     <View
       style={[
@@ -19,7 +22,7 @@ export default function CommentScreen() {
       ]}>
       <FlatList
         data={comments}
-        renderItem={({item}) => <CommentList comment={item} />}
+        renderItem={renderItem}
         keyExtractor={comment => comment.id}
       />
     </View>
@@ -38,3 +41,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+export default CommentScreen;

@@ -3,7 +3,7 @@ import React from 'react';
 import {Controller} from 'react-hook-form';
 import axios from 'axios';
 
-export default function CheckInput({
+function CheckInput({
   control,
   style,
   setStyle,
@@ -95,3 +95,5 @@ export default function CheckInput({
     </>
   );
 }
+
+export default React.memo(CheckInput);

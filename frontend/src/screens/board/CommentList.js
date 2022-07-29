@@ -3,11 +3,35 @@ import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import {Avatar} from '@rneui/themed';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
+import axios from 'axios';
 
-export default function CommentList({comment}) {
-  const [useComment, setUseComment] = useState(comment);
-  const [commentIsopened, setCommentIsopened] = useState('false');
-  console.log(commentIsopened);
+function CommentList({comment, comments, setComments}) {
+  const [commentIsopened, setCommentIsopened] = useState(false);
+
+  const likeSubmit = (apiurl, func) => {
+    axios({
+      url: `http://10.0.2.2:9999/api/boards/${boardid}/comments/${comment.id}/like/{commentLikeCode}`,
+      method: 'GET',
+      params: {data},
+    })
+      .then(res => {
+        console.log(res);
+        alert('확인되었습니다.');
+        setCheck(true);
+      })
+      .catch(err => {
+        console.log(err);
+        alert('사용 중인 이메일입니다.');
+        setCheck(false);
+      });
+  };
+  const likeOnPress = start => {
+    setComments(
+      comments.map(value =>
+        value.id === comment.id ? {...value, like: !value.like} : value,
+      ),
+    );
+  };
   return (
     <View style={{marginVertical: '2%'}}>
       <View style={{flexDirection: 'row'}}>
@@ -30,34 +54,36 @@ export default function CommentList({comment}) {
         <View style={{flex: 4.5, flexDirection: 'column'}}>
           <View>
             <Text style={{fontSize: 13, color: 'black'}}>
-              {useComment.nickname}
+              {comment.nickname}
             </Text>
           </View>
           <View>
             <Text style={{fontSize: 13, fontWeight: 'bold', color: 'black'}}>
-              {useComment.content}
+              {comment.content}
             </Text>
           </View>
           <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity style={{paddingTop: '1.5%', marginRight: '1%'}}>
-              <Icon name="like2" color="black" size={13} />
+            <TouchableOpacity
+              style={{paddingTop: '1.5%', marginRight: '1%'}}
+              onPress={() => likeOnPress()}>
+              <Icon name="like2" color="#808080" size={11} />
             </TouchableOpacity>
-            <Text style={{fontSize: 13, color: 'black'}}>
-              {useComment.userLike}
+            <Text style={{fontSize: 12, color: 'black'}}>
+              {comment.userLike}
             </Text>
             <TouchableOpacity
               style={{paddingTop: '1.5%', marginRight: '1%', marginLeft: '3%'}}>
-              <Icon name="dislike2" color="black" size={13} />
+              <Icon name="dislike2" color="#808080" size={12} />
             </TouchableOpacity>
-            <Text style={{fontSize: 13, color: 'black'}}>
-              {useComment.userDislike}
+            <Text style={{fontSize: 12, color: 'black'}}>
+              {comment.userDislike}
             </Text>
             <TouchableOpacity
               style={{marginLeft: '3%'}}
-              onPress={() => setCommentIsopened(!commentIsopened)}>
+              onPress={() => [setCommentIsopened(prev => !prev)]}>
               <Text
-                style={{fontSize: 13, color: '#808080', fontWeight: 'bold'}}>
-                {commentIsopened ? '답글 보기' : '답글 숨기기'}
+                style={{fontSize: 12, color: '#808080', fontWeight: 'bold'}}>
+                {commentIsopened ? '답글 숨기기' : '답글 보기'}
               </Text>
             </TouchableOpacity>
           </View>
@@ -69,14 +95,16 @@ export default function CommentList({comment}) {
         </View>
       </View>
       {commentIsopened ? (
-        ''
-      ) : (
         <View>
           <Text>열렸어요</Text>
         </View>
+      ) : (
+        ''
       )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({});
+
+export default React.memo(CommentList);
