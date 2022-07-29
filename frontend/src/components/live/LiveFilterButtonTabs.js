@@ -19,7 +19,7 @@ const filterButtons = [
   {name: '싸피'},
 ];
 
-function FilterButtonTabs({filterName, setFilterName}) {
+function LiveFilterButtonTabs({setFilterName}) {
   // useState, 어떤게 active한지 알려주는 부분
   const [activeButton, setActiveButton] = useState('전체');
   // 이제 버튼 하나씩 올거임
@@ -60,7 +60,7 @@ function FilterButtonTabs({filterName, setFilterName}) {
     </View>
   );
 }
-export default FilterButtonTabs;
+export default LiveFilterButtonTabs;
 
 const styles = StyleSheet.create({
   wrapper: {

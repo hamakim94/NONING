@@ -4,15 +4,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   View,
-  Text,
   SafeAreaView,
-  Button,
-  ScrollView,
+  FlatList,
 } from 'react-native';
 import LogoSearch from '../../components/home/LogoSearch';
-import FilterButtonTabs, {
-  filterButtons,
-} from '../../components/home/FilterButtonTabs';
+import FilterButtonTabs from '../../components/home/FilterButtonTabs';
 import Boards from '../../components/home/Boards';
 import {BOARDS} from '../../data/boards';
 import axios from 'axios';
@@ -21,29 +17,28 @@ import axios from 'axios';
 function HomeScreen({navigation}) {
   const [filterName, setFilterName] = useState('전체');
   const [boards, setBoards] = useState([]);
-
   useEffect(() => {
-    (async ()=> {
+    (async () => {
       // const {data} = await axios.get("님들 서버 URL");
       setBoards(BOARDS);
-    })  ()
-  }, [boards])
-  
+    })();
+  }, []);
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={{flex: 1, padding: 16}}>
         <LogoSearch navigation={navigation}></LogoSearch>
         <Divider width={0.5}></Divider>
-        <FilterButtonTabs setFilterName={setFilterName} />
+        <FilterButtonTabs filterName = {filterName} setFilterName={setFilterName} />
         <Divider width={0.5}></Divider>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {boards.map((board, index) => (
-            <Boards 
-              board={board} 
-              key={index} 
-              navigation={navigation} />
-          ))}
-        </ScrollView>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={boards}
+          renderItem={({item}) => (
+            <Boards board={item} boards={boards} setBoards={setBoards} navigation={navigation}></Boards>
+          )}
+          keyExtractor={board => board.board_id}>
+        </FlatList>
       </View>
     </SafeAreaView>
   );

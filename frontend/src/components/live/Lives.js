@@ -1,22 +1,23 @@
-import {StyleSheet, Text, View, ActivityIndicator } from 'react-native';
-import React, { useState } from 'react';
-import BoardHeader from './BoardHeader';
-import BoardBar from './BoardBar';
-import BoardFooter from './BoardFooter';
+import {StyleSheet, Text, View} from 'react-native';
 
-export default function Boards({board, boards, setBoards, navigation}) {
-  const [boardData, setBoardData] = useState(board)
+import React, { useState } from 'react';
+import LiveHeader from './LiveHeader';
+import LiveBar from './LiveBar';
+import LiveFooter from './LiveFooter';
+
+export default function Lives({live, navigation}) {
+  const [liveData, setLiveData] = useState(live)
   return (
     <View>
       <View style={styles.container}>
-        <BoardHeader board = {boardData}  navigation = {navigation}></BoardHeader>
+        <LiveHeader live = {liveData} navigation = {navigation}></LiveHeader>
         <View style={styles.titleContainer} >
           <Text style={styles.titleText}>
-            {board.title}
+            {live.title}
           </Text>
         </View>
-        <BoardBar board={boardData} setBoards={setBoardData} ></BoardBar>
-        <BoardFooter board={boardData} setBoards={setBoardData} ></BoardFooter>
+        <LiveBar live={liveData} setLives={setLiveData} ></LiveBar>
+        <LiveFooter live={liveData}  setLives={setLiveData} ></LiveFooter>
       </View>
     </View>
   );
@@ -24,7 +25,7 @@ export default function Boards({board, boards, setBoards, navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 30,
+    marginTop: 10,
     marginBottom:30,
     height: 250,
     width: '100%',
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   titleText: {
-    fontSize: 23,
+    fontSize: 25,
     fontWeight: 'bold',
     textAlign: 'center',
     textAlignVertical: 'center',
@@ -40,7 +41,6 @@ const styles = StyleSheet.create({
   titleContainer: {
     height: 120,
     width: '100%',
-    padding:5,
     justifyContent: 'center',
     alignItems: 'center',
   },
