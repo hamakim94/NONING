@@ -1,11 +1,17 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 // 찜 : /api/boards/{boardid}/like          input : userId, reg
 // 찜 취소 : /api/boards/{boardid}/unlike   input : userId
 
-export default function BoardFooter({board, user_like, setUserLike}) {
+export default function BoardFooter({board, boards, setBoards}) {
+  
+  const toggleLike = () => {
+    setBoards({...board, user_like : Math.abs(1-board.user_like)})
+
+  }
+  
   return (
     <View style={styles.footerContainer}>
       <View style={styles.writerContainer}>
@@ -16,8 +22,8 @@ export default function BoardFooter({board, user_like, setUserLike}) {
 
       <View style={styles.numberLikeContainer}>
         <Text>참여 : {board.opt1_selected + board.opt2_selected}명</Text>
-        <TouchableOpacity style={{margin:1}} onPress={() => setUserLike(Math.abs(1-user_like))}>
-          <AntDesign style={styles.iconColor(user_like)} name="heart" size={20} />
+        <TouchableOpacity style={{margin:1}} onPress={() => toggleLike()}>
+          <AntDesign style={styles.iconColor(board.user_like)} name="heart" size={20} />
         </TouchableOpacity>
       </View>
     </View>
