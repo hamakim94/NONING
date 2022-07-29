@@ -10,6 +10,6 @@ public interface CommentService {
     void deleteComment(long commentId);
     List<CommentResponseDTO> getCommentList(long boardId, long userId);
     List<CommentResponseDTO> getNestedCommentList(long boardId, long commentId, long userId);
-    void likeComment(long commentId, long userId);
-    void dislikeComment(long commentId, long userId);
+    void likeComment(long commentId, long userId, byte commentLikeCode);
+    void dislikeComment(long commentId, long userId, byte commentDislikeCode);
 }
