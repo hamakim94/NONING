@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 public interface UserService {
 
-    void signupUser(SignupRequestDTO signupRequestDTO);
+    void signupUser(SignupRequestDTO signupRequestDTO) throws Exception;
     UserDTO getUser(long userId);
     UserDataDTO getUserDataDto(long userId);
     UserResponseDTO login(Long userId, String password, LocalDateTime curTime);

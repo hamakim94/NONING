@@ -17,6 +17,7 @@ public class UserDataDTO {
     private String password;
     private String nickname;
     private String img;
+    private String name;
     private UserDTO user;
 
 
@@ -28,6 +29,7 @@ public class UserDataDTO {
                 .password(password)
                 .nickname(nickname)
                 .img(img)
+                .name(name)
                 .user(user.toEntity())
                 .build();
     }
