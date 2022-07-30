@@ -95,7 +95,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom{
     @Override
     public BoardResponseDTO findByUserIdAndBoardId(long userId, long boardId) {
         Tuple tuple = queryFactory.select(board.id, board.title, board.opt1, board.opt2, board.categoryCode, board.reg, board.isLive, board.liveId, board.writer.id,
-                        userData.nickname, userData.img,
+                        userData.nickname, userData.img, // writer 정보
                         boardData.id, boardData.opt1Selected, boardData.opt2Selected, boardData.likes,
                         new CaseBuilder()
                                 .when(boardLike.user.id.isNotNull())
