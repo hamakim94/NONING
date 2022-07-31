@@ -8,9 +8,7 @@ function CommentScreen() {
   useEffect(() => {
     setComments(CommentTestData);
   }, []);
-  const renderItem = ({item}) => (
-    <CommentList comment={item} comments={comments} setComments={setComments} />
-  );
+  const renderItem = ({item}) => <CommentList comment={item} />;
   return (
     <View
       style={[
