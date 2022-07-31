@@ -6,6 +6,7 @@ import com.fivenonjangi.noning.data.entity.board.BoardVote;
 import com.fivenonjangi.noning.data.entity.user.User;
 import com.fivenonjangi.noning.data.entity.user.UserData;
 import com.fivenonjangi.noning.data.repository.BoardVoteRepository;
+import com.fivenonjangi.noning.data.repository.BoardVoteRepositoryCustom;
 import com.fivenonjangi.noning.data.repository.UserDataRepository;
 import com.fivenonjangi.noning.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,13 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final UserDataRepository userDataRepository;
-    private final BoardVoteRepository boardVoteRepository;
+    private final BoardVoteRepositoryCustom boardVoteRepositoryCustom;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserDataRepository userDataRepository, BoardVoteRepository boardVoteRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserDataRepository userDataRepository, BoardVoteRepositoryCustom boardVoteRepositoryCustom) {
         this.userRepository = userRepository;
         this.userDataRepository = userDataRepository;
-        this.boardVoteRepository = boardVoteRepository;
+        this.boardVoteRepositoryCustom = boardVoteRepositoryCustom;
     }
 
 
@@ -110,29 +111,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<ParticipateResponseDTO> getUserListByBoardId(long boardId) {
-        List<BoardVote> boardVoteList = boardVoteRepository.findByBoard_Id(boardId);
-
-        List<ParticipateResponseDTO> participateResponseDTOList = new ArrayList<>();
-
-        for(BoardVote boardVote: boardVoteList){
-            UserData userData = userDataRepository.findByUser_Id(boardVote.toDto().getUser().getId());
-            ParticipateResponseDTO participateResponseDTO = ParticipateResponseDTO.builder()
-                    .id(userData.getUser().getId())
-                    .nickname(userData.getNickname())
-                    .img(userData.getImg())
-                    .genderCode(userData.getUser().getGenderCode())
-                    .mbti1Code(userData.getUser().getMbti1Code())
-                    .mbti2Code(userData.getUser().getMbti2Code())
-                    .mbti3Code(userData.getUser().getMbti3Code())
-                    .mbti4Code(userData.getUser().getMbti4Code())
-                    .age(userData.getUser().getAge())
-                    .ageRangeCode(userData.getUser().getAgeRangeCode())
-                    .vote(boardVote.getVote())
-                    .build();
-            participateResponseDTOList.add(participateResponseDTO);
-        }
-
-        return participateResponseDTOList;
+        return boardVoteRepositoryCustom.findByBoardId(boardId);
     }
 
     private String ageToAgeCode(byte age) {

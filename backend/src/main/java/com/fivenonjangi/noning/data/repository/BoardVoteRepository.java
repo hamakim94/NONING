@@ -8,5 +8,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface BoardVoteRepository extends JpaRepository<BoardVote, Long> {
-    List<BoardVote> findByBoard_Id(long boardId);
 }
