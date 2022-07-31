@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import axios from 'axios';
 
-export default function CommentItem({
+function CommentItem({
   commentData,
   setCommentData,
   commentIsopened,
@@ -205,3 +205,5 @@ export default function CommentItem({
 }
 
 const styles = StyleSheet.create({});
+
+export default React.memo(CommentItem);

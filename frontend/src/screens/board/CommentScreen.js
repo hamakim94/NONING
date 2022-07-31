@@ -1,42 +1,33 @@
 import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, FlatList} from 'react-native';
-import CommentList from './CommentList';
-import CommentTestData from './CommentTestData';
+import {View, StyleSheet, FlatList, TextInput} from 'react-native';
+import CommentList from '../../components/boardDetail/CommentList';
+import CommentTestData from '../../components/boardDetail/CommentTestData';
 
 function CommentScreen() {
   const [comments, setComments] = useState([]);
   useEffect(() => {
     setComments(CommentTestData);
   }, []);
+
   const renderItem = ({item}) => <CommentList comment={item} />;
+
   return (
-    <View
-      style={[
-        styles.scene,
-        {
-          backgroundColor: 'white',
-          marginTop: '2%',
-        },
-      ]}>
+    <View style={styles.scene}>
       <FlatList
         data={comments}
         renderItem={renderItem}
         keyExtractor={comment => comment.id}
       />
+      <TextInput></TextInput>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingTop: '1%',
-    paddingHorizontal: '5%',
-    backgroundColor: 'white',
-  },
   scene: {
     flex: 1,
+    backgroundColor: 'white',
+    marginTop: '2%',
   },
 });
 
