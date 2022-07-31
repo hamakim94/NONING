@@ -2,7 +2,7 @@ import {Text, View, TextInput} from 'react-native';
 import React from 'react';
 import {Controller} from 'react-hook-form';
 
-export default function NoCheckInput({
+function NoCheckInput({
   control,
   style,
   setStyle,
@@ -61,3 +61,5 @@ export default function NoCheckInput({
     </View>
   );
 }
+
+export default React.memo(NoCheckInput);
