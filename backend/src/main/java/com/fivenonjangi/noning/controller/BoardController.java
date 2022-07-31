@@ -3,9 +3,9 @@ package com.fivenonjangi.noning.controller;
 import com.fivenonjangi.noning.config.security.JwtTokenProvider;
 import com.fivenonjangi.noning.data.dto.board.BoardRequestDTO;
 import com.fivenonjangi.noning.data.dto.board.BoardResponseDTO;
+import com.fivenonjangi.noning.data.dto.user.ParticipateResponseDTO;
 import com.fivenonjangi.noning.service.BoardService;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import com.fivenonjangi.noning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +22,13 @@ import java.util.List;
 @RequestMapping("/api/boards")
 public class BoardController {
     private final BoardService boardService;
+    private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public BoardController(BoardService boardService, JwtTokenProvider jwtTokenProvider) {
+    public BoardController(BoardService boardService, UserService userService, JwtTokenProvider jwtTokenProvider) {
         this.boardService = boardService;
+        this.userService = userService;
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
@@ -52,9 +54,24 @@ public class BoardController {
         return new ResponseEntity<>(boardResponseDTOList, HttpStatus.OK);
     }
 
-    @GetMapping("/{boardid}/detail")
-    public ResponseEntity getBoardDetail(@PathVariable("boardid") long boardId){
+    @GetMapping("/{boardid}")
+    public ResponseEntity getBoardDetail(HttpServletRequest request, @PathVariable("boardid") long boardId) {
+        long userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
+        BoardResponseDTO boardResponseDTO = boardService.getBoard(userId, boardId);
 
-        return null;
+//        Map<String, List<UserResponseDTO>> participates = boardService.getParticipate(boardId);
+//        Map<String, Object> result = new HashMap<>();
+//        result.put("participate1List", participates.get("participate1List"));
+//        result.put("participate2List", participates.get("participate2List"));
+//        result.put("board", boardResponseDTO);
+
+        return new ResponseEntity<>(boardResponseDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/{boardid}/users")
+    public ResponseEntity getParticipate(@PathVariable("boardid") long boardId){
+        List<ParticipateResponseDTO> user_list = userService.getUserListByBoardId(boardId);
+
+        return new ResponseEntity<>(user_list, HttpStatus.OK);
     }
 }

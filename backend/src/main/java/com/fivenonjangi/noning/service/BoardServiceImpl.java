@@ -2,27 +2,29 @@ package com.fivenonjangi.noning.service;
 
 import com.fivenonjangi.noning.data.dto.board.BoardRequestDTO;
 import com.fivenonjangi.noning.data.dto.board.BoardResponseDTO;
+import com.fivenonjangi.noning.data.dto.user.UserResponseDTO;
 import com.fivenonjangi.noning.data.entity.board.Board;
+import com.fivenonjangi.noning.data.entity.board.BoardData;
 import com.fivenonjangi.noning.data.entity.user.User;
-import com.fivenonjangi.noning.data.repository.BoardRepository;
-import com.fivenonjangi.noning.data.repository.BoardRepositoryCustom;
-import com.fivenonjangi.noning.data.repository.BoardRepositoryImpl;
-import com.fivenonjangi.noning.data.repository.UserRepository;
+import com.fivenonjangi.noning.data.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BoardServiceImpl implements BoardService{
     public final BoardRepository boardRepository;
+    public final BoardDataRepository boardDataRepository;
     public final BoardRepositoryCustom boardRepositoryCustom;
     public final UserRepository userRepository;
 
     @Autowired
-    public BoardServiceImpl(BoardRepository boardRepository, BoardRepositoryCustom boardRepositoryCustom, UserRepository userRepository) {
+    public BoardServiceImpl(BoardRepository boardRepository, BoardDataRepository boardDataRepository, BoardRepositoryCustom boardRepositoryCustom, UserRepository userRepository) {
         this.boardRepository = boardRepository;
+        this.boardDataRepository = boardDataRepository;
         this.boardRepositoryCustom = boardRepositoryCustom;
         this.userRepository = userRepository;
     }
@@ -41,6 +43,16 @@ public class BoardServiceImpl implements BoardService{
                 .build();
 
         boardRepository.save(board);
+
+        // board_data
+        BoardData boardData = BoardData.builder()
+                .opt1Selected(0)
+                .opt2Selected(0)
+                .likes(0)
+                .board(board)
+                .build();
+
+        boardDataRepository.save(boardData);
     }
 
     @Override
@@ -53,6 +65,16 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public List<BoardResponseDTO> getBoardList(long userId, String categoryCode) {
-        return boardRepositoryCustom.findBoardResponseDTObyUserIdCateCode(userId, categoryCode);
+        return boardRepositoryCustom.findByUserIdAndCateCode(userId, categoryCode);
+    }
+
+    @Override
+    public BoardResponseDTO getBoard(long userId, long boardId) {
+        return boardRepositoryCustom.findByUserIdAndBoardId(userId, boardId);
+    }
+
+    @Override
+    public Map<String, List<UserResponseDTO>> getParticipate(long boardId) {
+        return boardRepositoryCustom.findByBoardId(boardId);
     }
 }

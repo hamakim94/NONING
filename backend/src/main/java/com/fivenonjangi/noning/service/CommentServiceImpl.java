@@ -11,8 +11,6 @@ import com.fivenonjangi.noning.data.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -69,77 +67,98 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     public List<CommentResponseDTO> getCommentList(long boardId, long userId) {
-        return commentRepositoryCustom.findCommentResponseDTObyBoardId(boardId, userId);
+        return commentRepositoryCustom.findByBoardId(boardId, userId);
     }
 
     @Override
     public List<CommentResponseDTO> getNestedCommentList(long boardId, long commentId, long userId) {
-        return commentRepositoryCustom.findCommentResponseDTObyCommentId(boardId, commentId, userId);
+        return commentRepositoryCustom.findByCommentId(boardId, commentId, userId);
     }
 
     @Override
-    public void likeComment(long commentId, long userId) {
+    public void likeComment(long commentId, long userId, byte commentLikeCode) {
         Comment comment = commentRepository.findById(commentId).get();
         User user = userRepository.findById(userId).get();
 
-        // comment_like에 넣거나 업데이트해야
-        Optional<CommentLike> commentLike = commentLikeRepository.findByCommentIdAndUserId(commentId, userId);
-
-        if(!commentLike.isEmpty()){
-            commentLike.get().like();
-            commentLikeRepository.save(commentLike.get());
-
-            // comment_data 업데이트 (dislikes-1, likes+1)
-            CommentData commentData = commentDataRepository.findByCommentId(commentId).get();
-            commentData.like(true);
-
-            commentDataRepository.save(commentData);
-        } else {
-            CommentLike commentLikeUpdate = CommentLike.builder()
+        if(commentLikeCode == 0){ // X(중립) → 좋아요
+            CommentLike commentLike = CommentLike.builder()
                     .comment(comment)
                     .user(user)
                     .isLike(true)
                     .build();
 
-            commentLikeRepository.save(commentLikeUpdate);
+            commentLikeRepository.save(commentLike);
 
             // comment_data 업데이트 (likes+1)
             CommentData commentData = commentDataRepository.findByCommentId(commentId).get();
-            commentData.like(false);
+            commentData.like(0);
+
+            commentDataRepository.save(commentData);
+        } else if(commentLikeCode == 1) { // 싫어요 → 좋아요
+            Optional<CommentLike> commentLike = commentLikeRepository.findByCommentIdAndUserId(commentId, userId);
+
+            commentLike.get().like();
+            commentLikeRepository.save(commentLike.get());
+
+            // comment_data 업데이트 (dislikes-1, likes+1)
+            CommentData commentData = commentDataRepository.findByCommentId(commentId).get();
+            commentData.like(1);
+
+            commentDataRepository.save(commentData);
+        } else if(commentLikeCode == 2) { // 좋아요 → 좋아요 취소
+            Optional<CommentLike> commentLike = commentLikeRepository.findByCommentIdAndUserId(commentId, userId);
+
+            commentLikeRepository.delete(commentLike.get());
+
+            // comment_data 업데이트 (likes-1)
+            CommentData commentData = commentDataRepository.findByCommentId(commentId).get();
+            commentData.like(2);
 
             commentDataRepository.save(commentData);
         }
     }
 
     @Override
-    public void dislikeComment(long commentId, long userId) {
+    public void dislikeComment(long commentId, long userId, byte commentDislikeCode) {
         Comment comment = commentRepository.findById(commentId).get();
         User user = userRepository.findById(userId).get();
 
-        // comment_like에 넣거나 업데이트해야
-        Optional<CommentLike> commentLike = commentLikeRepository.findByCommentIdAndUserId(commentId, userId);
+//        0: X(중립) → 싫어요
+//        1: 싫어요 → 싫어요 취소
+//        2: 좋아요 → 싫어요
+        if(commentDislikeCode == 0){ // X(중립) → 싫어요
+            CommentLike commentLike = CommentLike.builder()
+                    .comment(comment)
+                    .user(user)
+                    .isLike(false)
+                    .build();
 
-        if(!commentLike.isEmpty()){
-            commentLike.get().dislike();
-            commentLikeRepository.save(commentLike.get());
-
-            // comment_data 업데이트 (likes-1, dislikes+1)
-            CommentData commentData = commentDataRepository.findByCommentId(commentId).get();
-            commentData.dislike(true);
-
-            commentDataRepository.save(commentData);
-        }else {
-            CommentLike commentLikeUpdate = CommentLike.builder()
-                .comment(comment)
-                .user(user)
-                .isLike(false)
-                .build();
-
-            commentLikeRepository.save(commentLikeUpdate);
+            commentLikeRepository.save(commentLike);
 
             // comment_data 업데이트 (dislikes+1)
             CommentData commentData = commentDataRepository.findByCommentId(commentId).get();
-            commentData.dislike(false);
+            commentData.dislike(0);
+
+            commentDataRepository.save(commentData);
+        } else if(commentDislikeCode == 1){ // 싫어요 → 싫어요 취소
+            Optional<CommentLike> commentLike = commentLikeRepository.findByCommentIdAndUserId(commentId, userId);
+
+            commentLikeRepository.delete(commentLike.get());
+
+            // comment_data 업데이트 (dislikes-1)
+            CommentData commentData = commentDataRepository.findByCommentId(commentId).get();
+            commentData.dislike(1);
+
+            commentDataRepository.save(commentData);
+        } else if(commentDislikeCode == 2){ // 좋아요 → 싫어요
+            Optional<CommentLike> commentLike = commentLikeRepository.findByCommentIdAndUserId(commentId, userId);
+
+            commentLike.get().dislike();
+            commentLikeRepository.save(commentLike.get());
+
+            // comment_data 업데이트 (dislikes+1, likes-1)
+            CommentData commentData = commentDataRepository.findByCommentId(commentId).get();
+            commentData.dislike(2);
 
             commentDataRepository.save(commentData);
         }

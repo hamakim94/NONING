@@ -56,18 +56,18 @@ public class CommentController {
         return new ResponseEntity<>(commentResponseDTOList, HttpStatus.OK);
     }
 
-    @PutMapping("/{commentid}/like")
-    public ResponseEntity likeComment(HttpServletRequest request, @PathVariable("boardid") long boardId, @PathVariable("commentid") long commentId){
+    @PutMapping("/{commentid}/like/{commentLikeCode}")
+    public ResponseEntity likeComment(HttpServletRequest request, @PathVariable("boardid") long boardId, @PathVariable("commentid") long commentId, @PathVariable("commentLikeCode") byte commentLikeCode){
         long userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
-        commentService.likeComment(commentId, userId);
+        commentService.likeComment(commentId, userId, commentLikeCode);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/{commentid}/dislike")
-    public ResponseEntity dislikeComment(HttpServletRequest request, @PathVariable("boardid") long boardId, @PathVariable("commentid") long commentId){
+    @PutMapping("/{commentid}/dislike/{commentDislikeCode}")
+    public ResponseEntity dislikeComment(HttpServletRequest request, @PathVariable("boardid") long boardId, @PathVariable("commentid") long commentId, @PathVariable("commentDislikeCode") byte commentDislikeCode){
         long userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
-        commentService.dislikeComment(commentId, userId);
+        commentService.dislikeComment(commentId, userId, commentDislikeCode);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

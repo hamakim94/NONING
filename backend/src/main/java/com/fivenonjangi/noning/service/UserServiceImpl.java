@@ -1,28 +1,32 @@
 package com.fivenonjangi.noning.service;
 
-import com.fivenonjangi.noning.data.dto.user.SignupRequestDTO;
-import com.fivenonjangi.noning.data.dto.user.UserDTO;
-import com.fivenonjangi.noning.data.dto.user.UserDataDTO;
-import com.fivenonjangi.noning.data.dto.user.UserResponseDTO;
+import com.fivenonjangi.noning.data.dto.board.BoardVoteDTO;
+import com.fivenonjangi.noning.data.dto.user.*;
+import com.fivenonjangi.noning.data.entity.board.BoardVote;
 import com.fivenonjangi.noning.data.entity.user.User;
 import com.fivenonjangi.noning.data.entity.user.UserData;
+import com.fivenonjangi.noning.data.repository.BoardVoteRepository;
 import com.fivenonjangi.noning.data.repository.UserDataRepository;
 import com.fivenonjangi.noning.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final UserDataRepository userDataRepository;
+    private final BoardVoteRepository boardVoteRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserDataRepository userDataRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserDataRepository userDataRepository, BoardVoteRepository boardVoteRepository) {
         this.userRepository = userRepository;
         this.userDataRepository = userDataRepository;
+        this.boardVoteRepository = boardVoteRepository;
     }
 
 
@@ -100,7 +104,35 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserData getUserById(long id) {
-        return userDataRepository.findById(id).get();
+
+        return userDataRepository.findByUser_Id(id);
+    }
+
+    @Override
+    public List<ParticipateResponseDTO> getUserListByBoardId(long boardId) {
+        List<BoardVote> boardVoteList = boardVoteRepository.findByBoard_Id(boardId);
+
+        List<ParticipateResponseDTO> participateResponseDTOList = new ArrayList<>();
+
+        for(BoardVote boardVote: boardVoteList){
+            UserData userData = userDataRepository.findByUser_Id(boardVote.toDto().getUser().getId());
+            ParticipateResponseDTO participateResponseDTO = ParticipateResponseDTO.builder()
+                    .id(userData.getUser().getId())
+                    .nickname(userData.getNickname())
+                    .img(userData.getImg())
+                    .genderCode(userData.getUser().getGenderCode())
+                    .mbti1Code(userData.getUser().getMbti1Code())
+                    .mbti2Code(userData.getUser().getMbti2Code())
+                    .mbti3Code(userData.getUser().getMbti3Code())
+                    .mbti4Code(userData.getUser().getMbti4Code())
+                    .age(userData.getUser().getAge())
+                    .ageRangeCode(userData.getUser().getAgeRangeCode())
+                    .vote(boardVote.getVote())
+                    .build();
+            participateResponseDTOList.add(participateResponseDTO);
+        }
+
+        return participateResponseDTOList;
     }
 
     private String ageToAgeCode(byte age) {

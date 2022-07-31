@@ -31,7 +31,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom{
     QCommentLike commentLike = QCommentLike.commentLike;
 
     @Override
-    public List<CommentResponseDTO> findCommentResponseDTObyBoardId(long boardId, long userId) {
+    public List<CommentResponseDTO> findByBoardId(long boardId, long userId) {
         List<Tuple> tuples = queryFactory.select(comment.id, comment.content, comment.reg, comment.writer.id, userData.nickname, userData.img, commentData.likes, commentData.dislikes, boardVote.vote, commentLike.isLike)
                 .from(comment)
                 .leftJoin(commentData)
@@ -70,7 +70,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom{
     }
 
     @Override
-    public List<CommentResponseDTO> findCommentResponseDTObyCommentId(long boardId, long commentId, long userId) {
+    public List<CommentResponseDTO> findByCommentId(long boardId, long commentId, long userId) {
         List<Tuple> tuples = queryFactory.select(comment.id, comment.content, comment.reg, comment.writer.id, userData.nickname, userData.img, commentData.likes, commentData.dislikes, boardVote.vote, commentLike.isLike)
                 .from(comment)
                 .leftJoin(commentData)
