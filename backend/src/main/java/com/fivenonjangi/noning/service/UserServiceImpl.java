@@ -1,11 +1,13 @@
 package com.fivenonjangi.noning.service;
 
 import com.fivenonjangi.noning.data.dto.user.*;
+import com.fivenonjangi.noning.data.entity.etc.VerifyingToken;
 import com.fivenonjangi.noning.data.entity.user.User;
 import com.fivenonjangi.noning.data.entity.user.UserData;
 import com.fivenonjangi.noning.data.repository.BoardVoteRepositoryCustom;
 import com.fivenonjangi.noning.data.repository.UserDataRepository;
 import com.fivenonjangi.noning.data.repository.UserRepository;
+import com.fivenonjangi.noning.data.repository.VerifyingTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,12 +20,16 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final UserDataRepository userDataRepository;
     private final BoardVoteRepositoryCustom boardVoteRepositoryCustom;
+    private final MailService mailService;
+    private final VerifyingTokenRepository verifyingTokenRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserDataRepository userDataRepository, BoardVoteRepositoryCustom boardVoteRepositoryCustom) {
+    public UserServiceImpl(UserRepository userRepository, UserDataRepository userDataRepository, BoardVoteRepositoryCustom boardVoteRepositoryCustom, MailService mailService, VerifyingTokenRepository verifyingTokenRepository) {
         this.userRepository = userRepository;
         this.userDataRepository = userDataRepository;
         this.boardVoteRepositoryCustom = boardVoteRepositoryCustom;
+        this.mailService = mailService;
+        this.verifyingTokenRepository = verifyingTokenRepository;
     }
 
     @Override
@@ -48,9 +54,15 @@ public class UserServiceImpl implements UserService{
                 .build();
         userData.setUser(userRepository.save(user));
         userDataRepository.save(userData);
+        VerifyingToken emailVerifyingToken = VerifyingToken.createEmailVerifyingToken(user.getId());
+        verifyingTokenRepository.save(emailVerifyingToken);
+        try{
+        mailService.sendVerifyMail(userData.getEmail(), emailVerifyingToken.getId());
+        System.out.println("send email");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
-
-
 
     @Override
     public UserDTO login(LoginRequestDTO loginRequestDTO, LocalDateTime curTime, PasswordEncoder passwordEncoder) {
@@ -141,6 +153,16 @@ public class UserServiceImpl implements UserService{
         UserData userData = userDataRepository.findByUser_Id(Long.parseLong(userId));
         if (passwordEncoder.matches(userData.getPassword(), password)) return true;
         else return false;
+    }
+    @Override
+    public void verifyEmail(String token) throws Exception{
+        VerifyingToken verifyingToken = verifyingTokenRepository.findByIdAndExpirationDateAfterAndExpired(token, LocalDateTime.now(), false);
+        if (verifyingToken == null) throw new Exception();
+        UserData userData = userDataRepository.findByUser_Id(verifyingToken.getUserId());
+        userData.verified();
+        verifyingToken.useToken();
+        userDataRepository.save(userData);
+        verifyingTokenRepository.save(verifyingToken);
     }
 
     private String ageToAgeCode(byte age) {

@@ -39,4 +39,7 @@ public class UserData {
     public void updatePassword(String password){
         this.password = password;
     }
+    public void verified(){
+        this.isEmailVerified = true;
+    }
 }
