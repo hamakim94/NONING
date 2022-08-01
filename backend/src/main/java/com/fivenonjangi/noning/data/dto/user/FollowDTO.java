@@ -12,14 +12,14 @@ import lombok.*;
 @ToString
 public class FollowDTO {
     private long id;
-    private UserDTO fromUser;
-    private UserDTO toUser;
+    private long fromUserId;
+    private long toUserId;
 
     public Follow toEntity(){
         return Follow.builder()
-                .id(id)
-                .fromUser(fromUser.toEntity())
-                .toUser(toUser.toEntity())
-                .build();
+            .id(id)
+            .fromUserId(fromUserId)
+            .toUserId(toUserId)
+            .build();
     }
 }

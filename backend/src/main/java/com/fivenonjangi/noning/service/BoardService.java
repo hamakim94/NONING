@@ -11,8 +11,8 @@ import java.util.Map;
 public interface BoardService {
     void writeBoard(BoardRequestDTO boardRequestDTO, long userId);
     void deleteBoard(long boardId);
-    List<BoardResponseDTO> getBoardList(long userId, String categoryCode);
     BoardResponseDTO getBoard(long userId, long boardId);
-    Map<String, List<UserResponseDTO>> getParticipate(long boardId);
-
+    List<BoardResponseDTO> getBoardList(long userId, String categoryCode);
+//    Map<String, List<UserResponseDTO>> getParticipate(long boardId);
+    List<BoardResponseDTO> getBoardListByUserId(long userId);
 }

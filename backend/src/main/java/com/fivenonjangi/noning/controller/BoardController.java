@@ -55,7 +55,7 @@ public class BoardController {
     }
 
     @GetMapping("/{boardid}")
-    public ResponseEntity getBoardDetail(HttpServletRequest request, @PathVariable("boardid") long boardId) {
+    public ResponseEntity getBoardDetail(HttpServletRequest request, @PathVariable("boardid") long boardId){
         long userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
         BoardResponseDTO boardResponseDTO = boardService.getBoard(userId, boardId);
 

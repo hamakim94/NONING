@@ -6,10 +6,12 @@ import com.fivenonjangi.noning.data.entity.user.QUserData;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class BoardVoteRepositoryImpl implements BoardVoteRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
