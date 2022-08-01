@@ -1,6 +1,8 @@
 package com.fivenonjangi.noning.data.repository;
 
+import java.util.List;
+
 public interface FollowRepositoryCustom {
-    long getFolloweeCnt(long userId);
-    long getFollowerCnt(long userId);
+    List<Long> getFollowingList(long userId);
+    List<Long> getFollowerList(long userId);
 }

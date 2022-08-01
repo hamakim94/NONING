@@ -142,29 +142,29 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom{
     @Override
     public List<BoardResponseDTO> findByUserId(long userId) {
         List<Tuple> tuples = queryFactory.select(board.id, board.title, board.opt1, board.opt2, board.categoryCode, board.reg, board.isLive, board.liveId, board.writer.id,
-                        userData.nickname, userData.img,
-                        boardData.id, boardData.opt1Selected, boardData.opt2Selected, boardData.likes,
-                        new CaseBuilder()
-                                .when(boardLike.user.id.isNotNull())
-                                .then(true)
-                                .otherwise(false)
-                                .as("user_like"),
-                        new CaseBuilder()
-                                .when(boardVote.vote.isNotNull())
-                                .then(boardVote.vote.byteValue())
-                                .otherwise((byte) 0)
-                                .as("user_vote"))
-                .from(board)
-                .leftJoin(boardData)
-                .on(board.id.eq(boardData.board.id))
-                .leftJoin(userData)
-                .on(board.writer.id.eq(userData.user.id))
-                .leftJoin(boardLike)
-                .on(board.id.eq(boardLike.board.id).and(boardLike.user.id.eq(userId)))
-                .leftJoin(boardVote)
-                .on(board.id.eq(boardVote.board.id).and(boardVote.user.id.eq(userId)))
-//                .where(board.isDeleted.eq(false).and(boardVote.user.id.eq(userId).or(boardLike.user.id.eq(userId)).or(bo)))
-                .fetch();
+                    userData.nickname, userData.img,
+                    boardData.id, boardData.opt1Selected, boardData.opt2Selected, boardData.likes,
+                    new CaseBuilder()
+                            .when(boardLike.user.id.isNotNull())
+                            .then(true)
+                            .otherwise(false)
+                            .as("user_like"),
+                    new CaseBuilder()
+                            .when(boardVote.vote.isNotNull())
+                            .then(boardVote.vote.byteValue())
+                            .otherwise((byte) 0)
+                            .as("user_vote"))
+                    .from(board)
+                    .leftJoin(boardData)
+                    .on(board.id.eq(boardData.board.id))
+                    .leftJoin(userData)
+                    .on(board.writer.id.eq(userData.user.id))
+                    .leftJoin(boardLike)
+                    .on(board.id.eq(boardLike.board.id).and(boardLike.user.id.eq(userId)))
+                    .leftJoin(boardVote)
+                    .on(board.id.eq(boardVote.board.id).and(boardVote.user.id.eq(userId)))
+                    .where(board.isDeleted.eq(false).and(boardVote.user.id.eq(userId).or(boardLike.user.id.eq(userId)).or(board.writer.id.eq(userId))))
+                    .fetch();
 
         List<BoardResponseDTO> result = new ArrayList<BoardResponseDTO>();
 

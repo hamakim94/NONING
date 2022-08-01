@@ -1,8 +1,11 @@
 package com.fivenonjangi.noning.controller;
 
 import com.fivenonjangi.noning.config.security.JwtTokenProvider;
+import com.fivenonjangi.noning.data.dto.board.BoardResponseDTO;
 import com.fivenonjangi.noning.data.dto.user.LoginRequestDTO;
 import com.fivenonjangi.noning.data.dto.user.SignupRequestDTO;
+import com.fivenonjangi.noning.data.dto.user.UserDTO;
+import com.fivenonjangi.noning.service.BoardService;
 import com.fivenonjangi.noning.data.dto.user.UserDTO;
 import com.fivenonjangi.noning.service.FollowService;
 import com.fivenonjangi.noning.service.UserService;
@@ -16,19 +19,24 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
     private final UserService userService;
     private final FollowService  followService;
+    private final BoardService boardService;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public UserController(UserService userService, FollowService followService, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
+    public UserController(UserService userService, FollowService followService, BoardService boardService, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
         this.userService = userService;
         this.followService = followService;
+        this.boardService  = boardService;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenProvider = jwtTokenProvider;
     }
@@ -67,22 +75,20 @@ public class UserController {
         jwtTokenProvider.logout(accesstoken, jwtTokenProvider.getUserPk(accesstoken));
         return ResponseEntity.ok().build();
     }
+    @GetMapping("/{userid}/page")
+    public ResponseEntity getMyPageInfo(@PathVariable("userid") long userId){
+        UserDTO user = userService.getUserResponse(userId);
+        List<Long> followingIdList = followService.getFollowingId(userId);
+        List<Long> followeeIdList = followService.getFollowerId(userId);
+        List<BoardResponseDTO> boardList = boardService.getBoardListByUserId(userId);
 
-    @GetMapping("/mypage")
-    public ResponseEntity getMyInfo(HttpServletRequest request){
-        long userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
-//        user (user_id, gender_code, mbti1_code, mbti2_code, mbti3_code, mbti4_code, age, age_range_code, nickname, img),
-//        follow_cnt,
-//        follower_cnt,
-//        user_like_board_list (board_id, title, opt1, opt2, category_code, is_live, vote),
-//        user_vote_board_list (board_id, title, opt1, opt2, category_code, is_live, vote),
-//        user_write_board_list (board_id, title, opt1, opt2, category_code, is_live, (vote))
-        UserDTO userDTO = userService.getUserResponse(userId);
-        long follower_cnt = followService.getFollowerCnt(userId);
-        long followee_cnt = followService.getFolloweeCnt(userId);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("user", user);
+        resultMap.put("following_id_list", followingIdList);
+        resultMap.put("followee_id_list", followeeIdList);
+        resultMap.put("board_list", boardList);
 
-
-        return null;
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
     @PostMapping("/profiles/edit")
     public ResponseEntity<?> modifyUser(@RequestBody UserDTO userDTO, HttpServletRequest request){

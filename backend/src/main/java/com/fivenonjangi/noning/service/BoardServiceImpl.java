@@ -68,8 +68,7 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public List<BoardResponseDTO> getBoardListByUserId(long userId) {
-//        return boardRepositoryCustom;
-        return null;
+        return boardRepositoryCustom.findByUserId(userId);
     }
 
     @Override

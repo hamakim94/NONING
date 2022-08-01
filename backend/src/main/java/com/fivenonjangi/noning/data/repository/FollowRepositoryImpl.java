@@ -4,6 +4,8 @@ import com.fivenonjangi.noning.data.entity.user.QFollow;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class FollowRepositoryImpl implements FollowRepositoryCustom{
     private final JPAQueryFactory queryFactory;
@@ -15,24 +17,22 @@ public class FollowRepositoryImpl implements FollowRepositoryCustom{
     QFollow follow = QFollow.follow;
 
     @Override
-    public long getFolloweeCnt(long userId) { // 나를 팔로우하는 사람들
-        long followeeCnt = queryFactory.select(follow.count())
+    public List<Long> getFollowingList(long userId) {
+        List<Long> followingIdList = queryFactory.select(follow.toUserId)
                 .from(follow)
-                .where(follow.toUserId.eq(userId))
-                .fetchOne()
-                .longValue();
+                .where(follow.fromUserId.eq(userId))
+                .fetch();
 
-        return followeeCnt;
+        return followingIdList;
     }
 
     @Override
-    public long getFollowerCnt(long userId) { // 내가 팔로우하는 사람들
-        long followerCnt = queryFactory.select(follow.count())
+    public List<Long> getFollowerList(long userId) {
+        List<Long> followerIdList = queryFactory.select(follow.fromUserId)
                 .from(follow)
-                .where(follow.fromUserId.eq(userId))
-                .fetchOne()
-                .longValue();
+                .where(follow.toUserId.eq(userId))
+                .fetch();
 
-        return followerCnt;
+        return followerIdList;
     }
 }
