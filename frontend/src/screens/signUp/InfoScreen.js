@@ -14,6 +14,25 @@ import NoCheckInput from '../../components/signUp/NoCheckInput';
 import styles from '../../components/signUp/InfoStyles';
 import axios from 'axios';
 
+const MbtiGroup = [
+  'ENFJ',
+  'ENFP',
+  'ENTJ',
+  'ENTP',
+  'ESFJ',
+  'ESFP',
+  'ESTJ',
+  'ESTP',
+  'INFJ',
+  'INFP',
+  'INTJ',
+  'INTP',
+  'ISFJ',
+  'ISFP',
+  'ISTJ',
+  'ISTP',
+];
+
 function InfoScreen() {
   const inputRef = useRef([]);
   const [emailStyle, setEmailStyle] = useState(styles.checkBlurInput);
@@ -26,24 +45,6 @@ function InfoScreen() {
   const [femaleCheckBox, setFemaleCheckBox] = useState(false);
   const [emailCheck, setEmailCheck] = useState(false);
   const [nickNameCheck, setNickNameCheck] = useState(false);
-  const MbtiGroup = [
-    'ENFJ',
-    'ENFP',
-    'ENTJ',
-    'ENTP',
-    'ESFJ',
-    'ESFP',
-    'ESTJ',
-    'ESTP',
-    'INFJ',
-    'INFP',
-    'INTJ',
-    'INTP',
-    'ISFJ',
-    'ISFP',
-    'ISTJ',
-    'ISTP',
-  ];
 
   const {
     handleSubmit,
@@ -66,22 +67,29 @@ function InfoScreen() {
 
   const onSubmit = data => {
     axios({
-      url: `http://10.0.2.2:9999/api/signin`,
-      method: 'GET',
-      params: {data},
+      url: `http://i7a202.p.ssafy.io:9999/api/users/signup`,
+      method: 'POST',
+      data: {
+        age: data.age,
+        email: data.email,
+        genderCode: 'G0101',
+        img: '이미지123',
+        mbti1Code: 'M0101',
+        mbti2Code: 'M0201',
+        mbti3Code: 'M0301',
+        mbti4Code: 'M0401',
+        nickname: data.nickname,
+        password: data.password,
+      },
     })
       .then(res => {
         console.log(res);
-        alert('확인되었습니다.');
-        setCheck(true);
+        console.log(res.data);
       })
       .catch(err => {
         console.log(err);
-        alert('사용 중인 이메일입니다.');
-        setCheck(false);
       });
   };
-
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView keyboardShouldPersistTaps={'handled'}>
@@ -102,7 +110,8 @@ function InfoScreen() {
                 marginBottom: '5%',
               }}
               source={{
-                uri: 'https://cdn.pixabay.com/photo/2019/11/08/11/56/kitten-4611189_960_720.jpg',
+                uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                // https://cdn.pixabay.com/photo/2019/11/08/11/56/kitten-4611189_960_720.jpg
               }}
             />
           </TouchableOpacity>
