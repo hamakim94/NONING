@@ -2,8 +2,6 @@ import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 
 function AnalysisList({info}) {
-  console.log(6 * (info.opt1 / info.total));
-  console.log(6 - 6 * (info.opt1 / info.total));
   return (
     <View style={{flex: 1}}>
       {info.total > 0 ? (
@@ -26,15 +24,15 @@ function AnalysisList({info}) {
                 borderRadius: 3,
                 height: '110%',
                 justifyContent: 'center',
+                alignItems: 'center',
               }}>
               <View
                 style={{
                   flex: 6 * (info.opt1 / info.total),
                   borderRightWidth: 1,
                   backgroundColor: '#FF5F5F',
-                  borderTopLeftRadius: 3,
-                  borderBottomLeftRadius: 3,
                   width: '100%',
+                  height: '100%',
                 }}>
                 <Text
                   style={{
@@ -52,9 +50,8 @@ function AnalysisList({info}) {
                   flex: 6 - 6 * (info.opt1 / info.total),
                   borderLeftWidth: 1,
                   backgroundColor: '#49D3CA',
-                  borderTopRightRadius: 3,
-                  borderBottomRightRadius: 3,
                   width: '100%',
+                  height: '100%',
                 }}>
                 <Text
                   style={{

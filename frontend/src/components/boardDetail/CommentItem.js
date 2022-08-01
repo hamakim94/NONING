@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, TouchableOpacity, Text, Button} from 'react-native';
+import React from 'react';
+import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import {Avatar} from '@rneui/themed';
 import Icon from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo';
+import CommentModal from './CommnetModal';
 import axios from 'axios';
-import Modal from 'react-native-modal';
 
 function CommentItem({
   commentData,
@@ -13,11 +12,6 @@ function CommentItem({
   setCommentIsopened,
   isReply,
 }) {
-  const [isModalVisible, setModalVisible] = useState(false);
-
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
   const likeAxios = (code, setter, likeCheck) => {
     axios({
       url: `http://i7a202.p.ssafy.io:9999/api/boards/${boardid}/comments/${commentData.id}/${likeCheck}/${code}`,
@@ -202,27 +196,7 @@ function CommentItem({
         </View>
       </View>
       <View style={{flex: 0.5, justifyContent: 'center'}}>
-        <TouchableOpacity onPress={toggleModal}>
-          <Entypo name="dots-three-vertical" color="black" size={13} />
-          <Modal isVisible={isModalVisible}>
-            <View
-              style={{
-                backgroundColor: 'white',
-                height: '40%',
-                width: '110.5%',
-                position: 'absolute',
-                top: '63%',
-                left: '-5%',
-                borderTopLeftRadius: 5,
-                borderTopRightRadius: 5,
-              }}>
-              <TouchableOpacity onPress={toggleModal}>
-                <Text>닫기</Text>
-              </TouchableOpacity>
-              <Text>Hello!</Text>
-            </View>
-          </Modal>
-        </TouchableOpacity>
+        <CommentModal></CommentModal>
       </View>
     </View>
   );
