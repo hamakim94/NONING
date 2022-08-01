@@ -19,9 +19,7 @@ function AnalysisScreen() {
   useEffect(() => {
     setData(AnalysisTestData);
     setAnalysisData(AnalysisDefault);
-    console.log('마운트');
   }, []);
-  console.log(analysisData);
 
   const renderItem = ({item}) => <AnalysisList info={item} />;
   return (
