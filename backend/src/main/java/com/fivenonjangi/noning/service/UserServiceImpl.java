@@ -118,6 +118,15 @@ public class UserServiceImpl implements UserService{
         return userDTO;
     }
 
+    @Override
+    public void modifyUser(UserDTO userDTO) throws Exception{
+        UserData userData = userDataRepository.findByUser_Id(userDTO.getId());
+        userData.updateUserData(userDTO);
+        userData.getUser().updateUser(userDTO, ageToAgeCode(userDTO.getAge()));
+        userRepository.save(userData.getUser());
+        userDataRepository.save(userData);
+    }
+
     private String ageToAgeCode(byte age) {
         switch (age/10) {
             case 0: return "A0101";

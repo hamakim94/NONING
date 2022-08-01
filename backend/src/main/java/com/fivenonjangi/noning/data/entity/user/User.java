@@ -1,5 +1,6 @@
 package com.fivenonjangi.noning.data.entity.user;
 
+import com.fivenonjangi.noning.data.dto.user.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,5 +43,15 @@ public class User {
 
     public void setLastLogin(LocalDateTime lastLogin) {
         this.lastLogin = lastLogin;
+    }
+
+    public void updateUser(UserDTO userDTO, String ageRangeCode) {
+        this.genderCode = userDTO.getGenderCode();
+        this.mbti1Code = userDTO.getMbti1Code();
+        this.mbti2Code = userDTO.getMbti2Code();
+        this.mbti3Code = userDTO.getMbti3Code();
+        this.mbti4Code = userDTO.getMbti4Code();
+        this.age = userDTO.getAge();
+        this.ageRangeCode = ageRangeCode;
     }
 }
