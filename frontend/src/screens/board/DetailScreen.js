@@ -1,40 +1,16 @@
-import React, {useState, useEffect} from 'react';
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-  Text,
-  FlatList,
-  TextInput,
-  ScrollView,
-  KeyboardAvoidingView,
-} from 'react-native';
+import React, {useState} from 'react';
+import {View, StyleSheet, Dimensions, Text, TextInput} from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {Avatar} from '@rneui/themed';
 import CommentScreen from './CommentScreen';
-
-const SecondRoute = () => (
-  <View
-    style={[
-      styles.scene,
-      {
-        backgroundColor: 'white',
-        // borderTopWidth: 0.3,
-        // borderTopColor: '#808080',
-      },
-    ]}
-  />
-);
+import AnalysisScreen from './AnalysisScreen';
 
 const renderTabBar = props => (
   <TabBar
     {...props}
     indicatorStyle={{
       backgroundColor: '#FF5A6E',
-      width: '30%',
-      marginHorizontal: '6.5%',
+      width: '20%',
+      marginHorizontal: '9.5%',
     }}
     tabStyle={{
       paddingBottom: '10%',
@@ -48,8 +24,7 @@ const renderTabBar = props => (
       borderBottomColor: '#808080',
       borderTopWidth: 0.3,
       borderTopColor: '#808080',
-      marginHorizontal: '7%',
-      height: '12%',
+      height: '13%',
     }}
     renderLabel={({route, focused}) => (
       <Text
@@ -74,7 +49,7 @@ const initialLayout = {width: Dimensions.get('window').width};
 
 const renderScene = SceneMap({
   0: CommentScreen,
-  1: SecondRoute,
+  1: AnalysisScreen,
 });
 
 export default function DetailScreen() {
@@ -83,13 +58,12 @@ export default function DetailScreen() {
     {key: 0, title: '댓글'},
     {key: 1, title: '분석'},
   ]);
-
   return (
     <View style={styles.container}>
       <View style={{flex: 2.4, borderWidth: 2}}>
         <Text>DetailScreen1</Text>
       </View>
-      <View style={{flex: 0.2, borderWidth: 2}}>
+      <View style={{flex: 0.4, borderWidth: 2}}>
         <Text>DetailScreen2</Text>
       </View>
       <View style={{flex: 3.2, marginTop: '1%'}}>
@@ -101,7 +75,6 @@ export default function DetailScreen() {
           renderTabBar={renderTabBar}
         />
       </View>
-      <TextInput></TextInput>
     </View>
   );
 }
@@ -111,10 +84,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingTop: '1%',
-    paddingHorizontal: '5%',
+    paddingHorizontal: '7%',
     backgroundColor: 'white',
-  },
-  scene: {
-    flex: 1,
   },
 });
