@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @GetMapping("/profiles")
-    public ResponseEntity<?> getUserData(long userId){
+    public ResponseEntity<?> getProfiles(long userId){
         return new ResponseEntity<>(userService.getUserResponse(userId),HttpStatus.OK);
     }
 
@@ -83,5 +83,17 @@ public class UserController {
 
 
         return null;
+    }
+    @PostMapping("/profiles/edit")
+    public ResponseEntity<?> modifyUser(@RequestBody UserDTO userDTO, HttpServletRequest request){
+        if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userDTO.getId()))) {
+            try {
+                userService.modifyUser(userDTO);
+                return new ResponseEntity<>(HttpStatus.OK);
+            } catch (Exception e) {
+                e.getStackTrace();
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

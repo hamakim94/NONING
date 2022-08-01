@@ -14,4 +14,5 @@ public interface UserService {
     UserData getUserById(long id);
     List<ParticipateResponseDTO> getUserListByBoardId(long boardId);
     UserDTO getUserResponse(long userId);
+    void modifyUser(UserDTO userDTO) throws Exception;
 }
