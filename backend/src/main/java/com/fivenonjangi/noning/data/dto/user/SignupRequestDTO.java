@@ -15,6 +15,7 @@ public class SignupRequestDTO {
     private String email;
     private String password;
     private String nickname;
+    private String name;
     private String img;
     private String genderCode;
     private String mbti1Code;
@@ -22,5 +23,4 @@ public class SignupRequestDTO {
     private String mbti3Code;
     private String mbti4Code;
     byte age;
-    LocalDateTime reg;
 }

@@ -24,6 +24,7 @@ public class UserData {
     String nickname;
     String img;
     String name;
+
     @OneToOne
     @JoinColumn(name = "user_id")
     User user;
@@ -41,6 +42,7 @@ public class UserData {
                 .password(password)
                 .nickname(nickname)
                 .img(img)
+                .name(name)
                 .user(user.toDto())
                 .build();
     }
