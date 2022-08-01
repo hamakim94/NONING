@@ -43,7 +43,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom{
                 .leftJoin(commentLike)
                 .on(comment.id.eq(commentLike.comment.id).and(commentLike.user.id.eq(userId)))
                 .where(comment.board.id.eq(boardId).and(comment.level.eq((byte)0)).and(comment.isDeleted.eq(false)))
-                .orderBy(comment.reg.asc())
+                .orderBy(comment.id.asc())
                 .fetch();
 
         List<CommentResponseDTO> result = new ArrayList<CommentResponseDTO>();
@@ -82,7 +82,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom{
                 .leftJoin(commentLike)
                 .on(comment.id.eq(commentLike.comment.id).and(commentLike.user.id.eq(userId)))
                 .where(comment.parentId.eq(commentId).and(comment.isDeleted.eq(false)))
-                .orderBy(comment.reg.asc())
+                .orderBy(comment.id.asc())
                 .fetch();
 
         List<CommentResponseDTO> result = new ArrayList<CommentResponseDTO>();

@@ -71,8 +71,8 @@ public class BoardController {
 
     @GetMapping("/{boardid}/users")
     public ResponseEntity getVoter(@PathVariable("boardid") long boardId){
-        List<VoterResponseDTO> user_list = userService.getUserListByBoardId(boardId);
+        List<VoterResponseDTO> voterList = userService.getVoterListByBoardId(boardId);
 
-        return new ResponseEntity<>(user_list, HttpStatus.OK);
+        return new ResponseEntity<>(voterList, HttpStatus.OK);
     }
 }
