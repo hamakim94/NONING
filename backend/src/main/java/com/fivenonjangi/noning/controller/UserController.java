@@ -34,8 +34,13 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity signupUser(@RequestBody SignupRequestDTO signupRequestDTO) {
         signupRequestDTO.setPassword(passwordEncoder.encode(signupRequestDTO.getPassword()));
-        userService.signupUser(signupRequestDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            userService.signupUser(signupRequestDTO);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/profiles")

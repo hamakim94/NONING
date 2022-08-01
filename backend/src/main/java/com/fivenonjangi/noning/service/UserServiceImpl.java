@@ -32,31 +32,27 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public void signupUser(SignupRequestDTO signupRequestDTO) {
-        try {
-            User user = User.builder()
-                    .genderCode(signupRequestDTO.getGenderCode())
-                    .mbti1Code(signupRequestDTO.getMbti1Code())
-                    .mbti2Code(signupRequestDTO.getMbti2Code())
-                    .mbti3Code(signupRequestDTO.getMbti3Code())
-                    .mbti4Code(signupRequestDTO.getMbti4Code())
-                    .age(signupRequestDTO.getAge())
-                    .ageRangeCode(ageToAgeCode(signupRequestDTO.getAge()))
-                    .reg(signupRequestDTO.getReg())
-                    .build();
-            UserData userData = UserData.builder()
-                    .email(signupRequestDTO.getEmail())
-                    .password(signupRequestDTO.getPassword())
-                    .nickname(signupRequestDTO.getNickname())
-                    .img(signupRequestDTO.getImg())
-                    .build();
-            userData.setUser(userRepository.save(user));
-            userDataRepository.save(userData);
-        }
-        catch (Exception e){
-            System.out.println(e.getStackTrace());
-        }
-
+    public void signupUser(SignupRequestDTO signupRequestDTO) throws Exception{
+        if (userDataRepository.findByEmailOrNickname(signupRequestDTO.getEmail(), signupRequestDTO.getNickname()) != null) throw new Exception();
+        User user = User.builder()
+                .genderCode(signupRequestDTO.getGenderCode())
+                .mbti1Code(signupRequestDTO.getMbti1Code())
+                .mbti2Code(signupRequestDTO.getMbti2Code())
+                .mbti3Code(signupRequestDTO.getMbti3Code())
+                .mbti4Code(signupRequestDTO.getMbti4Code())
+                .age(signupRequestDTO.getAge())
+                .ageRangeCode(ageToAgeCode(signupRequestDTO.getAge()))
+                .reg(LocalDateTime.now())
+                .build();
+        UserData userData = UserData.builder()
+                .name(signupRequestDTO.getName())
+                .email(signupRequestDTO.getEmail())
+                .password(signupRequestDTO.getPassword())
+                .nickname(signupRequestDTO.getNickname())
+                .img(signupRequestDTO.getImg())
+                .build();
+        userData.setUser(userRepository.save(user));
+        userDataRepository.save(userData);
     }
 
     @Override

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserService {
 
-    void signupUser(SignupRequestDTO signupRequestDTO);
+    void signupUser(SignupRequestDTO signupRequestDTO) throws Exception;
     UserDTO getUser(long userId);
     UserDataDTO getUserDataDto(long userId);
     UserResponseDTO login(Long userId, String password, LocalDateTime curTime);
