@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -114,5 +115,16 @@ public class UserController {
         if (userService.checkPassword(userId, password, passwordEncoder))
             return new ResponseEntity<>(HttpStatus.OK);
         else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    @GetMapping("/verify")
+    public ResponseEntity verifyingEmail(@Validated @RequestParam String token) {
+        try {
+            userService.verifyEmail(token);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 }
