@@ -3,7 +3,7 @@ package com.fivenonjangi.noning.controller;
 import com.fivenonjangi.noning.config.security.JwtTokenProvider;
 import com.fivenonjangi.noning.data.dto.user.LoginRequestDTO;
 import com.fivenonjangi.noning.data.dto.user.SignupRequestDTO;
-import com.fivenonjangi.noning.data.dto.user.UserResponseDTO;
+import com.fivenonjangi.noning.data.dto.user.UserDTO;
 import com.fivenonjangi.noning.service.FollowService;
 import com.fivenonjangi.noning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,13 +52,12 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginRequestDTO){
-        UserResponseDTO userResponseDTO = userService.login(loginRequestDTO, LocalDateTime.now(), passwordEncoder);
-        if (userResponseDTO != null) {
-            Authentication authentication = new UsernamePasswordAuthenticationToken(userResponseDTO.getId(), loginRequestDTO.getPassword());
-            String accessToken = jwtTokenProvider.createAccessToken(userResponseDTO.getId());
-            String refreshToken = jwtTokenProvider.createRefreshToken(userResponseDTO.getId());
-            userResponseDTO.setAccessToken(accessToken);
-            return ResponseEntity.ok().header("ACCESSTOKEN", accessToken).header("REFRESHTOKEN", refreshToken).body(userResponseDTO);
+        UserDTO userDTO = userService.login(loginRequestDTO, LocalDateTime.now(), passwordEncoder);
+        if (userDTO != null) {
+            Authentication authentication = new UsernamePasswordAuthenticationToken(userDTO.getId(), loginRequestDTO.getPassword());
+            String accessToken = jwtTokenProvider.createAccessToken(userDTO.getId());
+            String refreshToken = jwtTokenProvider.createRefreshToken(userDTO.getId());
+            return ResponseEntity.ok().header("ACCESSTOKEN", accessToken).header("REFRESHTOKEN", refreshToken).body(userDTO);
         }
         return new ResponseEntity<>("invalid ID",HttpStatus.UNAUTHORIZED);
     }
@@ -78,7 +77,7 @@ public class UserController {
 //        user_like_board_list (board_id, title, opt1, opt2, category_code, is_live, vote),
 //        user_vote_board_list (board_id, title, opt1, opt2, category_code, is_live, vote),
 //        user_write_board_list (board_id, title, opt1, opt2, category_code, is_live, (vote))
-        UserResponseDTO userResponseDTO = userService.getUserResponse(userId);
+        UserDTO userDTO = userService.getUserResponse(userId);
         long follower_cnt = followService.getFollowerCnt(userId);
         long followee_cnt = followService.getFolloweeCnt(userId);
 

@@ -1,7 +1,6 @@
 package com.fivenonjangi.noning.data.repository;
 
 import com.fivenonjangi.noning.data.dto.board.BoardResponseDTO;
-import com.fivenonjangi.noning.data.dto.user.UserResponseDTO;
 import com.fivenonjangi.noning.data.entity.board.QBoard;
 import com.fivenonjangi.noning.data.entity.board.QBoardData;
 import com.fivenonjangi.noning.data.entity.board.QBoardLike;
