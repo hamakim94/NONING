@@ -1,5 +1,6 @@
 package com.fivenonjangi.noning.data.entity.user;
 
+import com.fivenonjangi.noning.data.dto.user.UserDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,5 +31,12 @@ public class UserData {
 
     public void setUser(User user) {
         this.user = user;
+    }
+    public void updateUserData(UserDTO userDTO){
+        this.nickname = userDTO.getNickname();
+        this.img = userDTO.getImg();
+    }
+    public void updatePassword(String password){
+        this.password = password;
     }
 }

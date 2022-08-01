@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService{
         try {
             UserData userData = userDataRepository.findByEmail(loginRequestDTO.getEmail());
             if (userData == null
-                ||passwordEncoder.matches(loginRequestDTO.getPassword(), userData.getPassword())
+                ||passwordEncoder.matches(userData.getPassword(), loginRequestDTO.getPassword())
                 || !userData.isEmailVerified()) return null;
 
             userData.getUser().setLastLogin(curTime);
@@ -116,6 +116,31 @@ public class UserServiceImpl implements UserService{
                                     .build();
 
         return userDTO;
+    }
+
+    @Override
+    public void modifyUser(UserDTO userDTO) throws Exception{
+        UserData userData = userDataRepository.findByUser_Id(userDTO.getId());
+        userData.updateUserData(userDTO);
+        userData.getUser().updateUser(userDTO, ageToAgeCode(userDTO.getAge()));
+        userRepository.save(userData.getUser());
+        userDataRepository.save(userData);
+    }
+    @Override
+    public void editPassword(LoginRequestDTO.EditPasswordDTO editPasswordDTO, String userId, PasswordEncoder passwordEncoder) throws Exception {
+        UserData userdata = userDataRepository.findByEmail(editPasswordDTO.getEmail());
+        if (userdata.getUser().getId() == Long.parseLong(userId)
+            &&passwordEncoder.matches(userdata.getPassword(), editPasswordDTO.getPassword())){
+            userdata.updatePassword(editPasswordDTO.getNewPassword());
+            userDataRepository.save(userdata);
+        }
+        else throw new Exception();
+    }
+    @Override
+    public boolean checkPassword(String userId, String password, PasswordEncoder passwordEncoder){
+        UserData userData = userDataRepository.findByUser_Id(Long.parseLong(userId));
+        if (passwordEncoder.matches(userData.getPassword(), password)) return true;
+        else return false;
     }
 
     private String ageToAgeCode(byte age) {

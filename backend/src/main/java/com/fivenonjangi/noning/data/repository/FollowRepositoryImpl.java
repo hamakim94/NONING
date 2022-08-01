@@ -1,7 +1,6 @@
 package com.fivenonjangi.noning.data.repository;
 
 import com.fivenonjangi.noning.data.entity.user.QFollow;
-import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 

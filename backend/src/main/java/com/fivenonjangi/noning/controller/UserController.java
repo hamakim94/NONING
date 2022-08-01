@@ -6,6 +6,7 @@ import com.fivenonjangi.noning.data.dto.user.LoginRequestDTO;
 import com.fivenonjangi.noning.data.dto.user.SignupRequestDTO;
 import com.fivenonjangi.noning.data.dto.user.UserDTO;
 import com.fivenonjangi.noning.service.BoardService;
+import com.fivenonjangi.noning.data.dto.user.UserDTO;
 import com.fivenonjangi.noning.service.FollowService;
 import com.fivenonjangi.noning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class UserController {
     }
 
     @GetMapping("/profiles")
-    public ResponseEntity<?> getUserData(long userId){
+    public ResponseEntity<?> getProfiles(long userId){
         return new ResponseEntity<>(userService.getUserResponse(userId),HttpStatus.OK);
     }
 
@@ -88,5 +89,36 @@ public class UserController {
         resultMap.put("board_list", boardList);
 
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+    @PostMapping("/profiles/edit")
+    public ResponseEntity<?> modifyUser(@RequestBody UserDTO userDTO, HttpServletRequest request){
+        if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userDTO.getId()))) {
+            try {
+                userService.modifyUser(userDTO);
+                return new ResponseEntity<>(HttpStatus.OK);
+            } catch (Exception e) {
+                e.getStackTrace();
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    @PutMapping("/passwords/edit")
+    public ResponseEntity<?> editPassword(@RequestBody LoginRequestDTO.EditPasswordDTO editPasswordDTO, HttpServletRequest request){
+        try {
+            userService.editPassword(editPasswordDTO
+                                    , jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN"))
+                                    , passwordEncoder);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PostMapping("/passwords/check")
+    public ResponseEntity<?> checkPassword(@RequestParam String password, HttpServletRequest request){
+        String userId = jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN"));
+        if (userService.checkPassword(userId, password, passwordEncoder))
+            return new ResponseEntity<>(HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
