@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import { SafeAreaView, View, StyleSheet, FlatList, Text, TextInput } from 'react-native';
+import { BOARD } from '../../data/boards'
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -68,7 +69,7 @@ function BoardSearchScreen() {
         <TextInput
           style = {styles.textInputStyle}
           value={search}
-          placeholder="검색검색"
+          placeholder="논쟁 제목을 검색해 보세요."
           underlineColorAndroid="transparent"
           onChangeText={(text) => searchFilter(text)}
         >

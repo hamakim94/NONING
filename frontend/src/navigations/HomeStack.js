@@ -29,6 +29,7 @@ function HomeStack() {
         component={SearchNav}
         options={{
           title: '검색',
+          headerShown: false,
         }}
       />
       <Stack.Screen

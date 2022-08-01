@@ -68,7 +68,7 @@ function UserSearchScreen() {
         <TextInput
           style = {styles.textInputStyle}
           value={search}
-          placeholder="검색검색"
+          placeholder="사용자 닉네임을 검색해 보세요."
           underlineColorAndroid="transparent"
           onChangeText={(text) => searchFilter(text)}
         >
