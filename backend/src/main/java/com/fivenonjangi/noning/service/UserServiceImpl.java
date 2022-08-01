@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public UserResponseDTO login(LoginRequestDTO loginRequestDTO, LocalDateTime curTime, PasswordEncoder passwordEncoder) {
+    public UserDTO login(LoginRequestDTO loginRequestDTO, LocalDateTime curTime, PasswordEncoder passwordEncoder) {
         try {
             UserData userData = userDataRepository.findByEmail(loginRequestDTO.getEmail());
             if (userData == null
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService{
             userData.getUser().setLastLogin(curTime);
             userRepository.save(userData.getUser());
 
-            return UserResponseDTO.builder()
+            return UserDTO.builder()
                     .id(userData.getUser().getId())
                     .nickname(userData.getNickname())
                     .img(userData.getImg())
@@ -99,10 +99,10 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserResponseDTO getUserResponse(long userId) {
+    public UserDTO getUserResponse(long userId) {
         UserData userData = userDataRepository.findByUser_Id(userId);
 
-        UserResponseDTO userResponseDTO = UserResponseDTO.builder()
+        UserDTO userDTO = UserDTO.builder()
                                     .id(userData.getUser().getId())
                                     .img(userData.getImg())
                                     .nickname(userData.getNickname())
@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService{
                                     .ageRangeCode(userData.getUser().getAgeRangeCode())
                                     .build();
 
-        return userResponseDTO;
+        return userDTO;
     }
 
     private String ageToAgeCode(byte age) {

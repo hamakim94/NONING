@@ -1,6 +1,8 @@
 package com.fivenonjangi.noning.service;
 
+import java.util.List;
+
 public interface FollowService {
-    public long getFolloweeCnt(long userId);
-    public long getFollowerCnt(long userId);
+    public List<Long> getFollowingId(long userId);
+    public List<Long> getFollowerId(long userId);
 }

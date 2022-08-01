@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface UserService {
     void signupUser(SignupRequestDTO signupRequestDTO) throws Exception;
-    UserResponseDTO login(LoginRequestDTO loginRequestDTO, LocalDateTime curTime, PasswordEncoder passwordEncoder);
+    UserDTO login(LoginRequestDTO loginRequestDTO, LocalDateTime curTime, PasswordEncoder passwordEncoder);
     UserData getUserByEmail(String email);
     UserData getUserById(long id);
     List<ParticipateResponseDTO> getUserListByBoardId(long boardId);
-    UserResponseDTO getUserResponse(long userId);
+    UserDTO getUserResponse(long userId);
 }

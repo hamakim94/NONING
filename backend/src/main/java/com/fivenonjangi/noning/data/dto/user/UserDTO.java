@@ -2,8 +2,6 @@ package com.fivenonjangi.noning.data.dto.user;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @Data
@@ -11,7 +9,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
-public class UserResponseDTO {
+public class UserDTO {
     private long id;
     private String nickname;
     private String img;
@@ -22,5 +20,4 @@ public class UserResponseDTO {
     private String mbti4Code;
     private byte age;
     private String ageRangeCode;
-    private String AccessToken;
 }
