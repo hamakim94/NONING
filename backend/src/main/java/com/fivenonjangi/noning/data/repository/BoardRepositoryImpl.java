@@ -90,6 +90,46 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom{
     }
 
     @Override
+    public List<BoardResponseDTO> findByCateCode(String categoryCode) {
+        List<Tuple> tuples = queryFactory.select(board.id, board.title, board.opt1, board.opt2, board.categoryCode, board.reg, board.isLive, board.liveId, board.writer.id,
+                        userData.nickname, userData.img,
+                        boardData.id, boardData.opt1Selected, boardData.opt2Selected, boardData.likes)
+                .from(board)
+                .leftJoin(boardData)
+                .on(board.id.eq(boardData.board.id))
+                .leftJoin(userData)
+                .on(board.writer.id.eq(userData.user.id))
+                .where(board.isDeleted.eq(false).and(categoryFilter(categoryCode)))
+                .fetch();
+
+        List<BoardResponseDTO> result = new ArrayList<BoardResponseDTO>();
+
+        for (Tuple tuple:tuples){
+            BoardResponseDTO boardResponseDTO = BoardResponseDTO.builder()
+                    .boardId(tuple.get(board.id))
+                    .title(tuple.get(board.title))
+                    .opt1(tuple.get(board.opt1))
+                    .opt2(tuple.get(board.opt2))
+                    .categoryCode(tuple.get(board.categoryCode))
+                    .reg(tuple.get(board.reg))
+                    .isLive(tuple.get(board.isLive))
+                    .liveId(tuple.get(board.liveId))
+                    .writerId(tuple.get(board.writer.id))
+                    .writerNickname(tuple.get(userData.nickname))
+                    .writerImg(tuple.get(userData.img))
+                    .boardDataId(tuple.get(boardData.id))
+                    .opt1Selected(tuple.get(boardData.opt1Selected))
+                    .opt2Selected(tuple.get(boardData.opt2Selected))
+                    .likes(tuple.get(boardData.likes))
+                    .build();
+
+            result.add(boardResponseDTO);
+        }
+
+        return result;
+    }
+
+    @Override
     public BoardResponseDTO findByUserIdAndBoardId(long userId, long boardId) {
         Tuple tuple = queryFactory.select(board.id, board.title, board.opt1, board.opt2, board.categoryCode, board.reg, board.isLive, board.liveId, board.writer.id,
                         userData.nickname, userData.img, // writer 정보

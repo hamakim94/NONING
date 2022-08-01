@@ -49,7 +49,12 @@ public class BoardController {
 
     @GetMapping("/list")
     public ResponseEntity getBoardList(HttpServletRequest request, @RequestParam("categorycode") String categoryCode){
-        long userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
+        long userId = -1;
+
+        if(request.getHeader("ACCESSTOKEN") != null){ // 로그인 한 사용자
+            userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
+        }
+
         List<BoardResponseDTO> boardResponseDTOList = boardService.getBoardList(userId, categoryCode);
 
         return new ResponseEntity<>(boardResponseDTOList, HttpStatus.OK);
@@ -59,12 +64,6 @@ public class BoardController {
     public ResponseEntity getBoardDetail(HttpServletRequest request, @PathVariable("boardid") long boardId){
         long userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
         BoardResponseDTO boardResponseDTO = boardService.getBoard(userId, boardId);
-
-//        Map<String, List<UserResponseDTO>> participates = boardService.getParticipate(boardId);
-//        Map<String, Object> result = new HashMap<>();
-//        result.put("participate1List", participates.get("participate1List"));
-//        result.put("participate2List", participates.get("participate2List"));
-//        result.put("board", boardResponseDTO);
 
         return new ResponseEntity<>(boardResponseDTO, HttpStatus.OK);
     }
