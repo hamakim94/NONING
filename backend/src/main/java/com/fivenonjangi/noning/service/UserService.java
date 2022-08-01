@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface UserService {
-
     void signupUser(SignupRequestDTO signupRequestDTO) throws Exception;
     UserDTO getUser(long userId);
     UserDataDTO getUserDataDto(long userId);
@@ -15,4 +14,5 @@ public interface UserService {
     UserData getUserByEmail(String email);
     UserData getUserById(long id);
     List<ParticipateResponseDTO> getUserListByBoardId(long boardId);
+    UserResponseDTO getUserResponse(long userId);
 }

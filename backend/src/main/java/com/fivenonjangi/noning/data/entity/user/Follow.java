@@ -18,26 +18,14 @@ public class Follow {
     @Id
     @Column(name = "follow_id")
     long id;
-    @ManyToOne
-    @JoinColumn(name = "from_user_id")
-    User fromUser;
-    @ManyToOne
-    @JoinColumn(name = "to_user_id")
-    User toUser;
-
-    public void setFromUser(User fromUser) {
-        this.fromUser = fromUser;
-    }
-
-    public void setToUser(User toUser) {
-        this.toUser = toUser;
-    }
+    long fromUserId; // follower
+    long toUserId; // followee
 
     public FollowDTO toDto() {
         return FollowDTO.builder()
                 .id(id)
-                .fromUser(fromUser.toDto())
-                .toUser(toUser.toDto())
+                .fromUserId(fromUserId)
+                .toUserId(toUserId)
                 .build();
     }
 }

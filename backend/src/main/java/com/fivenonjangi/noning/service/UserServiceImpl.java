@@ -18,7 +18,6 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService{
-
     private final UserRepository userRepository;
     private final UserDataRepository userDataRepository;
     private final BoardVoteRepositoryCustom boardVoteRepositoryCustom;
@@ -29,7 +28,6 @@ public class UserServiceImpl implements UserService{
         this.userDataRepository = userDataRepository;
         this.boardVoteRepositoryCustom = boardVoteRepositoryCustom;
     }
-
 
     @Override
     public void signupUser(SignupRequestDTO signupRequestDTO) throws Exception{
@@ -75,6 +73,7 @@ public class UserServiceImpl implements UserService{
 
             userData.getUser().setLastLogin(curTime);
             userRepository.save(userData.getUser());
+
             return UserResponseDTO.builder()
                     .id(userData.getUser().getId())
                     .nickname(userData.getNickname())
@@ -101,13 +100,32 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserData getUserById(long id) {
-
         return userDataRepository.findByUser_Id(id);
     }
 
     @Override
     public List<ParticipateResponseDTO> getUserListByBoardId(long boardId) {
         return boardVoteRepositoryCustom.findByBoardId(boardId);
+    }
+
+    @Override
+    public UserResponseDTO getUserResponse(long userId) {
+        UserData userData = userDataRepository.findByUser_Id(userId);
+
+        UserResponseDTO userResponseDTO = UserResponseDTO.builder()
+                                    .id(userData.getUser().getId())
+                                    .img(userData.getImg())
+                                    .nickname(userData.getNickname())
+                                    .genderCode(userData.getUser().getGenderCode())
+                                    .mbti1Code(userData.getUser().getMbti1Code())
+                                    .mbti2Code(userData.getUser().getMbti2Code())
+                                    .mbti3Code(userData.getUser().getMbti3Code())
+                                    .mbti4Code(userData.getUser().getMbti4Code())
+                                    .age(userData.getUser().getAge())
+                                    .ageRangeCode(userData.getUser().getAgeRangeCode())
+                                    .build();
+
+        return userResponseDTO;
     }
 
     private String ageToAgeCode(byte age) {

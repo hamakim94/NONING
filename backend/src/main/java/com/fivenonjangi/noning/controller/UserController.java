@@ -5,6 +5,7 @@ import com.fivenonjangi.noning.data.dto.user.LoginRequestDTO;
 import com.fivenonjangi.noning.data.dto.user.SignupRequestDTO;
 import com.fivenonjangi.noning.data.dto.user.UserDataDTO;
 import com.fivenonjangi.noning.data.dto.user.UserResponseDTO;
+import com.fivenonjangi.noning.service.FollowService;
 import com.fivenonjangi.noning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,12 +22,14 @@ import java.time.LocalDateTime;
 @RequestMapping("/api/users")
 public class UserController {
     private final UserService userService;
+    private final FollowService  followService;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public UserController(UserService userService, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
+    public UserController(UserService userService, FollowService followService, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
         this.userService = userService;
+        this.followService = followService;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenProvider = jwtTokenProvider;
     }
@@ -68,5 +71,22 @@ public class UserController {
         String accesstoken = jwtTokenProvider.resolveToken(request, "ACCESSTOKEN");
         jwtTokenProvider.logout(accesstoken, jwtTokenProvider.getUserPk(accesstoken));
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/mypage")
+    public ResponseEntity getMyInfo(HttpServletRequest request){
+        long userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
+//        user (user_id, gender_code, mbti1_code, mbti2_code, mbti3_code, mbti4_code, age, age_range_code, nickname, img),
+//        follow_cnt,
+//        follower_cnt,
+//        user_like_board_list (board_id, title, opt1, opt2, category_code, is_live, vote),
+//        user_vote_board_list (board_id, title, opt1, opt2, category_code, is_live, vote),
+//        user_write_board_list (board_id, title, opt1, opt2, category_code, is_live, (vote))
+        UserResponseDTO userResponseDTO = userService.getUserResponse(userId);
+        long follower_cnt = followService.getFollowerCnt(userId);
+        long followee_cnt = followService.getFolloweeCnt(userId);
+
+
+        return null;
     }
 }

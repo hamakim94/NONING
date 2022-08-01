@@ -1,10 +1,7 @@
 package com.fivenonjangi.noning.data.entity.user;
 
 import com.fivenonjangi.noning.data.dto.user.UserDataDTO;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -14,6 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Table(name = "user_data")
+@ToString
 public class UserData {
     @Id
     @Column(name = "user_data_id")
