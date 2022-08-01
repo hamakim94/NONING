@@ -1,10 +1,9 @@
 package com.fivenonjangi.noning.data.repository;
 
-import com.fivenonjangi.noning.data.dto.user.ParticipateResponseDTO;
-import com.fivenonjangi.noning.data.entity.board.BoardVote;
+import com.fivenonjangi.noning.data.dto.user.VoterResponseDTO;
 
 import java.util.List;
 
 public interface BoardVoteRepositoryCustom {
-    List<ParticipateResponseDTO> findByBoardId(long boardId);
+    List<VoterResponseDTO> findByBoardId(long boardId);
 }

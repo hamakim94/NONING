@@ -12,7 +12,7 @@ public interface UserService {
     UserDTO login(LoginRequestDTO loginRequestDTO, LocalDateTime curTime, PasswordEncoder passwordEncoder);
     UserData getUserByEmail(String email);
     UserData getUserById(long id);
-    List<ParticipateResponseDTO> getUserListByBoardId(long boardId);
+    List<VoterResponseDTO> getVoterListByBoardId(long boardId);
     UserDTO getUserResponse(long userId);
     void modifyUser(UserDTO userDTO) throws Exception;
     void editPassword(LoginRequestDTO.EditPasswordDTO editPasswordDTO, String userId, PasswordEncoder passwordEncoder) throws Exception;
