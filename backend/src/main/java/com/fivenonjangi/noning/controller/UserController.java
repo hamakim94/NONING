@@ -96,4 +96,16 @@ public class UserController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+    @PutMapping("/passwords/edit")
+    public ResponseEntity<?> editPassword(@RequestBody LoginRequestDTO.EditPasswordDTO editPasswordDTO, HttpServletRequest request){
+        try {
+            userService.editPassword(editPasswordDTO
+                                    , jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN"))
+                                    , passwordEncoder);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

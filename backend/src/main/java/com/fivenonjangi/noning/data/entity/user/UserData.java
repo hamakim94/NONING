@@ -36,4 +36,7 @@ public class UserData {
         this.nickname = userDTO.getNickname();
         this.img = userDTO.getImg();
     }
+    public void updatePassword(String password){
+        this.password = password;
+    }
 }

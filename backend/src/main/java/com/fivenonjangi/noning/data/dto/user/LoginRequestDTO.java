@@ -12,4 +12,13 @@ import lombok.*;
 public class LoginRequestDTO {
     private String email;
     private String password;
+
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public class EditPasswordDTO extends LoginRequestDTO{
+        private String newPassword;
+    }
 }
