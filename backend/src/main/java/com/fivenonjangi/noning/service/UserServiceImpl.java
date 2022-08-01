@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService{
         try {
             UserData userData = userDataRepository.findByEmail(loginRequestDTO.getEmail());
             if (userData == null
-                ||passwordEncoder.matches(loginRequestDTO.getPassword(), userData.getPassword())
+                ||passwordEncoder.matches(userData.getPassword(), loginRequestDTO.getPassword())
                 || !userData.isEmailVerified()) return null;
 
             userData.getUser().setLastLogin(curTime);
