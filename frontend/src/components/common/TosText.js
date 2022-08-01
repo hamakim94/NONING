@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function TosText() {
   return (
-    <Text style={{fontSize: 15}}>
+    <Text style={{margin: '5%'}}>
       여러분을 환영합니다. 네이버 서비스 및 제품(이하 ‘서비스’)을 이용해 주셔서
       감사합니다. 본 약관은 다양한 네이버 서비스의 이용과 관련하여 네이버
       서비스를 제공하는 네이버 주식회사(이하 ‘네이버’)와 이를 이용하는 네이버
