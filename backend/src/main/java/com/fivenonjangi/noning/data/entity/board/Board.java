@@ -1,11 +1,9 @@
 package com.fivenonjangi.noning.data.entity.board;
 
-import com.fivenonjangi.noning.data.dto.board.BoardDTO;
 import com.fivenonjangi.noning.data.entity.user.User;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
@@ -40,18 +38,4 @@ public class Board {
         this.isDeleted = true;
     }
 
-    public BoardDTO toDto(){
-        return BoardDTO.builder()
-                .id(id)
-                .title(title)
-                .opt1(opt1)
-                .opt2(opt2)
-                .categoryCode(categoryCode)
-                .reg(reg)
-                .isDeleted(isDeleted)
-                .isLive(isLive)
-                .writer(writer.toDto())
-                .liveId(liveId)
-                .build();
-    }
 }

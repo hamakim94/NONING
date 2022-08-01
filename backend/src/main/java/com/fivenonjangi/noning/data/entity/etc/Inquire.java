@@ -1,6 +1,5 @@
 package com.fivenonjangi.noning.data.entity.etc;
 
-import com.fivenonjangi.noning.data.dto.etc.InquireDTO;
 import com.fivenonjangi.noning.data.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,18 +32,6 @@ public class Inquire {
 
     public void setWriter(User writer) {
         this.writer = writer;
-    }
-
-    public InquireDTO toDto(){
-        return InquireDTO.builder()
-                .id(id)
-                .title(title)
-                .content(content)
-                .writer(writer.toDto())
-                .file(file)
-                .isDeleted(isDeleted)
-                .reg(reg)
-                .build();
     }
 
 }

@@ -1,6 +1,5 @@
 package com.fivenonjangi.noning.data.dto.board;
 
-import com.fivenonjangi.noning.data.dto.user.UserDTO;
 import lombok.*;
 
 import java.time.LocalDateTime;

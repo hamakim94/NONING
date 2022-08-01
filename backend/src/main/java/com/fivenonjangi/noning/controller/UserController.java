@@ -3,7 +3,6 @@ package com.fivenonjangi.noning.controller;
 import com.fivenonjangi.noning.config.security.JwtTokenProvider;
 import com.fivenonjangi.noning.data.dto.user.LoginRequestDTO;
 import com.fivenonjangi.noning.data.dto.user.SignupRequestDTO;
-import com.fivenonjangi.noning.data.dto.user.UserDataDTO;
 import com.fivenonjangi.noning.data.dto.user.UserResponseDTO;
 import com.fivenonjangi.noning.service.FollowService;
 import com.fivenonjangi.noning.service.UserService;
@@ -48,21 +47,18 @@ public class UserController {
 
     @GetMapping("/profiles")
     public ResponseEntity<?> getUserData(long userId){
-        return new ResponseEntity<>(userService.getUserDataDto(userId),HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUserResponse(userId),HttpStatus.OK);
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginRequestDTO){
-        UserDataDTO userDataDTO = userService.getUserByEmail(loginRequestDTO.getEmail()).toDTO();
-        if (passwordEncoder.matches(loginRequestDTO.getPassword(), userDataDTO.getPassword())){
-            UserResponseDTO userResponseDTO = userService.login(userDataDTO.getUser().getId(), loginRequestDTO.getPassword(), LocalDateTime.now());
-            if (userResponseDTO != null) {
-                Authentication authentication = new UsernamePasswordAuthenticationToken(userResponseDTO.getId(), loginRequestDTO.getPassword());
-                String accessToken = jwtTokenProvider.createAccessToken(userResponseDTO.getId());
-                String refreshToken = jwtTokenProvider.createRefreshToken(userResponseDTO.getId());
-                userResponseDTO.setAccessToken(accessToken);
-                return ResponseEntity.ok().header("ACCESSTOKEN", accessToken).header("REFRESHTOKEN", refreshToken).body(userResponseDTO);
-            }
+        UserResponseDTO userResponseDTO = userService.login(loginRequestDTO, LocalDateTime.now(), passwordEncoder);
+        if (userResponseDTO != null) {
+            Authentication authentication = new UsernamePasswordAuthenticationToken(userResponseDTO.getId(), loginRequestDTO.getPassword());
+            String accessToken = jwtTokenProvider.createAccessToken(userResponseDTO.getId());
+            String refreshToken = jwtTokenProvider.createRefreshToken(userResponseDTO.getId());
+            userResponseDTO.setAccessToken(accessToken);
+            return ResponseEntity.ok().header("ACCESSTOKEN", accessToken).header("REFRESHTOKEN", refreshToken).body(userResponseDTO);
         }
         return new ResponseEntity<>("invalid ID",HttpStatus.UNAUTHORIZED);
     }

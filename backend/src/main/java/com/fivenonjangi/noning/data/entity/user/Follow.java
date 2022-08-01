@@ -1,6 +1,5 @@
 package com.fivenonjangi.noning.data.entity.user;
 
-import com.fivenonjangi.noning.data.dto.user.FollowDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,11 +20,4 @@ public class Follow {
     long fromUserId; // follower
     long toUserId; // followee
 
-    public FollowDTO toDto() {
-        return FollowDTO.builder()
-                .id(id)
-                .fromUserId(fromUserId)
-                .toUserId(toUserId)
-                .build();
-    }
 }

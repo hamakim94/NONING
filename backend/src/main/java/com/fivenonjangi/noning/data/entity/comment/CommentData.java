@@ -1,6 +1,5 @@
 package com.fivenonjangi.noning.data.entity.comment;
 
-import com.fivenonjangi.noning.data.dto.comment.CommentDataDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -53,12 +52,4 @@ public class CommentData {
         }
     }
 
-    public CommentDataDTO toDTO(){
-        return CommentDataDTO.builder()
-                .id(id)
-                .likes(likes)
-                .dislikes(dislikes)
-                .comment(comment.toDto())
-                .build();
-    }
 }

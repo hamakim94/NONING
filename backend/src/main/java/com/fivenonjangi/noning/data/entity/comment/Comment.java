@@ -1,12 +1,10 @@
 package com.fivenonjangi.noning.data.entity.comment;
 
-import com.fivenonjangi.noning.data.dto.comment.CommentDTO;
 import com.fivenonjangi.noning.data.entity.board.Board;
 import com.fivenonjangi.noning.data.entity.user.User;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
@@ -39,16 +37,4 @@ public class Comment {
         this.isDeleted = true;
     }
 
-    public CommentDTO toDto(){
-        return CommentDTO.builder()
-                .id(id)
-                .content(content)
-                .level(level)
-                .reg(reg)
-                .isDeleted(isDeleted)
-                .parentId(parentId)
-                .writer(writer.toDto())
-                .board(board.toDto())
-                .build();
-    }
 }

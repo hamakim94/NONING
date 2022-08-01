@@ -1,6 +1,5 @@
 package com.fivenonjangi.noning.data.entity.user;
 
-import com.fivenonjangi.noning.data.dto.user.UserDataDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,19 +30,5 @@ public class UserData {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-
-    public UserDataDTO toDTO(){
-        return UserDataDTO.builder()
-                .id(id)
-                .email(email)
-                .isEmailVerified(isEmailVerified)
-                .password(password)
-                .nickname(nickname)
-                .img(img)
-                .name(name)
-                .user(user.toDto())
-                .build();
     }
 }

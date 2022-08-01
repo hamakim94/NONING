@@ -1,6 +1,5 @@
 package com.fivenonjangi.noning.data.entity.etc;
 
-import com.fivenonjangi.noning.data.dto.etc.ReportDTO;
 import com.fivenonjangi.noning.data.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,15 +37,4 @@ public class Report {
         this.writer = writer;
     }
 
-    public ReportDTO toDto(){
-        return ReportDTO.builder()
-                .id(id)
-                .boardId(boardId)
-                .commentId(commentId)
-                .writer(writer.toDto())
-                .reportCode(reportCode)
-                .isCompleted(isCompleted)
-                .reg(reg)
-                .build();
-    }
 }
