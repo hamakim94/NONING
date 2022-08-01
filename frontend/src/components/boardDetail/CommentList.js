@@ -7,11 +7,12 @@ import ReplyList from './ReplyList';
 function CommentList({comment}) {
   const [commentIsopened, setCommentIsopened] = useState(false);
   const [commentData, setCommentData] = useState(comment);
-
   const [replys, setReplys] = useState([]);
+
   useEffect(() => {
     setReplys(ReplyTestData);
   }, []);
+
   const renderItem = ({item}) => (
     <ReplyList
       reply={item}
