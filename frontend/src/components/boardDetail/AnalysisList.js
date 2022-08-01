@@ -30,6 +30,8 @@ function AnalysisList({info}) {
                   flex: 6 * (info.opt1 / info.total),
                   borderRightWidth: 1,
                   backgroundColor: '#FF5F5F',
+                  borderTopLeftRadius: 3,
+                  borderBottomLeftRadius: 3,
                   width: '100%',
                 }}>
                 <Text
@@ -48,6 +50,8 @@ function AnalysisList({info}) {
                   flex: 6 - 6 * (info.opt1 / info.total),
                   borderLeftWidth: 1,
                   backgroundColor: '#49D3CA',
+                  borderTopRightRadius: 3,
+                  borderBottomRightRadius: 3,
                   width: '100%',
                 }}>
                 <Text
