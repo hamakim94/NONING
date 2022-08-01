@@ -6,7 +6,7 @@ const Stack = createNativeStackNavigator();
 export default function FlowNav() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="FlowScreen" component={FlowScreen} />
+      <Stack.Screen name="FlowScreen" component={FlowScreen} options={{headerShown: false}}  />
       <Stack.Screen
         name="DetailScreen"
         component={DetailScreen}

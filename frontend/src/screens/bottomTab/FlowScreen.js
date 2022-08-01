@@ -42,6 +42,7 @@ export default function FlowScreen({navigation}) {
         renderItem={({item}) => (
           <View style={{height:windowHeight*0.935, flex: 1, borderWidth: 5, backgroundColor: 'white'}}>
             <View style={{flex: 1.2, alignItems: 'center', justifyContent: 'flex-end'}}>
+                {/* 논쟁 hashtag */}
                 <Text style={{fontWeight: 'bold'}}>#{} #{} #{} 사용자들이</Text>
                 <Text style={{fontWeight: 'bold'}}>많이 참여한 논쟁입니다.</Text>
             </View>
@@ -71,12 +72,14 @@ export default function FlowScreen({navigation}) {
                         </View>
                     </View>
                 </View>
+                {/* 작성자 */}
                 <View style={{flexDirection: 'row', marginLeft: '10%', marginTop: '2.5%'}}> 
                     <Text>작성자 :  </Text>
                     <Image style={{ width:15 ,height:15, borderRadius:50 }} source={{uri : item.writer.img}}></Image>
                     <Text>{item.writer.nickname}</Text>
                 </View>
             </View>
+            {/* 디테일/좋아요 */}
             <View boards={boards} user_like = {user_like} setUserLike= {setUserLike} 
                   style={{flex: 1.2, alignItems: 'flex-end'}}>
                 <TouchableOpacity
@@ -91,7 +94,6 @@ export default function FlowScreen({navigation}) {
                 </TouchableOpacity>
             </View>
         </View>
-    
         )}
         >
         </FlatList>
