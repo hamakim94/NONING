@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @ToString
-public class ParticipateResponseDTO {
+public class VoterResponseDTO {
     private long id; // user id
     private String nickname;
     private String img;

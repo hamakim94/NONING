@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<ParticipateResponseDTO> getUserListByBoardId(long boardId) {
+    public List<VoterResponseDTO> getUserListByBoardId(long boardId) {
         return boardVoteRepositoryCustom.findByBoardId(boardId);
     }
 
