@@ -126,6 +126,16 @@ public class UserServiceImpl implements UserService{
         userRepository.save(userData.getUser());
         userDataRepository.save(userData);
     }
+    @Override
+    public void editPassword(LoginRequestDTO.EditPasswordDTO editPasswordDTO, String userId, PasswordEncoder passwordEncoder) throws Exception {
+        UserData userdata = userDataRepository.findByEmail(editPasswordDTO.getEmail());
+        if (userdata.getUser().getId() == Long.parseLong(userId)
+            &&passwordEncoder.matches(userdata.getPassword(), editPasswordDTO.getPassword())){
+            userdata.updatePassword(editPasswordDTO.getNewPassword());
+            userDataRepository.save(userdata);
+        }
+        else throw new Exception();
+    }
 
     private String ageToAgeCode(byte age) {
         switch (age/10) {

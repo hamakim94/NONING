@@ -15,4 +15,5 @@ public interface UserService {
     List<ParticipateResponseDTO> getUserListByBoardId(long boardId);
     UserDTO getUserResponse(long userId);
     void modifyUser(UserDTO userDTO) throws Exception;
+    void editPassword(LoginRequestDTO.EditPasswordDTO editPasswordDTO, String userId, PasswordEncoder passwordEncoder) throws Exception;
 }
