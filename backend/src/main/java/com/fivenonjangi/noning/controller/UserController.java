@@ -108,4 +108,11 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+    @PostMapping("/passwords/check")
+    public ResponseEntity<?> checkPassword(@RequestParam String password, HttpServletRequest request){
+        String userId = jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN"));
+        if (userService.checkPassword(userId, password, passwordEncoder))
+            return new ResponseEntity<>(HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 }

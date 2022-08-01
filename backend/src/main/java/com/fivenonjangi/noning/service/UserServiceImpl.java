@@ -136,6 +136,12 @@ public class UserServiceImpl implements UserService{
         }
         else throw new Exception();
     }
+    @Override
+    public boolean checkPassword(String userId, String password, PasswordEncoder passwordEncoder){
+        UserData userData = userDataRepository.findByUser_Id(Long.parseLong(userId));
+        if (passwordEncoder.matches(userData.getPassword(), password)) return true;
+        else return false;
+    }
 
     private String ageToAgeCode(byte age) {
         switch (age/10) {
