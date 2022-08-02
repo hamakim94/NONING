@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import { SafeAreaView, View, StyleSheet, FlatList, Text, TextInput } from 'react-native';
-import { BOARD } from '../../data/boards'
+import { BOARDS } from '../../data/boards'
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -19,15 +19,9 @@ function BoardSearchScreen() {
   }, [])
 
   const featchPosts = () => {
-    const apiURL = 'https://jsonplaceholder.typicode.com/posts';
-    fetch(apiURL)
-    .then((response) => response.json())
-    .then((responseJson) => {
-      setfilterdData(responseJson);
-      setmasterData(responseJson);
-    }).catch((error) => {
-      console.error(error);
-    })
+      setfilterdData(BOARDS);
+      setmasterData(BOARDS);
+ 
   }
 
   const searchFilter = (text) => {
@@ -49,7 +43,7 @@ function BoardSearchScreen() {
   const ItemView = ({item}) => {
     return (
       <Text style={styles.itemStyle}>
-        {item.id}{'. '}{item.title.toUpperCase()}
+        {item.title.toUpperCase()}
       </Text>
     )
   }

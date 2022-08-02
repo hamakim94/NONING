@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import { SafeAreaView, View, StyleSheet, FlatList, Text, TextInput } from 'react-native';
+import { PROFILES } from '../../data/profile';
 
 
 const Tab = createMaterialTopTabNavigator();
 
 function UserSearchScreen() {
+  // profile
   const [filterdData, setfilterdData] = useState([]);
   const [masterData, setmasterData] = useState([]);
   const [search, setSearch] = useState('');
@@ -18,21 +20,14 @@ function UserSearchScreen() {
   }, [])
 
   const featchPosts = () => {
-    const apiURL = 'https://jsonplaceholder.typicode.com/users';
-    fetch(apiURL)
-    .then((response) => response.json())
-    .then((responseJson) => {
-      setfilterdData(responseJson);
-      setmasterData(responseJson);
-    }).catch((error) => {
-      console.error(error);
-    })
+      setfilterdData(PROFILES);
+      setmasterData(PROFILES);
   }
 
   const searchFilter = (text) => {
     if (text) {
       const newData = masterData.filter((item) => {
-        const itemData = item.username ? item.username.toUpperCase()
+        const itemData = item.user ? item.user.toUpperCase()
                     : ''.toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
@@ -48,7 +43,7 @@ function UserSearchScreen() {
   const ItemView = ({item}) => {
     return (
       <Text style={styles.itemStyle}>
-        {item.id}{'. '}{item.username.toUpperCase()}
+        {item.user.toUpperCase()}
       </Text>
     )
   }
@@ -68,7 +63,7 @@ function UserSearchScreen() {
         <TextInput
           style = {styles.textInputStyle}
           value={search}
-          placeholder="사용자 닉네임을 검색해 보세요."
+          placeholder="검색검색"
           underlineColorAndroid="transparent"
           onChangeText={(text) => searchFilter(text)}
         >
