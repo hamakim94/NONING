@@ -27,5 +27,20 @@ public class BoardData {
     @JoinColumn(name = "board_id")
     Board board;
 
+    public void updateVote(byte vote, boolean isBetray) {
+        if (vote == 1){
+            opt1Selected++;
+            if (isBetray) opt2Selected--;
+        } else if (vote == 2){
+            opt2Selected++;
+            if (isBetray) opt1Selected--;
+        }
+    }
+    public void like() {
+        likes++;
+    }
+    public void unlike() {
+        likes--;
+    }
 }
 

@@ -17,4 +17,12 @@ public class BoardRequestDTO {
     private String opt2;
     private String categoryCode;
     private LocalDateTime reg;
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BoardVoteDTO {
+        private long userId;
+        private byte vote;
+    }
 }

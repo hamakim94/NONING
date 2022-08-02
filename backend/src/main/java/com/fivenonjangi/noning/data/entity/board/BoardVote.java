@@ -29,5 +29,9 @@ public class BoardVote {
     User user;
     LocalDateTime reg;
 
+    public void updateVote(byte vote, LocalDateTime now){
+        this.vote = vote;
+        this.reg = now;
+    }
 }
 
