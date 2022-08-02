@@ -1,22 +1,21 @@
-import {StyleSheet, Text, View, ActivityIndicator } from 'react-native';
-import React, { useState } from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
 import BoardHeader from './BoardHeader';
 import BoardBar from './BoardBar';
 import BoardFooter from './BoardFooter';
 
-export default function Boards({board, boards, setBoards, navigation}) {
-  const [boardData, setBoardData] = useState(board)
+
+function Boards({board, navigation}) {
+  const [boardData, setBoardData] = useState(board);
   return (
     <View>
       <View style={styles.container}>
-        <BoardHeader board = {boardData}  navigation = {navigation}></BoardHeader>
-        <View style={styles.titleContainer} >
-          <Text style={styles.titleText}>
-            {board.title}
-          </Text>
+        <BoardHeader board={boardData} navigation={navigation}></BoardHeader>
+        <View style={styles.titleContainer}>
+          <Text style={styles.titleText}>{board.title}</Text>
         </View>
-        <BoardBar board={boardData} setBoards={setBoardData} ></BoardBar>
-        <BoardFooter board={boardData} setBoards={setBoardData} ></BoardFooter>
+        <BoardBar board={boardData} setBoards={setBoardData}></BoardBar>
+        <BoardFooter board={boardData} setBoards={setBoardData}></BoardFooter>
       </View>
     </View>
   );
@@ -25,22 +24,22 @@ export default function Boards({board, boards, setBoards, navigation}) {
 const styles = StyleSheet.create({
   container: {
     marginTop: 30,
-    marginBottom:30,
-    height: 250,
+    marginBottom: 30,
+    height: 200,
     width: '100%',
     borderWidth: 1,
     borderRadius: 5,
   },
   titleText: {
-    fontSize: 23,
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
     textAlignVertical: 'center',
   },
   titleContainer: {
-    height: 120,
+    height: 90,
     width: '100%',
-    padding:5,
+    padding: 5,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -51,3 +50,5 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
 });
+
+export default React.memo(Boards);
