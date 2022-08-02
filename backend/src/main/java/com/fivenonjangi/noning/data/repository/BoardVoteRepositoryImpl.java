@@ -35,7 +35,7 @@ public class BoardVoteRepositoryImpl implements BoardVoteRepositoryCustom{
 
         for(Tuple tuple:tuples){
             VoterResponseDTO voterResponseDTO = VoterResponseDTO.builder()
-                            .id(tuple.get(boardVote.user.id))
+                            .userId(tuple.get(boardVote.user.id))
                             .vote(tuple.get(boardVote.vote))
                             .genderCode(tuple.get(boardVote.user.genderCode))
                             .mbti1Code(tuple.get(boardVote.user.mbti1Code))

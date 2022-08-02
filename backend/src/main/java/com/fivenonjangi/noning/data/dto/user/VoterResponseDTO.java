@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 @ToString
 public class VoterResponseDTO {
-    private long id; // user id
+    private long userId;
     private String nickname;
     private String img;
     private String genderCode;
@@ -20,6 +20,5 @@ public class VoterResponseDTO {
     private String mbti4Code;
     private byte age;
     private String ageRangeCode;
-    private String AccessToken;
     private byte vote; // 0,1,2
 }
