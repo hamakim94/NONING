@@ -58,7 +58,6 @@ public class UserServiceImpl implements UserService{
         verifyingTokenRepository.save(emailVerifyingToken);
         try{
         mailService.sendVerifyMail(userData.getEmail(), emailVerifyingToken.getId());
-        System.out.println("send email");
         }catch (Exception e){
             e.printStackTrace();
         }
