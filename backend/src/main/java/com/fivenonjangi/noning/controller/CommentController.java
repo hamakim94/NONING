@@ -51,7 +51,7 @@ public class CommentController {
     @GetMapping("/{commentid}/list")
     public ResponseEntity getNestedCommentList(HttpServletRequest request, @PathVariable("boardid") long boardId, @PathVariable("commentid") long commentId){
         long userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
-        List<CommentResponseDTO> commentResponseDTOList = commentService.getNestedCommentList(boardId, commentId, userId);
+        List<CommentResponseDTO> commentResponseDTOList = commentService.getNestedCommentList(commentId, userId);
 
         return new ResponseEntity<>(commentResponseDTOList, HttpStatus.OK);
     }
