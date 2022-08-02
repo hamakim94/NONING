@@ -9,9 +9,11 @@ import com.fivenonjangi.noning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.List;
 
 //@ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
@@ -73,5 +75,46 @@ public class BoardController {
         List<VoterResponseDTO> voterList = userService.getVoterListByBoardId(boardId);
 
         return new ResponseEntity<>(voterList, HttpStatus.OK);
+    }
+
+    @PostMapping("/{boardid}/vote")
+    public ResponseEntity<?> vote(@PathVariable("boardid") long boardId, @RequestBody BoardRequestDTO.BoardVoteDTO boardVoteDTO, HttpServletRequest request){
+        if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(boardVoteDTO.getUserId())){
+            try {
+                boardService.vote(boardId, boardVoteDTO.getUserId(), boardVoteDTO.getVote(), LocalDateTime.now());
+                return new ResponseEntity<>(HttpStatus.OK);
+            }catch (Exception e){}
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    @PutMapping("/{boardid}/betray")
+    public ResponseEntity<?> betray(@PathVariable("boardid") long boardId, @RequestBody BoardRequestDTO.BoardVoteDTO boardVoteDTO, HttpServletRequest request){
+        if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(boardVoteDTO.getUserId())){
+            try {
+                boardService.betray(boardId, boardVoteDTO.getUserId(), boardVoteDTO.getVote(), LocalDateTime.now());
+                return new ResponseEntity<>(HttpStatus.OK);
+            }catch (Exception e){}
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    @PostMapping("/{boardid}/like")
+    public ResponseEntity<?> like(@PathVariable("boardid") long boardId, @RequestParam long userId, HttpServletRequest request){
+        if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userId))){
+            try {
+                boardService.like(boardId, userId, LocalDateTime.now());
+                return new ResponseEntity<>(HttpStatus.OK);
+            }catch (Exception e){}
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    @DeleteMapping("/{boardid}/unlike")
+    public ResponseEntity<?> unlike(@PathVariable("boardid") long boardId, @RequestParam long userId, HttpServletRequest request){
+        if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userId))){
+            try {
+                boardService.unlike(boardId, userId);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }catch (Exception e){}
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

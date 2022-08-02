@@ -4,28 +4,27 @@ import com.fivenonjangi.noning.data.dto.board.BoardRequestDTO;
 import com.fivenonjangi.noning.data.dto.board.BoardResponseDTO;
 import com.fivenonjangi.noning.data.entity.board.Board;
 import com.fivenonjangi.noning.data.entity.board.BoardData;
+import com.fivenonjangi.noning.data.entity.board.BoardLike;
+import com.fivenonjangi.noning.data.entity.board.BoardVote;
 import com.fivenonjangi.noning.data.entity.user.User;
 import com.fivenonjangi.noning.data.repository.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class BoardServiceImpl implements BoardService{
     public final BoardRepository boardRepository;
     public final BoardDataRepository boardDataRepository;
     public final BoardRepositoryCustom boardRepositoryCustom;
     public final UserRepository userRepository;
+    public final BoardVoteRepository boardVoteRepository;
+    public final BoardLikeRepository boardLikeRepository;
 
-    @Autowired
-    public BoardServiceImpl(BoardRepository boardRepository, BoardDataRepository boardDataRepository, BoardRepositoryCustom boardRepositoryCustom, UserRepository userRepository) {
-        this.boardRepository = boardRepository;
-        this.boardDataRepository = boardDataRepository;
-        this.boardRepositoryCustom = boardRepositoryCustom;
-        this.userRepository = userRepository;
-    }
 
     @Override
     public void writeBoard(BoardRequestDTO boardRequestDTO, long userId) {
@@ -81,5 +80,54 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public BoardResponseDTO getBoard(long userId, long boardId) {
         return boardRepositoryCustom.findByUserIdAndBoardId(userId, boardId);
+    }
+
+    @Override
+    public void vote(long boardId, long userId, byte vote, LocalDateTime now) throws Exception {
+        if (boardVoteRepository.findByBoard_IdAndUser_Id(boardId, userId) !=null) throw new Exception();
+        BoardData boardData = boardDataRepository.findByBoard_Id(boardId);
+        BoardVote boardVote = BoardVote.builder()
+                .vote(vote)
+                .board(boardRepository.getReferenceById(boardId))
+                .user(userRepository.getReferenceById(userId))
+                .reg(now)
+                .build();
+        boardVoteRepository.save(boardVote);
+        boardData.updateVote(vote, false);
+        boardDataRepository.save(boardData);
+    }
+
+    @Override
+    public void betray(long boardId, long userId, byte vote, LocalDateTime now) throws Exception {
+        BoardData boardData = boardDataRepository.findByBoard_Id(boardId);
+        BoardVote boardVote = boardVoteRepository.findByBoard_IdAndUser_Id(boardId, userId);
+        if (boardVote.getVote() == vote) throw new Exception();
+        boardVote.updateVote(vote, now);
+        boardVoteRepository.save(boardVote);
+        boardData.updateVote(vote, true);
+        boardDataRepository.save(boardData);
+    }
+
+    @Override
+    public void like(long boardId, long userId, LocalDateTime now) throws Exception {
+        if (boardLikeRepository.findByBoard_IdAndUser_Id(boardId, userId) !=null) throw new Exception();
+        BoardData boardData = boardDataRepository.findByBoard_Id(boardId);
+        BoardLike boardLike = BoardLike.builder()
+                .board(boardRepository.getReferenceById(boardId))
+                .user(userRepository.getReferenceById(userId))
+                .reg(now)
+                .build();
+        boardLikeRepository.save(boardLike);
+        boardData.like();
+        boardDataRepository.save(boardData);
+    }
+
+    @Override
+    public void unlike(long boardId, long userId) throws Exception {
+        if (boardLikeRepository.findByBoard_IdAndUser_Id(boardId, userId) == null) throw new Exception();
+        BoardData boardData = boardDataRepository.findByBoard_Id(boardId);
+        boardLikeRepository.deleteBoardLikeByBoard_IdAndUser_Id(boardId, userId);
+        boardData.unlike();
+        boardDataRepository.save(boardData);
     }
 }
