@@ -63,8 +63,9 @@ public class CommentServiceImpl implements CommentService{
         commentDataRepository.save(commentData);
     }
     @Override
-    public void deleteComment(long commentId){
-        Comment comment = commentRepository.findById(commentId).get();
+    public void deleteComment(long userId, long commentId) throws Exception{
+        Comment comment = commentRepository.findByIdAndWriter_Id(commentId, userId);
+        if(comment == null) throw new Exception();
         comment.deleteComment();
 
         commentRepository.save(comment);

@@ -53,8 +53,9 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public void deleteBoard(long boardId) {
-        Board board = boardRepository.findById(boardId).get();
+    public void deleteBoard(long userId, long boardId) throws Exception {
+        Board board = boardRepository.findByIdAndWriter_Id(boardId, userId);
+        if(board == null) throw new Exception();
         board.deleteBoard();
 
         boardRepository.save(board);

@@ -33,10 +33,14 @@ public class CommentController {
     }
 
     @PutMapping("/{commentid}/delete")
-    public ResponseEntity deleteComment(@PathVariable("boardid") long boardId, @PathVariable("commentid") long commentId){
-        commentService.deleteComment(commentId);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity deleteComment(HttpServletRequest request, @PathVariable("boardid") long boardId, @PathVariable("commentid") long commentId){
+        long userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
+        try {
+            commentService.deleteComment(userId, commentId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/list")
