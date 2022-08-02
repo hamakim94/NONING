@@ -13,7 +13,7 @@ const renderTabBar = props => (
       marginHorizontal: '9.5%',
     }}
     tabStyle={{
-      paddingBottom: '10%',
+      paddingBottom: '5%',
       paddingTop: '1%',
     }}
     pressColor={'transparent'}
@@ -36,6 +36,7 @@ const renderTabBar = props => (
                 padding: 0,
                 fontWeight: 'bold',
                 fontSize: 15,
+                width: '110%',
               }
             : {margin: 0, padding: 0, color: '#808080', fontSize: 15}
         }>
