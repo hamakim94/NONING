@@ -2,6 +2,7 @@ package com.fivenonjangi.noning.service;
 
 import com.fivenonjangi.noning.data.dto.user.*;
 import com.fivenonjangi.noning.data.entity.user.UserData;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
@@ -18,4 +19,5 @@ public interface UserService {
     void editPassword(LoginRequestDTO.EditPasswordDTO editPasswordDTO, String userId, PasswordEncoder passwordEncoder) throws Exception;
     boolean checkPassword(String userId, String password, PasswordEncoder passwordEncoder);
     void verifyEmail(String token) throws Exception;
+    void findPassword(String email, String name, PasswordEncoder passwordEncoder) throws Exception;
 }

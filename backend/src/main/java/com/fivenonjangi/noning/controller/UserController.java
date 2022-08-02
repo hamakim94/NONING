@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -123,7 +124,7 @@ public class UserController {
         else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @GetMapping("/verify")
-    public ResponseEntity verifyingEmail(@Validated @RequestParam String token) {
+    public ResponseEntity<?> verifyingEmail(@Validated @RequestParam String token) {
         try {
             userService.verifyEmail(token);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -131,6 +132,14 @@ public class UserController {
         catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
+    }
+    @GetMapping("/passwords/find")
+    public ResponseEntity<?> findPassword(String email, String name){
+        try {
+            userService.findPassword(email, name, passwordEncoder);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

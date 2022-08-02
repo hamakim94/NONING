@@ -1,9 +1,6 @@
 package com.fivenonjangi.noning.service;
 
-import com.fivenonjangi.noning.data.entity.etc.VerifyingToken;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +15,10 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public void sendVerifyMail(String email, String token) throws Exception{
-//        MimeMessage message = javaMailSender.createMimeMessage();
-//        System.out.println(1);
-//        message.addRecipients(MimeMessage.RecipientType.TO, email);//보내는 대상
-//        System.out.println(2);
-//        message.setSubject("Babble회원가입 이메일 인증");//제목
-//        System.out.println(3);
-//
+        MimeMessage message = javaMailSender.createMimeMessage();
+        message.addRecipients(MimeMessage.RecipientType.TO, email);//보내는 대상
+        message.setSubject("noning회원가입 이메일 인증");//제목
+
         String msgg="";
         msgg+= "<div style='margin:100px;'>";
         msgg+= "<h1> 안녕하세요 noning입니다. </h1>";
@@ -34,23 +28,43 @@ public class MailServiceImpl implements MailService {
         msgg+= "<p>감사합니다!<p>";
         msgg+= "<br>";
         msgg+= "<div align='center' style='border:1px solid black; font-family:verdana';>";
-        msgg+= "<h3 style='color:blue;'>회원가입 인증 링크.</h3>";
+        msgg+= "<h3 style='color:black;'>회원가입 인증 링크.</h3>";
         msgg+= "<div style='font-size:130%'>";
-        msgg+= "Link : <strong><a href='localhost:9999/api/users/verify?token=";
-        msgg+= token+"'>인증하기</a></strong><div><br/> ";
+        String link = String.format("<strong><a href='http://localhost:9999/api/users/verify?token=%s'>인증하기</a>", token);
+        msgg+= link;
+        msgg+= "</strong><div><br/> ";
         msgg+= "</div>";
-//        System.out.println(4);
-//        message.setText(msgg, "utf-8", "html");//내용
-//        System.out.println(5);
-//        message.setFrom(new InternetAddress("noning2025@gmail.com","noning"));//보내는 사람
-//        System.out.println(6);
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        System.out.println(email);
-        simpleMailMessage.setTo(email);
-        simpleMailMessage.setSubject("noning회원가입 이메일 인증");
-        simpleMailMessage.setText(msgg);
-        simpleMailMessage.setFrom("noning2025@gmail.com");
-        javaMailSender.send(simpleMailMessage);
-        System.out.println(7);
+        message.setText(msgg, "utf-8", "html");//내용
+        message.setFrom(new InternetAddress("noning2025@gmail.com","noning"));//보내는 사람
+
+        javaMailSender.send(message);
+    }
+    @Override
+    public void sendPasswordMail(String email, String password) throws Exception{
+        MimeMessage message = javaMailSender.createMimeMessage();
+        message.addRecipients(MimeMessage.RecipientType.TO, email);//보내는 대상
+        message.setSubject("noning 임시 비밀번호 발급 안내");//제목
+
+        String msgg="";
+        msgg+= "<div style='margin:100px;'>";
+        msgg+= "<h1> 안녕하세요 noning입니다. </h1>";
+        msgg+= "<br>";
+        msgg+= "<p>새로운 임시 비밀번호를 발급해 드렸습니다. <p>";
+        msgg+= "<br>";
+        msgg+= "<p>안전을 위해 접속후 반드시 비밀번호를 변경해 주세요. <p>";
+        msgg+= "<br>";
+        msgg+= "<p>감사합니다!<p>";
+        msgg+= "<br>";
+        msgg+= "<div align='center' style='border:1px solid black; font-family:verdana';>";
+        msgg+= "<h3 style='color:black;'>임시 비밀번호</h3>";
+        msgg+= "<div style='font-size:130%'>";
+        String link = String.format("<strong>%s", password);
+        msgg+= link;
+        msgg+= "</strong><div><br/> ";
+        msgg+= "</div>";
+        message.setText(msgg, "utf-8", "html");//내용
+        message.setFrom(new InternetAddress("noning2025@gmail.com","noning"));//보내는 사람
+
+        javaMailSender.send(message);
     }
 }

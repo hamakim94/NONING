@@ -9,10 +9,13 @@ import com.fivenonjangi.noning.data.repository.UserDataRepository;
 import com.fivenonjangi.noning.data.repository.UserRepository;
 import com.fivenonjangi.noning.data.repository.VerifyingTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -58,7 +61,6 @@ public class UserServiceImpl implements UserService{
         verifyingTokenRepository.save(emailVerifyingToken);
         try{
         mailService.sendVerifyMail(userData.getEmail(), emailVerifyingToken.getId());
-        System.out.println("send email");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -69,7 +71,7 @@ public class UserServiceImpl implements UserService{
         try {
             UserData userData = userDataRepository.findByEmail(loginRequestDTO.getEmail());
             if (userData == null
-                ||passwordEncoder.matches(userData.getPassword(), loginRequestDTO.getPassword())
+                || !passwordEncoder.matches(loginRequestDTO.getPassword(), userData.getPassword())
                 || !userData.isEmailVerified()) return null;
 
             userData.getUser().setLastLogin(curTime);
@@ -142,8 +144,8 @@ public class UserServiceImpl implements UserService{
     public void editPassword(LoginRequestDTO.EditPasswordDTO editPasswordDTO, String userId, PasswordEncoder passwordEncoder) throws Exception {
         UserData userdata = userDataRepository.findByEmail(editPasswordDTO.getEmail());
         if (userdata.getUser().getId() == Long.parseLong(userId)
-            &&passwordEncoder.matches(userdata.getPassword(), editPasswordDTO.getPassword())){
-            userdata.updatePassword(editPasswordDTO.getNewPassword());
+            &&passwordEncoder.matches(editPasswordDTO.getPassword(), userdata.getPassword())){
+            userdata.updatePassword(passwordEncoder.encode(editPasswordDTO.getNewPassword()));
             userDataRepository.save(userdata);
         }
         else throw new Exception();
@@ -151,7 +153,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean checkPassword(String userId, String password, PasswordEncoder passwordEncoder){
         UserData userData = userDataRepository.findByUser_Id(Long.parseLong(userId));
-        if (passwordEncoder.matches(userData.getPassword(), password)) return true;
+        if (passwordEncoder.matches(password, userData.getPassword())) return true;
         else return false;
     }
     @Override
@@ -164,6 +166,17 @@ public class UserServiceImpl implements UserService{
         userDataRepository.save(userData);
         verifyingTokenRepository.save(verifyingToken);
     }
+    @Override
+    public void findPassword(String email, String name, PasswordEncoder passwordEncoder) throws Exception{
+        UserData userData = userDataRepository.findByEmail(email);
+        if (userData!=null&&userData.getName().equals(name)){
+            String newPassword = getRamdomPassword(10);
+            userData.updatePassword(passwordEncoder.encode(newPassword));
+            userDataRepository.save(userData);
+            mailService.sendPasswordMail(email, newPassword);
+        }
+        else throw new Exception();
+    }
 
     private String ageToAgeCode(byte age) {
         switch (age/10) {
@@ -175,5 +188,26 @@ public class UserServiceImpl implements UserService{
             case 5: return "A0106";
             default: return "A0107";
         }
+    }
+
+    public String getRamdomPassword(int size) {
+        char[] charSet = new char[] {
+                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                '!', '@', '#', '$', '%', '^', '&' };
+
+        StringBuffer sb = new StringBuffer();
+        SecureRandom sr = new SecureRandom();
+        sr.setSeed(new Date().getTime());
+
+        int idx = 0;
+        int len = charSet.length;
+        for (int i=0; i<size; i++) {
+            idx = sr.nextInt(len);
+            sb.append(charSet[idx]);
+        }
+
+        return sb.toString();
     }
 }
