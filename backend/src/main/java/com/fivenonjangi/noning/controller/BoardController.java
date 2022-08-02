@@ -4,12 +4,11 @@ import com.fivenonjangi.noning.config.security.JwtTokenProvider;
 import com.fivenonjangi.noning.data.dto.board.BoardRequestDTO;
 import com.fivenonjangi.noning.data.dto.board.BoardResponseDTO;
 import com.fivenonjangi.noning.data.dto.user.VoterResponseDTO;
-import com.fivenonjangi.noning.service.BoardService;
-import com.fivenonjangi.noning.service.UserService;
+import com.fivenonjangi.noning.service.board.BoardService;
+import com.fivenonjangi.noning.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;

@@ -1,7 +1,6 @@
 package com.fivenonjangi.noning.config.security;
 
-import antlr.Token;
-import com.fivenonjangi.noning.service.RedisService;
+import com.fivenonjangi.noning.service.etc.RedisService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;

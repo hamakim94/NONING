@@ -1,9 +1,9 @@
 package com.fivenonjangi.noning.controller;
 
 import com.fivenonjangi.noning.config.security.JwtTokenProvider;
-import com.fivenonjangi.noning.data.dto.follow.FollowRequestDto;
+import com.fivenonjangi.noning.data.dto.user.FollowRequestDTO;
 import com.fivenonjangi.noning.data.dto.user.UserDTO;
-import com.fivenonjangi.noning.service.FollowService;
+import com.fivenonjangi.noning.service.user.FollowService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class FollowController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addFollowing(@RequestBody FollowRequestDto followRequestDto, HttpServletRequest request){
+    public ResponseEntity<?> addFollowing(@RequestBody FollowRequestDTO followRequestDto, HttpServletRequest request){
         try{
             checkUser(followRequestDto.getUserId(), request);
             followService.addFollowing(followRequestDto.getUserId(), followRequestDto.getTargetUserId());
@@ -32,7 +32,7 @@ public class FollowController {
         }
     }
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteFollowing(@RequestBody FollowRequestDto followRequestDto, HttpServletRequest request){
+    public ResponseEntity<?> deleteFollowing(@RequestBody FollowRequestDTO followRequestDto, HttpServletRequest request){
         try{
             checkUser(followRequestDto.getUserId(), request);
             followService.deleteFollowing(followRequestDto.getUserId(), followRequestDto.getTargetUserId());
@@ -57,7 +57,7 @@ public class FollowController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @DeleteMapping("/followers/delete")
-    public ResponseEntity<?> deleteFollower(@RequestBody FollowRequestDto followRequestDto, HttpServletRequest request){
+    public ResponseEntity<?> deleteFollower(@RequestBody FollowRequestDTO followRequestDto, HttpServletRequest request){
         try{
             checkUser(followRequestDto.getUserId(), request);
             followService.deleteFollower(followRequestDto.getUserId(), followRequestDto.getTargetUserId());

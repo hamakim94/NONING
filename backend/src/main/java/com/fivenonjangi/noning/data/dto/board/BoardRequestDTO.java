@@ -16,7 +16,6 @@ public class BoardRequestDTO {
     private String opt1;
     private String opt2;
     private String categoryCode;
-    private LocalDateTime reg;
     @Getter
     @Setter
     @NoArgsConstructor

@@ -5,16 +5,14 @@ import com.fivenonjangi.noning.data.dto.board.BoardResponseDTO;
 import com.fivenonjangi.noning.data.dto.user.LoginRequestDTO;
 import com.fivenonjangi.noning.data.dto.user.SignupRequestDTO;
 import com.fivenonjangi.noning.data.dto.user.UserDTO;
-import com.fivenonjangi.noning.service.BoardService;
-import com.fivenonjangi.noning.data.dto.user.UserDTO;
-import com.fivenonjangi.noning.service.FollowService;
-import com.fivenonjangi.noning.service.UserService;
+import com.fivenonjangi.noning.service.board.BoardService;
+import com.fivenonjangi.noning.service.user.FollowService;
+import com.fivenonjangi.noning.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -92,7 +90,7 @@ public class UserController {
 
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
-    @PostMapping("/profiles/edit")
+    @PutMapping("/profiles/edit")
     public ResponseEntity<?> modifyUser(@RequestBody UserDTO userDTO, HttpServletRequest request){
         if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userDTO.getUserId()))) {
             try {
