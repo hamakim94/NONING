@@ -50,6 +50,7 @@ function BottomTabsNav() {
         name="PlusScreen"
         component={PlusScreen}
         options={{
+          headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: ({size}) => (
             <MaterialCommunityIcons
