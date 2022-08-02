@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 @ToString
 public class UserDTO {
-    private long id;
+    private long userId;
     private String nickname;
     private String img;
     private String genderCode;

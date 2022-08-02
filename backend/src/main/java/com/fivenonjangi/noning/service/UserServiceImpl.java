@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService{
             userRepository.save(userData.getUser());
 
             return UserDTO.builder()
-                    .id(userData.getUser().getId())
+                    .userId(userData.getUser().getId())
                     .nickname(userData.getNickname())
                     .img(userData.getImg())
                     .genderCode(userData.getUser().getGenderCode())
@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService{
         UserData userData = userDataRepository.findByUser_Id(userId);
 
         UserDTO userDTO = UserDTO.builder()
-                                    .id(userData.getUser().getId())
+                                    .userId(userData.getUser().getId())
                                     .img(userData.getImg())
                                     .nickname(userData.getNickname())
                                     .genderCode(userData.getUser().getGenderCode())
@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void modifyUser(UserDTO userDTO) throws Exception{
-        UserData userData = userDataRepository.findByUser_Id(userDTO.getId());
+        UserData userData = userDataRepository.findByUser_Id(userDTO.getUserId());
         userData.updateUserData(userDTO);
         userData.getUser().updateUser(userDTO, ageToAgeCode(userDTO.getAge()));
         userRepository.save(userData.getUser());

@@ -64,9 +64,9 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginRequestDTO){
         UserDTO userDTO = userService.login(loginRequestDTO, LocalDateTime.now(), passwordEncoder);
         if (userDTO != null) {
-            Authentication authentication = new UsernamePasswordAuthenticationToken(userDTO.getId(), loginRequestDTO.getPassword());
-            String accessToken = jwtTokenProvider.createAccessToken(userDTO.getId());
-            String refreshToken = jwtTokenProvider.createRefreshToken(userDTO.getId());
+            Authentication authentication = new UsernamePasswordAuthenticationToken(userDTO.getUserId(), loginRequestDTO.getPassword());
+            String accessToken = jwtTokenProvider.createAccessToken(userDTO.getUserId());
+            String refreshToken = jwtTokenProvider.createRefreshToken(userDTO.getUserId());
             return ResponseEntity.ok().header("ACCESSTOKEN", accessToken).header("REFRESHTOKEN", refreshToken).body(userDTO);
         }
         return new ResponseEntity<>("invalid ID",HttpStatus.UNAUTHORIZED);
@@ -86,15 +86,15 @@ public class UserController {
 
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("user", user);
-        resultMap.put("following_id_list", followingIdList);
-        resultMap.put("followee_id_list", followeeIdList);
-        resultMap.put("board_list", boardList);
+        resultMap.put("followingIdList", followingIdList);
+        resultMap.put("followeeIdList", followeeIdList);
+        resultMap.put("boardList", boardList);
 
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
     @PostMapping("/profiles/edit")
     public ResponseEntity<?> modifyUser(@RequestBody UserDTO userDTO, HttpServletRequest request){
-        if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userDTO.getId()))) {
+        if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userDTO.getUserId()))) {
             try {
                 userService.modifyUser(userDTO);
                 return new ResponseEntity<>(HttpStatus.OK);
