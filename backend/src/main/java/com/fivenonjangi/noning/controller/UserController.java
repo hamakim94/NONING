@@ -104,15 +104,15 @@ public class UserController {
     }
     @PutMapping("/passwords/edit")
     public ResponseEntity<?> editPassword(@RequestBody LoginRequestDTO.EditPasswordDTO editPasswordDTO, HttpServletRequest request){
-        try {
-            userService.editPassword(editPasswordDTO
-                                    , jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN"))
-                                    , passwordEncoder);
-            return new ResponseEntity<>(HttpStatus.OK);
+        if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(editPasswordDTO.getUserId()))) {
+            try {
+                userService.editPassword(editPasswordDTO
+                        , passwordEncoder);
+                return new ResponseEntity<>(HttpStatus.OK);
+            } catch (Exception e) {
+            }
         }
-        catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @PostMapping("/passwords/check")
     public ResponseEntity<?> checkPassword(@RequestParam String password, HttpServletRequest request){

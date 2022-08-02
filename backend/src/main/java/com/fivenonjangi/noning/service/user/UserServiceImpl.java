@@ -141,10 +141,9 @@ public class UserServiceImpl implements UserService{
         userDataRepository.save(userData);
     }
     @Override
-    public void editPassword(LoginRequestDTO.EditPasswordDTO editPasswordDTO, String userId, PasswordEncoder passwordEncoder) throws Exception {
-        UserData userdata = userDataRepository.findByEmail(editPasswordDTO.getEmail());
-        if (userdata.getUser().getId() == Long.parseLong(userId)
-            &&passwordEncoder.matches(editPasswordDTO.getPassword(), userdata.getPassword())){
+    public void editPassword(LoginRequestDTO.EditPasswordDTO editPasswordDTO, PasswordEncoder passwordEncoder) throws Exception {
+        UserData userdata = userDataRepository.findByUser_Id(editPasswordDTO.getUserId());
+        if (passwordEncoder.matches(editPasswordDTO.getPassword(), userdata.getPassword())){
             userdata.updatePassword(passwordEncoder.encode(editPasswordDTO.getNewPassword()));
             userDataRepository.save(userdata);
         }

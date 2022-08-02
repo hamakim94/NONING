@@ -16,7 +16,7 @@ public interface UserService {
     List<VoterResponseDTO> getVoterListByBoardId(long boardId);
     UserDTO getUserResponse(long userId);
     void modifyUser(UserDTO userDTO) throws Exception;
-    void editPassword(LoginRequestDTO.EditPasswordDTO editPasswordDTO, String userId, PasswordEncoder passwordEncoder) throws Exception;
+    void editPassword(LoginRequestDTO.EditPasswordDTO editPasswordDTO, PasswordEncoder passwordEncoder) throws Exception;
     boolean checkPassword(String userId, String password, PasswordEncoder passwordEncoder);
     void verifyEmail(String token) throws Exception;
     void findPassword(String email, String name, PasswordEncoder passwordEncoder) throws Exception;
