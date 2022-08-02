@@ -10,6 +10,5 @@ public interface BoardService {
     void deleteBoard(long boardId);
     BoardResponseDTO getBoard(long userId, long boardId);
     List<BoardResponseDTO> getBoardList(long userId, String categoryCode);
-//    Map<String, List<UserResponseDTO>> getParticipate(long boardId);
     List<BoardResponseDTO> getBoardListByUserId(long userId);
 }

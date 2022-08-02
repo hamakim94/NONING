@@ -1,7 +1,5 @@
 package com.fivenonjangi.noning.service;
 
-import com.fivenonjangi.noning.data.entity.user.User;
-import com.fivenonjangi.noning.data.repository.FollowRepository;
 import com.fivenonjangi.noning.data.repository.FollowRepositoryCustom;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +14,12 @@ public class FollowServiceImpl implements FollowService{
     }
 
     @Override
-    public long getFolloweeCnt(long userId) { // 나를 팔로우하는 사람들
-        return followRepositoryCustom.getFolloweeCnt(userId);
+    public List<Long> getFollowingId(long userId) {
+        return followRepositoryCustom.getFollowingList(userId);
     }
 
     @Override
-    public long getFollowerCnt(long userId) { // 내가 팔로우하는 사람들
-        return followRepositoryCustom.getFollowerCnt(userId);
+    public List<Long> getFollowerId(long userId) {
+        return followRepositoryCustom.getFollowerList(userId);
     }
 }

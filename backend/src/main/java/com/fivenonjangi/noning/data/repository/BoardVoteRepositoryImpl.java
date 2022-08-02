@@ -1,6 +1,6 @@
 package com.fivenonjangi.noning.data.repository;
 
-import com.fivenonjangi.noning.data.dto.user.ParticipateResponseDTO;
+import com.fivenonjangi.noning.data.dto.user.VoterResponseDTO;
 import com.fivenonjangi.noning.data.entity.board.QBoardVote;
 import com.fivenonjangi.noning.data.entity.user.QUserData;
 import com.querydsl.core.Tuple;
@@ -23,7 +23,7 @@ public class BoardVoteRepositoryImpl implements BoardVoteRepositoryCustom{
         this.queryFactory = queryFactory;
     }
     @Override
-    public List<ParticipateResponseDTO> findByBoardId(long boardId) {
+    public List<VoterResponseDTO> findByBoardId(long boardId) {
         List<Tuple> tuples = queryFactory.select(boardVote.vote, boardVote.user.id, boardVote.user.genderCode, boardVote.user.mbti1Code, boardVote.user.mbti2Code, boardVote.user.mbti3Code, boardVote.user.mbti4Code, boardVote.user.age, boardVote.user.ageRangeCode, userData.img, userData.nickname)
                 .from(boardVote)
                 .leftJoin(userData)
@@ -31,10 +31,10 @@ public class BoardVoteRepositoryImpl implements BoardVoteRepositoryCustom{
                 .where(boardVote.board.id.eq(boardId))
                 .fetch();
 
-        List<ParticipateResponseDTO> participateResponseDTOList = new ArrayList<>();
+        List<VoterResponseDTO> voterResponseDTOList = new ArrayList<>();
 
         for(Tuple tuple:tuples){
-            ParticipateResponseDTO participateResponseDTO = ParticipateResponseDTO.builder()
+            VoterResponseDTO voterResponseDTO = VoterResponseDTO.builder()
                             .id(tuple.get(boardVote.user.id))
                             .vote(tuple.get(boardVote.vote))
                             .genderCode(tuple.get(boardVote.user.genderCode))
@@ -48,9 +48,9 @@ public class BoardVoteRepositoryImpl implements BoardVoteRepositoryCustom{
                             .nickname(tuple.get(userData.nickname))
                             .build();
 
-            participateResponseDTOList.add(participateResponseDTO);
+            voterResponseDTOList.add(voterResponseDTO);
         }
 
-        return participateResponseDTOList;
+        return voterResponseDTOList;
     }
 }

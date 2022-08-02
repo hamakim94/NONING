@@ -71,8 +71,8 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public List<CommentResponseDTO> getNestedCommentList(long boardId, long commentId, long userId) {
-        return commentRepositoryCustom.findByCommentId(boardId, commentId, userId);
+    public List<CommentResponseDTO> getNestedCommentList(long commentId, long userId) {
+        return commentRepositoryCustom.findByCommentId(commentId, userId);
     }
 
     @Override

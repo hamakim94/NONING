@@ -63,22 +63,23 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public List<BoardResponseDTO> getBoardList(long userId, String categoryCode) {
-        return boardRepositoryCustom.findByUserIdAndCateCode(userId, categoryCode);
+        List<BoardResponseDTO> boardResponseDTOList;
+
+        if(userId == -1){ // 로그인 안한 사용자
+            boardResponseDTOList = boardRepositoryCustom.findByCateCode(categoryCode);
+        } else { // 로그인 한 사용자
+            boardResponseDTOList = boardRepositoryCustom.findByUserIdAndCateCode(userId, categoryCode);
+        }
+        return boardResponseDTOList;
     }
 
     @Override
     public List<BoardResponseDTO> getBoardListByUserId(long userId) {
-//        return boardRepositoryCustom;
-        return null;
+        return boardRepositoryCustom.findByUserId(userId);
     }
 
     @Override
     public BoardResponseDTO getBoard(long userId, long boardId) {
         return boardRepositoryCustom.findByUserIdAndBoardId(userId, boardId);
     }
-
-//    @Override
-//    public Map<String, List<UserResponseDTO>> getParticipate(long boardId) {
-//        return boardRepositoryCustom.findByBoardId(boardId);
-//    }
 }

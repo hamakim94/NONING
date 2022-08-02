@@ -3,7 +3,7 @@ package com.fivenonjangi.noning.controller;
 import com.fivenonjangi.noning.config.security.JwtTokenProvider;
 import com.fivenonjangi.noning.data.dto.board.BoardRequestDTO;
 import com.fivenonjangi.noning.data.dto.board.BoardResponseDTO;
-import com.fivenonjangi.noning.data.dto.user.ParticipateResponseDTO;
+import com.fivenonjangi.noning.data.dto.user.VoterResponseDTO;
 import com.fivenonjangi.noning.service.BoardService;
 import com.fivenonjangi.noning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +47,14 @@ public class BoardController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/list/{userid}")
-    public ResponseEntity getBoardList(@PathVariable("userid") long userId, @RequestParam("categorycode") String categoryCode){
+    @GetMapping("/list")
+    public ResponseEntity getBoardList(HttpServletRequest request, @RequestParam("categorycode") String categoryCode){
+        long userId = -1;
+
+        if(request.getHeader("ACCESSTOKEN") != null){ // 로그인 한 사용자
+            userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
+        }
+
         List<BoardResponseDTO> boardResponseDTOList = boardService.getBoardList(userId, categoryCode);
 
         return new ResponseEntity<>(boardResponseDTOList, HttpStatus.OK);
@@ -59,19 +65,13 @@ public class BoardController {
         long userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
         BoardResponseDTO boardResponseDTO = boardService.getBoard(userId, boardId);
 
-//        Map<String, List<UserResponseDTO>> participates = boardService.getParticipate(boardId);
-//        Map<String, Object> result = new HashMap<>();
-//        result.put("participate1List", participates.get("participate1List"));
-//        result.put("participate2List", participates.get("participate2List"));
-//        result.put("board", boardResponseDTO);
-
         return new ResponseEntity<>(boardResponseDTO, HttpStatus.OK);
     }
 
     @GetMapping("/{boardid}/users")
-    public ResponseEntity getParticipate(@PathVariable("boardid") long boardId){
-        List<ParticipateResponseDTO> user_list = userService.getUserListByBoardId(boardId);
+    public ResponseEntity getVoter(@PathVariable("boardid") long boardId){
+        List<VoterResponseDTO> voterList = userService.getVoterListByBoardId(boardId);
 
-        return new ResponseEntity<>(user_list, HttpStatus.OK);
+        return new ResponseEntity<>(voterList, HttpStatus.OK);
     }
 }
