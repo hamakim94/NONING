@@ -78,7 +78,7 @@ public class BoardController {
 
     @PostMapping("/{boardid}/vote")
     public ResponseEntity<?> vote(@PathVariable("boardid") long boardId, @RequestBody BoardRequestDTO.BoardVoteDTO boardVoteDTO, HttpServletRequest request){
-        if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(boardVoteDTO.getUserId())){
+        if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(boardVoteDTO.getUserId()))){
             try {
                 boardService.vote(boardId, boardVoteDTO.getUserId(), boardVoteDTO.getVote(), LocalDateTime.now());
                 return new ResponseEntity<>(HttpStatus.OK);
@@ -88,7 +88,7 @@ public class BoardController {
     }
     @PutMapping("/{boardid}/betray")
     public ResponseEntity<?> betray(@PathVariable("boardid") long boardId, @RequestBody BoardRequestDTO.BoardVoteDTO boardVoteDTO, HttpServletRequest request){
-        if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(boardVoteDTO.getUserId())){
+        if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(boardVoteDTO.getUserId()))){
             try {
                 boardService.betray(boardId, boardVoteDTO.getUserId(), boardVoteDTO.getVote(), LocalDateTime.now());
                 return new ResponseEntity<>(HttpStatus.OK);
