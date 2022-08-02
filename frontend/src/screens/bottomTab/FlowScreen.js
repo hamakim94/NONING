@@ -3,6 +3,8 @@ import { TouchableOpacity, StyleSheet, View, SafeAreaView, FlatList, Dimensions 
 import Flows from '../../components/flow/Flows'
 import {BOARDS} from '../../data/boards';
 import axios from 'axios';
+import FireAnimation from '../../components/animations/Fire';
+import WaveAnimation from '../../components/animations/Wave';
 
 // 게시글 가져오기 :  /api/boards/list/{userid}  인풋 : userId, categoryCode, order?categorycode=””
 function FlowScreen({navigation}) {
