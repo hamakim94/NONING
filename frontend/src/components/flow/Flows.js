@@ -3,11 +3,7 @@ import React, {useState} from 'react';
 import FlowBar from './FlowBar'
 import FlowBottom from './FlowBottom';
 import FireAnimation from '../animations/Fire';
-import FireAnimation2 from '../animations/Fire2';
 import WaveAnimation from '../animations/Wave';
-import WaveAnimation2 from '../animations/Wave2';
-import WaveAnimation3 from '../animations/Wave3';
-import WaveAnimation4 from '../animations/Wave4';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -15,18 +11,17 @@ export default function Flows({board, boards, setBoards, navigation}) {
   console.log('보드렌더링');
   const [boardData, setBoardData] = useState(board);
 
-
   return (
     <View style={{height:windowHeight*0.9}}>
-      <WaveAnimation />
       <View style={styles.container}>
+        <WaveAnimation style={{position: 'absolute', top: 0, padding: 0, margin: 0, flex: 1}}/>
         <View style={styles.titleContainer}>
           <Text style={styles.titleText}>{board.title}</Text>
         </View>
         <FlowBar board={boardData} setBoards={setBoardData}></FlowBar>
         <FlowBottom  board={boardData} setBoards={setBoardData} navigation={navigation}></FlowBottom>
+        <FireAnimation style={{position: 'absolute', bottom: 0, padding: 0, margin: 0, flex: 1}}/>
       </View>
-      <FireAnimation2 />
     </View>
   );
 }

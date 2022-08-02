@@ -50,7 +50,7 @@ function FlowScreen({navigation}) {
   const keyExtractor = useCallback((item) => item.board_id, []);
 
   return (
-      <View style={{flex: 1, backgroundColor: 'white'}}>
+      <View style={{flex: 1, margin: 0}}>
         <FlatList
           showsVerticalScrollIndicator={false}
           removeClippedSubviews={true}
