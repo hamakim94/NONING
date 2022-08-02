@@ -82,9 +82,4 @@ public class BoardServiceImpl implements BoardService{
     public BoardResponseDTO getBoard(long userId, long boardId) {
         return boardRepositoryCustom.findByUserIdAndBoardId(userId, boardId);
     }
-
-//    @Override
-//    public Map<String, List<UserResponseDTO>> getParticipate(long boardId) {
-//        return boardRepositoryCustom.findByBoardId(boardId);
-//    }
 }

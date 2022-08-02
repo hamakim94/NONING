@@ -16,9 +16,9 @@ public class CommentResponseDTO {
     private String content;
     private LocalDateTime reg;
     private long writerId;
-    private String writerNickname;
-    private String writerImg;
-    private byte writerVote; // 댓글,대댓글을 쓴 사람이 1안/2안 투표자인지
+//    private String writerNickname;
+//    private String writerImg;
+//    private byte writerVote; // 댓글,대댓글을 쓴 사람이 1안/2안 투표자인지
     private int likes; // 댓글, 대댓글의 좋아요 수
     private int dislikes; // 댓글, 대댓글의 싫어요 수
     private boolean userLike; // 로그인한 사용자가 좋아요를 눌렀는지
