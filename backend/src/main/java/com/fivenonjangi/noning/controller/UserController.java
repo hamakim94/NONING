@@ -142,4 +142,16 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PutMapping("/delete")
+    public ResponseEntity<?> deleteUser(@RequestParam long userId, HttpServletRequest request){
+        if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userId))){
+            try {
+                userService.deleteUser(userId);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            catch (Exception e){}
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 }

@@ -20,4 +20,5 @@ public interface UserService {
     boolean checkPassword(String userId, String password, PasswordEncoder passwordEncoder);
     void verifyEmail(String token) throws Exception;
     void findPassword(String email, String name, PasswordEncoder passwordEncoder) throws Exception;
+    void deleteUser(long userId) throws Exception;
 }

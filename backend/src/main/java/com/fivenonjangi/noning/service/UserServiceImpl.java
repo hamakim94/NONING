@@ -178,6 +178,14 @@ public class UserServiceImpl implements UserService{
         else throw new Exception();
     }
 
+    @Override
+    public void deleteUser(long userId) throws Exception {
+        userDataRepository.deleteByUser_Id(userId);
+        User user = userRepository.findById(userId).get();
+        user.deleteUser(LocalDateTime.now());
+        userRepository.save(user);
+    }
+
     private String ageToAgeCode(byte age) {
         switch (age/10) {
             case 0: return "A0101";

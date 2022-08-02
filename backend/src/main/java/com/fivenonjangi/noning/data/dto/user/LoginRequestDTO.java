@@ -16,9 +16,7 @@ public class LoginRequestDTO {
 
     @Getter
     @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public class EditPasswordDTO extends LoginRequestDTO{
+    public static class EditPasswordDTO extends LoginRequestDTO{
         private String newPassword;
     }
 }

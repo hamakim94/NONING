@@ -54,4 +54,8 @@ public class User {
         this.age = userDTO.getAge();
         this.ageRangeCode = ageRangeCode;
     }
+    public void deleteUser(LocalDateTime deleteDate){
+        this.isDeleted = true;
+        this.deleteDate = deleteDate;
+    }
 }
