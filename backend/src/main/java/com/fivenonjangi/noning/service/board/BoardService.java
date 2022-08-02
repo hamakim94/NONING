@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface BoardService {
     void writeBoard(BoardRequestDTO boardRequestDTO, long userId);
-    void deleteBoard(long boardId);
+    void deleteBoard(long userId, long boardId) throws Exception;
     BoardResponseDTO getBoard(long userId, long boardId);
     List<BoardResponseDTO> getBoardList(long userId, String categoryCode);
     List<BoardResponseDTO> getBoardListByUserId(long userId);

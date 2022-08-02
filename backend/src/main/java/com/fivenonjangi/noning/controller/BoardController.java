@@ -42,10 +42,14 @@ public class BoardController {
     }
 
     @PutMapping("/{boardid}/delete")
-    public ResponseEntity deleteBoard(@PathVariable("boardid") long boardId){
-        boardService.deleteBoard(boardId);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity deleteBoard(HttpServletRequest request, @PathVariable("boardid") long boardId){
+        long userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
+        try {
+            boardService.deleteBoard(userId, boardId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/list")

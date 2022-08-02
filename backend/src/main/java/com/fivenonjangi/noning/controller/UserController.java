@@ -79,13 +79,13 @@ public class UserController {
     public ResponseEntity getMyPageInfo(@PathVariable("userid") long userId){
         UserDTO user = userService.getUserResponse(userId);
         List<Long> followingIdList = followService.getFollowingId(userId);
-        List<Long> followeeIdList = followService.getFollowerId(userId);
+        List<Long> followerIdList = followService.getFollowerId(userId);
         List<BoardResponseDTO> boardList = boardService.getBoardListByUserId(userId);
 
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("user", user);
         resultMap.put("followingIdList", followingIdList);
-        resultMap.put("followeeIdList", followeeIdList);
+        resultMap.put("followerIdList", followerIdList);
         resultMap.put("boardList", boardList);
 
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
