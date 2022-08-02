@@ -6,7 +6,7 @@ export default function BoardHeader({board, navigation}) {
 
   return (
     <View style={styles.liveContainer}>
-      <Text style={styles.liveButton(board.is_live)} >LIVE</ Text>
+      <Text style={styles.liveButton(board.live)} >LIVE</ Text>
       <TouchableOpacity style={{marginHorizontal:6}} disabled={board.user_vote === 0} onPress={() =>
               navigation.navigate('HomeDetail', {screen: 'HomeDetail'})
             }>
@@ -24,14 +24,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     margin: '1%',
   },
-  liveButton: (is_live) => ({
-    width: 50,
-    borderColor: is_live === 1 ? '#FF7171' : '#808080',
+  liveButton: (live) => ({
+    width: 40,
+    borderColor: live ? '#FF7171' : '#808080',
     borderRadius: 5,
-    color: is_live === 1 ? '#FF7171' : '#808080',
-    borderWidth: is_live === 1 ? 2 : 1,
+    color: live  ? '#FF7171' : '#808080',
+    borderWidth: live  ? 2 : 1,
     fontWeight: 'bold',
-    fontSize: 15,
+    fontSize: 12,
     margin: 2,
     textAlign: 'center',
     textAlignVertical: 'center',
