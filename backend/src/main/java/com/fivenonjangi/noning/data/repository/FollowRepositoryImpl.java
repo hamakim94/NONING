@@ -54,7 +54,7 @@ public class FollowRepositoryImpl implements FollowRepositoryCustom{
         List<UserDTO> result = new ArrayList<UserDTO>();
         for (Tuple tuple : tuples) {
             UserDTO userDTO = UserDTO.builder()
-                    .id(tuple.get(userData.user.id))
+                    .userId(tuple.get(userData.user.id))
                     .nickname(tuple.get(userData.nickname))
                     .img(tuple.get(userData.img))
                     .genderCode(tuple.get(userData.user.genderCode))
@@ -82,7 +82,7 @@ public class FollowRepositoryImpl implements FollowRepositoryCustom{
         List<UserDTO> result = new ArrayList<UserDTO>();
         for (Tuple tuple : tuples) {
             UserDTO userDTO = UserDTO.builder()
-                    .id(tuple.get(userData.user.id))
+                    .userId(tuple.get(userData.user.id))
                     .nickname(tuple.get(userData.nickname))
                     .img(tuple.get(userData.img))
                     .genderCode(tuple.get(userData.user.genderCode))
