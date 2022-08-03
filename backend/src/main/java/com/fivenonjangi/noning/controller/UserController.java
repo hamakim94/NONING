@@ -46,8 +46,7 @@ public class UserController {
         try {
             userService.signupUser(signupRequestDTO, passwordEncoder);
             return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -163,6 +162,8 @@ public class UserController {
 
     @GetMapping("/list")
     public ResponseEntity getUserList(){
-        return null;
+        List<UserDTO> userDTOList = userService.getUserList();
+
+        return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
 }
