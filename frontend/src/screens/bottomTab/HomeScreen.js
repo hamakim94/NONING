@@ -33,6 +33,10 @@ function HomeScreen({navigation}) {
         // 처음 실행하는 함수, 전체 보드를 가져온다
         'http://i7a202.p.ssafy.io:9999/api/boards/list',
         {
+          headers : {
+            "ACCESSTOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwidXNlcklkIjoiNiIsImlhdCI6MTY1OTUwOTQwMiwiZXhwIjoxNjU5NTEwMDAyfQ.ENmu-N_nHwPvdVQRf32od3JVrV1RZi_FLBa46e3ecwU " ,
+            "REFRESHTOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwidXNlcklkIjoiNiIsImlhdCI6MTY1OTUwOTQwMiwiZXhwIjoxNjYyMTAxNDAyfQ.SsItr2QOxbf8NBKL0nXdtrqbgTOIRMpGpkJDnK0LC2g "
+          },
           params: {categorycode: filterToCode[filterName]},
         },
       ); 
