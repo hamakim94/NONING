@@ -16,4 +16,5 @@ public interface BoardService {
     void betray(long boardId, long userId, byte vote, LocalDateTime now) throws Exception;
     void like(long boardId, long userId, LocalDateTime now) throws Exception;
     void unlike(long boardId, long userId) throws Exception;
+    List<BoardResponseDTO> getFlowList(long userId);
 }

@@ -131,4 +131,9 @@ public class BoardServiceImpl implements BoardService{
         boardData.unlike();
         boardDataRepository.save(boardData);
     }
+
+    @Override
+    public List<BoardResponseDTO> getFlowList(long userId) {
+        return boardRepositoryCustom.findFlowByUserId(userId);
+    }
 }

@@ -123,4 +123,12 @@ public class BoardController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
+    @GetMapping("/flow")
+    public ResponseEntity getFlowList(HttpServletRequest request){
+        long userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
+        List<BoardResponseDTO> boardResponseDTOList = boardService.getFlowList(userId);
+
+        return new ResponseEntity<>(boardResponseDTOList, HttpStatus.OK);
+    }
 }
