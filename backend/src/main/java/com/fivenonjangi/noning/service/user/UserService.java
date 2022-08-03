@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface UserService {
-    void signupUser(SignupRequestDTO signupRequestDTO) throws Exception;
+    void signupUser(SignupRequestDTO signupRequestDTO, PasswordEncoder passwordEncoder) throws Exception;
     UserDTO login(LoginRequestDTO loginRequestDTO, LocalDateTime curTime, PasswordEncoder passwordEncoder);
     UserData getUserByEmail(String email);
     UserData getUserById(long id);
