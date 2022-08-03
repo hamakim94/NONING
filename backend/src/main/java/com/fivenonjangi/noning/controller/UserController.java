@@ -43,9 +43,8 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity signupUser(@RequestBody SignupRequestDTO signupRequestDTO) {
-        signupRequestDTO.setPassword(passwordEncoder.encode(signupRequestDTO.getPassword()));
         try {
-            userService.signupUser(signupRequestDTO);
+            userService.signupUser(signupRequestDTO, passwordEncoder);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception e) {

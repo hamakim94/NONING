@@ -15,8 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -36,8 +37,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void signupUser(SignupRequestDTO signupRequestDTO) throws Exception{
-        if (userDataRepository.findByEmailOrNickname(signupRequestDTO.getEmail(), signupRequestDTO.getNickname()) != null) throw new Exception();
+    public void signupUser(SignupRequestDTO signupRequestDTO, PasswordEncoder passwordEncoder) throws Exception{
+        if (userDataRepository.findByEmailOrNickname(signupRequestDTO.getEmail(), signupRequestDTO.getNickname()) != null
+            || !isValidPassword(signupRequestDTO.getPassword())) throw new Exception();
+
+        signupRequestDTO.setPassword(passwordEncoder.encode(signupRequestDTO.getPassword()));
         User user = User.builder()
                 .genderCode(signupRequestDTO.getGenderCode())
                 .mbti1Code(signupRequestDTO.getMbti1Code())
@@ -197,24 +201,81 @@ public class UserServiceImpl implements UserService{
         }
     }
 
-    public String getRamdomPassword(int size) {
-        char[] charSet = new char[] {
-                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-                '!', '@', '#', '$', '%', '^', '&' };
+    public static String getRamdomPassword(int size) {
+        char[] charSet1 = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+        char[] charSet2 = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+                           'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+        char[] charSet3 = {'!', '@', '#', '$', '%', '^', '&' };
 
         StringBuffer sb = new StringBuffer();
         SecureRandom sr = new SecureRandom();
         sr.setSeed(new Date().getTime());
 
         int idx = 0;
-        int len = charSet.length;
+        int len = charSet1.length;
+        int size1 = sr.nextInt(size-2)+1;
+        size-=size1;
+        for (int i=0; i<size1; i++) {
+            idx = sr.nextInt(len);
+            sb.append(charSet1[idx]);
+        }
+        len = charSet2.length;
+        size1 = sr.nextInt(size-1)+1;
+        size-=size1;
+        for (int i=0; i<size1; i++) {
+            idx = sr.nextInt(len);
+            sb.append(charSet2[idx]);
+        }
+        len = charSet3.length;
         for (int i=0; i<size; i++) {
             idx = sr.nextInt(len);
-            sb.append(charSet[idx]);
+            sb.append(charSet3[idx]);
         }
-
+        List<String> list = Arrays.asList(sb.toString().split(""));
+        Collections.shuffle(list);
+        sb = new StringBuffer();
+        for (int i=0, n = list.size(); i<n; i++){
+            sb.append(list.get(i));
+        }
         return sb.toString();
+    }
+
+    public static boolean isValidPassword(String password) {
+        // 최소 8자, 최대 20자 상수 선언
+        final int MIN = 8;
+        final int MAX = 20;
+        // 영어, 숫자, 특수문자 포함한 MIN to MAX 글자 정규식
+        final String REGEX =
+                "^((?=.*\\d)(?=.*[a-zA-Z])(?=.*[\\W]).{" + MIN + "," + MAX + "})$";
+        // 3자리 연속 문자 정규식
+        final String SAMEPT = "(\\w)\\1\\1";
+        // 공백 문자 정규식
+        final String BLANKPT = "(\\s)";
+        // 정규식 검사객체
+        Matcher matcher;
+        // 공백 체크
+        if (password == null || "".equals(password)) {
+            return false;
+        }
+        // ASCII 문자 비교를 위한 UpperCase
+        String tmpPw = password.toUpperCase();
+        // 문자열 길이
+        int strLen = tmpPw.length();
+        // 글자 길이 체크
+        if (strLen > 20 || strLen < 8) {
+            return false;
+        }
+        // 공백 체크
+        matcher = Pattern.compile(BLANKPT).matcher(tmpPw);
+        if (matcher.find()) {
+            return false;
+        }
+        // 비밀번호 정규식 체크
+        matcher = Pattern.compile(REGEX).matcher(tmpPw);
+        if (!matcher.find()) {
+            return false;
+        }
+        // Validation Complete
+        return true;
     }
 }
