@@ -13,14 +13,14 @@ export default function Flows({board, boards, setBoards, navigation}) {
 
   return (
     <View style={{height:windowHeight*0.9}}>
+      <WaveAnimation/>
+      <FireAnimation/>
       <View style={styles.container}>
-        <WaveAnimation style={{position: 'absolute', top: 0, padding: 0, margin: 0, flex: 1}}/>
         <View style={styles.titleContainer}>
           <Text style={styles.titleText}>{board.title}</Text>
         </View>
         <FlowBar board={boardData} setBoards={setBoardData}></FlowBar>
         <FlowBottom  board={boardData} setBoards={setBoardData} navigation={navigation}></FlowBottom>
-        <FireAnimation style={{position: 'absolute', bottom: 0, padding: 0, margin: 0, flex: 1}}/>
       </View>
     </View>
   );
