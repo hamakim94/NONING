@@ -4,6 +4,7 @@ import Flows from '../components/flow/Flows';
 import FlowScreen from '../screens/bottomTab/FlowScreen';
 import DetailScreen from '../screens/board/DetailScreen';
 import UserPageScreen from '../screens/bottomTab/UserPageScreen';
+import LoginNav from './LoginNav';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,14 @@ export default function FlowNav() {
         name="UserPageScreen"
         component={UserPageScreen}
         options={{headerBackVisible: true, headerBackTitleVisible: false}}
+      />
+      <Stack.Screen
+        name="LoginNav"
+        component={LoginNav}
+        options={{
+          title: '로그인',
+          headerShown: false,
+        }}
       />
     </Stack.Navigator>
   );

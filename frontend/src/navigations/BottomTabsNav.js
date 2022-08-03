@@ -88,6 +88,7 @@ function BottomTabsNav() {
         }}
         listeners={tabBarListeners}
       />
+      
     </Tab.Navigator>
   );
 }
