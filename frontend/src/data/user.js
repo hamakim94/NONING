@@ -1,54 +1,62 @@
 export const USER = 
   {
       user: {
-          user_id: 'dona@naver.com',
-          gender_code: 'G0102', 
-          mbti1_code: 'M0101',
-          mbti2_code: 'M0201', 
-          mbti3_code: 'M0301', 
-          mbti4_code: 'M0401', 
+          id: 0,
+          genderCode: 'G0102', 
+          mbti1Code: 'M0101',
+          mbti2Code: 'M0201', 
+          mbti3Code: 'M0301', 
+          mbti4Code: 'M0401', 
           age: 15, 
           age_range_code: 'A0102', 
           nickname: 'dona', 
           img: 'https://i.imgur.com/YcP0tik.jpeg'
       },
-      followee_list: ['a', 'b', 'c'],
-      follower_list: ['a', 'b', 'c'],
-      board_list: [
+      followingIdList: ['a', 'b', 'c'],
+      followerIdList: ['a', 'b', 'c'],
+      boardList: [
           {
-              board_id: 1,
+            boardId: 1,
               title: `퇴근 후 데이트 가는 길에 조수석에 이성 직장동료가 앉아있다 내가 뒷자리에 앉아서 타야된다면?`,
               opt1: '뒤에 앉는다', 
               opt2:  '싸운다', 
-              category_code: 'B0101',
-              is_live: 1, 
-              vote: 2,
+              categoryCode: 'B0101',
+              isLive: 1, 
+              userLike: 'true',
+              userVote: 2,
+              writerId: '0'
           },
           {
-              board_id: 2,
-              title: `논쟁이`,
-              opt1: '뒤에 앉는다', 
-              opt2:  '싸운다', 
-              category_code: 'B0101',
-              is_live: 1, 
-              vote: 1,
-          },
-          {
-              board_id: 3,
-              title: `깻잎넌쟁`,
-              opt1: '뒤에 앉는다', 
-              opt2:  '싸운다', 
-              category_code: 'B0101',
-              is_live: 1, 
-              vote: 2,
-          },{
-            board_id: 4,
-            title: `깻잎넌쟁당면넌쟁`,
+            boardId: 2,
+            title: `퇴근 후 데이트 가는 길에 조수석에 이성 직장동료가 앉아있다 내가 뒷자리에 앉아서 타야된다면?`,
             opt1: '뒤에 앉는다', 
             opt2:  '싸운다', 
-            category_code: 'B0101',
-            is_live: 1, 
-            vote: 0,
+            categoryCode: 'B0101',
+            isLive: 1, 
+            userLike: 'true',
+            userVote: 0,
+            writerId: '1'
+          },
+          {
+            boardId: 3,
+            title: `퇴근 후 데이트 가는 길에 조수석에 이성 직장동료가 앉아있다 내가 뒷자리에 앉아서 타야된다면?`,
+            opt1: '뒤에 앉는다', 
+            opt2:  '싸운다', 
+            categoryCode: 'B0101',
+            isLive: 1, 
+            userLike: 'true',
+            userVote: 1,
+            writerId: '0'
+          },{
+            boardId: 4,
+              title: `퇴근 후 데이트 가는 길에 조수석에 이성 직장동료가 앉아있다 내가 뒷자리에 앉아서 타야된다면?`,
+              opt1: '뒤에 앉는다', 
+              opt2:  '싸운다', 
+              categoryCode: 'B0101',
+              isLive: 1, 
+              userLike: 'false',
+              userVote: 0,
+              writerId: '0'
         },
 
       ]

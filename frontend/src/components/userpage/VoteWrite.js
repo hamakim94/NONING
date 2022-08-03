@@ -3,22 +3,23 @@ import React from 'react'
 import { USER } from '../../data/user'
 import { FlatList } from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import UserPageNav from '../../navigations/UserPageNav';
 
 
 export default function VoteDo({navigation}) {
-  console.log(USER.board_list)
+  console.log(USER.boardList)
   return (
       <View style={{flex:1}}>
           <FlatList
               style= {{paddingVertical: '3%'}}
-              keyExtractor={(item) => item.board_id}
-              data={USER.board_list}
+              keyExtractor={(item) => item.boardId}
+              data={USER.boardList}
               navigation={navigation}
               renderItem={({item}) => (
                   <View style={{borderBottomWidth: 0.3}}>
                       <View style={{flex: 1.2, alignContent: 'center', justifyContent: 'center'}}>
                       {(() => {
-                          if (item.vote != "0") return <View>
+                          if (item.writerId == USER.user.id) return <View>
                                   <TouchableOpacity
                                       style={styles.detail} 
                                       onPress={() => navigation.push('DetailScreen', {screen: 'DetailScreen'})}>
@@ -27,13 +28,15 @@ export default function VoteDo({navigation}) {
                                   <Text style={{fontWeight: 'bold'}}>{item.title}</Text>
                                   <View style={{ flexDirection: 'row', marginVertical: '2%'}}>
                                       {(() => {
-                                          if (item.vote == "1") return <AntDesign name={'checkcircleo'} size={15} color={'red'} />
-                                          else return <AntDesign name={'checkcircleo'} size={15} color={'blue'} /> 
+                                          if (item.userVote == "1") return <AntDesign name={'checkcircleo'} size={15} color={'red'} />
+                                          else if (item.userVote == "2") return <AntDesign name={'checkcircleo'} size={15} color={'blue'} />
+                                          else return  
                                       })()}
                                       {(() => {
-                                          if (item.vote == "1") return <Text style={{fontWeight: 'bold'}}>{item.opt1}</Text>
-                                          else return <Text style={{fontWeight: 'bold'}}>{item.opt2}</Text> 
-                                          })()}
+                                          if (item.userVote == "1") return <Text style={{fontWeight: 'bold'}}>{item.opt1}</Text>
+                                          else if (item.userVote == "2") return <Text style={{fontWeight: 'bold'}}>{item.opt2}</Text> 
+                                          else return 
+                                      })()}
                                   </View>
                               </View>
                           else return;

@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import {View, StyleSheet, Dimensions, Text, Image, TouchableOpacity, length} from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import { USER } from '../../data/user';
-import VoteLike from '../userpage/VoteLike';
-import VoteDo from '../userpage/VoteDo';
-import VoteWrite from '../userpage/VoteWrite';
+import VoteLike from '../../components/userpage/VoteLike'
+import VoteDo from '../../components/userpage/VoteDo'
+import VoteWrite from '../../components/userpage//VoteWrite';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
 
@@ -77,25 +77,22 @@ export default function UserPageScreen({navigation}) {
             <View style = {{ flexDirection: "row", alignItems: 'center'}}>
                 {/* 프로필 이미지 */}
                 <View style={styles.profileImageBox}>
-
-                        <View>
-                            <Image source={{uri: USER.user.img}} style={styles.profileImage}/>   
-                        </View>
-
+                    <View>
+                        <Image source={{uri: USER.user.img}} style={styles.profileImage}/>   
+                    </View>
                 </View>
                 {/* 팔로우/팔로워 */}
                 <View style={styles.followsBox}>
-                  
                         <View style={styles.follows}>
                             <TouchableOpacity
                                 onPress={() => navigation.push('FollowerScreen', {screen: 'FollowerScreen'})}>
                                 <Text> follower</Text>
-                                <Text style={{alignSelf: 'center'}}> {USER.followee_list.length}</Text>
+                                <Text style={{alignSelf: 'center'}}> {USER.followerIdList.length}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => navigation.push('FollowerScreen', {screen: 'FollowerScreen'})}>
                                 <Text> following</Text>
-                                <Text style={{alignSelf: 'center'}}> {USER.followee_list.length}</Text>
+                                <Text style={{alignSelf: 'center'}}> {USER.followingIdList.length}</Text>
                             </TouchableOpacity>
                         </View>
 
@@ -106,18 +103,44 @@ export default function UserPageScreen({navigation}) {
         <View style={{flexDirection: 'row', flex: 0.15}}>
             {/* 닉네임, 특징 */}
             <View style={{marginStart: '5%' }}> 
-
                     <View >
-                        <Text style={{marginBottom: '1.5%'}}> {USER.user.nickname}</Text>
-                        <Text> {USER.user.gender_code} / {USER.user.mbti1_code}{USER.user.mbti2_code}{USER.user.mbti3_code}{USER.user.mbti4_code} / {USER.user.age_range_code}</Text>
+                        <Text style={{marginBottom: '1.5%', fontWeight: 'bold'}}> {USER.user.nickname}</Text>
+                        <Text> {(() => {
+                                    if (USER.user.genderCode == "G0101") return <Text>남성</Text>
+                                    else return <Text>여성</Text>
+                                })()} / 
+                                {(() => {
+                                    if (USER.user.mbti1Code == "M0101") return <Text>E</Text>
+                                    else return <Text>I</Text>
+                                })()}
+                                {(() => {
+                                    if (USER.user.mbti2Code == "M0201") return <Text>N</Text>
+                                    else return <Text>S</Text>
+                                })()}
+                                {(() => {
+                                    if (USER.user.mbti3Code == "M0301") return <Text>F</Text>
+                                    else return <Text>T</Text>
+                                })()}
+                                {(() => {
+                                    if (USER.user.mbti4Code == "M0401") return <Text>P</Text>
+                                    else return <Text>J</Text>
+                                })()} / 
+                                {(() => {
+                                    if (USER.user.age_range_code == "A0101") return <Text>10대 미만</Text>
+                                    else if (USER.user.age_range_code == "A0102") return <Text>10대</Text>
+                                    else if (USER.user.age_range_code == "A0103") return <Text>20대</Text>
+                                    else if (USER.user.age_range_code == "A0104") return <Text>30대</Text>
+                                    else if (USER.user.age_range_code == "A0104") return <Text>40대</Text>
+                                    else return <Text>50대 이상</Text>
+                                })()}
+                        </Text>
                     </View>
-
             </View>
             {/* 팔로우 버튼 */}
         </View>
 
       
-        <View style={{flex: 0.9, marginTop: '1%'}}>
+        <View style={{flex: 0.8}}>
             <TabView
                 navigationState={{index, routes}}
                 renderScene={renderScene}
