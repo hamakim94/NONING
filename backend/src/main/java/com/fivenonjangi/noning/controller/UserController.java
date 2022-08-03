@@ -169,7 +169,9 @@ public class UserController {
         return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
     @PostMapping("/reissue")
-    public ResponseEntity reissue(String refreshToken, String accessToken, HttpServletResponse response) {
+    public ResponseEntity reissue(HttpServletRequest request, HttpServletResponse response) {
+        String refreshToken = jwtTokenProvider.resolveToken(request, "REFRESHTOKEN");
+        String accessToken = jwtTokenProvider.resolveToken(request, "ACCESSTOKEN");
         String userId = jwtTokenProvider.getUserPk(accessToken);
         if (refreshToken.equals(jwtTokenProvider.getRefreshToken(userId))&&jwtTokenProvider.validateToken(refreshToken)) {
             accessToken = jwtTokenProvider.createAccessToken(Long.parseLong(jwtTokenProvider.getUserPk(refreshToken)));
