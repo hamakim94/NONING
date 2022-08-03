@@ -4,6 +4,7 @@ import com.fivenonjangi.noning.data.dto.user.UserDTO;
 import com.fivenonjangi.noning.data.entity.user.Follow;
 import com.fivenonjangi.noning.data.repository.user.FollowRepository;
 import com.fivenonjangi.noning.data.repository.user.FollowRepositoryCustom;
+import com.fivenonjangi.noning.data.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.List;
 public class FollowServiceImpl implements FollowService{
     private final FollowRepositoryCustom followRepositoryCustom;
     private final FollowRepository followRepository;
+    private final UserRepository userRepository;
 
 
     @Override
@@ -27,14 +29,14 @@ public class FollowServiceImpl implements FollowService{
     }
 
     @Override
-    public void addFollowing(long userId, long targetUserId) {
-        if (followRepository.findByFromUserIdEqualsAndToUserIdEquals(userId, targetUserId) == null) {
+    public void addFollowing(long userId, long targetUserId) throws Exception{
+        if (userId!=targetUserId && followRepository.findByFromUserIdEqualsAndToUserIdEquals(userId, targetUserId) == null && !userRepository.findById(targetUserId).get().isDeleted()) {
             Follow follow = Follow.builder()
                     .fromUserId(userId)
                     .toUserId(targetUserId)
                     .build();
             followRepository.save(follow);
-        }
+        }else throw new Exception();
     }
     @Override
     public void deleteFollowing(long userId, long targetUserId) {
