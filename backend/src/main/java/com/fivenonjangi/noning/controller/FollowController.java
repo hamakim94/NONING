@@ -22,7 +22,7 @@ public class FollowController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addFollowing(@RequestBody FollowRequestDTO followRequestDto, HttpServletRequest request){
+    public ResponseEntity addFollowing(@RequestBody FollowRequestDTO followRequestDto, HttpServletRequest request){
         try{
             checkUser(followRequestDto.getUserId(), request);
             followService.addFollowing(followRequestDto.getUserId(), followRequestDto.getTargetUserId());
@@ -32,7 +32,7 @@ public class FollowController {
         }
     }
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteFollowing(@RequestBody FollowRequestDTO followRequestDto, HttpServletRequest request){
+    public ResponseEntity deleteFollowing(@RequestBody FollowRequestDTO followRequestDto, HttpServletRequest request){
         try{
             checkUser(followRequestDto.getUserId(), request);
             followService.deleteFollowing(followRequestDto.getUserId(), followRequestDto.getTargetUserId());
@@ -43,7 +43,7 @@ public class FollowController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @GetMapping("/list/{userId}")
-    public ResponseEntity<?> getFollowList(@PathVariable long userId){
+    public ResponseEntity getFollowList(@PathVariable long userId){
         try{
             List<UserDTO> followerList = followService.getFollowerList(userId);
             List<UserDTO> followingList = followService.getFollowingList(userId);
@@ -57,7 +57,7 @@ public class FollowController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @DeleteMapping("/followers/delete")
-    public ResponseEntity<?> deleteFollower(@RequestBody FollowRequestDTO followRequestDto, HttpServletRequest request){
+    public ResponseEntity deleteFollower(@RequestBody FollowRequestDTO followRequestDto, HttpServletRequest request){
         try{
             checkUser(followRequestDto.getUserId(), request);
             followService.deleteFollower(followRequestDto.getUserId(), followRequestDto.getTargetUserId());

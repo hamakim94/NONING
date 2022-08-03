@@ -53,12 +53,12 @@ public class UserController {
     }
 
     @GetMapping("/profiles")
-    public ResponseEntity<?> getProfiles(long userId){
+    public ResponseEntity getProfiles(long userId){
         return new ResponseEntity<>(userService.getUserResponse(userId),HttpStatus.OK);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginRequestDTO){
+    public ResponseEntity login(@RequestBody LoginRequestDTO loginRequestDTO){
         UserDTO userDTO = userService.login(loginRequestDTO, LocalDateTime.now(), passwordEncoder);
         if (userDTO != null) {
             Authentication authentication = new UsernamePasswordAuthenticationToken(userDTO.getUserId(), loginRequestDTO.getPassword());
@@ -69,7 +69,7 @@ public class UserController {
         return new ResponseEntity<>("invalid ID",HttpStatus.UNAUTHORIZED);
     }
     @GetMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletRequest request){
+    public ResponseEntity logout(HttpServletRequest request){
         String accesstoken = jwtTokenProvider.resolveToken(request, "ACCESSTOKEN");
         jwtTokenProvider.logout(accesstoken, jwtTokenProvider.getUserPk(accesstoken));
         return ResponseEntity.ok().build();
@@ -90,7 +90,7 @@ public class UserController {
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
     @PutMapping("/profiles/edit")
-    public ResponseEntity<?> modifyUser(@RequestBody UserDTO userDTO, HttpServletRequest request){
+    public ResponseEntity modifyUser(@RequestBody UserDTO userDTO, HttpServletRequest request){
         if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userDTO.getUserId()))) {
             try {
                 userService.modifyUser(userDTO);
@@ -102,7 +102,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @PutMapping("/passwords/edit")
-    public ResponseEntity<?> editPassword(@RequestBody LoginRequestDTO.EditPasswordDTO editPasswordDTO, HttpServletRequest request){
+    public ResponseEntity editPassword(@RequestBody LoginRequestDTO.EditPasswordDTO editPasswordDTO, HttpServletRequest request){
         if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(editPasswordDTO.getUserId()))) {
             try {
                 userService.editPassword(editPasswordDTO
@@ -114,14 +114,14 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @PostMapping("/passwords/check")
-    public ResponseEntity<?> checkPassword(@RequestParam String password, HttpServletRequest request){
+    public ResponseEntity checkPassword(@RequestParam String password, HttpServletRequest request){
         String userId = jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN"));
         if (userService.checkPassword(userId, password, passwordEncoder))
             return new ResponseEntity<>(HttpStatus.OK);
         else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @GetMapping("/verify")
-    public ResponseEntity<?> verifyingEmail(@Validated @RequestParam String token) {
+    public ResponseEntity verifyingEmail(@Validated @RequestParam String token) {
         try {
             userService.verifyEmail(token);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -131,7 +131,7 @@ public class UserController {
         }
     }
     @GetMapping("/passwords/find")
-    public ResponseEntity<?> findPassword(String email, String name){
+    public ResponseEntity findPassword(String email, String name){
         try {
             userService.findPassword(email, name, passwordEncoder);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -141,7 +141,7 @@ public class UserController {
     }
 
     @PutMapping("/delete")
-    public ResponseEntity<?> deleteUser(@RequestParam long userId, HttpServletRequest request){
+    public ResponseEntity deleteUser(@RequestParam long userId, HttpServletRequest request){
         if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userId))){
             try {
                 userService.deleteUser(userId);
