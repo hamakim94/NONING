@@ -39,6 +39,10 @@ function SearchNav() {
         component={UserSearchScreen}
         options={{tabBarLabel: '사용자'}}
       />
+      {/* <Tab.Screen
+        name="UserPageScreen"
+        component={UserPageScreen}
+      /> */}
     </Tab.Navigator>
   );
 }

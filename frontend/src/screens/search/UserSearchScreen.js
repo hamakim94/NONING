@@ -44,7 +44,7 @@ function UserSearchScreen({navigation}) {
     return (
             <TouchableOpacity
                 style={{flexDirection: 'row', flex: 1.5 }} 
-                onPress={() => navigation.push('DetailScreen', {screen: 'DetailScreen'})}>
+                onPress={() => navigation.push('UserPageScreen', {screen: 'UserPageScreen'})}>
                 <View style={{flexDirection: 'row', flex: 0.3, alignItems: 'center', justifyContent: 'center'}}>
                     <Image source={{uri: item.imageUrl}} style={{width: 60, height: 60, borderRadius: 50, borderWidth: 2, borderColor: 'rgba(255,90,110,1)',}}/>  
                 </View>
@@ -88,7 +88,6 @@ function UserSearchScreen({navigation}) {
           underlineColorAndroid="transparent"
           onChangeText={(text) => searchFilter(text)}
         >
-          
         </TextInput>
         <FlatList
         data={filterdData}
