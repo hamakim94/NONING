@@ -9,4 +9,5 @@ public interface BoardRepositoryCustom {
     List<BoardResponseDTO> findByCateCode(String categoryCode);
     BoardResponseDTO findByUserIdAndBoardId(long userId, long boardId);
     List<BoardResponseDTO> findByUserId(long userId);
+    List<BoardResponseDTO> findFlowByUserId(long userId);
 }
