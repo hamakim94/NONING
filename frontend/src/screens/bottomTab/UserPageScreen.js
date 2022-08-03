@@ -6,7 +6,6 @@ import { ARGUS } from '../../data/argus';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
 
-
 export default function UserPageScreen({navigation}) {
 
     const [index, setIndex] = React.useState(0);

@@ -14,7 +14,7 @@ function SearchNav() {
         tabBarActiveTintColor: '#FF7171',
         tabBarInactiveTintColor: '#808080',
         tabBarPressColor: '#C9C9C9',
-        tabBarIndicatorStyle: {backgroundColor: '#FF7171'},
+        tabBarIndicatorStyle: {backgroundColor: '#FF7171', width: '25%', marginHorizontal: '7%'},
         tabBarLabelStyle: {fontSize: 15},
         tabBarStyle: {
           backgroundColor: 'white',
