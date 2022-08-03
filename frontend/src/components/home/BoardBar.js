@@ -1,12 +1,36 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
+import axios from 'axios';
 // 투표 : /api/boards/{boardid}/vote 
 export default function BoardBar({board, setBoards}) {
   // 이제 여기서 props로 넣어줄거야, 그래서 voted가 1 이상이면 터치 못 하게 해야해
   const opt1_ratio = Math.round(
     (board.opt1Selected / (board.opt1Selected + board.opt2Selected)) * 100
   );
+  
+  async function posting(num)  {
+    // await axios.post()
+    var dto = {
+      userId : 6,
+      vote: num,
+    }
+    console.log(`http://i7a202.p.ssafy.io:9999/api/boards/${board.boardId}/vote`)
+    await axios.post(
+      `http://i7a202.p.ssafy.io:9999/api/boards/${board.boardId}/vote`,
+        dto
+      ,
+      {
+        headers : {
+          "ACCESSTOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwidXNlcklkIjoiNiIsImlhdCI6MTY1OTUwOTQwMiwiZXhwIjoxNjU5NTEwMDAyfQ.ENmu-N_nHwPvdVQRf32od3JVrV1RZi_FLBa46e3ecwU " ,
+          "REFRESHTOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwidXNlcklkIjoiNiIsImlhdCI6MTY1OTUwOTQwMiwiZXhwIjoxNjYyMTAxNDAyfQ.SsItr2QOxbf8NBKL0nXdtrqbgTOIRMpGpkJDnK0LC2g "
+        },
+      }).then(res=>{
+        console.log(res);
+      }).catch(err=>{
+        console.log(err);
+      });
 
+}
   const opt2_ratio = 100 - opt1_ratio;
   const leftSize = opt1_ratio + '%';
   const rightSize = opt2_ratio + '%';
@@ -23,16 +47,16 @@ export default function BoardBar({board, setBoards}) {
       <TouchableOpacity
         style={styles.leftBar(board.userVote, leftSize)}
         disabled={board.userVote > 0}
-        onPress={() => setOpt1Selected()}>
+        onPress={() => [setOpt1Selected(), posting(1)]}>
         <Text style={styles.leftInnerText(board.userVote)}>{board.opt1}</Text>
         {board.userVote > 0 && (
           <Text style={styles.leftInnerText(board.userVote)}>{leftSize}</Text>
         )}
       </TouchableOpacity>
       <TouchableOpacity
-        style={styles.rightBar(board.userVote, rightSize)}
+        style={styles.rightBar(board.userVote, rightSize)}r
         disabled={board.userVote > 0}
-        onPress={() => setOpt2Selected()}>
+        onPress={() => [setOpt2Selected(), posting(2)]}>
         <Text style={styles.rightInnerText(board.userVote)}>{board.opt2}</Text>
         {board.userVote > 0 && (
           <Text style={styles.rightInnerText(board.userVote)}>
