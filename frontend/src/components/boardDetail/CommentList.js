@@ -3,17 +3,15 @@ import {View, StyleSheet, FlatList} from 'react-native';
 import CommentItem from './CommentItem';
 import ReplyTestData from './ReplyTestData';
 import ReplyList from './ReplyList';
-import UserContext from '../../util/UserContext';
 
 function CommentList({comment}) {
   const [commentIsopened, setCommentIsopened] = useState(false);
   const [commentData, setCommentData] = useState(comment);
   const [replys, setReplys] = useState([]);
-  const a = useContext(UserContext);
   useEffect(() => {
     setReplys(ReplyTestData);
   }, []);
-  console.log(a);
+
   const renderItem = ({item}) => (
     <ReplyList
       reply={item}

@@ -7,6 +7,7 @@ import InputLabel from '../../components/signUp/InputLabel';
 import NoCheckInput from '../signUp/NoCheckInput';
 import UseAxios from '../../util/UseAxios';
 import UserContext from '../../util/UserContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginForm({navigation}) {
   const inputRef = useRef([]);
@@ -42,6 +43,8 @@ export default function LoginForm({navigation}) {
     UseAxios.post('/users/login', data)
       .then(res => {
         console.log(res.data);
+        AsyncStorage.setItem('accesstoken', res.headers.accesstoken);
+        AsyncStorage.setItem('refreshtoken', res.headers.refreshtoken);
         console.log(res.headers.accesstoken);
         console.log(res.headers.refreshtoken);
         setUserData(res.data);
