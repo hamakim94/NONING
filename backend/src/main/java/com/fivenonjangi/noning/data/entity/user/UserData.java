@@ -42,4 +42,21 @@ public class UserData {
     public void verified(){
         this.isEmailVerified = true;
     }
+
+    public UserDTO toUserDTO(){
+        UserDTO userDTO = UserDTO.builder()
+                .userId(this.getUser().getId())
+                .img(this.getImg())
+                .nickname(this.getNickname())
+                .genderCode(this.getUser().getGenderCode())
+                .mbti1Code(this.getUser().getMbti1Code())
+                .mbti2Code(this.getUser().getMbti2Code())
+                .mbti3Code(this.getUser().getMbti3Code())
+                .mbti4Code(this.getUser().getMbti4Code())
+                .age(this.getUser().getAge())
+                .ageRangeCode(this.getUser().getAgeRangeCode())
+                .build();
+
+        return userDTO;
+    }
 }

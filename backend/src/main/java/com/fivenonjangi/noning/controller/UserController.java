@@ -54,7 +54,12 @@ public class UserController {
 
     @GetMapping("/profiles")
     public ResponseEntity getProfiles(long userId){
-        return new ResponseEntity<>(userService.getUserResponse(userId),HttpStatus.OK);
+        try{
+            UserDTO userDTO = userService.getUserById(userId);
+            return new ResponseEntity<>(userDTO,HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/login")
@@ -76,18 +81,22 @@ public class UserController {
     }
     @GetMapping("/{userid}/page")
     public ResponseEntity getMyPageInfo(@PathVariable("userid") long userId){
-        UserDTO user = userService.getUserResponse(userId);
-        List<Long> followingIdList = followService.getFollowingId(userId);
-        List<Long> followerIdList = followService.getFollowerId(userId);
-        List<BoardResponseDTO> boardList = boardService.getBoardListByUserId(userId);
+        try{
+            UserDTO user = userService.getUserById(userId);
+            List<Long> followingIdList = followService.getFollowingId(userId);
+            List<Long> followerIdList = followService.getFollowerId(userId);
+            List<BoardResponseDTO> boardList = boardService.getBoardListByUserId(userId);
 
-        Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("user", user);
-        resultMap.put("followingIdList", followingIdList);
-        resultMap.put("followerIdList", followerIdList);
-        resultMap.put("boardList", boardList);
+            Map<String, Object> resultMap = new HashMap<>();
+            resultMap.put("user", user);
+            resultMap.put("followingIdList", followingIdList);
+            resultMap.put("followerIdList", followerIdList);
+            resultMap.put("boardList", boardList);
 
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
     @PutMapping("/profiles/edit")
     public ResponseEntity modifyUser(@RequestBody UserDTO userDTO, HttpServletRequest request){
@@ -150,5 +159,10 @@ public class UserController {
             catch (Exception e){}
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity getUserList(){
+        return null;
     }
 }

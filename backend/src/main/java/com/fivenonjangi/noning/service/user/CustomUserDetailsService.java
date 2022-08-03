@@ -21,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userId) {
         UserData userData = null;
         try {
-            userData =userService.getUserById(Long.parseLong(userId));
+            userData =userService.getUserDataById(Long.parseLong(userId));
             if (userData == null) {
                 throw new UsernameNotFoundException("User '" + userId + "' not found");
             }

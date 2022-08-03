@@ -102,12 +102,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserData getUserByEmail(String email) {
-        return userDataRepository.findByEmail(email);
-    }
-
-    @Override
-    public UserData getUserById(long id) {
+    public UserData getUserDataById(long id) {
         return userDataRepository.findByUser_Id(id);
     }
 
@@ -117,23 +112,12 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDTO getUserResponse(long userId) {
+    public UserDTO getUserById(long userId) throws Exception {
         UserData userData = userDataRepository.findByUser_Id(userId);
 
-        UserDTO userDTO = UserDTO.builder()
-                                    .userId(userData.getUser().getId())
-                                    .img(userData.getImg())
-                                    .nickname(userData.getNickname())
-                                    .genderCode(userData.getUser().getGenderCode())
-                                    .mbti1Code(userData.getUser().getMbti1Code())
-                                    .mbti2Code(userData.getUser().getMbti2Code())
-                                    .mbti3Code(userData.getUser().getMbti3Code())
-                                    .mbti4Code(userData.getUser().getMbti4Code())
-                                    .age(userData.getUser().getAge())
-                                    .ageRangeCode(userData.getUser().getAgeRangeCode())
-                                    .build();
+        if(userData == null) throw new Exception();
 
-        return userDTO;
+        return userData.toUserDTO();
     }
 
     @Override
@@ -187,6 +171,18 @@ public class UserServiceImpl implements UserService{
         User user = userRepository.findById(userId).get();
         user.deleteUser(LocalDateTime.now());
         userRepository.save(user);
+    }
+
+    @Override
+    public List<UserDTO> getUserList() {
+        List<UserData> userDataList = userDataRepository.findAll();
+        List<UserDTO> result = new ArrayList<UserDTO>();
+
+        for(UserData userData : userDataList){
+            result.add(userData.toUserDTO());
+        }
+
+        return result;
     }
 
     private String ageToAgeCode(byte age) {
