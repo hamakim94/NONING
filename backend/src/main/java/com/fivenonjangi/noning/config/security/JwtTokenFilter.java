@@ -27,8 +27,7 @@ public class JwtTokenFilter extends OncePerRequestFilter  {
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         String accessToken = jwtTokenProvider.resolveToken(request, "ACCESSTOKEN");
-        if (accessToken != null) {
-            if (jwtTokenProvider.validateToken(accessToken)) {
+        if (accessToken != null&&jwtTokenProvider.validateToken(accessToken)) {
                 try {
                     Authentication auth = jwtTokenProvider.getAuthentication(accessToken);
                     SecurityContextHolder.getContext().setAuthentication(auth);
@@ -44,18 +43,6 @@ public class JwtTokenFilter extends OncePerRequestFilter  {
 //                out.flush();
                     return;
                 }
-            }
-            else{
-                String refreshToken = jwtTokenProvider.resolveToken(request, "REFRESHTOKEN");
-                String email = jwtTokenProvider.getUserPk(accessToken);
-                if (refreshToken.equals(jwtTokenProvider.getRefreshToken(email))) {
-                    System.out.println("재발급");
-                    accessToken = jwtTokenProvider.createAccessToken(Long.parseLong(jwtTokenProvider.getUserPk(refreshToken)));
-                    response.setHeader("ACCESSTOKEN", accessToken);
-                    Authentication auth = jwtTokenProvider.getAuthentication(accessToken);
-                    SecurityContextHolder.getContext().setAuthentication(auth);
-                }
-            }
         }
         filterChain.doFilter(request, response);
 
