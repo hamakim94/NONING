@@ -13,11 +13,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -164,5 +166,17 @@ public class UserController {
     @GetMapping("/list")
     public ResponseEntity getUserList(){
         return null;
+    }
+    @PostMapping("/reissue")
+    public ResponseEntity reissue(String refreshToken, String accessToken, HttpServletResponse response) {
+        String userId = jwtTokenProvider.getUserPk(accessToken);
+        if (refreshToken.equals(jwtTokenProvider.getRefreshToken(userId))&&jwtTokenProvider.validateToken(refreshToken)) {
+            accessToken = jwtTokenProvider.createAccessToken(Long.parseLong(jwtTokenProvider.getUserPk(refreshToken)));
+            response.setHeader("ACCESSTOKEN", accessToken);
+            Authentication auth = jwtTokenProvider.getAuthentication(accessToken);
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
