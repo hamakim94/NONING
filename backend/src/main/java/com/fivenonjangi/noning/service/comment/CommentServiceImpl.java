@@ -82,90 +82,75 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public void likeComment(long commentId, long userId, byte commentLikeCode) {
+    public void likeComment(long commentId, long userId) throws Exception{
         Comment comment = commentRepository.findById(commentId).get();
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.getReferenceById(userId);
 
-        if(commentLikeCode == 0){ // X(중립) → 좋아요
-            CommentLike commentLike = CommentLike.builder()
+        CommentData commentData = commentDataRepository.findByComment_Id(commentId);
+        if(commentData == null) throw new Exception();
+        CommentLike commentLike = commentLikeRepository.findByComment_IdAndUser_Id(commentId, userId);
+
+        if(commentLike == null){ // 중립 -> 좋아요
+            CommentLike newCommentLike = CommentLike.builder()
                     .comment(comment)
                     .user(user)
                     .isLike(true)
                     .build();
 
-            commentLikeRepository.save(commentLike);
+            commentLikeRepository.save(newCommentLike);
 
             // comment_data 업데이트 (likes+1)
-            CommentData commentData = commentDataRepository.findByCommentId(commentId).get();
-            commentData.like(0);
-
+            commentData.like(0); // 0: X(중립) → 좋아요
             commentDataRepository.save(commentData);
-        } else if(commentLikeCode == 1) { // 싫어요 → 좋아요
-            Optional<CommentLike> commentLike = commentLikeRepository.findByCommentIdAndUserId(commentId, userId);
-
-            commentLike.get().like();
-            commentLikeRepository.save(commentLike.get());
+        } else if(commentLike.isLike() == false) { // 싫어요 -> 좋아요
+            commentLike.like();
+            commentLikeRepository.save(commentLike);
 
             // comment_data 업데이트 (dislikes-1, likes+1)
-            CommentData commentData = commentDataRepository.findByCommentId(commentId).get();
-            commentData.like(1);
-
+            commentData.like(1); // 1: 싫어요 → 좋아요
             commentDataRepository.save(commentData);
-        } else if(commentLikeCode == 2) { // 좋아요 → 좋아요 취소
-            Optional<CommentLike> commentLike = commentLikeRepository.findByCommentIdAndUserId(commentId, userId);
-
-            commentLikeRepository.delete(commentLike.get());
+        } else { // 좋아요 -> 좋아요 취소
+            commentLikeRepository.delete(commentLike);
 
             // comment_data 업데이트 (likes-1)
-            CommentData commentData = commentDataRepository.findByCommentId(commentId).get();
-            commentData.like(2);
-
+            commentData.like(2); // 2: 좋아요 → 좋아요 취소
             commentDataRepository.save(commentData);
         }
     }
 
     @Override
-    public void dislikeComment(long commentId, long userId, byte commentDislikeCode) {
+    public void dislikeComment(long commentId, long userId) throws Exception {
         Comment comment = commentRepository.findById(commentId).get();
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.getReferenceById(userId);
 
-//        0: X(중립) → 싫어요
-//        1: 싫어요 → 싫어요 취소
-//        2: 좋아요 → 싫어요
-        if(commentDislikeCode == 0){ // X(중립) → 싫어요
-            CommentLike commentLike = CommentLike.builder()
+        CommentData commentData = commentDataRepository.findByComment_Id(commentId);
+        if(commentData == null) throw new Exception();
+        CommentLike commentLike = commentLikeRepository.findByComment_IdAndUser_Id(commentId, userId);
+
+        if(commentLike == null){ // 중립 -> 싫어요
+            CommentLike newCommentLike = CommentLike.builder()
                     .comment(comment)
                     .user(user)
                     .isLike(false)
                     .build();
 
-            commentLikeRepository.save(commentLike);
+            commentLikeRepository.save(newCommentLike);
 
             // comment_data 업데이트 (dislikes+1)
-            CommentData commentData = commentDataRepository.findByCommentId(commentId).get();
-            commentData.dislike(0);
-
+            commentData.dislike(0); // 0: X(중립) → 싫어요
             commentDataRepository.save(commentData);
-        } else if(commentDislikeCode == 1){ // 싫어요 → 싫어요 취소
-            Optional<CommentLike> commentLike = commentLikeRepository.findByCommentIdAndUserId(commentId, userId);
-
-            commentLikeRepository.delete(commentLike.get());
+        } else if(commentLike.isLike() == false) { // 싫어요 -> 싫어요 취소
+            commentLikeRepository.delete(commentLike);
 
             // comment_data 업데이트 (dislikes-1)
-            CommentData commentData = commentDataRepository.findByCommentId(commentId).get();
-            commentData.dislike(1);
-
+            commentData.dislike(1); // 1: 싫어요 → 싫어요 취소
             commentDataRepository.save(commentData);
-        } else if(commentDislikeCode == 2){ // 좋아요 → 싫어요
-            Optional<CommentLike> commentLike = commentLikeRepository.findByCommentIdAndUserId(commentId, userId);
-
-            commentLike.get().dislike();
-            commentLikeRepository.save(commentLike.get());
+        } else { // 좋아요 → 싫어요
+            commentLike.dislike();
+            commentLikeRepository.save(commentLike);
 
             // comment_data 업데이트 (dislikes+1, likes-1)
-            CommentData commentData = commentDataRepository.findByCommentId(commentId).get();
-            commentData.dislike(2);
-
+            commentData.dislike(2); // 2: 좋아요 → 싫어요
             commentDataRepository.save(commentData);
         }
     }

@@ -36,9 +36,12 @@ public class BoardController {
     @PostMapping("/write")
     public ResponseEntity writeBoard(HttpServletRequest request, @RequestBody BoardRequestDTO boardRequestDTO){
         long userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
-        boardService.writeBoard(boardRequestDTO, userId);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        try{
+            boardService.writeBoard(boardRequestDTO, userId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/{boardid}/delete")
@@ -81,7 +84,7 @@ public class BoardController {
     }
 
     @PostMapping("/{boardid}/vote")
-    public ResponseEntity<?> vote(@PathVariable("boardid") long boardId, @RequestBody BoardRequestDTO.BoardVoteDTO boardVoteDTO, HttpServletRequest request){
+    public ResponseEntity vote(@PathVariable("boardid") long boardId, @RequestBody BoardRequestDTO.BoardVoteDTO boardVoteDTO, HttpServletRequest request){
         if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(boardVoteDTO.getUserId()))){
             try {
                 boardService.vote(boardId, boardVoteDTO.getUserId(), boardVoteDTO.getVote(), LocalDateTime.now());
@@ -91,7 +94,7 @@ public class BoardController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @PutMapping("/{boardid}/betray")
-    public ResponseEntity<?> betray(@PathVariable("boardid") long boardId, @RequestBody BoardRequestDTO.BoardVoteDTO boardVoteDTO, HttpServletRequest request){
+    public ResponseEntity betray(@PathVariable("boardid") long boardId, @RequestBody BoardRequestDTO.BoardVoteDTO boardVoteDTO, HttpServletRequest request){
         if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(boardVoteDTO.getUserId()))){
             try {
                 boardService.betray(boardId, boardVoteDTO.getUserId(), boardVoteDTO.getVote(), LocalDateTime.now());
@@ -101,7 +104,7 @@ public class BoardController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @PostMapping("/{boardid}/like")
-    public ResponseEntity<?> like(@PathVariable("boardid") long boardId, @RequestParam long userId, HttpServletRequest request){
+    public ResponseEntity like(@PathVariable("boardid") long boardId, @RequestParam long userId, HttpServletRequest request){
         if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userId))){
             try {
                 boardService.like(boardId, userId, LocalDateTime.now());
@@ -111,7 +114,7 @@ public class BoardController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @DeleteMapping("/{boardid}/unlike")
-    public ResponseEntity<?> unlike(@PathVariable("boardid") long boardId, @RequestParam long userId, HttpServletRequest request){
+    public ResponseEntity unlike(@PathVariable("boardid") long boardId, @RequestParam long userId, HttpServletRequest request){
         if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userId))){
             try {
                 boardService.unlike(boardId, userId);

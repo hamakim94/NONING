@@ -25,9 +25,8 @@ public class BoardServiceImpl implements BoardService{
     public final BoardVoteRepository boardVoteRepository;
     public final BoardLikeRepository boardLikeRepository;
 
-
     @Override
-    public void writeBoard(BoardRequestDTO boardRequestDTO, long userId) {
+    public void writeBoard(BoardRequestDTO boardRequestDTO, long userId){
         User user = userRepository.getReferenceById(userId);
 
         Board board = Board.builder()
@@ -55,7 +54,7 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public void deleteBoard(long userId, long boardId) throws Exception {
         Board board = boardRepository.findByIdAndWriter_Id(boardId, userId);
-        if(board == null) throw new Exception();
+        if(board == null) throw new Exception(); // 삭제할 게시글이 존재하지 않으면 X
         board.deleteBoard();
 
         boardRepository.save(board);
@@ -70,6 +69,7 @@ public class BoardServiceImpl implements BoardService{
         } else { // 로그인 한 사용자
             boardResponseDTOList = boardRepositoryCustom.findByUserIdAndCateCode(userId, categoryCode);
         }
+
         return boardResponseDTOList;
     }
 
@@ -111,7 +111,7 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public void like(long boardId, long userId, LocalDateTime now) throws Exception {
-        if (boardLikeRepository.findByBoard_IdAndUser_Id(boardId, userId) !=null) throw new Exception();
+        if (boardLikeRepository.findByBoard_IdAndUser_Id(boardId, userId) != null) throw new Exception();
         BoardData boardData = boardDataRepository.findByBoard_Id(boardId);
         BoardLike boardLike = BoardLike.builder()
                 .board(boardRepository.getReferenceById(boardId))
