@@ -1,6 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {Divider} from '@rneui/base/dist/Divider';
-import {View, SafeAreaView, FlatList} from 'react-native';
+import {
+  View,
+  SafeAreaView,
+  FlatList,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import LogoSearch from '../../components/home/LogoSearch';
 import FilterButtonTabs from '../../components/home/FilterButtonTabs';
 import Boards from '../../components/home/Boards';
@@ -33,13 +39,15 @@ function HomeScreen({navigation}) {
         // 처음 실행하는 함수, 전체 보드를 가져온다
         'http://i7a202.p.ssafy.io:9999/api/boards/list',
         {
-          headers : {
-            "ACCESSTOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwidXNlcklkIjoiNiIsImlhdCI6MTY1OTUwOTQwMiwiZXhwIjoxNjU5NTEwMDAyfQ.ENmu-N_nHwPvdVQRf32od3JVrV1RZi_FLBa46e3ecwU " ,
-            "REFRESHTOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwidXNlcklkIjoiNiIsImlhdCI6MTY1OTUwOTQwMiwiZXhwIjoxNjYyMTAxNDAyfQ.SsItr2QOxbf8NBKL0nXdtrqbgTOIRMpGpkJDnK0LC2g "
+          headers: {
+            ACCESSTOKEN:
+              'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwidXNlcklkIjoiNiIsImlhdCI6MTY1OTUwOTQwMiwiZXhwIjoxNjU5NTEwMDAyfQ.ENmu-N_nHwPvdVQRf32od3JVrV1RZi_FLBa46e3ecwU ',
+            REFRESHTOKEN:
+              'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwidXNlcklkIjoiNiIsImlhdCI6MTY1OTUwOTQwMiwiZXhwIjoxNjYyMTAxNDAyfQ.SsItr2QOxbf8NBKL0nXdtrqbgTOIRMpGpkJDnK0LC2g ',
           },
           params: {categorycode: filterToCode[filterName]},
         },
-      ); 
+      );
       setBoards(data);
     }
     get();
@@ -76,6 +84,9 @@ function HomeScreen({navigation}) {
   const keyExtractor = item => item.boardId;
   return (
     <SafeAreaView style={{flex: 1}}>
+      <TouchableOpacity onPress={() => navigation.navigate('LoginNav')}>
+        <Text>로그인</Text>
+      </TouchableOpacity>
       <View style={{flex: 1, padding: 16}}>
         <LogoSearch navigation={navigation}></LogoSearch>
         <Divider width={0.5}></Divider>
@@ -96,8 +107,7 @@ function HomeScreen({navigation}) {
           // ListFooterComponent={
           //   loading && <ActivityIndicator size="large" color="#00ff00" />
           // }
-          >
-          </FlatList>
+        ></FlatList>
       </View>
     </SafeAreaView>
   );
