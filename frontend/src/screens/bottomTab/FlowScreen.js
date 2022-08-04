@@ -1,6 +1,6 @@
 import React, {useCallback, useContext, useEffect, useMemo, useState} from 'react';
 import { TouchableOpacity, StyleSheet, View, SafeAreaView, FlatList, Dimensions } from 'react-native';
-import Flows from '../../components/flow/Flows'
+import Flows from '../../components/flow/Flows';
 import {BOARDS} from '../../data/boards';
 import UseAxios from '../../util/UseAxios';
 import UserContext from '../../util/UserContext';
