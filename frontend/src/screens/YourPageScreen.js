@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, Dimensions, Text, Image, TouchableOpacity, length} from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
-import { USER } from '../../data/user';
-import VoteLike from '../../components/userpage/VoteLike'
-import VoteDo from '../../components/userpage/VoteDo';
-import VoteWrite from '../../components/userpage//VoteWrite';
+import { USER } from '../data/user' 
+import VoteLike from '../components/userpage/VoteLike'
+import VoteDo from '../components/userpage/VoteDo'
+import VoteWrite from '../components/userpage/VoteWrite'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
 
@@ -56,22 +56,19 @@ const renderScene = SceneMap({
   2: VoteWrite
 });
 
-export default function UserPageScreen({navigation}) {
+
+export default function YourPageScreen({navigation}) {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
-    {key: 0, title: '내찜논'},
-    {key: 1, title: '내참논'},
-    {key: 2, title: '내만논'},
+    {key: 0, title: '얘찜논'},
+    {key: 1, title: '얘참논'},
+    {key: 2, title: '얘만논'},
     
   ]);
+  
+
   return (
     <View style={styles.container}>
-        <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.push('SettingNav', {screen: 'SettingNav'})}>
-            <AntDesign name={'setting'} size={28} color={'gray'} /> 
-        </TouchableOpacity>
-          
         <View style={{flex: 0.23}}>
             {/* 프로필 이미지, 팔로우/팔로워*/} 
             <View style = {{ flexDirection: "row", alignItems: 'center'}}>
@@ -136,7 +133,9 @@ export default function UserPageScreen({navigation}) {
                         </Text>
                     </View>
             </View>
-            {/* 팔로우 버튼 */}
+            <TouchableOpacity style={{backgroundColor: '#FF7171', marginHorizontal: '15%', borderRadius: 10, width: '45%', height: '40%', marginTop: '1.5%'}} >
+                <Text style={{color: 'white', marginVertical: '2.5%', alignSelf: 'center', }} >팔로우</Text>
+            </TouchableOpacity>
         </View>
 
       

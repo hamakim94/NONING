@@ -11,12 +11,20 @@ function FlowScreen({navigation}) {
   const [start_num, setStartNum] = useState(0);
   const [loading, setLoading] = useState(false);
   // 처음 실행하는 함수, 전체 보드 를 가져오는데, 이를 먼저 수정해
+  // useEffect(() => {
+  //   (async () => {
+  //     // const {data} = await axios.get("님들 서버 URL");s
+  //     setBoards(BOARDS);
+  //   })();
+  // }, []);
+
   useEffect(() => {
-    (async () => {
-      // const {data} = await axios.get("님들 서버 URL");s
-      setBoards(BOARDS);
-    })();
+    UseAxios.get('/boards/flow').then(res => {
+      setBoards(res.data)
+    })
   }, []);
+
+
   // 전체 가져온 데이터를 복사하는 함수.
   const getData = async (start) => {
     if(start + 10 < boards.length ){

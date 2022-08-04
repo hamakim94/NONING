@@ -23,8 +23,9 @@ export default function FlowBottom({boards, setBoards, board, setBoard, navigati
             </TouchableOpacity>
             <TouchableOpacity 
             style={{flexDirection: 'row',}} 
-            onPress={() => navigation.push('UserPageScreen', {screen: 'UserPageScreen'})}>
-            <Image style={styles.clickWriter} source={{uri : board.writer.img}}></Image>
+            onPress={() => navigation.push('YourPageScreen', {screen: 'YourPageScreen'})}>
+            <Text>작성자 이미지 클릭시 유어페이지 이동</Text>
+            {/* <Image style={styles.clickWriter} source={{uri : board.writer.img}}></Image> */}
         </TouchableOpacity>
         </View>
     </View>
