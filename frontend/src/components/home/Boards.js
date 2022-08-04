@@ -4,7 +4,6 @@ import BoardHeader from './BoardHeader';
 import BoardBar from './BoardBar';
 import BoardFooter from './BoardFooter';
 
-
 function Boards({board, navigation}) {
   const [boardData, setBoardData] = useState(board);
   return (

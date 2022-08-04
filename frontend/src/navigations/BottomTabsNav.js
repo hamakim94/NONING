@@ -8,16 +8,16 @@ import LiveNav from './LiveNav';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import UserContext from '../util/UserContext';
-import LoginScreen from '../screens/login/LoginScreen';
 import LoginNav from './LoginNav';
+import UserContext from '../util/UserContext';
 
 const Tab = createBottomTabNavigator();
 const tabBarListeners = ({navigation, route}) => ({
   tabPress: () => navigation.navigate(route.name),
 });
+
 function BottomTabsNav() {
-  const {userData} = useContext(UserContext);
+  const {userData, setUserData} = useContext(UserContext);
   return (
     <Tab.Navigator
       initialRouteName="HomeStack"
@@ -25,7 +25,7 @@ function BottomTabsNav() {
         tabBarActiveTintColor: '#FF7171',
         tabBarHideOnKeyboard: true,
       }}>
-      {Object.keys(userData).length === 0 ? ( // 로그인 x
+      {userData === null ? ( // 로그인 x
         <>
           <Tab.Screen
             name="HomeStack"
@@ -36,6 +36,7 @@ function BottomTabsNav() {
               tabBarIcon: ({color, size}) => (
                 <AntDesign name="home" color={color} size={size} />
               ),
+              unmountOnBlur: true,
             }}
             listeners={tabBarListeners}
           />
