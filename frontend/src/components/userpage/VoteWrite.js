@@ -3,7 +3,6 @@ import React from 'react'
 import { USER } from '../../data/user'
 import { FlatList } from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import UserPageNav from '../../navigations/UserPageNav';
 
 
 export default function VoteDo({navigation}) {
