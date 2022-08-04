@@ -15,6 +15,7 @@ export default function LiveNav() {
         options={{headerShown: false}}
       />
     </Stack.Navigator>
+    
   );
 }
 
