@@ -24,10 +24,9 @@ function SettingScreen({navigation}) {
           onPress: () => {
             UseAxios.get('/users/logout')
               .then(res => {
-                console.log(res.data);
                 navigation.navigate('HomeScreen');
                 AsyncStorage.clear();
-                setUserData({});
+                setUserData(null);
               })
               .catch(err => {
                 console.log(err);
