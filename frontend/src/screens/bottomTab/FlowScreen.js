@@ -2,10 +2,13 @@ import React, {useCallback, useContext, useEffect, useMemo, useState} from 'reac
 import { TouchableOpacity, StyleSheet, View, SafeAreaView, FlatList, Dimensions } from 'react-native';
 import Flows from '../../components/flow/Flows'
 import {BOARDS} from '../../data/boards';
+import UseAxios from '../../util/UseAxios';
+import UserContext from '../../util/UserContext';
 
 // 게시글 가져오기 :  /api/boards/list/{userid}  인풋 : userId, categoryCode, order?categorycode=””
 function FlowScreen({navigation}) {
 
+  const [filterName, setFilterName] = useState('전체');
   const [boards, setBoards] = useState([]);
   const [temp_boards, setTempBoards] = useState([])
   const [start_num, setStartNum] = useState(0);
@@ -17,6 +20,26 @@ function FlowScreen({navigation}) {
   //     setBoards(BOARDS);
   //   })();
   // }, []);
+
+  const filterToCode = {
+    전체: 0,
+    연애: 'B0101',
+    병맛: 'B0102',
+    음식: 'B0103',
+    게임: 'B0104',
+    운동: 'B0105',
+    학교: 'B0106',
+    직장: 'B0107',
+    갈등: 'B0108',
+    기타: 'B0199',
+  };
+  useEffect(() => {
+    UseAxios.get('/boards/list', {
+      params: {categorycode: filterToCode[filterName]},
+    }).then(res => {
+      setBoards(res.data)
+    })
+  }, [filterName]);
 
   useEffect(() => {
     UseAxios.get('/boards/flow').then(res => {
