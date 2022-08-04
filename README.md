@@ -83,8 +83,6 @@ https://rainy-ixia-034.notion.site/dee646f3456e42f7934d8852ca9ad2bb
 
 ## Develop Rules
 
-<br/>
-
 #### branch 
 
 ```
