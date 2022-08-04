@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView} from 'react-native';
 import {Divider} from '@rneui/themed';
 import React, {useState, useRef} from 'react';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -13,12 +7,17 @@ import InputLabel from '../../components/signUp/InputLabel';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import schema from '../../components/board/BoardValidation';
+import CheckBox from '@react-native-community/checkbox';
 
 export default function PlusScreen({navigation}) {
   const inputRef = useRef([]);
   const [titleStyle, setTitleStyle] = useState(styles.blurInput);
   const [argu1Style, setArgu1Style] = useState(styles.blurInput);
   const [argu2Style, setArgu2Style] = useState(styles.blurInput);
+  const [toggleCheckBoxLove, setToggleCheckBoxLove] = useState(false)
+  const [toggleCheckBoxFun, setToggleCheckBoxFun] = useState(false)
+  const [toggleCheckBoxEtc, setToggleCheckBoxEtc] = useState(false)
+
 
   console.log({errors});
   const {
@@ -89,25 +88,61 @@ export default function PlusScreen({navigation}) {
             styles={styles}
             inputRef={inputRef}
             index={2}></NoCheckInput>
+          {/* 카테고리 */}
+          <View>
+          <InputLabel name="카테고리(택1)" star="*" />
+              <View style={{flexDirection: 'row'}}>
+                  <View style={{flexDirection: 'row'}}>
+                      <CheckBox
+                          disabled={false}
+                          value={toggleCheckBoxLove}
+                          onValueChange={(newValue) => setToggleCheckBoxLove(newValue)}
+                          />
+                      <Text style={{paddingTop: '1.5%'}}>연애</Text>
+                  </View>
+                  <View style={{flexDirection: 'row'}}>
+                      <CheckBox
+                          disabled={false}
+                          value={toggleCheckBoxFun}
+                          onValueChange={(newValue) => setToggleCheckBoxFun(newValue)}
+                          />
+                      <Text style={{paddingTop: '1.5%'}}>병맛</Text>
+                  </View>
+                  <View style={{flexDirection: 'row'}}>
+                      <CheckBox
+                          disabled={false}
+                          value={toggleCheckBoxEtc}
+                          onValueChange={(newValue) => setToggleCheckBoxEtc(newValue)}
+                          />
+                      <Text style={{paddingTop: '1.5%'}}>기타</Text>
+                  </View>
+            </View>
+        </View>
         </View>
 
+        
         {/* 미리보기 -> 카드 제대로 만들면 다시해야함!!*/}
         <View style={{}}>
           <Divider orientation="vertical" style={{marginTop: '2.5%'}} />
           <Text style={styles.preview}> PREVIEW </Text>
           <View style={styles.card}>
-            <Text style={{textAlign: 'center'}}>{getValues('title')}</Text>
+            <View style={{marginBottom: '2.5%'}}>
+                <Text style={{textAlign: 'center', fontWeight: 'bold', marginBottom: '5%'}}>{getValues('title')}</Text>
+            </View>
             <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-              <Text>{getValues('argu1')}</Text>
-              <Text> | </Text>
-              <Text>{getValues('argu2')}</Text>
+              <View style={{borderTopLeftRadius: 5, borderBottomLeftRadius: 5, borderWidth: 1, width: '55%' ,backgroundColor: 'rgba(255,90,110,0.3)', justifyContent: 'center'}}>
+                <Text style={{color: 'white', textAlign: 'center', paddingVertical: '5%'}}>{getValues('argu1')}</Text>
+              </View>
+              <View style={{borderTopRightRadius: 5, borderBottomRightRadius: 5, borderWidth: 1, width: '55%' ,backgroundColor: 'rgba(131,227,209,0.3)', justifyContent: 'center'}}>
+                <Text style={{color: 'white', textAlign: 'center', paddingVertical: '5%'}}>{getValues('argu2')}</Text>
+              </View>
             </View>
           </View>
           <Divider orientation="vertical" style={{marginVertical: '7%'}} />
         </View>
 
         {/* 등록 버튼 */}
-        <View style={{alignItems: 'center', marginVertical: '3%'}}>
+        <View style={{alignItems: 'center', marginBottom : '3%'}}>
           <TouchableOpacity
             style={styles.checkButton}
             onPress={handleSubmit(onSubmit)}>
@@ -130,6 +165,7 @@ const styles = StyleSheet.create({
   registArgu: {
     fontWeight: 'bold',
     marginBottom: '3%',
+    fontSize: 18
   },
   warning: {
     color: 'red',
@@ -141,8 +177,6 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: '#fff',
-    borderRadius: 5,
-    borderWidth: 1,
     marginHorizontal: '10%',
   },
   focusInput: {
@@ -197,7 +231,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF7171',
     borderRadius: 6,
     justifyContent: 'center',
-    paddingVertical: '2.5%',
+    padding: '2.5%',
   },
   buttonText: {
     color: 'white',
