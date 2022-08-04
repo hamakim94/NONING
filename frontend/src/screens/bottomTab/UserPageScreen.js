@@ -104,12 +104,12 @@ export default function UserPageScreen({navigation}) {
                             <TouchableOpacity
                                 onPress={() => navigation.push('FollowerScreen', {screen: 'FollowerScreen'})}>
                                 <Text> follower</Text>
-                                <Text style={{alignSelf: 'center'}}> {myPageData.followerIdList}</Text>
+                                <Text style={{alignSelf: 'center'}}> {myPageData.followerIdList.length}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => navigation.push('FollowerScreen', {screen: 'FollowerScreen'})}>
                                 <Text> following</Text>
-                                <Text style={{alignSelf: 'center'}}> {myPageData.followingIdList}</Text>
+                                <Text style={{alignSelf: 'center'}}> {myPageData.followingIdList.length}</Text>
                             </TouchableOpacity>
                         </View>
 
