@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {CommonActions} from '@react-navigation/native';
 
 export default UseAxios = axios.create({
-  baseURL: 'http://i7a202.p.ssafy.io:9999/api',
+  baseURL: 'http://i7a202.p.ssafy.io:8888/api',
 });
 
 UseAxios.interceptors.request.use(

@@ -7,25 +7,11 @@ const Stack = createNativeStackNavigator();
 
 function LoginNav() {
   return (
+    
     <Stack.Navigator>
-      <Stack.Screen
-        name="LoginScreen"
-        component={LoginScreen}
-        options={{
-          title: '로그인',
-        }}
-      />
-      <Stack.Screen
-        name="SignUpNav"
-        component={SignUpNav}
-        options={{
-          title: '회원가입',
-        }}
-      />
-      <Stack.Screen
-        name="PasswordChangeScreen"
-        component={PasswordChangeScreen}
-      />
+      <Stack.Screen name="LoginScreen" component={LoginScreen} options={{title: '로그인',}}/>
+      <Stack.Screen name="SignUpNav"   component={SignUpNav}   options={{title: '회원가입',}}/>
+      <Stack.Screen name="PasswordChangeScreen" component={PasswordChangeScreen}/>
     </Stack.Navigator>
   );
 }

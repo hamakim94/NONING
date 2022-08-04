@@ -10,7 +10,7 @@ export default function BoardHeader({board, navigation}) {
       <TouchableOpacity style={{marginHorizontal:6}} disabled={board.user_vote === 0} onPress={() =>
               navigation.navigate('HomeDetail', {screen: 'HomeDetail'})
             }>
-        <AntDesign style={styles.detail(board.user_vote)} name="doubleright" size={20} />
+        <AntDesign style={styles.detail(board.userVote)} name="doubleright" size={20} />
       </TouchableOpacity>
     </View>
   );

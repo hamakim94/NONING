@@ -24,7 +24,8 @@ export default function FlowBottom({boards, setBoards, board, setBoard, navigati
             <TouchableOpacity 
             style={{flexDirection: 'row',}} 
             onPress={() => navigation.push('YourPageScreen', {screen: 'YourPageScreen'})}>
-            <Image style={styles.clickWriter} source={{uri : board.writer.img}}></Image>
+            <Text>kkkkkkkkkkkk</Text>
+            {/* <Image style={styles.clickWriter} source={{uri : board.writer.img}}></Image> */}
         </TouchableOpacity>
         </View>
     </View>

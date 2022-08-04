@@ -5,6 +5,7 @@ import FlowScreen from '../screens/bottomTab/FlowScreen';
 import DetailScreen from '../screens/board/DetailScreen';
 import UserPageScreen from '../screens/bottomTab/UserPageScreen';
 import YourPageScreen from '../screens/YourPageScreen';
+import LoginNav from './LoginNav';
 
 const Stack = createNativeStackNavigator();
 
