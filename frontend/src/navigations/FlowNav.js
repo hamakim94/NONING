@@ -4,6 +4,7 @@ import Flows from '../components/flow/Flows';
 import FlowScreen from '../screens/bottomTab/FlowScreen';
 import DetailScreen from '../screens/board/DetailScreen';
 import UserPageScreen from '../screens/bottomTab/UserPageScreen';
+import LoginNav from './LoginNav';
 
 const Stack = createNativeStackNavigator();
 

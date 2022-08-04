@@ -1,14 +1,11 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useMemo, useState} from 'react';
 import { TouchableOpacity, StyleSheet, View, SafeAreaView, FlatList, Dimensions } from 'react-native';
 import Flows from '../../components/flow/Flows'
 import {BOARDS} from '../../data/boards';
-import axios from 'axios';
-import FireAnimation from '../../components/animations/Fire';
-import WaveAnimation from '../../components/animations/Wave';
 
 // 게시글 가져오기 :  /api/boards/list/{userid}  인풋 : userId, categoryCode, order?categorycode=””
 function FlowScreen({navigation}) {
-  const [filterName, setFilterName] = useState('전체');
+
   const [boards, setBoards] = useState([]);
   const [temp_boards, setTempBoards] = useState([])
   const [start_num, setStartNum] = useState(0);

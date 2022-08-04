@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Image} from 'react-native';
 import { Tab, TabView, Divider } from '@rneui/themed';
-import React from 'react';
+import React, { useContext } from 'react';
 import { USERS } from '../../data/user';
 import { ARGUS } from '../../data/argus';
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -8,7 +8,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 
 
 export default function UserPageScreen({navigation}) {
-
     const [index, setIndex] = React.useState(0);
     
     return (
@@ -138,6 +137,7 @@ export default function UserPageScreen({navigation}) {
             </TabView>
         </View>
     );
+    
 }
 
 const styles = StyleSheet.create({

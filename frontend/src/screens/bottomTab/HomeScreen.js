@@ -11,7 +11,9 @@ import LogoSearch from '../../components/home/LogoSearch';
 import FilterButtonTabs from '../../components/home/FilterButtonTabs';
 import Boards from '../../components/home/Boards';
 import axios from 'axios';
-import {BOARDS} from '../../data/boards';
+import UseAxios from '../../util/UseAxios';
+import UserContext from '../../util/UserContext';
+
 
 // 게시글 가져오기 :  /api/boards/list/{userid}  인풋 : userId, categoryCode, order?categorycode=””
 function HomeScreen({navigation}) {
@@ -34,23 +36,11 @@ function HomeScreen({navigation}) {
     기타: 'B0199',
   };
   useEffect(() => {
-    async function get() {
-      const {data} = await axios.get(
-        // 처음 실행하는 함수, 전체 보드를 가져온다
-        'http://i7a202.p.ssafy.io:9999/api/boards/list',
-        {
-          headers: {
-            ACCESSTOKEN:
-              'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwidXNlcklkIjoiNiIsImlhdCI6MTY1OTUwOTQwMiwiZXhwIjoxNjU5NTEwMDAyfQ.ENmu-N_nHwPvdVQRf32od3JVrV1RZi_FLBa46e3ecwU ',
-            REFRESHTOKEN:
-              'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwidXNlcklkIjoiNiIsImlhdCI6MTY1OTUwOTQwMiwiZXhwIjoxNjYyMTAxNDAyfQ.SsItr2QOxbf8NBKL0nXdtrqbgTOIRMpGpkJDnK0LC2g ',
-          },
-          params: {categorycode: filterToCode[filterName]},
-        },
-      );
-      setBoards(data);
-    }
-    get();
+    UseAxios.get('/boards/list', {
+      params: {categorycode: filterToCode[filterName]},
+    }).then(res => {
+      setBoards(res.data)
+    })
   }, [filterName]);
   // 전체 가져온 데이터를 10개보다 작으면 그 개수만큼, 아니면 10개씩 복사
   // const getData = start => {
