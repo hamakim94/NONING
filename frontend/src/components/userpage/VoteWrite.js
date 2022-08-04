@@ -11,7 +11,7 @@ export default function VoteDo({navigation}) {
   return (
       <View style={{flex:1}}>
           <FlatList
-              style= {{paddingVertical: '3%'}}
+              style= {{paddingVertical: '1%'}}
               keyExtractor={(item) => item.boardId}
               data={USER.boardList}
               navigation={navigation}

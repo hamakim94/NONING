@@ -5,7 +5,7 @@ import UserPageScreen from '../screens/bottomTab/UserPageScreen';
 import DetailScreen from '../screens/board/DetailScreen';
 import SettingNav from './SettingNav';
 import FollowerScreen from '../screens/FollowerScreen';
-import VoteDo from '../components/userpage/VoteDo';
+import YourPageScreen from '../screens/YourPageScreen'
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -30,6 +30,7 @@ function UserPageNav() {
         />
         <Stack.Screen name="FollowerScreen" component={FollowerScreen}/>
         <Stack.Screen name="DetailScreen" component={DetailScreen}/>
+        <Stack.Screen name="YourPageScreen" component={YourPageScreen}/>
     </Stack.Navigator>
   );
 }
