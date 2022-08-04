@@ -2,15 +2,9 @@ import React, {useCallback, useContext, useEffect, useMemo, useState} from 'reac
 import { TouchableOpacity, StyleSheet, View, SafeAreaView, FlatList, Dimensions } from 'react-native';
 import Flows from '../../components/flow/Flows'
 import {BOARDS} from '../../data/boards';
-import UserContext from '../../util/UserContext';
 
 // 게시글 가져오기 :  /api/boards/list/{userid}  인풋 : userId, categoryCode, order?categorycode=””
 function FlowScreen({navigation}) {
-
-  const {userData} = useContext(UserContext);
-  if(Object.keys(userData).length === 0){
-      navigation.navigate("LoginNav") 
-  } 
 
   const [boards, setBoards] = useState([]);
   const [temp_boards, setTempBoards] = useState([])

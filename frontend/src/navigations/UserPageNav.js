@@ -21,14 +21,6 @@ function UserPageNav() {
       />
       <Stack.Screen name="FollowerScreen" component={FollowerScreen}/>
       <Stack.Screen name="DetailScreen" component={DetailScreen}/>
-      <Stack.Screen
-        name="LoginNav"
-        component={LoginNav}
-        options={{
-          title: '로그인',
-          headerShown: false,
-        }}
-      />
     </Stack.Navigator>
   );
 }

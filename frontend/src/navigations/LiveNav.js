@@ -3,7 +3,6 @@ import React from 'react';
 import LiveScreen from '../screens/bottomTab/LiveScreen';
 import ChatNav from './ChatNav';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import LoginNav from './LoginNav';
 
 const Stack = createNativeStackNavigator();
 export default function LiveNav() {
@@ -14,14 +13,6 @@ export default function LiveNav() {
         name="ChatNav"
         component={ChatNav}
         options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="LoginNav"
-        component={LoginNav}
-        options={{
-          title: '로그인',
-          headerShown: false,
-        }}
       />
     </Stack.Navigator>
     

@@ -23,14 +23,6 @@ export default function FlowNav() {
         component={UserPageScreen}
         options={{headerBackVisible: true, headerBackTitleVisible: false}}
       />
-      <Stack.Screen
-        name="LoginNav"
-        component={LoginNav}
-        options={{
-          title: '로그인',
-          headerShown: false,
-        }}
-      />
     </Stack.Navigator>
   );
 }

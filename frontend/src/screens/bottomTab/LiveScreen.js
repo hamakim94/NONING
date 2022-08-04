@@ -18,11 +18,6 @@ import UserContext from '../../util/UserContext';
 // 게시글 가져오기 :  /api/boards/list/{userid}  인풋 : userId, categoryCode, order?categorycode=””
 function LiveScreen({navigation}) {
 
-  const {userData} = useContext(UserContext);
-  if(Object.keys(userData).length === 0){
-      navigation.navigate("LoginNav") 
-  } 
-
   const [filterName, setFilterName] = useState('전체');
   const [lives, setLives] = useState([]);
 
