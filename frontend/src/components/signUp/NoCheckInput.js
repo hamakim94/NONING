@@ -12,6 +12,9 @@ function NoCheckInput({
   errorMessage,
   index,
   blind,
+  login,
+  handleSubmit,
+  onSubmit,
 }) {
   const blank = /\s/g;
   return (
@@ -19,7 +22,7 @@ function NoCheckInput({
       <Controller
         control={control}
         render={({field: {onChange, value}}) => (
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <TextInput
               style={[
                 style,
@@ -44,11 +47,14 @@ function NoCheckInput({
               }
               onChangeText={value => onChange(value.replace(blank, ''))}
               value={value}
-              returnKeyType="next"
-              onSubmitEditing={() =>
-                inputRef.current.length == index + 1
-                  ? inputRef.current[index].focus()
-                  : inputRef.current[index + 1].focus()
+              returnKeyType={login ? '' : 'next'}
+              onSubmitEditing={
+                login
+                  ? handleSubmit(onSubmit)
+                  : () =>
+                      inputRef.current.length == index + 1
+                        ? inputRef.current[index].focus()
+                        : inputRef.current[index + 1].focus()
               }
               secureTextEntry={blind}
               selectionColor={'#FF7171'}

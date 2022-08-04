@@ -2,7 +2,6 @@ import { SafeAreaView, StyleSheet, ScrollView } from 'react-native'
 import React from 'react'
 import { PROFILES } from '../data/profile'
 import Profile from '../components/follow/Profile'
-import BottomTabs, { bottomTabsIcons } from '../components/footer/BottomTabs'
 
 const FollowerScreen = () => (
   <SafeAreaView style={styles.container}>
@@ -11,7 +10,6 @@ const FollowerScreen = () => (
         <Profile profile={profile} key={index}></Profile>
       ))}
     </ScrollView>
-    <BottomTabs icons={bottomTabsIcons}></BottomTabs>
   </SafeAreaView>
 )
 

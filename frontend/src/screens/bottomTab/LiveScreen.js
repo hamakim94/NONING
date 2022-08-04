@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Divider} from '@rneui/base/dist/Divider';
 import {
   StyleSheet,
@@ -12,10 +12,12 @@ import Lives from '../../components/live/Lives';
 import LiveLogoSearch from '../../components/live/LiveLogoSearch';
 import { LIVES } from '../../data/lives';
 import axios from 'axios';
+import UserContext from '../../util/UserContext';
 
 
 // 게시글 가져오기 :  /api/boards/list/{userid}  인풋 : userId, categoryCode, order?categorycode=””
 function LiveScreen({navigation}) {
+
   const [filterName, setFilterName] = useState('전체');
   const [lives, setLives] = useState([]);
 

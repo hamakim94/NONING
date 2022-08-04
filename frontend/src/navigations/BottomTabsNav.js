@@ -1,5 +1,5 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import React from 'react';
+import React, {useContext} from 'react';
 import PlusScreen from '../screens/bottomTab/PlusScreen';
 import UserPageNav from './UserPageNav';
 import HomeStack from './HomeStack';
@@ -8,12 +8,16 @@ import LiveNav from './LiveNav';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import UserContext from '../util/UserContext';
+import LoginScreen from '../screens/login/LoginScreen';
+import LoginNav from './LoginNav';
 
 const Tab = createBottomTabNavigator();
 const tabBarListeners = ({navigation, route}) => ({
   tabPress: () => navigation.navigate(route.name),
 });
 function BottomTabsNav() {
+  const {userData} = useContext(UserContext);
   return (
     <Tab.Navigator
       initialRouteName="HomeStack"

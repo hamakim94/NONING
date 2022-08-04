@@ -1,58 +1,45 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useContext, useState} from 'react';
-import axios from 'axios';
-import UserContext from '../../util/UserContext';
-// 투표 : /api/boards/{boardid}/vote
-export default function BoardBar({board, setBoards}) {
-  const {userData, setUserData} = useContext(UserContext);
+import React, {useState} from 'react';
+
+
+// 투표 : /api/boards/{boardid}/vote 
+export default function FlowBar({board,  boards, setBoards}) {
   // 이제 여기서 props로 넣어줄거야, 그래서 voted가 1 이상이면 터치 못 하게 해야해
   const opt1_ratio = Math.round(
     (board.opt1Selected / (board.opt1Selected + board.opt2Selected)) * 100,
   );
-  const posting = num => {
-    // console.log(userData.userId + " " + num)
-    UseAxios.post(`/boards/${board.boardId}/vote`, {
-      userId: userData.userId,
-      vote: num,
-    })
-      .then(res => {
-        console.log(res);
-      })
-      .then(err => {
-        console.log(err);
-      });
-  };
   const opt2_ratio = 100 - opt1_ratio;
   const leftSize = opt1_ratio + '%';
   const rightSize = opt2_ratio + '%';
 
   const setOpt1Selected = () => {
-    setBoards({...board, opt1Selected: board.opt1Selected + 1, userVote: 1});
+    setBoards({...board, opt1Selected: board.opt1Selected + 1, userVote : 1})
   };
   const setOpt2Selected = () => {
-    setBoards({...board, opt2Selected: board.opt2Selected + 1, userVote: 2});
+    setBoards({...board, opt2Selected: board.opt2Selected + 1, userVote : 2})
   };
 
   return (
     <View style={styles.barContainer}>
       <TouchableOpacity
-        style={styles.leftBar(board.userVote, leftSize)}
-        disabled={board.userVote > 0}
-        onPress={() => [setOpt1Selected(), posting(1)]}>
-        <Text style={styles.leftInnerText(board.userVote)}>{board.opt1}</Text>
-        {board.userVote > 0 && (
-          <Text style={styles.leftInnerText(board.userVote)}>{leftSize}</Text>
-        )}
+            style={styles.leftBar(board.userVote, leftSize)}
+            disabled={board.userVote > 0}
+            onPress={() => setOpt1Selected()}>
+            <Text style={styles.leftInnerText(board.userVote)}>{board.opt1}</Text>
+            {board.userVote > 0 && (
+            <Text style={styles.leftInnerText(board.userVote)}>{leftSize}</Text>
+            )}
       </TouchableOpacity>
       <TouchableOpacity
-        style={styles.rightBar(board.userVote, rightSize)}
-        r
-        disabled={board.userVote > 0}
-        onPress={() => [setOpt2Selected(), posting(2)]}>
-        <Text style={styles.rightInnerText(board.userVote)}>{board.opt2}</Text>
-        {board.userVote > 0 && (
-          <Text style={styles.rightInnerText(board.userVote)}>{rightSize}</Text>
-        )}
+            style={styles.rightBar(board.userVote, rightSize)}
+            disabled={board.userVote > 0}
+            onPress={() => setOpt2Selected()}>
+            <Text style={styles.rightInnerText(board.userVote)}>{board.opt2}</Text>
+            {board.userVote > 0 && (
+            <Text style={styles.rightInnerText(board.userVote)}>
+                {rightSize}
+            </Text>
+            )}
       </TouchableOpacity>
     </View>
   );
@@ -60,9 +47,10 @@ export default function BoardBar({board, setBoards}) {
 
 const styles = StyleSheet.create({
   barContainer: {
-    height: 80,
-    width: '100%',
-    padding: '3%',
+    height: 100,
+    alignSelf: 'center',
+    width: '80%',
+    padding: '5%',
     flexDirection: 'row',
   },
   leftBar: (userVote, leftSize) => ({
