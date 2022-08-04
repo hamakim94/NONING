@@ -42,10 +42,10 @@ export default function LoginForm({navigation}) {
   const onSubmit = data => {
     UseAxios.post('/users/login', data)
       .then(res => {
-        // AsyncStorage.setItem('accesstoken', res.headers.accesstoken);
-        // AsyncStorage.setItem('refreshtoken', res.headers.refreshtoken);
-        // AsyncStorage.setItem('userdata', JSON.stringify(res.data));
-        // setUserData(res.data);
+        AsyncStorage.setItem('accesstoken', res.headers.accesstoken);
+        AsyncStorage.setItem('refreshtoken', res.headers.refreshtoken);
+        AsyncStorage.setItem('userdata', JSON.stringify(res.data));
+        setUserData(res.data);
       })
       .catch(err => {
         console.log(err);

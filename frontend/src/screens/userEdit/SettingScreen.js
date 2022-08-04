@@ -35,18 +35,7 @@ function SettingScreen({navigation}) {
         },
         {
           text: '취소',
-          onPress: () =>
-            UseAxios.get('/users/profiles', {
-              params: {
-                userId: 5,
-              },
-            })
-              .then(res => {
-                console.log(res);
-              })
-              .catch(err => {
-                console.log(err);
-              }),
+          onPress: () => {},
         },
         // console.log('취소버튼'), style: 'cancel'},
       ],
