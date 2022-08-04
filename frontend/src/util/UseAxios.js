@@ -1,6 +1,6 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {CommonActions} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 export default UseAxios = axios.create({
   baseURL: 'http://i7a202.p.ssafy.io:8888/api',
@@ -50,6 +50,8 @@ UseAxios.interceptors.response.use(
         })
         .catch(err => {
           alert('세션이 만료되었습니다. 다시 로그인해주세요.');
+          const navigation = useNavigation();
+          navigation.navigate('Homescreen');
         });
 
       return axios(originalRequest);
