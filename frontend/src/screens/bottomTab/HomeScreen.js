@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Divider} from '@rneui/base/dist/Divider';
 import {
   View,
@@ -19,6 +19,7 @@ import UserContext from '../../util/UserContext';
 function HomeScreen({navigation}) {
   const [filterName, setFilterName] = useState('전체');
   const [boards, setBoards] = useState([]);
+  const {userData} = useContext(UserContext);
   // const [temp_boards, setTempBoards] = useState([]);
   // const [start_num, setStartNum] = useState(0);
   // const [loading, setLoading] = useState(false);
@@ -41,7 +42,7 @@ function HomeScreen({navigation}) {
     }).then(res => {
       setBoards(res.data)
     })
-  }, [filterName]);
+  }, [filterName, userData]);
   // 전체 가져온 데이터를 10개보다 작으면 그 개수만큼, 아니면 10개씩 복사
   // const getData = start => {
   //   if (boards.length > start + 10) {

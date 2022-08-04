@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import BoardHeader from './BoardHeader';
 import BoardBar from './BoardBar';
 import BoardFooter from './BoardFooter';
@@ -7,6 +7,11 @@ import BoardFooter from './BoardFooter';
 
 function Boards({board, navigation}) {
   const [boardData, setBoardData] = useState(board);
+
+  useEffect(() => {
+    setBoardData(board);
+  }, [board])
+  
   return (
     <View>
       <View style={styles.container}>
