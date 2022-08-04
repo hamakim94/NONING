@@ -1,17 +1,19 @@
 import {View, StyleSheet, Image, TouchableOpacity, Text} from 'react-native';
 import React from 'react';
 import LoginForm from '../../components/loginScreen/LoginForm';
-
-const INSTAGRAM_LOGO =
-  'https://cdn2.iconfinder.com/data/icons/social-icons-33/128/Instagram-256.png';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const LoginScreen = ({navigation}) => (
   <View style={styles.container}>
-    <View style={styles.logoContainer}>
-      <Image source={{uri: INSTAGRAM_LOGO, height: 70, width: 70}}></Image>
-      <LoginForm></LoginForm>
+    <KeyboardAwareScrollView keyboardShouldPersistTaps={'handled'}>
+      <View style={styles.logoContainer}>
+        <Image
+          style={styles.logo}
+          source={require('../../assets/LoginLogo.jpg')}></Image>
+      </View>
+      <LoginForm navigation={navigation}></LoginForm>
       <View style={styles.passwordSignupContainer}>
-        <View style={{flex: 1, alignItems: 'center'}}>
+        <View style={{flex: 1, alignItems: 'center', paddingLeft: '5%'}}>
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('PasswordChangeScreen', {
@@ -22,7 +24,7 @@ const LoginScreen = ({navigation}) => (
           </TouchableOpacity>
         </View>
 
-        <View style={{flex: 1, alignItems: 'center'}}>
+        <View style={{flex: 1, alignItems: 'center', paddingRight: '5%'}}>
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('SignUpNav', {screen: 'SignUpNav'})
@@ -31,7 +33,7 @@ const LoginScreen = ({navigation}) => (
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   </View>
 );
 
@@ -39,24 +41,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    paddingTop: 30,
+
     paddingHorizontal: 0,
   },
   logoContainer: {
+    flex: 1,
     alignItems: 'center',
-    marginTop: 30,
+    marginVertical: '10%',
   },
   signupContainer: {
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'center',
-    marginTop: 20,
   },
   passwordSignupContainer: {
-    marginTop: 20,
+    flex: 1,
+    marginTop: '1%',
     flexDirection: 'row',
     width: '100%',
-    justifyContent: 'space-between',
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    borderRadius: 10,
   },
 });
 

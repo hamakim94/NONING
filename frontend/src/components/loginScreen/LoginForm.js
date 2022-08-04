@@ -1,139 +1,154 @@
-import {View, Text, StyleSheet, Pressable} from 'react-native';
-import React, {useState} from 'react';
-import {TextInput} from 'react-native-gesture-handler';
-import {Formik} from 'formik';
-import * as Yup from 'yup';
+import React, {useState, useRef, useContext} from 'react';
+import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import InputLabel from '../../components/signUp/InputLabel';
+import NoCheckInput from '../signUp/NoCheckInput';
+import UseAxios from '../../util/UseAxios';
+import UserContext from '../../util/UserContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const LoginForm = () => {
-  const LoginFormSchema = Yup.object().shape({
-    email: Yup.string().email().required('An email is required'),
-    password: Yup.string()
-      .required()
-      .min(6, 'Your password has to have at least 6 characters'),
+export default function LoginForm({navigation}) {
+  const inputRef = useRef([]);
+  const [emailStyle, setEmailStyle] = useState(styles.blurInput);
+  const [pwStyle, setPwStyle] = useState(styles.blurInput);
+  const {userData, setUserData} = useContext(UserContext);
+  const schema = yup.object({
+    email: yup
+      .string()
+      .email('이메일 형식을 사용하세요.')
+      .required('필수 항목입니다.'),
+    password: yup
+      .string()
+      .matches(
+        /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/,
+        '8~16자 영문, 숫자, 특수문자를 사용하세요.',
+      )
+      .required('필수 항목입니다.'),
   });
-
-  const Valiadator = text => {
-    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    return reg.test(text);
+  const {
+    handleSubmit,
+    control,
+    formState: {errors},
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    resolver: yupResolver(schema),
+  });
+  const onSubmit = data => {
+    UseAxios.post('/users/login', data)
+      .then(res => {
+        console.log(res.data);
+        AsyncStorage.setItem('accesstoken', res.headers.accesstoken);
+        AsyncStorage.setItem('refreshtoken', res.headers.refreshtoken);
+        console.log(res.headers.accesstoken);
+        console.log(res.headers.refreshtoken);
+        setUserData(res.data);
+        navigation.goBack();
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
-
   return (
-    <View style={styles.wrapper}>
-      <Formik
-        initialValues={{email: '', password: ''}}
-        onSubmit={values => console.log(values)}
-        validationSchema={LoginFormSchema}
-        validateOnMount={true}>
-        {({handleChange, handleBlur, handleSubmit, values, isValid}) => (
-          <>
-            <View
-              style={[
-                styles.inputField,
-                {
-                  borderColor:
-                    values.email.length < 1 || Valiadator(values.email)
-                      ? '#ccc'
-                      : 'red',
-                },
-              ]}>
-              <TextInput
-                placeholderTextColor="#444"
-                placeholder="아이디(이메일)"
-                autoCapitalize="none"
-                keyboardType="email-address"
-                textContentType="emailAddress"
-                autoFocus={true}
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-                value={values.email}
-              />
-            </View>
-
-            <Text style={{color: '#FF5F5F', fontSize: 10}}>
-              {values.email.length < 1 || Valiadator(values.email)
-                ? ''
-                : '이메일 형식으로 적어주세요'}
-            </Text>
-
-            <View
-              style={[
-                styles.inputField,
-                {
-                  borderColor:
-                    1 > values.password.length || values.password.length >= 6
-                      ? '#ccc'
-                      : 'red',
-                },
-              ]}>
-              <TextInput
-                placeholderTextColor="#444"
-                placeholder="password"
-                autoCapitalize="none"
-                autoCorrect={false}
-                secureTextEntry={true}
-                textContentType="password"
-                onChangeText={handleChange('password')}
-                onBlur={handleBlur('password')}
-                value={values.password}
-              />
-            </View>
-
-            <Text style={{color: '#FF5F5F', fontSize: 10}}>
-              {1 > values.password.length || values.password.length >= 6
-                ? ''
-                : '6자 이상 적어주세요'}
-            </Text>
-
-            <Pressable
-              titleSize={20}
-              style={styles.button(isValid)}
-              onPress={handleSubmit}
-              disabled={!isValid}>
-              <Text style={styles.buttonText}>Log in</Text>
-            </Pressable>
-          </>
-        )}
-      </Formik>
+    <View
+      style={{
+        flex: 2,
+      }}>
+      <View style={{paddingHorizontal: '5%'}}>
+        <InputLabel name="이메일"></InputLabel>
+        <NoCheckInput
+          control={control}
+          style={emailStyle}
+          setStyle={setEmailStyle}
+          property="email"
+          errorMessage={errors.email ? errors.email.message : ''}
+          styles={styles}
+          inputRef={inputRef}
+          index={0}></NoCheckInput>
+      </View>
+      <View style={{paddingHorizontal: '5%'}}>
+        <InputLabel name="비밀번호"></InputLabel>
+        <NoCheckInput
+          control={control}
+          style={pwStyle}
+          setStyle={setPwStyle}
+          property="password"
+          errorMessage={errors.password ? errors.password.message : ''}
+          styles={styles}
+          inputRef={inputRef}
+          index={1}
+          blind={true}
+          login={true}
+          handleSubmit={handleSubmit}
+          onSubmit={onSubmit}></NoCheckInput>
+      </View>
+      <View style={{alignItems: 'center', marginVertical: '3%'}}>
+        <TouchableOpacity
+          index={2}
+          style={
+            Object.keys(errors).length > 0 ? styles.button : styles.checkButton
+          }
+          onPress={
+            Object.keys(errors).length > 0 ? () => '' : handleSubmit(onSubmit)
+          }>
+          <Text style={styles.buttonText}>로그인</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
-};
+}
 const styles = StyleSheet.create({
-  wrapper: {
-    marginTop: 60,
-    width: '90%',
-  },
-  inputField: {
+  focusInput: {
+    width: '100%',
+    backgroundColor: 'white',
+    borderColor: 'black',
+    paddingHorizontal: '2%',
+    height: '80%',
     borderRadius: 4,
-    borderColor: 'gray',
-    backgroundColor: '#FAFAFA',
-    marginBottom: 5,
+    borderWidth: 1.5,
+  },
+  blurInput: {
+    width: '100%',
+    borderColor: '#808080',
+    paddingHorizontal: '2%',
+    height: '80%',
+    borderRadius: 4,
     borderWidth: 1,
-    minHeight: 40,
   },
-  button: isValid => ({
-    backgroundColor: isValid ? '#FF5F5F' : 'rgba(255,95,95,0.25)',
-    alignItems: 'center',
+  button: {
+    marginBottom: '5%',
+    width: '90%',
+    color: 'white',
+    height: '40%',
+    backgroundColor: 'rgba(255, 95, 95, 0.4)',
+    borderRadius: 6,
     justifyContent: 'center',
-    minHeight: 42,
-    borderRadius: 10,
-  }),
+  },
+  checkButton: {
+    marginBottom: '5%',
+    width: '90%',
+    color: 'white',
+    height: '40%',
+    backgroundColor: '#FF5F5F',
+    borderRadius: 6,
+    justifyContent: 'center',
+  },
   buttonText: {
-    fontWeight: '600',
-    color: '#fff',
-    fontSize: 20,
+    color: 'white',
+    fontFamily: 'Bold',
+    textAlign: 'center',
+    fontSize: 15,
   },
-  signupContainer: {
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'center',
-    marginTop: 20,
-  },
-  passwordSignupContainer: {
-    marginTop: 20,
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between',
+  errorText: {
+    color: '#FF7171',
+    fontSize: 10,
+    fontWeight: 'bold',
+    marginLeft: '1%',
+    textAlignVertical: 'center',
   },
 });
-
-export default LoginForm;
