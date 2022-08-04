@@ -38,7 +38,7 @@ UseAxios.interceptors.response.use(
       // token refresh 요청
       await axios
         .post(
-          `http://i7a202.p.ssafy.io:9999/api/users/reissue`, // token refresh api
+          `http://i7a202.p.ssafy.io:8888/api/users/reissue`, // token refresh api
           {},
           {
             headers: {ACCESSTOKEN: accesstoken, REFRESHTOKEN: refreshtoken},
