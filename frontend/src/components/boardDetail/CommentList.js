@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {View, StyleSheet, FlatList} from 'react-native';
 import CommentItem from './CommentItem';
 import ReplyTestData from './ReplyTestData';
@@ -8,7 +8,6 @@ function CommentList({comment}) {
   const [commentIsopened, setCommentIsopened] = useState(false);
   const [commentData, setCommentData] = useState(comment);
   const [replys, setReplys] = useState([]);
-
   useEffect(() => {
     setReplys(ReplyTestData);
   }, []);

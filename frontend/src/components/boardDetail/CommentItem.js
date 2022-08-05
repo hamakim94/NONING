@@ -2,7 +2,7 @@ import React from 'react';
 import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import {Avatar} from '@rneui/themed';
 import Icon from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo';
+import CommentModal from './CommnetModal';
 import axios from 'axios';
 
 function CommentItem({
@@ -196,9 +196,7 @@ function CommentItem({
         </View>
       </View>
       <View style={{flex: 0.5, justifyContent: 'center'}}>
-        <TouchableOpacity>
-          <Entypo name="dots-three-vertical" color="black" size={13} />
-        </TouchableOpacity>
+        <CommentModal></CommentModal>
       </View>
     </View>
   );
