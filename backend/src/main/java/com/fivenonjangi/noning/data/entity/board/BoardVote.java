@@ -1,6 +1,5 @@
 package com.fivenonjangi.noning.data.entity.board;
 
-import com.fivenonjangi.noning.data.dto.board.BoardVoteDTO;
 import com.fivenonjangi.noning.data.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
@@ -31,14 +29,9 @@ public class BoardVote {
     User user;
     LocalDateTime reg;
 
-    public BoardVoteDTO toDto() {
-        return BoardVoteDTO.builder()
-                .id(id)
-                .vote(vote)
-                .board(board.toDto())
-                .user(user.toDto())
-                .reg(reg)
-                .build();
+    public void updateVote(byte vote, LocalDateTime now){
+        this.vote = vote;
+        this.reg = now;
     }
 }
 

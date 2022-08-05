@@ -1,7 +1,6 @@
 package com.fivenonjangi.noning.config.security;
 
-import antlr.Token;
-import com.fivenonjangi.noning.service.RedisService;
+import com.fivenonjangi.noning.service.etc.RedisService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,9 +106,11 @@ public class JwtTokenProvider {
     }
     //로그아웃
     public void logout(String accessToken, String email) {
-        Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken);
-        long expiredAccessTokenTime = claims.getBody().getExpiration().getTime() - new Date().getTime();
-        redisService.setValues(accessToken, email, Duration.ofMillis(expiredAccessTokenTime));
+        try {
+            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken);
+            long expiredAccessTokenTime = claims.getBody().getExpiration().getTime() - new Date().getTime();
+            redisService.setValues(accessToken, email, Duration.ofMillis(expiredAccessTokenTime));
+        }catch (Exception e){}
         redisService.deleteValues(email); // Delete RefreshToken In Redis
     }
 }

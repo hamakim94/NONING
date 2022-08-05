@@ -1,7 +1,5 @@
 package com.fivenonjangi.noning.data.dto.board;
 
-import com.fivenonjangi.noning.data.dto.user.UserDTO;
-import com.fivenonjangi.noning.data.dto.user.UserResponseDTO;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -18,5 +16,12 @@ public class BoardRequestDTO {
     private String opt1;
     private String opt2;
     private String categoryCode;
-    private LocalDateTime reg;
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BoardVoteDTO {
+        private long userId;
+        private byte vote;
+    }
 }

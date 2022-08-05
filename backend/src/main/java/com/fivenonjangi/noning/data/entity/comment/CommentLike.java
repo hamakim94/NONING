@@ -1,6 +1,5 @@
 package com.fivenonjangi.noning.data.entity.comment;
 
-import com.fivenonjangi.noning.data.dto.comment.CommentLikeDTO;
 import com.fivenonjangi.noning.data.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,12 +43,4 @@ public class CommentLike {
         this.isLike = false;
     }
 
-    public CommentLikeDTO toDTO(){
-        return CommentLikeDTO.builder()
-                .id(id)
-//                .commentId(commentId)
-//                .userId(userId)
-                .isLike(isLike)
-                .build();
-    }
 }

@@ -45,20 +45,17 @@ public class User {
         this.lastLogin = lastLogin;
     }
 
-    public UserDTO toDto(){
-        return UserDTO.builder()
-                .id(id)
-                .genderCode(genderCode)
-                .mbti1Code(mbti1Code)
-                .mbti2Code(mbti2Code)
-                .mbti3Code(mbti3Code)
-                .mbti4Code(mbti4Code)
-                .age(age)
-                .ageRangeCode(ageRangeCode)
-                .reg(reg)
-                .lastLogin(lastLogin)
-                .deleteDate(deleteDate)
-                .isDeleted(isDeleted)
-                .build();
+    public void updateUser(UserDTO userDTO, String ageRangeCode) {
+        this.genderCode = userDTO.getGenderCode();
+        this.mbti1Code = userDTO.getMbti1Code();
+        this.mbti2Code = userDTO.getMbti2Code();
+        this.mbti3Code = userDTO.getMbti3Code();
+        this.mbti4Code = userDTO.getMbti4Code();
+        this.age = userDTO.getAge();
+        this.ageRangeCode = ageRangeCode;
+    }
+    public void deleteUser(LocalDateTime deleteDate){
+        this.isDeleted = true;
+        this.deleteDate = deleteDate;
     }
 }

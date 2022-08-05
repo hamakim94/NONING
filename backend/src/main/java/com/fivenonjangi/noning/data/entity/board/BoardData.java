@@ -1,6 +1,5 @@
 package com.fivenonjangi.noning.data.entity.board;
 
-import com.fivenonjangi.noning.data.dto.board.BoardDataDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,14 +27,20 @@ public class BoardData {
     @JoinColumn(name = "board_id")
     Board board;
 
-    public BoardDataDTO toDto() {
-        return BoardDataDTO.builder()
-                .id(id)
-                .opt1Selected(opt1Selected)
-                .opt2Selected(opt2Selected)
-                .likes(likes)
-                .board(board.toDto())
-                .build();
+    public void updateVote(byte vote, boolean isBetray) {
+        if (vote == 1){
+            opt1Selected++;
+            if (isBetray) opt2Selected--;
+        } else if (vote == 2){
+            opt2Selected++;
+            if (isBetray) opt1Selected--;
+        }
+    }
+    public void like() {
+        likes++;
+    }
+    public void unlike() {
+        likes--;
     }
 }
 

@@ -3,15 +3,16 @@ package com.fivenonjangi.noning.controller;
 import com.fivenonjangi.noning.config.security.JwtTokenProvider;
 import com.fivenonjangi.noning.data.dto.board.BoardRequestDTO;
 import com.fivenonjangi.noning.data.dto.board.BoardResponseDTO;
-import com.fivenonjangi.noning.data.dto.user.ParticipateResponseDTO;
-import com.fivenonjangi.noning.service.BoardService;
-import com.fivenonjangi.noning.service.UserService;
+import com.fivenonjangi.noning.data.dto.user.VoterResponseDTO;
+import com.fivenonjangi.noning.service.board.BoardService;
+import com.fivenonjangi.noning.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.List;
 
 //@ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
@@ -35,43 +36,99 @@ public class BoardController {
     @PostMapping("/write")
     public ResponseEntity writeBoard(HttpServletRequest request, @RequestBody BoardRequestDTO boardRequestDTO){
         long userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
-        boardService.writeBoard(boardRequestDTO, userId);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        try{
+            boardService.writeBoard(boardRequestDTO, userId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/{boardid}/delete")
-    public ResponseEntity deleteBoard(@PathVariable("boardid") long boardId){
-        boardService.deleteBoard(boardId);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity deleteBoard(HttpServletRequest request, @PathVariable("boardid") long boardId){
+        long userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
+        try {
+            boardService.deleteBoard(userId, boardId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @GetMapping("/list/{userid}")
-    public ResponseEntity getBoardList(@PathVariable("userid") long userId, @RequestParam("categorycode") String categoryCode){
+    @GetMapping("/list")
+    public ResponseEntity getBoardList(HttpServletRequest request, @RequestParam("categorycode") String categoryCode){
+        long userId = -1;
+
+        if(request.getHeader("ACCESSTOKEN") != null){ // 로그인 한 사용자
+            userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
+        }
+
         List<BoardResponseDTO> boardResponseDTOList = boardService.getBoardList(userId, categoryCode);
 
         return new ResponseEntity<>(boardResponseDTOList, HttpStatus.OK);
     }
 
     @GetMapping("/{boardid}")
-    public ResponseEntity getBoardDetail(HttpServletRequest request, @PathVariable("boardid") long boardId) {
+    public ResponseEntity getBoardDetail(HttpServletRequest request, @PathVariable("boardid") long boardId){
         long userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
         BoardResponseDTO boardResponseDTO = boardService.getBoard(userId, boardId);
-
-//        Map<String, List<UserResponseDTO>> participates = boardService.getParticipate(boardId);
-//        Map<String, Object> result = new HashMap<>();
-//        result.put("participate1List", participates.get("participate1List"));
-//        result.put("participate2List", participates.get("participate2List"));
-//        result.put("board", boardResponseDTO);
 
         return new ResponseEntity<>(boardResponseDTO, HttpStatus.OK);
     }
 
     @GetMapping("/{boardid}/users")
-    public ResponseEntity getParticipate(@PathVariable("boardid") long boardId){
-        List<ParticipateResponseDTO> user_list = userService.getUserListByBoardId(boardId);
+    public ResponseEntity getVoter(@PathVariable("boardid") long boardId){
+        List<VoterResponseDTO> voterList = userService.getVoterListByBoardId(boardId);
 
-        return new ResponseEntity<>(user_list, HttpStatus.OK);
+        return new ResponseEntity<>(voterList, HttpStatus.OK);
+    }
+
+    @PostMapping("/{boardid}/vote")
+    public ResponseEntity vote(@PathVariable("boardid") long boardId, @RequestBody BoardRequestDTO.BoardVoteDTO boardVoteDTO, HttpServletRequest request){
+        if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(boardVoteDTO.getUserId()))){
+            try {
+                boardService.vote(boardId, boardVoteDTO.getUserId(), boardVoteDTO.getVote(), LocalDateTime.now());
+                return new ResponseEntity<>(HttpStatus.OK);
+            }catch (Exception e){}
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    @PutMapping("/{boardid}/betray")
+    public ResponseEntity betray(@PathVariable("boardid") long boardId, @RequestBody BoardRequestDTO.BoardVoteDTO boardVoteDTO, HttpServletRequest request){
+        if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(boardVoteDTO.getUserId()))){
+            try {
+                boardService.betray(boardId, boardVoteDTO.getUserId(), boardVoteDTO.getVote(), LocalDateTime.now());
+                return new ResponseEntity<>(HttpStatus.OK);
+            }catch (Exception e){}
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    @PostMapping("/{boardid}/like")
+    public ResponseEntity like(@PathVariable("boardid") long boardId, @RequestParam long userId, HttpServletRequest request){
+        if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userId))){
+            try {
+                boardService.like(boardId, userId, LocalDateTime.now());
+                return new ResponseEntity<>(HttpStatus.OK);
+            }catch (Exception e){}
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    @DeleteMapping("/{boardid}/unlike")
+    public ResponseEntity unlike(@PathVariable("boardid") long boardId, @RequestParam long userId, HttpServletRequest request){
+        if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userId))){
+            try {
+                boardService.unlike(boardId, userId);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }catch (Exception e){}
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/flow")
+    public ResponseEntity getFlowList(HttpServletRequest request){
+        long userId = Long.parseLong(jwtTokenProvider.getUserPk(request.getHeader("ACCESSTOKEN")));
+        List<BoardResponseDTO> boardResponseDTOList = boardService.getFlowList(userId);
+
+        return new ResponseEntity<>(boardResponseDTOList, HttpStatus.OK);
     }
 }
