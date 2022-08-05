@@ -8,6 +8,7 @@ import VoteWrite from '../../components/userpage/VoteWrite';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import UseAxios from '../../util/UseAxios';
 import UserContext from '../../util/UserContext';
+import { useIsFocused } from '@react-navigation/native';
 
 const renderTabBar = props => (
   <TabBar
@@ -62,6 +63,7 @@ export default function UserPageScreen({navigation}) {
   const [myPageData, setMyPageData] = useState([])
   const [boards, setBoards] = useState([]);
   const [index, setIndex] = useState(0);
+  const isFocused = useIsFocused();
   const [routes] = useState([
     {key: 0, title: '내찜논'},
     {key: 1, title: '내참논'},
@@ -76,7 +78,7 @@ export default function UserPageScreen({navigation}) {
       setMyPageData(res.data)
       console.log(res.data)
     })
-  }, []);
+  }, [isFocused]);
 
 
   return (
@@ -151,11 +153,11 @@ export default function UserPageScreen({navigation}) {
                                     else return <Text>J</Text>
                                 })()} / 
                                 {(() => {
-                                    if (userData.age_range_code == "A0101") return <Text>10대 미만</Text>
-                                    else if (userData.age_range_code == "A0102") return <Text>10대</Text>
-                                    else if (userData.age_range_code == "A0103") return <Text>20대</Text>
-                                    else if (userData.age_range_code == "A0104") return <Text>30대</Text>
-                                    else if (userData.age_range_code == "A0104") return <Text>40대</Text>
+                                    if (userData.ageRangeCode == "A0101") return <Text>10대 미만</Text>
+                                    else if (userData.ageRangeCode == "A0102") return <Text>10대</Text>
+                                    else if (userData.ageRangeCode == "A0103") return <Text>20대</Text>
+                                    else if (userData.ageRangeCode == "A0104") return <Text>30대</Text>
+                                    else if (userData.ageRangeCode == "A0104") return <Text>40대</Text>
                                     else return <Text>50대 이상</Text>
                                 })()}
                         </Text>
