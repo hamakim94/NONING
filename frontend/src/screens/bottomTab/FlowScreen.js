@@ -1,46 +1,47 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {StyleSheet, View, FlatList} from 'react-native';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {View, FlatList, Dimensions} from 'react-native';
 import Flows from '../../components/flow/Flows';
 import UseAxios from '../../util/UseAxios';
 
-// 게시글 가져오기 :  /api/boards/list/{userid}  인풋 : userId, categoryCode, order?categorycode=””
+const windowHeight = Dimensions.get('window').height * 0.934;
+
 function FlowScreen({navigation}) {
   const [boards, setBoards] = useState([]);
-  // 처음 실행하는 함수, 전체 보드 를 가져오는데, 이를 먼저 수정해
-  // useEffect(() => {
-  //   (async () => {
-  //     // const {data} = await axios.get("님들 서버 URL");s
-  //     setBoards(BOARDS);
-  //   })();
-  // }, []);
 
   useEffect(() => {
     UseAxios.get('/boards/flow').then(res => {
       setBoards(res.data);
-      console.log(res.data);
     });
   }, []);
 
-  const renderItem = useCallback(
-    ({item}) => <Flows board={item} navigation={navigation}></Flows>,
-    [],
+  const renderItem = ({item}) => (
+    <Flows board={item} navigation={navigation}></Flows>
   );
+
+  const memoizedItem = useMemo(() => renderItem, [boards]);
+
   const keyExtractor = useCallback(item => item.boardId, []);
 
+  const snapToOffsets = useMemo(
+    () =>
+      Array.from(Array(boards.length)).map((_, index) => index * windowHeight),
+    [boards],
+  );
   return (
     <View style={{flex: 1}}>
       <FlatList
         showsVerticalScrollIndicator={false}
         removeClippedSubviews={true}
         legacyImplementation={true}
-        initialNumToRender={3}
-        windowSize={3}
+        maxToRenderPerBatch={1}
+        initialNumToRender={1}
+        windowSize={2}
         data={boards}
-        renderItem={renderItem}
+        renderItem={memoizedItem}
         keyExtractor={keyExtractor}
-        disableVirtualization={false}></FlatList>
+        snapToOffsets={snapToOffsets}
+        disableIntervalMomentum={true}></FlatList>
     </View>
   );
 }
-const styles = StyleSheet.create({});
 export default FlowScreen;
