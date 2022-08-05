@@ -3,12 +3,9 @@ import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import Modal from 'react-native-modal';
 
 export default function DeleteModal({deleteModal, setDeleteModal, comment}) {
-  const deviceHeight =
-    Platform.OS === 'ios'
-      ? Dimensions.get('window').height
-      : require('react-native-extra-dimensions-android').get(
-          'REAL_WINDOW_HEIGHT',
-        );
+  const deviceHeight = require('react-native-extra-dimensions-android').get(
+    'REAL_WINDOW_HEIGHT',
+  );
   return (
     <>
       <Modal

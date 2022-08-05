@@ -7,13 +7,16 @@ import UseAxios from '../../util/UseAxios';
 import UserContext from '../../util/UserContext';
 import { useIsFocused } from '@react-navigation/native';
 
-export default function VoteLike({navigation}) {
+export default function VoteLike({navigation, id}) {
   // console.log(USER.boardList)
+console.log(id)
+
   const {userData} = useContext(UserContext);
   const [myPageData, setMyPageData] = useState([])
   const isFocused = useIsFocused();
   useEffect(() => {
-    UseAxios.get(`/users/${userData.userId}/page`).then(res => {
+    const voteId = id === null ? userData.userId : id
+    UseAxios.get(`/users/${voteId}/page`).then(res => {
       setMyPageData(res.data)
       console.log(res.data)
     })
