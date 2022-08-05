@@ -9,9 +9,8 @@ const windowHeight = Dimensions.get('window').height;
 
 function Flows({board, navigation}) {
   const [boardData, setBoardData] = useState(board);
-  console.log('1번');
   return (
-    <View style={{height: windowHeight * 0.935}}>
+    <View style={styles.mainContainer}>
       <WaveAnimation />
       <FireAnimation />
       <View style={styles.container}>
@@ -29,12 +28,16 @@ function Flows({board, navigation}) {
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    height: windowHeight * 0.934,
+  },
   container: {
     alignSelf: 'center',
     width: '100%',
     height: '100%',
     justifyContent: 'center',
     flex: 1,
+    paddingBottom: '20%',
   },
   titleText: {
     width: '80%',
