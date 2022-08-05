@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Dimensions, Text, Image, TouchableOpacity, length} from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import { USER } from '../data/user' 
@@ -6,7 +6,7 @@ import VoteLike from '../components/userpage/VoteLike'
 import VoteDo from '../components/userpage/VoteDo'
 import VoteWrite from '../components/userpage/VoteWrite'
 import AntDesign from 'react-native-vector-icons/AntDesign'
-
+import { useIsFocused } from '@react-navigation/native';
 
 const renderTabBar = props => (
   <TabBar
@@ -50,22 +50,40 @@ const renderTabBar = props => (
 
 const initialLayout = {width: Dimensions.get('window').width};
 
-const renderScene = SceneMap({
-  0: VoteLike,
-  1: VoteDo,
-  2: VoteWrite
-});
+// const renderScene = SceneMap({
+//   0: VoteLike,
+//   1: VoteDo,
+//   2: VoteWrite
+// });
 
 
-export default function YourPageScreen({navigation}) {
+export default function YourPageScreen({route, navigation}) {
+  const [yourPageData, setYourPageData] = useState([])
   const [index, setIndex] = useState(0);
+  const id = route.params.id;
+  const isFocused = useIsFocused();
   const [routes] = useState([
     {key: 0, title: '얘찜논'},
     {key: 1, title: '얘참논'},
     {key: 2, title: '얘만논'},
     
   ]);
-  
+  const renderScene = ({ route }) => {
+    switch (route.key) {
+      case 0:
+        return <VoteLike navigation={navigation} id={id} />;
+      case 1:
+        return <VoteDo id={yourPageData.id}/>;
+      default:
+        return null;
+    }
+  };
+
+  useEffect(() => {
+    UseAxios.get(`/users/${id}/page`).then(res => {
+      setYourPageData(res.data)
+    })
+  }, [isFocused]);
 
   return (
     <View style={styles.container}>
@@ -101,7 +119,7 @@ export default function YourPageScreen({navigation}) {
             {/* 닉네임, 특징 */}
             <View style={{marginStart: '5%' }}> 
                     <View >
-                        <Text style={{marginBottom: '1.5%', fontWeight: 'bold'}}> {USER.user.nickname}</Text>
+                        <Text style={{marginBottom: '1.5%', fontWeight: 'bold'}}> {yourPageData.nickname}</Text>
                         <Text> {(() => {
                                     if (USER.user.genderCode == "G0101") return <Text>남성</Text>
                                     else return <Text>여성</Text>

@@ -12,12 +12,12 @@ export default function VoteWrite({navigation}) {
   const [myPageData, setMyPageData] = useState([])
 
   
-  useEffect(() => {
-    UseAxios.get(`/users/${userData.userId}/page`).then(res => {
-      setMyPageData(res.data)
-      console.log(res.data)
-    })
-  }, []);
+//   useEffect(() => {
+//     UseAxios.get(`/users/${userData.userId}/page`).then(res => {
+//       setMyPageData(res.data)
+//       console.log(res.data)
+//     })
+//   }, []);
   
   return (
       <View style={{flex:1}}>
