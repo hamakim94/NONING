@@ -24,7 +24,7 @@ public class JwtTokenProvider {
     private String secretKey;
     private Key key;
     private final long refreshTokenValidMilisecond = 1000L * 60 * 60 * 24 * 30; // 30일만 토큰 유효
-    private final long accessTokenValidMilisecond = 1000L * 60 * 10; // 10분만 토큰 유효
+    private final long accessTokenValidMilisecond = 1000L * 60 * 1; // 10분만 토큰 유효
     private UserDetailsService userDetailsService;
     private final RedisService redisService;
 
@@ -45,7 +45,7 @@ public class JwtTokenProvider {
         return this.createToken(userId.toString(), accessTokenValidMilisecond);
     }
 
-    // Jwt acess토큰 생성
+    // Jwt refresh토큰 생성
     public String createRefreshToken(Long userId) {
         String refreshToken = createToken(userId.toString(), refreshTokenValidMilisecond);
         redisService.setValues(userId.toString(), refreshToken, Duration.ofMillis(refreshTokenValidMilisecond));
