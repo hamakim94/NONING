@@ -1,4 +1,11 @@
-import {View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import {Divider} from '@rneui/themed';
 import React, {useState, useRef} from 'react';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -7,19 +14,17 @@ import InputLabel from '../../components/signUp/InputLabel';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import schema from '../../components/board/BoardValidation';
-import CheckBox from '@react-native-community/checkbox';
+import SelectDropdown from 'react-native-select-dropdown';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import UseAxios from '../../util/UseAxios';
 
 export default function PlusScreen({navigation}) {
   const inputRef = useRef([]);
   const [titleStyle, setTitleStyle] = useState(styles.blurInput);
   const [argu1Style, setArgu1Style] = useState(styles.blurInput);
   const [argu2Style, setArgu2Style] = useState(styles.blurInput);
-  const [toggleCheckBoxLove, setToggleCheckBoxLove] = useState(false)
-  const [toggleCheckBoxFun, setToggleCheckBoxFun] = useState(false)
-  const [toggleCheckBoxEtc, setToggleCheckBoxEtc] = useState(false)
 
-
-  console.log({errors});
+  //console.log({errors});
   const {
     handleSubmit,
     control,
@@ -29,16 +34,47 @@ export default function PlusScreen({navigation}) {
     mode: 'onChange',
     defaultValues: {
       title: '',
-      argu1: '',
-      argu2: '',
+      opt1: '',
+      opt2: '',
+      categoryCode : '',
     },
     resolver: yupResolver(schema),
   });
 
   const onSubmit = data => {
+    data.categoryCode = nameToCode[data.categoryCode]
     console.log(data);
-  };
+    UseAxios.post(`/boards/write`,  
+      data
+    
+    ).then(navigation.navigate('HomeScreen'))
+    .catch(err => {
+      console.log(err)
+    })
 
+  };
+  const nameToCode = {
+    연애: 'B0101',
+    병맛: 'B0102',
+    음식: 'B0103',
+    게임: 'B0104',
+    운동: 'B0105',
+    학교: 'B0106',
+    직장: 'B0107',
+    갈등: 'B0108',
+    기타: 'B0199',
+  };
+  const categoryList = [
+    '연애', 
+    '병맛', 
+    '음식', 
+    '게임', 
+    '운동', 
+    '학교', 
+    '직장', 
+    '갈등', 
+    '기타', 
+  ];
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView style={{}}>
@@ -73,8 +109,8 @@ export default function PlusScreen({navigation}) {
             control={control}
             style={argu1Style}
             setStyle={setArgu1Style}
-            property="argu1"
-            errorMessage={errors.argu1 ? errors.argu1.message : ''}
+            property="opt1"
+            errorMessage={errors.opt1 ? errors.opt1.message : ''}
             styles={styles}
             inputRef={inputRef}
             index={1}></NoCheckInput>
@@ -83,58 +119,112 @@ export default function PlusScreen({navigation}) {
             control={control}
             style={argu2Style}
             setStyle={setArgu2Style}
-            property="argu2"
-            errorMessage={errors.argu2 ? errors.argu2.message : ''}
+            property="opt2"
+            errorMessage={errors.opt2 ? errors.opt2.message : ''}
             styles={styles}
             inputRef={inputRef}
             index={2}></NoCheckInput>
           {/* 카테고리 */}
           <View>
-          <InputLabel name="카테고리(택1)" star="*" />
-              <View style={{flexDirection: 'row'}}>
-                  <View style={{flexDirection: 'row'}}>
-                      <CheckBox
-                          disabled={false}
-                          value={toggleCheckBoxLove}
-                          onValueChange={(newValue) => setToggleCheckBoxLove(newValue)}
-                          />
-                      <Text style={{paddingTop: '1.5%'}}>연애</Text>
-                  </View>
-                  <View style={{flexDirection: 'row'}}>
-                      <CheckBox
-                          disabled={false}
-                          value={toggleCheckBoxFun}
-                          onValueChange={(newValue) => setToggleCheckBoxFun(newValue)}
-                          />
-                      <Text style={{paddingTop: '1.5%'}}>병맛</Text>
-                  </View>
-                  <View style={{flexDirection: 'row'}}>
-                      <CheckBox
-                          disabled={false}
-                          value={toggleCheckBoxEtc}
-                          onValueChange={(newValue) => setToggleCheckBoxEtc(newValue)}
-                          />
-                      <Text style={{paddingTop: '1.5%'}}>기타</Text>
-                  </View>
-            </View>
-        </View>
+          <InputLabel name="카테고리" star="*"></InputLabel>
+            <Controller
+              control={control}
+              render={({field: {onChange}}) => (
+                <View style={{flexDirection: 'row'}}>
+                  <SelectDropdown
+                    data={categoryList}
+                    defaultButtonText="SELECT"
+                    renderDropdownIcon={isOpened => {
+                      return (
+                        <FontAwesome
+                          name={isOpened ? 'chevron-up' : 'chevron-down'}
+                          color={'#444'}
+                          size={18}
+                        />
+                      );
+                    }}
+                    rowStyle={{
+                      backgroundColor: 'white',
+                    }}
+                    dropdownStyle={styles.dropDownOpen}
+                    buttonStyle={styles.dropDownButton}
+                    buttonTextStyle={{
+                      fontSize: 16,
+                      textAlign: 'left',
+                    }}
+                    onSelect={selectedItem => {
+                      onChange(selectedItem);
+                    }}
+                    buttonTextAfterSelection={selectedItem => {
+                      return selectedItem;
+                    }}
+                    rowTextForSelection={item => {
+                      return item;
+                    }}
+                  />
+                </View>
+              )}
+              name="categoryCode"
+            />
+            {errors.categoryCode ? (
+              <Text style={styles.errorText}>{errors.categoryCode.message}</Text>
+            ) : (
+              <Text style={styles.errorText} />
+            )}
+          </View>
         </View>
 
-        
         {/* 미리보기 -> 카드 제대로 만들면 다시해야함!!*/}
         <View style={{}}>
           <Divider orientation="vertical" style={{marginTop: '2.5%'}} />
           <Text style={styles.preview}> PREVIEW </Text>
           <View style={styles.card}>
             <View style={{marginBottom: '2.5%'}}>
-                <Text style={{textAlign: 'center', fontWeight: 'bold', marginBottom: '5%'}}>{getValues('title')}</Text>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontWeight: 'bold',
+                  marginBottom: '5%',
+                }}>
+                {getValues('title')}
+              </Text>
             </View>
             <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-              <View style={{borderTopLeftRadius: 5, borderBottomLeftRadius: 5, borderWidth: 1, width: '55%' ,backgroundColor: 'rgba(255,90,110,0.3)', justifyContent: 'center'}}>
-                <Text style={{color: 'white', textAlign: 'center', paddingVertical: '5%'}}>{getValues('argu1')}</Text>
+              <View
+                style={{
+                  borderTopLeftRadius: 5,
+                  borderBottomLeftRadius: 5,
+                  borderWidth: 1,
+                  width: '55%',
+                  backgroundColor: 'rgba(255,90,110,0.3)',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    color: '#808080',
+                    textAlign: 'center',
+                    paddingVertical: '5%',
+                  }}>
+                  {getValues('opt1')}
+                </Text>
               </View>
-              <View style={{borderTopRightRadius: 5, borderBottomRightRadius: 5, borderWidth: 1, width: '55%' ,backgroundColor: 'rgba(131,227,209,0.3)', justifyContent: 'center'}}>
-                <Text style={{color: 'white', textAlign: 'center', paddingVertical: '5%'}}>{getValues('argu2')}</Text>
+              <View
+                style={{
+                  borderTopRightRadius: 5,
+                  borderBottomRightRadius: 5,
+                  borderWidth: 1,
+                  width: '55%',
+                  backgroundColor: 'rgba(131,227,209,0.3)',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    color: '#808080',
+                    textAlign: 'center',
+                    paddingVertical: '5%',
+                  }}>
+                  {getValues('opt2')}
+                </Text>
               </View>
             </View>
           </View>
@@ -142,7 +232,7 @@ export default function PlusScreen({navigation}) {
         </View>
 
         {/* 등록 버튼 */}
-        <View style={{alignItems: 'center', marginBottom : '3%'}}>
+        <View style={{alignItems: 'center', marginBottom: '3%'}}>
           <TouchableOpacity
             style={styles.checkButton}
             onPress={handleSubmit(onSubmit)}>
@@ -165,7 +255,7 @@ const styles = StyleSheet.create({
   registArgu: {
     fontWeight: 'bold',
     marginBottom: '3%',
-    fontSize: 18
+    fontSize: 18,
   },
   warning: {
     color: 'red',
