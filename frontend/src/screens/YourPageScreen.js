@@ -1,13 +1,12 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, Dimensions, Text, Image, TouchableOpacity, length} from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
-import { USER } from '../../data/user';
-import VoteLike from '../../components/userpage/VoteLike'
-import VoteDo from '../../components/userpage/VoteDo';
-import VoteWrite from '../../components/userpage/VoteWrite';
+import { USER } from '../data/user' 
+import VoteLike from '../components/userpage/VoteLike'
+import VoteDo from '../components/userpage/VoteDo'
+import VoteWrite from '../components/userpage/VoteWrite'
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import UseAxios from '../../util/UseAxios';
-import UserContext from '../../util/UserContext';
+
 
 const renderTabBar = props => (
   <TabBar
@@ -57,45 +56,26 @@ const renderScene = SceneMap({
   2: VoteWrite
 });
 
-export default function UserPageScreen({navigation}) {
-  const {userData} = useContext(UserContext);
-  const [myPageData, setMyPageData] = useState([])
-  const [boards, setBoards] = useState([]);
+
+export default function YourPageScreen({navigation}) {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
-    {key: 0, title: '내찜논'},
-    {key: 1, title: '내참논'},
-    {key: 2, title: '내만논'},
+    {key: 0, title: '얘찜논'},
+    {key: 1, title: '얘참논'},
+    {key: 2, title: '얘만논'},
     
   ]);
-
-
-
-  useEffect(() => {
-    UseAxios.get(`/users/${userData.userId}/page`).then(res => {
-      setMyPageData(res.data)
-      console.log(res.data)
-    })
-  }, []);
-
+  
 
   return (
     <View style={styles.container}>
-        <View style={{flex: 0.08, alignSelf: 'flex-end'}}>
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.push('SettingNav', {screen: 'SettingNav'})}>
-                <AntDesign name={'setting'} size={28} color={'gray'} /> 
-            </TouchableOpacity>
-        </View>
-
         <View style={{flex: 0.23}}>
             {/* 프로필 이미지, 팔로우/팔로워*/} 
             <View style = {{ flexDirection: "row", alignItems: 'center'}}>
                 {/* 프로필 이미지 */}
                 <View style={styles.profileImageBox}>
                     <View>
-                        {/* <Image source={{uri: userData.img}} style={styles.profileImage}/> */}
+                        <Image source={{uri: USER.user.img}} style={styles.profileImage}/>   
                     </View>
                 </View>
                 {/* 팔로우/팔로워 */}
@@ -104,20 +84,12 @@ export default function UserPageScreen({navigation}) {
                             <TouchableOpacity
                                 onPress={() => navigation.push('FollowerScreen', {screen: 'FollowerScreen'})}>
                                 <Text> follower</Text>
-                                <Text style={{alignSelf: 'center'}}> 
-                                    {myPageData.followerIdList
-                                    ? myPageData['followerIdList'].length
-                                    : ''}
-                                </Text>
+                                <Text style={{alignSelf: 'center'}}> {USER.followerIdList.length}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => navigation.push('FollowerScreen', {screen: 'FollowerScreen'})}>
                                 <Text> following</Text>
-                                <Text style={{alignSelf: 'center'}}> 
-                                    {myPageData.followerIdList
-                                    ? myPageData['followingIdList'].length
-                                    : ''}
-                                </Text>
+                                <Text style={{alignSelf: 'center'}}> {USER.followingIdList.length}</Text>
                             </TouchableOpacity>
                         </View>
 
@@ -129,39 +101,41 @@ export default function UserPageScreen({navigation}) {
             {/* 닉네임, 특징 */}
             <View style={{marginStart: '5%' }}> 
                     <View >
-                        <Text style={{marginBottom: '1.5%', fontWeight: 'bold'}}> {userData.nickname}</Text>
+                        <Text style={{marginBottom: '1.5%', fontWeight: 'bold'}}> {USER.user.nickname}</Text>
                         <Text> {(() => {
-                                    if (userData.genderCode == "G0101") return <Text>남성</Text>
+                                    if (USER.user.genderCode == "G0101") return <Text>남성</Text>
                                     else return <Text>여성</Text>
                                 })()} / 
                                 {(() => {
-                                    if (userData.mbti1Code == "M0101") return <Text>E</Text>
+                                    if (USER.user.mbti1Code == "M0101") return <Text>E</Text>
                                     else return <Text>I</Text>
                                 })()}
                                 {(() => {
-                                    if (userData.mbti2Code == "M0201") return <Text>N</Text>
+                                    if (USER.user.mbti2Code == "M0201") return <Text>N</Text>
                                     else return <Text>S</Text>
                                 })()}
                                 {(() => {
-                                    if (userData.mbti3Code == "M0301") return <Text>F</Text>
+                                    if (USER.user.mbti3Code == "M0301") return <Text>F</Text>
                                     else return <Text>T</Text>
                                 })()}
                                 {(() => {
-                                    if (userData.mbti4Code == "M0401") return <Text>P</Text>
+                                    if (USER.user.mbti4Code == "M0401") return <Text>P</Text>
                                     else return <Text>J</Text>
                                 })()} / 
                                 {(() => {
-                                    if (userData.age_range_code == "A0101") return <Text>10대 미만</Text>
-                                    else if (userData.age_range_code == "A0102") return <Text>10대</Text>
-                                    else if (userData.age_range_code == "A0103") return <Text>20대</Text>
-                                    else if (userData.age_range_code == "A0104") return <Text>30대</Text>
-                                    else if (userData.age_range_code == "A0104") return <Text>40대</Text>
+                                    if (USER.user.age_range_code == "A0101") return <Text>10대 미만</Text>
+                                    else if (USER.user.age_range_code == "A0102") return <Text>10대</Text>
+                                    else if (USER.user.age_range_code == "A0103") return <Text>20대</Text>
+                                    else if (USER.user.age_range_code == "A0104") return <Text>30대</Text>
+                                    else if (USER.user.age_range_code == "A0104") return <Text>40대</Text>
                                     else return <Text>50대 이상</Text>
                                 })()}
                         </Text>
                     </View>
             </View>
-            {/* 팔로우 버튼 */}
+            <TouchableOpacity style={{backgroundColor: '#FF7171', marginHorizontal: '15%', borderRadius: 10, width: '45%', height: '40%', marginTop: '1.5%'}} >
+                <Text style={{color: 'white', marginVertical: '2.5%', alignSelf: 'center', }} >팔로우</Text>
+            </TouchableOpacity>
         </View>
 
       
@@ -187,7 +161,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   button: {
-    marginVertical: '1.5%',
+    alignItems: 'flex-end', flex: 0.08, marginVertical: '1.5%'
   },
   profileImageBox: {
     flex: 2,
