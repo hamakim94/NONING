@@ -1,13 +1,29 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
-
+import React, {useContext} from 'react';
+import UserContext from '../../util/UserContext';
 
 // 투표 : /api/boards/{boardid}/vote 
 export default function FlowBar({board,  boards, setBoards}) {
+  const {userData, setUserData} = useContext(UserContext);
   // 이제 여기서 props로 넣어줄거야, 그래서 voted가 1 이상이면 터치 못 하게 해야해
   const opt1_ratio = Math.round(
     (board.opt1Selected / (board.opt1Selected + board.opt2Selected)) * 100,
   );
+
+  const posting = num => {
+    // console.log(userData.userId + " " + num)
+    UseAxios.post(`/boards/${board.boardId}/vote`, {
+      userId: userData.userId,
+      vote: num,
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .then(err => {
+        console.log(err);
+      });
+  };
+  
   const opt2_ratio = 100 - opt1_ratio;
   const leftSize = opt1_ratio + '%';
   const rightSize = opt2_ratio + '%';

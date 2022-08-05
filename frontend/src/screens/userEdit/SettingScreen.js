@@ -24,10 +24,9 @@ function SettingScreen({navigation}) {
           onPress: () => {
             UseAxios.get('/users/logout')
               .then(res => {
-                console.log(res.data);
                 navigation.navigate('HomeScreen');
                 AsyncStorage.clear();
-                setUserData({});
+                setUserData(null);
               })
               .catch(err => {
                 console.log(err);
@@ -36,18 +35,7 @@ function SettingScreen({navigation}) {
         },
         {
           text: '취소',
-          onPress: () =>
-            UseAxios.get('/users/profiles', {
-              params: {
-                userId: 5,
-              },
-            })
-              .then(res => {
-                console.log(res);
-              })
-              .catch(err => {
-                console.log(err);
-              }),
+          onPress: () => {},
         },
         // console.log('취소버튼'), style: 'cancel'},
       ],
