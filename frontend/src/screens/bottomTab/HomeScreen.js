@@ -75,9 +75,6 @@ function HomeScreen({navigation}) {
   const keyExtractor = item => item.boardId;
   return (
     <SafeAreaView style={{flex: 1}}>
-      <TouchableOpacity onPress={() => navigation.navigate('LoginNav')}>
-        <Text>로그인</Text>
-      </TouchableOpacity>
       <View style={{flex: 1, padding: 16}}>
         <LogoSearch navigation={navigation}></LogoSearch>
         <Divider width={0.5}></Divider>

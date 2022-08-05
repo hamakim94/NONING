@@ -46,7 +46,7 @@ export default function BoardFooter({board, setBoards, navigation}) {
         <Text>참여 : {board.opt1Selected + board.opt2Selected}명</Text>
         <TouchableOpacity
           style={{margin: 1}}
-          onPress={() =>  { Object.keys(userData).length === 0 ? navigation.navigate('LoginNav', {screen: 'LoginNav'}) : [toggleLike(), board.userLike ? unlike() : like() ]}}>
+          onPress={() =>  { userData === null ? navigation.navigate('LoginNav', {screen: 'LoginNav'}) : [toggleLike(), board.userLike ? unlike() : like() ]}}>
           <AntDesign
             style={styles.iconColor(board.userLike)}
             name="heart"
