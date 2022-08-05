@@ -8,19 +8,17 @@ import UserContext from '../../util/UserContext';
 import { useIsFocused } from '@react-navigation/native';
 
 export default function VoteLike({navigation, id}) {
-  // console.log(USER.boardList)
-console.log(id)
-
   const {userData} = useContext(UserContext);
   const [myPageData, setMyPageData] = useState([])
   const isFocused = useIsFocused();
+
   useEffect(() => {
-    const voteId = id === null ? userData.userId : id
-    UseAxios.get(`/users/${voteId}/page`).then(res => {
+    UseAxios.get(`/users/${id}/page`).then(res => {
       setMyPageData(res.data)
       console.log(res.data)
     })
   }, [isFocused]);
+  
   return (
       <View style={{flex:1}}>
           <FlatList
@@ -35,7 +33,7 @@ console.log(id)
                           if (item.userLike !== false) return <View>
                                   <TouchableOpacity
                                       style={styles.detail} 
-                                      onPress={() => navigation.push('DetaiUselScreen', {screen: 'DetailScreen'})}>
+                                      onPress={() => navigation.push('DetailScreen', {screen: 'DetailScreen'})}>
                                       <AntDesign name={'doubleright'} size={20} color={'gray'} /> 
                                   </TouchableOpacity>
                                   <Text style={{fontWeight: 'bold'}}>{item.title}</Text>

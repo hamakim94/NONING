@@ -31,7 +31,10 @@ function UserPageNav() {
         />
         <Stack.Screen name="FollowerScreen" component={FollowerScreen}/>
         <Stack.Screen name="DetailScreen" component={DetailScreen}/>
-        <Stack.Screen name="YourPageScreen" component={YourPageScreen}/>
+        <Stack.Screen name="YourPageScreen" component={YourPageScreen}
+        options={{
+          headerShown: false,
+        }}/>
     </Stack.Navigator>
   );
 }

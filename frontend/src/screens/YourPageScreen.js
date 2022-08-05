@@ -50,15 +50,8 @@ const renderTabBar = props => (
 
 const initialLayout = {width: Dimensions.get('window').width};
 
-// const renderScene = SceneMap({
-//   0: VoteLike,
-//   1: VoteDo,
-//   2: VoteWrite
-// });
-
-
 export default function YourPageScreen({route, navigation}) {
-  const [yourPageData, setYourPageData] = useState([])
+  const [yourPageData, setYourPageData] = useState([]);
   const [index, setIndex] = useState(0);
   const id = route.params.id;
   const isFocused = useIsFocused();
@@ -68,12 +61,15 @@ export default function YourPageScreen({route, navigation}) {
     {key: 2, title: '얘만논'},
     
   ]);
+  
   const renderScene = ({ route }) => {
     switch (route.key) {
       case 0:
         return <VoteLike navigation={navigation} id={id} />;
       case 1:
-        return <VoteDo id={yourPageData.id}/>;
+        return <VoteDo navigation={navigation} id={id}/>;
+      case 2:
+        return <VoteWrite navigation={navigation} id={id}/>;
       default:
         return null;
     }
@@ -82,11 +78,14 @@ export default function YourPageScreen({route, navigation}) {
   useEffect(() => {
     UseAxios.get(`/users/${id}/page`).then(res => {
       setYourPageData(res.data)
+      console.log(yourPageData)
     })
   }, [isFocused]);
 
   return (
     <View style={styles.container}>
+      <View style={{flex: 0.1}}>
+        </View>
         <View style={{flex: 0.23}}>
             {/* 프로필 이미지, 팔로우/팔로워*/} 
             <View style = {{ flexDirection: "row", alignItems: 'center'}}>
@@ -102,12 +101,20 @@ export default function YourPageScreen({route, navigation}) {
                             <TouchableOpacity
                                 onPress={() => navigation.push('FollowerScreen', {screen: 'FollowerScreen'})}>
                                 <Text> follower</Text>
-                                <Text style={{alignSelf: 'center'}}> {USER.followerIdList.length}</Text>
+                                <Text style={{alignSelf: 'center'}}> 
+                                    {yourPageData.followerIdList
+                                    ? yourPageData['followerIdList'].length
+                                    : ''}
+                                </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => navigation.push('FollowerScreen', {screen: 'FollowerScreen'})}>
                                 <Text> following</Text>
-                                <Text style={{alignSelf: 'center'}}> {USER.followingIdList.length}</Text>
+                                <Text style={{alignSelf: 'center'}}> 
+                                    {yourPageData.followerIdList
+                                    ? yourPageData['followingIdList'].length
+                                    : ''}
+                                </Text>
                             </TouchableOpacity>
                         </View>
 
@@ -115,45 +122,55 @@ export default function YourPageScreen({route, navigation}) {
             </View>
         </View>
 
-        <View style={{flexDirection: 'row', flex: 0.15}}>
+        <View style={{flexDirection: 'row', flex: 0.12}}>
             {/* 닉네임, 특징 */}
-            <View style={{marginStart: '5%' }}> 
+            <View style={{marginStart: '5%', flex: 2}}> 
                     <View >
-                        <Text style={{marginBottom: '1.5%', fontWeight: 'bold'}}> {yourPageData.nickname}</Text>
-                        <Text> {(() => {
-                                    if (USER.user.genderCode == "G0101") return <Text>남성</Text>
+                        <Text style={{paddingBottom: '1.5%', fontWeight: 'bold'}}> 
+                        {yourPageData.user
+                        ? yourPageData.user.nickname
+                        : ''}
+                        </Text>{yourPageData.user
+                        ?
+                        <Text> 
+                                {(() => {
+                                    if (yourPageData.user.genderCode === "G0101") return <Text>남성</Text>
                                     else return <Text>여성</Text>
                                 })()} / 
                                 {(() => {
-                                    if (USER.user.mbti1Code == "M0101") return <Text>E</Text>
-                                    else return <Text>I</Text>
+                                    if (yourPageData.user.mbti1Code === "M0101") return <Text> E</Text>
+                                    else return <Text> I</Text>
                                 })()}
                                 {(() => {
-                                    if (USER.user.mbti2Code == "M0201") return <Text>N</Text>
+                                    if (yourPageData.user.mbti2Code === "M0201") return <Text>N</Text>
                                     else return <Text>S</Text>
                                 })()}
                                 {(() => {
-                                    if (USER.user.mbti3Code == "M0301") return <Text>F</Text>
+                                    if (yourPageData.user.mbti3Code === "M0301") return <Text>F</Text>
                                     else return <Text>T</Text>
                                 })()}
                                 {(() => {
-                                    if (USER.user.mbti4Code == "M0401") return <Text>P</Text>
+                                    if (yourPageData.user.mbti4Code === "M0401") return <Text>P</Text>
                                     else return <Text>J</Text>
                                 })()} / 
                                 {(() => {
-                                    if (USER.user.age_range_code == "A0101") return <Text>10대 미만</Text>
-                                    else if (USER.user.age_range_code == "A0102") return <Text>10대</Text>
-                                    else if (USER.user.age_range_code == "A0103") return <Text>20대</Text>
-                                    else if (USER.user.age_range_code == "A0104") return <Text>30대</Text>
-                                    else if (USER.user.age_range_code == "A0104") return <Text>40대</Text>
-                                    else return <Text>50대 이상</Text>
+                                    if (yourPageData.user.ageRangeCode === "A0101") return <Text> 10대 미만</Text>
+                                    else if (yourPageData.user.ageRangeCode === "A0102") return <Text> 10대</Text>
+                                    else if (yourPageData.user.ageRangeCode === "A0103") return <Text> 20대</Text>
+                                    else if (yourPageData.user.ageRangeCode === "A0104") return <Text> 30대</Text>
+                                    else if (yourPageData.user.ageRangeCode === "A0104") return <Text> 40대</Text>
+                                    else return <Text> 50대 이상</Text>
                                 })()}
                         </Text>
+                        : ""
+                        }
                     </View>
             </View>
-            <TouchableOpacity style={{backgroundColor: '#FF7171', marginHorizontal: '15%', borderRadius: 10, width: '45%', height: '40%', marginTop: '1.5%'}} >
-                <Text style={{color: 'white', marginVertical: '2.5%', alignSelf: 'center', }} >팔로우</Text>
-            </TouchableOpacity>
+            <View style={{flex: 2}}>
+                <TouchableOpacity style={{backgroundColor: '#FF7171', marginHorizontal: '10%', borderRadius: 10, width: '70%', height: '50%', marginTop: '2.5%' }} >
+                    <Text style={{color: 'white', alignSelf: 'center', paddingTop: '3%'}} >팔로우</Text>
+                </TouchableOpacity>
+            </View>
         </View>
 
       

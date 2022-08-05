@@ -52,12 +52,6 @@ const renderTabBar = props => (
 
 const initialLayout = {width: Dimensions.get('window').width};
 
-const renderScene = SceneMap({
-  0: VoteLike,
-  1: VoteDo,
-  2: VoteWrite
-});
-
 export default function UserPageScreen({navigation}) {
   const {userData} = useContext(UserContext);
   const [myPageData, setMyPageData] = useState([])
@@ -71,7 +65,18 @@ export default function UserPageScreen({navigation}) {
     
   ]);
 
-
+  const renderScene = ({ route }) => {
+    switch (route.key) {
+      case 0:
+        return <VoteLike navigation={navigation} id={userData.userId} />;
+      case 1:
+        return <VoteDo navigation={navigation} id={userData.userId}/>;
+      case 2:
+        return <VoteWrite navigation={navigation} id={userData.userId}/>;
+      default:
+        return null;
+    }
+  };
 
   useEffect(() => {
     UseAxios.get(`/users/${userData.userId}/page`).then(res => {
@@ -83,7 +88,7 @@ export default function UserPageScreen({navigation}) {
 
   return (
     <View style={styles.container}>
-        <View style={{flex: 0.08, alignSelf: 'flex-end'}}>
+        <View style={{flex: 0.1, alignSelf: 'flex-end'}}>
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.push('SettingNav', {screen: 'SettingNav'})}>
@@ -127,40 +132,45 @@ export default function UserPageScreen({navigation}) {
             </View>
         </View>
 
-        <View style={{flexDirection: 'row', flex: 0.15}}>
+        <View style={{flexDirection: 'row', flex: 0.12}}>
             {/* 닉네임, 특징 */}
             <View style={{marginStart: '5%' }}> 
                     <View >
-                        <Text style={{marginBottom: '1.5%', fontWeight: 'bold'}}> {userData.nickname}</Text>
-                        <Text> {(() => {
-                                    if (userData.genderCode == "G0101") return <Text>남성</Text>
+                        <Text style={{paddingBottom: '1.5%', fontWeight: 'bold'}}>{userData.nickname}</Text>
+                        {myPageData.user
+                        ?
+                        <Text> 
+                                {(() => {
+                                    if (myPageData.user.genderCode === "G0101") return <Text>남성</Text>
                                     else return <Text>여성</Text>
                                 })()} / 
                                 {(() => {
-                                    if (userData.mbti1Code == "M0101") return <Text>E</Text>
-                                    else return <Text>I</Text>
+                                    if (myPageData.user.mbti1Code === "M0101") return <Text> E</Text>
+                                    else return <Text> I</Text>
                                 })()}
                                 {(() => {
-                                    if (userData.mbti2Code == "M0201") return <Text>N</Text>
+                                    if (myPageData.user.mbti2Code === "M0201") return <Text>N</Text>
                                     else return <Text>S</Text>
                                 })()}
                                 {(() => {
-                                    if (userData.mbti3Code == "M0301") return <Text>F</Text>
+                                    if (myPageData.user.mbti3Code === "M0301") return <Text>F</Text>
                                     else return <Text>T</Text>
                                 })()}
                                 {(() => {
-                                    if (userData.mbti4Code == "M0401") return <Text>P</Text>
+                                    if (myPageData.user.mbti4Code === "M0401") return <Text>P</Text>
                                     else return <Text>J</Text>
                                 })()} / 
                                 {(() => {
-                                    if (userData.ageRangeCode == "A0101") return <Text>10대 미만</Text>
-                                    else if (userData.ageRangeCode == "A0102") return <Text>10대</Text>
-                                    else if (userData.ageRangeCode == "A0103") return <Text>20대</Text>
-                                    else if (userData.ageRangeCode == "A0104") return <Text>30대</Text>
-                                    else if (userData.ageRangeCode == "A0104") return <Text>40대</Text>
-                                    else return <Text>50대 이상</Text>
+                                    if (myPageData.user.ageRangeCode === "A0101") return <Text> 10대 미만</Text>
+                                    else if (myPageData.user.ageRangeCode === "A0102") return <Text> 10대</Text>
+                                    else if (myPageData.user.ageRangeCode === "A0103") return <Text> 20대</Text>
+                                    else if (myPageData.user.ageRangeCode === "A0104") return <Text> 30대</Text>
+                                    else if (myPageData.user.ageRangeCode === "A0104") return <Text> 40대</Text>
+                                    else return <Text> 50대 이상</Text>
                                 })()}
                         </Text>
+                        : ""
+                        }
                     </View>
             </View>
             {/* 팔로우 버튼 */}
