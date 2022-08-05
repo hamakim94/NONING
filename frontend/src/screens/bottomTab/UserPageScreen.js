@@ -4,7 +4,7 @@ import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import { USER } from '../../data/user';
 import VoteLike from '../../components/userpage/VoteLike'
 import VoteDo from '../../components/userpage/VoteDo';
-import VoteWrite from '../../components/userpage//VoteWrite';
+import VoteWrite from '../../components/userpage/VoteWrite';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import UseAxios from '../../util/UseAxios';
 import UserContext from '../../util/UserContext';
@@ -104,12 +104,20 @@ export default function UserPageScreen({navigation}) {
                             <TouchableOpacity
                                 onPress={() => navigation.push('FollowerScreen', {screen: 'FollowerScreen'})}>
                                 <Text> follower</Text>
-                                <Text style={{alignSelf: 'center'}}> {myPageData.followerIdList.length}</Text>
+                                <Text style={{alignSelf: 'center'}}> 
+                                    {myPageData.followerIdList
+                                    ? myPageData['followerIdList'].length
+                                    : ''}
+                                </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => navigation.push('FollowerScreen', {screen: 'FollowerScreen'})}>
                                 <Text> following</Text>
-                                <Text style={{alignSelf: 'center'}}> {myPageData.followingIdList.length}</Text>
+                                <Text style={{alignSelf: 'center'}}> 
+                                    {myPageData.followerIdList
+                                    ? myPageData['followingIdList'].length
+                                    : ''}
+                                </Text>
                             </TouchableOpacity>
                         </View>
 

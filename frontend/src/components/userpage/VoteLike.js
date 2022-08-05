@@ -6,7 +6,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import UseAxios from '../../util/UseAxios';
 import UserContext from '../../util/UserContext';
 
-export default function VoteDo({navigation}) {
+export default function VoteLike({navigation}) {
   // console.log(USER.boardList)
   const {userData} = useContext(UserContext);
   const [myPageData, setMyPageData] = useState([])
