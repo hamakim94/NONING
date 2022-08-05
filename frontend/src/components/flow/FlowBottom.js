@@ -1,10 +1,12 @@
 import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native'
-import React, {useContext} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import UseAxios from '../../util/UseAxios';
 import UserContext from '../../util/UserContext';
 
-export default function FlowBottom({boards, setBoards, board, setBoard, navigation}) {
+
+export default function FlowBottom({setBoards, board, navigation}) {
   const {userData} = useContext(UserContext);
 
   const like = () => {
@@ -31,6 +33,7 @@ export default function FlowBottom({boards, setBoards, board, setBoard, navigati
   const toggleLike = () => {
     setBoards({...board, userLike: !board.userLike});
   };
+  
 
   return (
     <View style={{flex: 0.25}}>
@@ -48,7 +51,7 @@ export default function FlowBottom({boards, setBoards, board, setBoard, navigati
             </TouchableOpacity>
             <TouchableOpacity 
             style={{flexDirection: 'row',}} 
-            onPress={() => navigation.push('YourPageScreen', {screen: 'YourPageScreen'})}>
+            onPress={() => navigation.push('YourPageScreen', {id: board.writerId})}>
             <Text>작성자 이미지 클릭시 유어페이지 이동</Text>
             {/* <Image style={styles.clickWriter} source={{uri : board.writer.img}}></Image> */}
         </TouchableOpacity>

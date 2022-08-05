@@ -27,8 +27,7 @@ export default function FlowNav() {
       <Stack.Screen
         name="YourPageScreen"
         component={YourPageScreen}
-        options={{headerBackVisible: true, headerBackTitleVisible: false}}
-      />
+        options={{headerBackVisible: true, headerBackTitleVisible: false, headerShown: false}} />
     </Stack.Navigator>
   );
 }

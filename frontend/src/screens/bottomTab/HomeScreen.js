@@ -13,6 +13,7 @@ import Boards from '../../components/home/Boards';
 import axios from 'axios';
 import UseAxios from '../../util/UseAxios';
 import UserContext from '../../util/UserContext';
+import { useIsFocused } from '@react-navigation/native';
 
 
 // 게시글 가져오기 :  /api/boards/list/{userid}  인풋 : userId, categoryCode, order?categorycode=””
@@ -20,6 +21,7 @@ function HomeScreen({navigation}) {
   const [filterName, setFilterName] = useState('전체');
   const [boards, setBoards] = useState([]);
   const {userData} = useContext(UserContext);
+  const isFocused = useIsFocused();
   // const [temp_boards, setTempBoards] = useState([]);
   // const [start_num, setStartNum] = useState(0);
   // const [loading, setLoading] = useState(false);
@@ -42,7 +44,7 @@ function HomeScreen({navigation}) {
     }).then(res => {
       setBoards(res.data)
     })
-  }, [filterName, userData]);
+  }, [filterName, userData, isFocused]);
   // 전체 가져온 데이터를 10개보다 작으면 그 개수만큼, 아니면 10개씩 복사
   // const getData = start => {
   //   if (boards.length > start + 10) {

@@ -1,5 +1,5 @@
 import React, {useState, useRef, useContext} from 'react';
-import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {Text, View, TouchableOpacity, StyleSheet, Alert} from 'react-native';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -46,9 +46,27 @@ export default function LoginForm({navigation}) {
         AsyncStorage.setItem('refreshtoken', res.headers.refreshtoken);
         AsyncStorage.setItem('userdata', JSON.stringify(res.data));
         setUserData(res.data);
+        console.log(res.headers.accesstoken);
+        console.log(res.headers.refreshtoken);
       })
       .catch(err => {
-        console.log(err);
+        if (err.response.status === 401) {
+          Alert.alert(
+            'ID / 비밀번호 오류',
+            'ID 혹은 비밀번호가 일치하지 않습니다.',
+            [
+              {
+                text: '로그인 화면으로 돌아가기',
+              },
+              {
+                text: '비밀번호 찾기',
+                style: 'OK',
+                onPress: () => navigation.navigate('PasswordChangeScreen'),
+              },
+            ],
+          );
+        }
+        console.log(err.response.status === 401);
       });
   };
   return (
