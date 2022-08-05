@@ -24,6 +24,7 @@ function AnalysisList({info}) {
                 borderRadius: 3,
                 height: '110%',
                 justifyContent: 'center',
+                alignItems: 'center',
               }}>
               <View
                 style={{
@@ -31,6 +32,7 @@ function AnalysisList({info}) {
                   borderRightWidth: 1,
                   backgroundColor: '#FF5F5F',
                   width: '100%',
+                  height: '100%',
                 }}>
                 <Text
                   style={{
@@ -49,6 +51,7 @@ function AnalysisList({info}) {
                   borderLeftWidth: 1,
                   backgroundColor: '#49D3CA',
                   width: '100%',
+                  height: '100%',
                 }}>
                 <Text
                   style={{
