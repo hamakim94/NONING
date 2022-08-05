@@ -16,7 +16,7 @@ export default function BoardBar({board, setBoards, navigation}) {
       vote: num,
     })
       .then(res => {
-        console.log(res);
+        // console.log(res);
       })
       .then(err => {
         console.log(err);

@@ -75,7 +75,7 @@ function FlowScreen({navigation}) {
     ({item}) => <Flows board={item} boards={temp_boards} setBoards={setTempBoards} navigation={navigation}></Flows>,
     []
   );
-  const keyExtractor = useCallback((item) => item.board_id, []);
+  const keyExtractor = useCallback((item) => item.boardId, []);
 
   return (
       <View style={{flex: 1, margin: 0}}>

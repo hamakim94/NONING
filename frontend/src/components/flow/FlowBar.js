@@ -17,7 +17,7 @@ export default function FlowBar({board,  boards, setBoards}) {
       vote: num,
     })
       .then(res => {
-        console.log(res);
+        // console.log(res);
       })
       .then(err => {
         console.log(err);

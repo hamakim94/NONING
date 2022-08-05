@@ -76,7 +76,7 @@ export default function UserPageScreen({navigation}) {
   useEffect(() => {
     UseAxios.get(`/users/${userData.userId}/page`).then(res => {
       setMyPageData(res.data)
-      console.log(res.data)
+      // console.log(res.data)
     })
   }, [isFocused]);
 

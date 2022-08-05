@@ -8,7 +8,7 @@ import WaveAnimation from '../animations/Wave';
 const windowHeight = Dimensions.get('window').height;
 
 export default function Flows({board, boards, setBoards, navigation}) {
-  console.log('보드렌더링');
+  // console.log('보드렌더링');
   const [boardData, setBoardData] = useState(board);
 
   return (
