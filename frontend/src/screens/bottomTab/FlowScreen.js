@@ -6,13 +6,6 @@ import UseAxios from '../../util/UseAxios';
 // 게시글 가져오기 :  /api/boards/list/{userid}  인풋 : userId, categoryCode, order?categorycode=””
 function FlowScreen({navigation}) {
   const [boards, setBoards] = useState([]);
-  // 처음 실행하는 함수, 전체 보드 를 가져오는데, 이를 먼저 수정해
-  // useEffect(() => {
-  //   (async () => {
-  //     // const {data} = await axios.get("님들 서버 URL");s
-  //     setBoards(BOARDS);
-  //   })();
-  // }, []);
 
   useEffect(() => {
     UseAxios.get('/boards/flow').then(res => {

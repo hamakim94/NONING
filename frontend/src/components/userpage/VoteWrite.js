@@ -5,19 +5,19 @@ import { FlatList } from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import UseAxios from '../../util/UseAxios';
 import UserContext from '../../util/UserContext';
+import { useIsFocused } from '@react-navigation/native';
 
-export default function VoteWrite({navigation}) {
-  // console.log(USER.boardList)
+export default function VoteWrite({navigation, id}) {
   const {userData} = useContext(UserContext);
   const [myPageData, setMyPageData] = useState([])
+  const isFocused = useIsFocused();
 
-  
-//   useEffect(() => {
-//     UseAxios.get(`/users/${userData.userId}/page`).then(res => {
-//       setMyPageData(res.data)
-//       console.log(res.data)
-//     })
-//   }, []);
+  useEffect(() => {
+    UseAxios.get(`/users/${id}/page`).then(res => {
+      setMyPageData(res.data)
+      console.log(res.data)
+    })
+  }, [isFocused]);
   
   return (
       <View style={{flex:1}}>
@@ -27,10 +27,10 @@ export default function VoteWrite({navigation}) {
               data={myPageData.boardList}
               navigation={navigation}
               renderItem={({item}) => (
-                  <View style={item.writerId == userData.userId ? {BorderBottomWidth: 0.3} : {borderBottomWidth: 0}}>
+                  <View style={item.writerId === id ? {BorderBottomWidth: 0.3} : {borderBottomWidth: 0}}>
                       <View style={{flex: 1.2, alignContent: 'center', justifyContent: 'center'}}>
                       {(() => {
-                          if (item.writerId == userData.userId) return <View>
+                          if (item.writerId === id) return <View>
                                   <TouchableOpacity
                                       style={styles.detail} 
                                       onPress={() => navigation.push('DetailScreen', {screen: 'DetailScreen'})}>
@@ -39,13 +39,13 @@ export default function VoteWrite({navigation}) {
                                   <Text style={{fontWeight: 'bold'}}>{item.title}</Text>
                                   <View style={{ flexDirection: 'row', marginVertical: '2%'}}>
                                       {(() => {
-                                          if (item.userVote == "1") return <AntDesign name={'checkcircleo'} size={15} color={'red'} />
-                                          else if (item.userVote == "2") return <AntDesign name={'checkcircleo'} size={15} color={'blue'} />
+                                          if (item.userVote === 1) return <AntDesign name={'checkcircleo'} size={15} color={'red'} />
+                                          else if (item.userVote === 2) return <AntDesign name={'checkcircleo'} size={15} color={'blue'} />
                                           else return  
                                       })()}
                                       {(() => {
-                                          if (item.userVote == "1") return <Text style={{fontWeight: 'bold'}}>{item.opt1}</Text>
-                                          else if (item.userVote == "2") return <Text style={{fontWeight: 'bold'}}>{item.opt2}</Text> 
+                                          if (item.userVote === 1) return <Text style={{fontWeight: 'bold'}}>{item.opt1}</Text>
+                                          else if (item.userVote === 2) return <Text style={{fontWeight: 'bold'}}>{item.opt2}</Text> 
                                           else return 
                                       })()}
                                   </View>
