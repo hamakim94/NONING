@@ -8,17 +8,27 @@ import UserContext from '../../util/UserContext';
 import { useIsFocused } from '@react-navigation/native';
 
 
-export default function VoteDo({navigation}) {
+export default function VoteDo({route, navigation, id}) {
   // console.log(USER.boardList)
   const {userData} = useContext(UserContext);
   const [myPageData, setMyPageData] = useState([])
   const isFocused = useIsFocused();
-  useEffect(() => {
-    UseAxios.get(`/users/${userData.userId}/page`).then(res => {
-      setMyPageData(res.data)
-      console.log(res.data.boardList)
-    })
-  }, [isFocused]);
+  const [yourPageData, setYourPageData] = useState([])
+
+//   useEffect(() => {
+//     UseAxios.get(`/users/${id}/page`).then(res => {
+//         console.log(id)
+//       setMyPageData(res.data)
+//       console.log(res.data.boardList)
+//     })
+//   }, [isFocused]);
+
+//   useEffect(() => {
+//     UseAxios.get(`/users/${yourPageData.userId}/page`).then(res => {
+//         setYourPageData(res.data)
+//       console.log(res.data.boardList)
+//     })
+//   }, [isFocused]);
 
   return (
       <View style={{flex:1}}>
