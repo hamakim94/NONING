@@ -1,6 +1,6 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useNavigation} from '@react-navigation/native';
+import {DevSettings} from 'react-native';
 
 export default UseAxios = axios.create({
   baseURL: 'http://i7a202.p.ssafy.io:8888/api',
@@ -36,27 +36,23 @@ UseAxios.interceptors.response.use(
       const accesstoken = await AsyncStorage.getItem('accesstoken');
       const refreshtoken = await AsyncStorage.getItem('refreshtoken');
       // token refresh 요청
-      await axios
-        .post(
-          `http://i7a202.p.ssafy.io:8888/api/users/reissue`, // token refresh api
-          {},
-          {
-            headers: {ACCESSTOKEN: accesstoken, REFRESHTOKEN: refreshtoken},
-          },
-        )
-        .then(res => {
-          AsyncStorage.setItem('accesstoken', res.headers.accesstoken);
-          originalRequest.headers['ACCESSTOKEN'] = res.headers.accesstoken;
-        })
-        .catch(err => {
-          alert('세션이 만료되었습니다. 다시 로그인해주세요.');
-          const navigation = useNavigation();
-          navigation.navigate('Homescreen');
-        });
-
-      return axios(originalRequest);
+      const response = await axios.post(
+        `http://i7a202.p.ssafy.io:8888/api/users/reissue`, // token refresh api
+        {},
+        {
+          headers: {ACCESSTOKEN: accesstoken, REFRESHTOKEN: refreshtoken},
+        },
+      );
+      if (response.headers.accesstoken) {
+        await AsyncStorage.setItem('accesstoken', response.headers.accesstoken);
+        originalRequest.headers['ACCESSTOKEN'] = response.headers.accesstoken;
+        return axios(originalRequest);
+      } else {
+        alert('세션이 만료되었습니다. 다시 로그인해주세요.');
+        AsyncStorage.clear();
+        DevSettings.reload();
+      }
     }
-
     return Promise.reject(error);
   },
 );

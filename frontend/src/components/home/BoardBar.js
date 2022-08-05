@@ -15,12 +15,8 @@ export default function BoardBar({board, setBoards, navigation}) {
       userId: userData.userId,
       vote: num,
     })
-      .then(res => {
-        // console.log(res);
-      })
-      .then(err => {
-        console.log(err);
-      });
+      .then(res => {})
+      .catch(err => {});
   };
   const opt2_ratio = 100 - opt1_ratio;
   const leftSize = opt1_ratio + '%';
@@ -38,7 +34,11 @@ export default function BoardBar({board, setBoards, navigation}) {
       <TouchableOpacity
         style={styles.leftBar(board.userVote, leftSize)}
         disabled={board.userVote > 0}
-        onPress={() => {userData === null ? navigation.navigate('LoginNav', {screen: 'LoginNav'}) : [setOpt1Selected(), posting(1)]}}>
+        onPress={() => {
+          userData === null
+            ? navigation.navigate('LoginNav', {screen: 'LoginNav'})
+            : [setOpt1Selected(), posting(1)];
+        }}>
         <Text style={styles.leftInnerText(board.userVote)}>{board.opt1}</Text>
         {board.userVote > 0 && (
           <Text style={styles.leftInnerText(board.userVote)}>{leftSize}</Text>
@@ -48,7 +48,11 @@ export default function BoardBar({board, setBoards, navigation}) {
         style={styles.rightBar(board.userVote, rightSize)}
         r
         disabled={board.userVote > 0}
-        onPress={() => { userData === null ? navigation.navigate('LoginNav', {screen: 'LoginNav'}) : [setOpt2Selected(), posting(2)]}}>
+        onPress={() => {
+          userData === null
+            ? navigation.navigate('LoginNav', {screen: 'LoginNav'})
+            : [setOpt2Selected(), posting(2)];
+        }}>
         <Text style={styles.rightInnerText(board.userVote)}>{board.opt2}</Text>
         {board.userVote > 0 && (
           <Text style={styles.rightInnerText(board.userVote)}>{rightSize}</Text>

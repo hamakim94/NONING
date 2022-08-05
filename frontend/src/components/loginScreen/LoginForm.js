@@ -46,23 +46,25 @@ export default function LoginForm({navigation}) {
         AsyncStorage.setItem('refreshtoken', res.headers.refreshtoken);
         AsyncStorage.setItem('userdata', JSON.stringify(res.data));
         setUserData(res.data);
+        console.log(res.headers.accesstoken);
+        console.log(res.headers.refreshtoken);
       })
       .catch(err => {
-        if(err.response.status === 401){
+        if (err.response.status === 401) {
           Alert.alert(
-            "ID / 비밀번호 오류",
-            "ID 혹은 비밀번호가 일치하지 않습니다.",
+            'ID / 비밀번호 오류',
+            'ID 혹은 비밀번호가 일치하지 않습니다.',
             [
               {
-                text : "로그인 화면으로 돌아가기",
+                text: '로그인 화면으로 돌아가기',
               },
               {
-                text : "비밀번호 찾기",
-                style:'OK',
-                onPress : () => navigation.navigate('PasswordChangeScreen')
+                text: '비밀번호 찾기',
+                style: 'OK',
+                onPress: () => navigation.navigate('PasswordChangeScreen'),
               },
             ],
-          )
+          );
         }
         console.log(err.response.status === 401);
       });
