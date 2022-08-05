@@ -6,7 +6,7 @@ import UserContext from '../../util/UserContext';
 // 찜 : /api/boards/{boardid}/like          input : userId, reg
 // 찜 취소 : /api/boards/{boardid}/unlike   input : userId
 
-export default function BoardFooter({board, setBoards}) {
+export default function BoardFooter({board, setBoards, navigation}) {
   const {userData} = useContext(UserContext);
 
   const like = () => {
@@ -46,7 +46,7 @@ export default function BoardFooter({board, setBoards}) {
         <Text>참여 : {board.opt1Selected + board.opt2Selected}명</Text>
         <TouchableOpacity
           style={{margin: 1}}
-          onPress={() => [toggleLike(), board.userLike ? unlike() : like() ]}>
+          onPress={() =>  { userData === null ? navigation.navigate('LoginNav', {screen: 'LoginNav'}) : [toggleLike(), board.userLike ? unlike() : like() ]}}>
           <AntDesign
             style={styles.iconColor(board.userLike)}
             name="heart"

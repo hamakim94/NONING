@@ -65,7 +65,7 @@ function ApproveScreen({navigation}) {
       <View style={styles.bottomContainer}>
         <TouchableOpacity
           style={styles.loginButton}
-          onPress={() => navigation.navigate('Info')}>
+          onPress={() => navigation.navigate('InfoScreen')}>
           <Text style={styles.loginText}>등록</Text>
         </TouchableOpacity>
         <TouchableOpacity

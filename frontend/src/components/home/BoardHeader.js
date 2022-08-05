@@ -7,10 +7,10 @@ export default function BoardHeader({board, navigation}) {
   return (
     <View style={styles.liveContainer}>
       <Text style={styles.liveButton(board.live)} >LIVE</ Text>
-      <TouchableOpacity style={{marginHorizontal:6}} disabled={board.user_vote === 0} onPress={() =>
-              navigation.navigate('HomeDetail', {screen: 'HomeDetail'})
+      <TouchableOpacity style={{marginHorizontal:6}} onPress={() =>
+              navigation.navigate('HomeDetail', {boardId : board.boardId})
             }>
-        <AntDesign style={styles.detail(board.userVote)} name="doubleright" size={20} />
+        <AntDesign style={styles.detail(1)} name="doubleright" size={20} />
       </TouchableOpacity>
     </View>
   );
