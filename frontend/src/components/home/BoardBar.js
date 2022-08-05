@@ -3,7 +3,7 @@ import React, {useContext, useState} from 'react';
 import axios from 'axios';
 import UserContext from '../../util/UserContext';
 // 투표 : /api/boards/{boardid}/vote
-export default function BoardBar({board, setBoards}) {
+export default function BoardBar({board, setBoards, navigation}) {
   const {userData, setUserData} = useContext(UserContext);
   // 이제 여기서 props로 넣어줄거야, 그래서 voted가 1 이상이면 터치 못 하게 해야해
   const opt1_ratio = Math.round(
@@ -38,7 +38,7 @@ export default function BoardBar({board, setBoards}) {
       <TouchableOpacity
         style={styles.leftBar(board.userVote, leftSize)}
         disabled={board.userVote > 0}
-        onPress={() => [setOpt1Selected(), posting(1)]}>
+        onPress={() => {userData === null ? navigation.navigate('LoginNav', {screen: 'LoginNav'}) : [setOpt1Selected(), posting(1)]}}>
         <Text style={styles.leftInnerText(board.userVote)}>{board.opt1}</Text>
         {board.userVote > 0 && (
           <Text style={styles.leftInnerText(board.userVote)}>{leftSize}</Text>
@@ -48,7 +48,7 @@ export default function BoardBar({board, setBoards}) {
         style={styles.rightBar(board.userVote, rightSize)}
         r
         disabled={board.userVote > 0}
-        onPress={() => [setOpt2Selected(), posting(2)]}>
+        onPress={() => { userData === null ? navigation.navigate('LoginNav', {screen: 'LoginNav'}) : [setOpt2Selected(), posting(2)]}}>
         <Text style={styles.rightInnerText(board.userVote)}>{board.opt2}</Text>
         {board.userVote > 0 && (
           <Text style={styles.rightInnerText(board.userVote)}>{rightSize}</Text>
