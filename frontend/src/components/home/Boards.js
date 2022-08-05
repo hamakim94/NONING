@@ -19,8 +19,8 @@ function Boards({board, navigation}) {
         <View style={styles.titleContainer}>
           <Text style={styles.titleText}>{board.title}</Text>
         </View>
-        <BoardBar board={boardData} setBoards={setBoardData}></BoardBar>
-        <BoardFooter board={boardData} setBoards={setBoardData}></BoardFooter>
+        <BoardBar board={boardData} setBoards={setBoardData} navigation={navigation}></BoardBar>
+        <BoardFooter board={boardData} setBoards={setBoardData } navigation={navigation}></BoardFooter>
       </View>
     </View>
   );

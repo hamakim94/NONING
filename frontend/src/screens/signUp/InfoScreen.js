@@ -13,6 +13,7 @@ import CheckInput from '../../components/signUp/CheckInput';
 import NoCheckInput from '../../components/signUp/NoCheckInput';
 import styles from '../../components/signUp/InfoStyles';
 import axios from 'axios';
+import UseAxios from '../../util/UseAxios';
 
 const MbtiGroup = [
   'ENFJ',
@@ -67,7 +68,7 @@ function InfoScreen() {
 
   const onSubmit = data => {
     axios({
-      url: `http://i7a202.p.ssafy.io:9999/api/users/signup`,
+      url: `http://i7a202.p.ssafy.io:8888/api/users/signup`,
       method: 'POST',
       data: {
         age: data.age,

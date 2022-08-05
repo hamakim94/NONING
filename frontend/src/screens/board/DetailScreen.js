@@ -52,7 +52,8 @@ const renderScene = SceneMap({
   1: AnalysisScreen,
 });
 
-export default function DetailScreen() {
+export default function DetailScreen({route}) {
+  console.log(route.params.boardId);
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     {key: 0, title: '댓글'},
