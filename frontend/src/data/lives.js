@@ -1,106 +1,57 @@
-// title, 
-// opt1, opt2, 
+// title,
+// opt1, opt2,
 // host(id, nickname, img),
-// opt1_selected (1안투표수), opt2_selected (2안투표수), 
-// user_like(0/1), 
-// user_vote(0/1/2) 
+// opt1_selected (1안투표수), opt2_selected (2안투표수),
+// user_like(0/1),
+// user_vote(0/1/2)
 
 export const LIVES = [
-    {
-        board_id : 1,
-        title : `퇴근 후 데이트 가는 길에 조수석에 이성 직장동료가 앉아있다 내가 뒷자리에 앉아서 타야된다면?`,
-        opt1 : '뒤에 앉는다',
-        opt2 : '싸운다',
-        is_live : 1,
-        host : {
-            id : 'mgk',
-            nickname : '김하마',
-            img : 'https://i.imgur.com/YcP0tik.jpeg'
-        },
-        opt1_selected : 1,
-        opt2_selected : 4,
-        user_like :0,
-        user_vote :0 // 0,1,2 여기서 어떤걸 선택했는지 알 수 있음.
+  {
+    boardId: 1,
+    title: `퇴근 후 데이트 가는 길에 조수석에 이성 직장동료가 앉아있다 내가 뒷자리에 앉아서 타야된다면?`,
+    opt1: '뒤에 앉는다',
+    opt2: '싸운다',
+    isLive: 1,
+    host: {
+      id: 'mgk',
+      nickname: '김하마',
+      img: 'https://i.imgur.com/YcP0tik.jpeg',
     },
-    {
-        board_id : 2,
-        title : '나는 천재?',
-        opt1 : '아니다',
-        opt2 : '맞다',
-        is_live : 1,
-        host : {
-            id : 'mgk',
-            nickname : '김쵸킹',
-            img : 'https://i.imgur.com/YcP0tik.jpeg'
-        },
-        opt1_selected : 45,
-        opt2_selected : 500,
-        user_like :0,
-        user_vote :1
+    opt1Selected: 1,
+    opt2Selected: 4,
+    userLike: 0,
+    userVote: 0, // 0,1,2 여기서 어떤걸 선택했는지 알 수 있음.
+  },
+  {
+    boardId: 2,
+    title: '나는 천재?',
+    opt1: '아니다',
+    opt2: '맞다',
+    isLive: 1,
+    host: {
+      id: 'mgk',
+      nickname: '김쵸킹',
+      img: 'https://i.imgur.com/YcP0tik.jpeg',
     },
-    {
-        board_id : 3,
-        title : '연애 첫날 스킨십 끝까지 가능한가?',
-        opt1 : '아니다',
-        opt2 : '맞다',
-        is_live : 1,
-        host : {
-            id : 'bnk',
-            nickname : '김보나',
-            img : 'https://i.imgur.com/YcP0tik.jpeg'
-        },
-        opt1_selected : 250,
-        opt2_selected : 200,
-        user_like :0,
-        user_vote :0
+    opt1Selected: 45,
+    opt2Selected: 500,
+    userLike: 0,
+    userVote: 1,
+  },
+  {
+    boardId: 3,
+    title: '연애 첫날 스킨십 끝까지 가능한가?',
+    opt1: '아니다',
+    opt2: '맞다',
+    isLive: 1,
+    host: {
+      id: 'bnk',
+      nickname: '김보나',
+      img: 'https://i.imgur.com/YcP0tik.jpeg',
     },
-    {
-        board_id : 4,
-        title : '연인의 상태가....',
-        opt1 : '너무 안 꾸미는 애인',
-        opt2 : '너무 과하게 꾸미는 애인',
-        is_live : 1,
-        host : {
-            id : '김승연',
-            nickname : '과자져아',
-            img : 'https://i.imgur.com/YcP0tik.jpeg'
-        },
-        opt1_selected : 1,
-        opt2_selected : 2,
-        user_like :1,
-        user_vote :0
-    },
-    {
-        board_id : 5,
-        title : '얼마쯤 만나면 부모님한테 소개시켜줌?',
-        opt1 : '1개월미만',
-        opt2 : '5년이상',
-        is_live : 1,
-        host : {
-            id : 'mgk',
-            nickname : '김쵸킹',
-            img : 'https://i.imgur.com/YcP0tik.jpeg'
-        },
-        opt1_selected : 200,
-        opt2_selected : 400,
-        user_like :1,
-        user_vote :0
-    },
-    {
-        board_id : 6,
-        title : '연인이 바람을 핀걸 틀켰는데...',
-        opt1 : '정신적 바람',
-        opt2 : '육체적 바람',
-        is_live : 1,
-        host : {
-            id : 'mgk',
-            nickname : '김쵸킹',
-            img : 'https://i.imgur.com/YcP0tik.jpeg'
-        },
-        opt1_selected : 3,
-        opt2_selected : 6,
-        user_like :0,
-        user_vote :2
-    },
-
-]
+    opt1Selected: 250,
+    opt2Selected: 200,
+    userLike: 0,
+    userVote: 0,
+  },
+];

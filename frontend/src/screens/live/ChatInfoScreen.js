@@ -1,35 +1,42 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import React from 'react';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import UseAxios from '../../util/UseAxios';
 
-export default function ChatInfoScreen({navigation}) {
+export default function ChatInfoScreen({route}) {
+  const [board, setBoard] = useState({});
+  const boardId = route.params.id;
+
+  useEffect(() => {
+    UseAxios.get(`/boards/${boardId}`).then(res => {
+      setBoard(res.data);
+      console.log(res.data);
+    });
+  }, []);
   return (
-    <View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() =>
-          navigation.push('ChatBoardDetailScreen', {
-            screen: 'ChatBoardDetailScreen',
-          })
-        }>
-        <Text>글상세보기</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() =>
-          navigation.push('ChatUserListScreen', {screen: 'ChatUserListScreen'})
-        }>
-        <Text>채팅방인원</Text>
-      </TouchableOpacity>
+    <View style={styles.container}>
+      <View style={styles.mainContainer}>
+        <View style={styles.topContainer}></View>
+        <View style={styles.bottomContainer}></View>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-    width: 300,
-    marginTop: 16,
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  mainContainer: {
+    flex: 1,
+    marginHorizontal: '5%',
+  },
+  topContainer: {
+    flex: 1,
+    borderBottomWidth: 1,
+    borderBottomColor: '#808080',
+  },
+  bottomContainer: {
+    flex: 1,
   },
 });

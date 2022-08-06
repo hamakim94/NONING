@@ -1,31 +1,37 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 // 찜 : /api/lives/{liveid}/like          input : userId, reg
 // 찜 취소 : /api/lives/{liveid}/unlike   input : userId
 
-export default function LiveFooter({live, setLives} ) {
-
+export default function LiveFooter({live, setLives}) {
   const toggleLike = () => {
-    setLives({...live, user_like : Math.abs(1-live.user_like)})
-  }
+    setLives({...live, userLike: Math.abs(1 - live.userLike)});
+  };
 
   return (
     <View style={styles.footerContainer}>
       <View style={styles.writerContainer}>
-        <Text>호스트 :  </Text>
-        <Image style={{ width:15 ,height:15, borderRadius:50 }} source={{uri : live.host.img}}></Image>
-        <Text>{live.host.nickname}</Text>
+        <Text>호스트 : </Text>
+        <Text>{live.writerNickname}</Text>
       </View>
 
       <View style={styles.numberLikeContainer}>
-        <Text style={{color : 'rgba(255,90,110,1)', fontWeight:'bold' }}>{live.opt1_selected} </Text>
+        <Text style={{color: 'rgba(255,90,110,1)', fontWeight: 'bold'}}>
+          {live.opt1Selected}{' '}
+        </Text>
         <Text>vs </Text>
-        <Text style={{color : 'rgba(131,227,209,1)', fontWeight:'bold'}}>{live.opt2_selected} </Text>
-        <Text>({live.opt1_selected + live.opt2_selected})</Text>
-        <TouchableOpacity style={{margin:1}} onPress={() => toggleLike()}>
-          <AntDesign style={styles.iconColor(live.user_like)} name="heart" size={20} />
+        <Text style={{color: 'rgba(131,227,209,1)', fontWeight: 'bold'}}>
+          {live.opt2Selected}{' '}
+        </Text>
+        <Text>({live.opt1Selected + live.opt2Selected})</Text>
+        <TouchableOpacity style={{margin: 1}} onPress={() => toggleLike()}>
+          <AntDesign
+            style={styles.iconColor(live.userLike)}
+            name="heart"
+            size={20}
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -40,13 +46,13 @@ const styles = StyleSheet.create({
   },
   writerContainer: {
     flexDirection: 'row',
-    alignItems:'center'
+    alignItems: 'center',
   },
   numberLikeContainer: {
     flexDirection: 'row',
-    alignItems:'center'
+    alignItems: 'center',
   },
-  iconColor : (user_like) => ({
-    color : user_like === 1 ? '#FF7171' : '#606060'
-  })
+  iconColor: userLike => ({
+    color: userLike === 1 ? '#FF7171' : '#606060',
+  }),
 });
