@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {
   View,
   StyleSheet,
@@ -13,6 +13,7 @@ import VoteLike from '../components/userpage/VoteLike';
 import VoteDo from '../components/userpage/VoteDo';
 import VoteWrite from '../components/userpage/VoteWrite';
 import {useIsFocused} from '@react-navigation/native';
+import UserContext from '../util/UserContext'
 
 const renderTabBar = props => (
   <TabBar
@@ -61,6 +62,7 @@ export default function YourPageScreen({route, navigation}) {
   const [index, setIndex] = useState(0);
   const id = route.params.id;
   const isFocused = useIsFocused();
+  const {userData} = useContext(UserContext);
   const [routes] = useState([
     {key: 0, title: '얘찜논'},
     {key: 1, title: '얘참논'},
@@ -89,9 +91,28 @@ export default function YourPageScreen({route, navigation}) {
   useEffect(() => {
     UseAxios.get(`/users/${id}/page`).then(res => {
       setYourPageData(res.data);
-      console.log(yourPageData);
     });
   }, [isFocused]);
+
+  const follow = () => {
+    console.log("팔")
+    UseAxios.post(`/follows/add`, {
+      userId: userData.userId,
+      targetUserId: id
+  })
+    .then(res => {console.log(res)})
+    .catch(err => {console.log(err)});
+  };
+
+  const unfollow = () => {
+    console.log("언팔")
+    UseAxios.post(`/follows/delete`, {
+      userId: userData.userId,
+      targetUserId: id
+    })
+      .then(res => {console.log(res)})
+      .catch(err => {console.log(err)});
+  };
 
   return (
     <View style={styles.container}>
@@ -196,17 +217,20 @@ export default function YourPageScreen({route, navigation}) {
         <View style={{flex: 2}}>
           <TouchableOpacity
             style={{
-              backgroundColor: '#FF7171',
+              backgroundColor: 'pink',
               marginHorizontal: '10%',
               borderRadius: 10,
               width: '70%',
               height: '50%',
               marginTop: '2.5%',
-            }}>
-            <Text
+            }}
+            onPress={() => {userData.userId in yourPageData.followingIdList 
+            ? unfollow()
+            : follow()}}>
+            {/* <Text
               style={{color: 'white', alignSelf: 'center', paddingTop: '3%'}}>
               팔로우
-            </Text>
+            </Text> */}
           </TouchableOpacity>
         </View>
       </View>
