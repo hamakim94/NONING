@@ -24,7 +24,7 @@ public class JwtTokenProvider {
     private String secretKey;
     private Key key;
     private final long refreshTokenValidMilisecond = 1000L * 60 * 60 * 24 * 30; // 30일만 토큰 유효
-    private final long accessTokenValidMilisecond = 1000L * 60 * 1; // 10분만 토큰 유효
+    private final long accessTokenValidMilisecond = 1000L * 60 * 10; // 10분만 토큰 유효
     private UserDetailsService userDetailsService;
     private final RedisService redisService;
 
