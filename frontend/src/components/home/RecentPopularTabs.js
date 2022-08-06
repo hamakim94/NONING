@@ -3,7 +3,6 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
 
@@ -60,7 +59,7 @@ const styles = StyleSheet.create({
   isActive: {
     width: 60,
     height: 25,
-    color: '#FF7171',
+    color: '#FF5F5F',
     fontSize: 15,
     paddingHorizontal:5,
   },

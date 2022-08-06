@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   isActive: {
     width: 50,
     height: 25,
-    backgroundColor: '#FF7171',
+    backgroundColor: '#FF5F5F',
     color: 'white',
     fontSize: 15,
     borderRadius: 20,

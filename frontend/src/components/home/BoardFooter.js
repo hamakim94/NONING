@@ -3,9 +3,6 @@ import React, {useContext} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import UserContext from '../../util/UserContext';
 
-// 찜 : /api/boards/{boardid}/like          input : userId, reg
-// 찜 취소 : /api/boards/{boardid}/unlike   input : userId
-
 export default function BoardFooter({board, setBoards, navigation}) {
   const {userData} = useContext(UserContext);
 
@@ -23,7 +20,7 @@ export default function BoardFooter({board, setBoards, navigation}) {
   const unlike = () => {
     UseAxios.delete(`/boards/${board.boardId}/unlike?userId=${userData.userId}`)
       .then(res => {
-        console.log(res);
+        // console.log(res);
       })
       .then(err => {
         console.log(err);
@@ -73,6 +70,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   iconColor: userLike => ({
-    color: userLike ? '#FF7171' : '#606060',
+    color: userLike ? '#FF5F5F' : '#606060',
   }),
 });

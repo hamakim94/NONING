@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {Image, StyleSheet, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 
 export default function LogoSearch({navigation}) {
@@ -31,8 +31,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    height: 30,
+    height: '7%',
     marginBottom: 5,
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#A6A6A6',
   },
   logo: {
     width: 100,
