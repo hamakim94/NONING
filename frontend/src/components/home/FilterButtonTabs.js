@@ -22,7 +22,9 @@ const filterButtons = [
 
 function FilterButtonTabs({setFilterName}) {
   const [activeButton, setActiveButton] = useState('전체'); // useState, 어떤게 active한지 알려주는 부분
-  const FilterButton = ({filterbutton}) => (    // 이제 버튼 하나씩 올거임
+  const FilterButton = (
+    {filterbutton}, // 이제 버튼 하나씩 올거임
+  ) => (
     <TouchableOpacity
       onPress={() => [
         setActiveButton(filterbutton.name),
@@ -45,7 +47,11 @@ function FilterButtonTabs({setFilterName}) {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        style={{borderBottomWidth: 1, height: 40}}>
+        style={{
+          borderBottomWidth: 0.5,
+          borderBottomColor: '#A6A6A6',
+          height: 40,
+        }}>
         {filterButtons.map((filterbutton, index) => (
           <View
             key={index}
@@ -69,10 +75,10 @@ const styles = StyleSheet.create({
   isActive: {
     width: 50,
     height: 25,
-    backgroundColor: '#FF7171',
+    backgroundColor: '#FF5F5F',
+    color: 'white',
     fontSize: 15,
     borderRadius: 20,
-    color: '#ffffff',
     paddingHorizontal: 10,
   },
 

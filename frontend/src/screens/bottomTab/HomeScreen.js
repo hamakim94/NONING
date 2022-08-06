@@ -13,18 +13,16 @@ import Boards from '../../components/home/Boards';
 import axios from 'axios';
 import UseAxios from '../../util/UseAxios';
 import UserContext from '../../util/UserContext';
-import { useIsFocused } from '@react-navigation/native';
-
+import {useIsFocused} from '@react-navigation/native';
+import RecentPopularTabs from '../../components/home/RecentPopularTabs';
 
 // 게시글 가져오기 :  /api/boards/list/{userid}  인풋 : userId, categoryCode, order?categorycode=””
 function HomeScreen({navigation}) {
   const [filterName, setFilterName] = useState('전체');
   const [boards, setBoards] = useState([]);
+  const [isPopular, setIsPopular] = useState('최신');
   const {userData} = useContext(UserContext);
   const isFocused = useIsFocused();
-  // const [temp_boards, setTempBoards] = useState([]);
-  // const [start_num, setStartNum] = useState(0);
-  // const [loading, setLoading] = useState(false);
 
   const filterToCode = {
     전체: 0,
@@ -42,62 +40,44 @@ function HomeScreen({navigation}) {
     UseAxios.get('/boards/list', {
       params: {categorycode: filterToCode[filterName]},
     }).then(res => {
-      setBoards(res.data)
-    })
-  }, [filterName, userData, isFocused]);
-  // 전체 가져온 데이터를 10개보다 작으면 그 개수만큼, 아니면 10개씩 복사
-  // const getData = start => {
-  //   if (boards.length > start + 10) {
-  //     setLoading(true);
-  //     setTempBoards(temp_boards.concat([...boards].slice(start, start + 10)));
-  //     setStartNum(start_num + 10);
-  //     setLoading(false);
-  //   } else if (boards.length > start) {
-  //     setLoading(true);
-  //     setTempBoards(temp_boards.concat([...boards]));
-  //     setStartNum(start_num + boards.length);
-  //     setLoading(false);
-  //   }
-  // };
-  // 여기서 board가 바뀌면 temp_board 복사를 딱 해야해!
-  // 처음 렌더링 될 떄 , 10개 이하만 가져오기
-
-  // const onEndReached = () => { // 끝을 만나면.
-  //   if (loading) {             // 로딩 중이면 그만하고, 로딩중이 아니라면 getData 하렴!
-  //     return;
-  //   } else {                   // 아니면 그만
-  //     getData(start_num);
-  //   }
-  // };
-
+      if (isPopular === '인기순') { // 인기순이니?
+        res.data.sort(function (a, b) {
+          const participantsA = a.opt1Selected + a.opt2Selected;
+          const participantsB = b.opt1Selected + b.opt2Selected;
+          if (participantsA > participantsB) return -1;
+          if (participantsA === participantsB) return 0;
+          if (participantsA < participantsB) return 1;
+        });
+      } else { // 최신순이니?
+        res.data.sort(function (a, b) {
+          if (a.boardId > b.boardId) return -1;
+          if (a.boardId === b.boardId) return 0;
+          if (a.boardId < b.boardId) return 1;
+        });
+      }
+      setBoards(res.data);
+    });
+  }, [filterName, userData, isFocused, isPopular]);
   // 함수로 뺴놔야 잘 작동 렌더링이 한 번만 일어난다.
   const renderItem = ({item}) => (
     <Boards board={item} navigation={navigation}></Boards>
   );
   const keyExtractor = item => item.boardId;
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={{flex: 1, padding: 16}}>
         <LogoSearch navigation={navigation}></LogoSearch>
-        <Divider width={0.5}></Divider>
         <FilterButtonTabs setFilterName={setFilterName} />
-        <Divider width={0.5}></Divider>
+        <RecentPopularTabs setIsPopular ={setIsPopular} ></RecentPopularTabs>
         <FlatList
           showsVerticalScrollIndicator={false}
           removeClippedSubviews={true}
           legacyImplementation={true}
-          // data={[...boards].filter(board => board.categoryCode === filterToCode[filterName] )}
           data={boards}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
-          // onEndReached={onEndReached}
-          // onEndReachedThreshold={1}
-          maxToRenderPerBatch={10} // 이게 될지는 모름.
-          disableVirtualization={true}
-          // ListFooterComponent={
-          //   loading && <ActivityIndicator size="large" color="#00ff00" />
-          // }
-        ></FlatList>
+          maxToRenderPerBatch={10}
+          disableVirtualization={true}></FlatList>
       </View>
     </SafeAreaView>
   );
