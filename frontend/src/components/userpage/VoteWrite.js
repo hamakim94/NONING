@@ -15,7 +15,7 @@ export default function VoteWrite({navigation, id, myPageData}) {
           <View
             style={
               item.writerId === id
-                ? {BorderBottomWidth: 0.3}
+                ? {borderBottomWidth: 0.3}
                 : {borderBottomWidth: 0}
             }>
             <View
@@ -61,7 +61,6 @@ export default function VoteWrite({navigation, id, myPageData}) {
                                 color={'blue'}
                               />
                             );
-                          else return;
                         })()}
                         {(() => {
                           if (item.userVote === 1)
@@ -76,7 +75,6 @@ export default function VoteWrite({navigation, id, myPageData}) {
                                 {item.opt2}
                               </Text>
                             );
-                          else return;
                         })()}
                       </View>
                     </View>
@@ -97,3 +95,4 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
 });
+

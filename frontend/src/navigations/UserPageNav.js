@@ -7,19 +7,24 @@ import SettingNav from './SettingNav';
 import FollowerScreen from '../screens/FollowerScreen';
 import YourPageScreen from '../screens/YourPageScreen'
 import LoginNav from './LoginNav';
+import UserContext from '../util/UserContext';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
 function UserPageNav() {
+  const {userData} = useContext(UserContext);
+  //onPress={() => navigation.push('YourPageScreen', {id: board.writerId})}>
   return (
     <Stack.Navigator>
         <Stack.Screen 
         name="UserPageScreen" 
-        component={UserPageScreen} 
+        component={YourPageScreen} 
         options={{
           headerShown: false,
         }}
+        initialParams={{id: userData.userId}}
+        
         />
         <Stack.Screen
           name="SettingNav"
