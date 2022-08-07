@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, Platform, Text} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import schema from '../../components/signUp/Validation';
@@ -12,7 +12,8 @@ import InputLabel from '../../components/signUp/InputLabel';
 import CheckInput from '../../components/signUp/CheckInput';
 import NoCheckInput from '../../components/signUp/NoCheckInput';
 import styles from '../../components/signUp/InfoStyles';
-import axios from 'axios';
+import ImagePicker from 'react-native-image-crop-picker';
+import UploadModeModal from '../../components/signUp/UploadModeModal';
 import UseAxios from '../../util/UseAxios';
 
 const MbtiGroup = [
@@ -34,6 +35,18 @@ const MbtiGroup = [
   'ISTP',
 ];
 
+const imagePickerOption = {
+  width: 100,
+  height: 100,
+  cropping: true,
+  cropperCircleOverlay: true,
+  showCropGuidelines: false,
+  enableRotationGesture: true,
+  freeStyleCropEnabled: true,
+  includeBase64: Platform.OS === 'android',
+  hideBottomControls: true,
+};
+
 function InfoScreen() {
   const inputRef = useRef([]);
   const [emailStyle, setEmailStyle] = useState(styles.checkBlurInput);
@@ -46,10 +59,16 @@ function InfoScreen() {
   const [femaleCheckBox, setFemaleCheckBox] = useState(false);
   const [emailCheck, setEmailCheck] = useState(false);
   const [nickNameCheck, setNickNameCheck] = useState(false);
-
+  const [imgSource, setImageSource] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const filename = imgSource !== null ? imgSource.split('/').pop() : '';
+  const match = /\.(\w+)%/.exec(filename ?? '');
+  const type = match ? `image/${match[1]}` : `image`;
+  const formdata = new FormData();
   const {
     handleSubmit,
     control,
+    setValue,
     formState: {errors},
   } = useForm({
     mode: 'onChange',
@@ -61,35 +80,56 @@ function InfoScreen() {
       name: '',
       gender: '',
       mbti: '',
+      mbti1Code: '',
+      mbti2Code: '',
+      mbti3Code: '',
+      mbti4Code: '',
       age: '',
     },
     resolver: yupResolver(schema),
   });
-
   const onSubmit = data => {
-    axios({
-      url: `http://i7a202.p.ssafy.io:8888/api/users/signup`,
-      method: 'POST',
-      data: {
-        age: data.age,
-        email: data.email,
-        genderCode: 'G0101',
-        img: '이미지123',
-        mbti1Code: 'M0101',
-        mbti2Code: 'M0201',
-        mbti3Code: 'M0301',
-        mbti4Code: 'M0401',
-        nickname: data.nickname,
-        password: data.password,
-      },
+    formdata.append('image', {uri: imgSource, name: filename, type});
+    formdata.append('email', data.email);
+    formdata.append('password', data.password);
+    formdata.append('nickname', data.nickname);
+    formdata.append('name', data.name);
+    formdata.append('img', '이거때매오류나요');
+    formdata.append('genderCode', data.gender);
+    formdata.append('mbti1Code', data.mbti1Code);
+    formdata.append('mbti2Code', data.mbti2Code);
+    formdata.append('mbti3Code', data.mbti3Code);
+    formdata.append('mbti4Code', data.mbti4Code);
+    formdata.append('age', data.age);
+    UseAxios.post('/users/signup', formdata, {
+      headers: {'content-type': 'multipart/form-data'},
     })
       .then(res => {
         console.log(res);
-        console.log(res.data);
       })
       .catch(err => {
         console.log(err);
       });
+  };
+
+  const onLaunchCamera = () => {
+    ImagePicker.openCamera(imagePickerOption)
+      .then(image => {
+        setImageSource(image.path);
+      })
+      .catch(err => {});
+  };
+  // 갤러리에서 사진 선택
+  const onLaunchImageLibrary = () => {
+    ImagePicker.openPicker(imagePickerOption)
+      .then(image => {
+        setImageSource(image.path);
+      })
+      .catch(err => {});
+  };
+
+  const modalOpen = () => {
+    setModalVisible(true); // visible = true
   };
   return (
     <View style={styles.container}>
@@ -99,8 +139,14 @@ function InfoScreen() {
             flex: 1,
             alignItems: 'center',
           }}>
+          <UploadModeModal
+            visible={modalVisible}
+            onClose={() => setModalVisible(false)}
+            onLaunchCamera={onLaunchCamera}
+            onLaunchImageLibrary={onLaunchImageLibrary}
+          />
           <InputLabel name="프로필 이미지" star=""></InputLabel>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={modalOpen}>
             <Avatar
               size={100}
               rounded
@@ -111,8 +157,9 @@ function InfoScreen() {
                 marginBottom: '5%',
               }}
               source={{
-                uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-                // https://cdn.pixabay.com/photo/2019/11/08/11/56/kitten-4611189_960_720.jpg
+                uri: imgSource
+                  ? imgSource
+                  : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
               }}
             />
           </TouchableOpacity>
@@ -201,11 +248,11 @@ function InfoScreen() {
                         ? [
                             setMaleCheckBox(newValue),
                             setFemaleCheckBox(!femaleCheckBox),
-                            newValue ? onChange('남성') : onChange('여성'),
+                            newValue ? onChange('G0101') : onChange('G0102'),
                           ]
                         : [
                             setMaleCheckBox(newValue),
-                            newValue ? onChange('남성') : onChange(''),
+                            newValue ? onChange('G0101') : onChange(''),
                           ]
                     }
                     tintColors={{true: '#FF7171'}}
@@ -219,11 +266,11 @@ function InfoScreen() {
                         ? [
                             setMaleCheckBox(!maleCheckBox),
                             setFemaleCheckBox(newValue),
-                            newValue ? onChange('여성') : onChange('남성'),
+                            newValue ? onChange('G0102') : onChange('G0101'),
                           ]
                         : [
                             setFemaleCheckBox(newValue),
-                            newValue ? onChange('여성') : onChange(''),
+                            newValue ? onChange('G0102') : onChange(''),
                           ]
                     }
                     tintColors={{true: '#FF7171'}}
@@ -265,7 +312,23 @@ function InfoScreen() {
                       textAlign: 'left',
                     }}
                     onSelect={selectedItem => {
-                      onChange(selectedItem);
+                      onChange(selectedItem),
+                        setValue(
+                          'mbti1Code',
+                          selectedItem[0] == 'E' ? 'M0101' : 'M0102',
+                        ),
+                        setValue(
+                          'mbti2Code',
+                          selectedItem[1] == 'N' ? 'M0201' : 'M0202',
+                        ),
+                        setValue(
+                          'mbti3Code',
+                          selectedItem[2] == 'F' ? 'M0301' : 'M0302',
+                        ),
+                        setValue(
+                          'mbti4Code',
+                          selectedItem[3] == 'J' ? 'M0401' : 'M0402',
+                        );
                     }}
                     buttonTextAfterSelection={selectedItem => {
                       return selectedItem;
@@ -288,14 +351,16 @@ function InfoScreen() {
         <View style={{alignItems: 'center', marginVertical: '3%'}}>
           <TouchableOpacity
             style={
-              Object.keys(errors).length > 0 && emailCheck && nickNameCheck
+              Object.keys(errors).length === 0 && emailCheck && nickNameCheck
                 ? styles.checkButton
                 : styles.button
             }
             onPress={
-              Object.keys(errors).length > 0 && emailCheck && nickNameCheck
-                ? console.log('정보확인')
-                : handleSubmit(onSubmit)
+              Object.keys(errors).length === 0 && emailCheck && nickNameCheck
+                ? handleSubmit(onSubmit)
+                : () => {
+                    alert('입력을 확인해주세요.');
+                  }
             }>
             <Text style={styles.buttonText}>회원가입</Text>
           </TouchableOpacity>

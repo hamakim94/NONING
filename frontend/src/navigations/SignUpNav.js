@@ -14,7 +14,7 @@ function SignUpNav() {
       screenOptions={{
         tabBarActiveTintColor: '#FF7171',
         tabBarInactiveTintColor: '#808080',
-        tabBarPressColor: '#C9C9C9',
+        tabBarPressColor: '#FFFFFF',
         tabBarIndicatorStyle: {backgroundColor: '#FF7171'},
         tabBarLabelStyle: {fontSize: 15},
         tabBarStyle: {
