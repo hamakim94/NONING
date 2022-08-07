@@ -93,6 +93,7 @@ export default function YourPageScreen({route, navigation}) {
   useEffect(() => {
     UseAxios.get(`/users/${id}/page`).then(res => {
       setYourPageData(res.data);
+      console.log(yourPageData)
     });
   }, [isFocused]);
 
@@ -115,6 +116,13 @@ export default function YourPageScreen({route, navigation}) {
       .then(res => {console.log(res)})
       .catch(err => {console.log(err)});
   };
+
+  const fakeFollow = () => {
+    setYourPageData( {...yourPageData, followerIdList : yourPageData.followerIdList.push(-1)})
+  }
+  const fakeUnFollow = () => {
+    setYourPageData( {...yourPageData, followerIdList : yourPageData.followerIdList.filter(e => e !== -1)})
+  }
 
   return (
     <View style={styles.container}>
@@ -226,9 +234,11 @@ export default function YourPageScreen({route, navigation}) {
                height: '50%',
                marginTop: '2.5%',
             }}
-            onPress={() => {userData.userId in yourPageData.followingIdList 
-              ? unfollow() 
-              : follow()}}>
+            
+            onPress={() => {userData.userId in yourPageData.followerIdList 
+              ? [unfollow(), fakeUnFollow() ]
+              : follow(), fakeFollow()}}>
+                {}
             <Text
                 style={{color: 'white', alignSelf: 'center', paddingTop: '5%'}}>
                  팔로우
