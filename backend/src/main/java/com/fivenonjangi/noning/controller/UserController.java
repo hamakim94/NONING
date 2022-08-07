@@ -144,7 +144,7 @@ public class UserController {
         else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @PostMapping("/duplications/check")
-    public ResponseEntity checkDuplication(@RequestParam(required = false) String email,@RequestParam(required = false) String nickname, HttpServletRequest request){
+    public ResponseEntity checkDuplication(@RequestParam(name = "email", required = false) String email,@RequestParam(name = "nickname", required = false) String nickname, HttpServletRequest request){
         if (email == null) email = "";
         if (nickname == null) nickname = "";
         if (userService.checkEmailOrNickname(email, nickname))
