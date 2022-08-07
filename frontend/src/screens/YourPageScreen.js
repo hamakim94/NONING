@@ -93,7 +93,8 @@ export default function YourPageScreen({route, navigation}) {
   useEffect(() => {
     UseAxios.get(`/users/${id}/page`).then(res => {
       setYourPageData(res.data);
-      console.log(yourPageData)
+      console.log(res.data);
+      
     });
   }, [isFocused]);
 
@@ -117,13 +118,14 @@ export default function YourPageScreen({route, navigation}) {
       .catch(err => {console.log(err)});
   };
 
-  const fakeFollow = () => {
-    setYourPageData( {...yourPageData, followerIdList : yourPageData.followerIdList.push(-1)})
+  const fakeFollow = (myId) => {
+    setYourPageData( {...yourPageData, followerIdList : [...yourPageData.followerIdList, myId]})
   }
-  const fakeUnFollow = () => {
-    setYourPageData( {...yourPageData, followerIdList : yourPageData.followerIdList.filter(e => e !== -1)})
+  const fakeUnFollow = (myId) => {
+    setYourPageData( {...yourPageData, followerIdList : yourPageData.followerIdList.filter(e => e !== myId)})
   }
-
+  console.log(yourPageData.followerIdList)
+  console.log(userData.userId)
   return (
     <View style={styles.container}>
       <View style={{flex: 0.1}}></View>
@@ -134,7 +136,7 @@ export default function YourPageScreen({route, navigation}) {
           <View style={styles.profileImageBox}>
             <View>
               <Image
-                source={{uri: USER.user.img}}
+                source={{uri:yourPageData.user.img ?  yourPageData.user.img : USER.user.img}}
                 style={styles.profileImage}
               />
             </View>
@@ -235,13 +237,14 @@ export default function YourPageScreen({route, navigation}) {
                marginTop: '2.5%',
             }}
             
-            onPress={() => {userData.userId in yourPageData.followerIdList 
-              ? [unfollow(), fakeUnFollow() ]
-              : follow(), fakeFollow()}}>
-                {}
+            onPress={() => {yourPageData.followerIdList.indexOf(userData.userId) > 0 
+              ? [unfollow(), fakeUnFollow(userData.userId) ]
+              : [follow(), fakeFollow(userData.userId)]}}
+              >
             <Text
                 style={{color: 'white', alignSelf: 'center', paddingTop: '5%'}}>
-                 팔로우
+                  {yourPageData.followerIdList
+                     ?  yourPageData.followerIdList.indexOf(userData.userId) > 0 ? '언팔로우' : '팔로우'  :  ''}
             </Text> 
           </TouchableOpacity>
         </View>
