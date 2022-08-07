@@ -94,7 +94,7 @@ export default function YourPageScreen({route, navigation}) {
   useEffect(() => {
     UseAxios.get(`/users/${id}/page`).then(res => {
       setYourPageData(res.data);
-      console.log(res.data);
+      console.log('데이터 ---------------------------------------- : \n' + res.data);
     });
   }, [isFocused]);
 
