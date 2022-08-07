@@ -2,25 +2,28 @@ import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import ChatInfoScreen from '../screens/live/ChatInfoScreen';
 import DetailScreen from '../screens/board/DetailScreen';
-import ChatUserListScreen from '../screens/live/ChatUserListScreen';
+import ChatScreen from '../screens/live/ChatScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 export default function ChatNav() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="ChatInfoScreen" component={ChatInfoScreen} />
+      <Stack.Screen
+        name="ChatInfoScreen"
+        component={ChatInfoScreen}
+        options={{headerShown: false}}
+      />
       <Stack.Screen
         name="ChatBoardDetailScreen"
         component={DetailScreen}
         options={{headerBackVisible: true, headerBackTitleVisible: false}}
       />
       <Stack.Screen
-        name="ChatUserListScreen"
-        component={ChatUserListScreen}
+        name="ChatScreen"
+        component={ChatScreen}
         options={{
-          headerBackVisible: true,
-          headerBackTitleVisible: false,
+          headerShown: false,
         }}
       />
     </Stack.Navigator>

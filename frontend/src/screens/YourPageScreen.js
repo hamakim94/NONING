@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {
   View,
   StyleSheet,
@@ -13,6 +13,7 @@ import VoteLike from '../components/userpage/VoteLike';
 import VoteDo from '../components/userpage/VoteDo';
 import VoteWrite from '../components/userpage/VoteWrite';
 import {useIsFocused} from '@react-navigation/native';
+import UserContext from '../util/UserContext'
 
 const renderTabBar = props => (
   <TabBar
@@ -61,6 +62,9 @@ export default function YourPageScreen({route, navigation}) {
   const [index, setIndex] = useState(0);
   const id = route.params.id;
   const isFocused = useIsFocused();
+  const {userData} = useContext(UserContext);
+  const [active, setActive] = useState(false);
+
   const [routes] = useState([
     {key: 0, title: '얘찜논'},
     {key: 1, title: '얘참논'},
@@ -89,10 +93,39 @@ export default function YourPageScreen({route, navigation}) {
   useEffect(() => {
     UseAxios.get(`/users/${id}/page`).then(res => {
       setYourPageData(res.data);
-      console.log(yourPageData);
+      console.log(res.data);
+      
     });
   }, [isFocused]);
 
+  const follow = () => {
+    console.log("팔")
+    UseAxios.post(`/follows/add`, {
+      userId: userData.userId,
+      targetUserId: id
+  })
+    .then(res => {console.log(res)})
+    .catch(err => {console.log(err)});
+  };
+
+  const unfollow = () => {
+    console.log("언팔")
+    UseAxios.post(`/follows/delete`, {
+      userId: userData.userId,
+      targetUserId: id
+    })
+      .then(res => {console.log(res)})
+      .catch(err => {console.log(err)});
+  };
+
+  const fakeFollow = (myId) => {
+    setYourPageData( {...yourPageData, followerIdList : [...yourPageData.followerIdList, myId]})
+  }
+  const fakeUnFollow = (myId) => {
+    setYourPageData( {...yourPageData, followerIdList : yourPageData.followerIdList.filter(e => e !== myId)})
+  }
+  console.log(yourPageData.followerIdList)
+  console.log(userData.userId)
   return (
     <View style={styles.container}>
       <View style={{flex: 0.1}}></View>
@@ -103,7 +136,7 @@ export default function YourPageScreen({route, navigation}) {
           <View style={styles.profileImageBox}>
             <View>
               <Image
-                source={{uri: USER.user.img}}
+                source={ {uri: yourPageData.user ? yourPageData.user.img ?  yourPageData.user.img : USER.user.img : ''} }
                 style={styles.profileImage}
               />
             </View>
@@ -196,17 +229,23 @@ export default function YourPageScreen({route, navigation}) {
         <View style={{flex: 2}}>
           <TouchableOpacity
             style={{
-              backgroundColor: '#FF7171',
-              marginHorizontal: '10%',
-              borderRadius: 10,
-              width: '70%',
-              height: '50%',
-              marginTop: '2.5%',
-            }}>
+               backgroundColor: 'pink',
+               marginHorizontal: '10%',
+               borderRadius: 10,
+               width: '70%',
+               height: '50%',
+               marginTop: '2.5%',
+            }}
+            
+            onPress={() => {yourPageData.followerIdList.indexOf(userData.userId) > 0 
+              ? [unfollow(), fakeUnFollow(userData.userId) ]
+              : [follow(), fakeFollow(userData.userId)]}}
+              >
             <Text
-              style={{color: 'white', alignSelf: 'center', paddingTop: '3%'}}>
-              팔로우
-            </Text>
+                style={{color: 'white', alignSelf: 'center', paddingTop: '5%'}}>
+                  {yourPageData.followerIdList
+                     ?  yourPageData.followerIdList.indexOf(userData.userId) > 0 ? '언팔로우' : '팔로우'  :  ''}
+            </Text> 
           </TouchableOpacity>
         </View>
       </View>
@@ -261,4 +300,5 @@ const styles = StyleSheet.create({
     paddingRight: '1.5%',
     alignSelf: 'flex-end',
   },
+  
 });
