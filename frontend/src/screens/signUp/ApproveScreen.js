@@ -64,7 +64,8 @@ function ApproveScreen({navigation}) {
       </View>
       <View style={styles.bottomContainer}>
         <TouchableOpacity
-          style={styles.loginButton}
+          disabled={ !(toggleCheckBox && toggleCheckBox2)}
+          style={styles.loginButton(toggleCheckBox && toggleCheckBox2)}
           onPress={() => navigation.navigate('InfoScreen')}>
           <Text style={styles.loginText}>등록</Text>
         </TouchableOpacity>
@@ -104,15 +105,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
   },
-  loginButton: {
+  loginButton : bool => ({
     paddingVertical: '1%',
     borderRadius: 6,
-    backgroundColor: '#FF7171',
+    backgroundColor: bool ? '#FF7171' : '#808080',
     marginHorizontal: '1%',
     minWidth: '15%',
     borderWidth: 1,
-    borderColor: '#FF7171',
-  },
+    borderColor: bool ? '#FF7171' : '#808080',
+  }),
   homeButton: {
     paddingVertical: '1%',
     borderRadius: 6,
