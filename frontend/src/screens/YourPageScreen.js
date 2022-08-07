@@ -136,7 +136,7 @@ export default function YourPageScreen({route, navigation}) {
           <View style={styles.profileImageBox}>
             <View>
               <Image
-                source={{uri:yourPageData.user.img ?  yourPageData.user.img : USER.user.img}}
+                source={ {uri: yourPageData.user ? yourPageData.user.img ?  yourPageData.user.img : USER.user.img : ''} }
                 style={styles.profileImage}
               />
             </View>
