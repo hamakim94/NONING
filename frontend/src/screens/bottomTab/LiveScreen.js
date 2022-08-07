@@ -47,7 +47,7 @@ function LiveScreen({navigation}) {
   const keyExtractor = useCallback(item => item.boardId, []);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
       <View style={{flex: 1, padding: 16}}>
         <LiveLogoSearch navigation={navigation}></LiveLogoSearch>
         <Divider width={0.5}></Divider>

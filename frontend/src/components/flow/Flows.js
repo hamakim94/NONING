@@ -5,7 +5,7 @@ import FlowBottom from './FlowBottom';
 import FireAnimation from '../animations/Fire';
 import WaveAnimation from '../animations/Wave';
 
-const windowHeight = Dimensions.get('window').height;
+const windowHeight = Dimensions.get('window').height * 0.934;
 
 function Flows({board, navigation}) {
   const [boardData, setBoardData] = useState(board);
@@ -29,7 +29,8 @@ function Flows({board, navigation}) {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    height: windowHeight * 0.934,
+    height: windowHeight,
+    backgroundColor: 'white',
   },
   container: {
     alignSelf: 'center',
