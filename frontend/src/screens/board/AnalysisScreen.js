@@ -9,17 +9,20 @@ function AnalysisScreen() {
   const [data, setData] = useState([]);
   const [analysisData, setAnalysisData] = useState([]);
   const idx = useRef(0);
-
-  useEffect(() => {
-    const keyData = AnalysisKeyData(data, idx.current, analysisData);
-    setAnalysisData(keyData);
-    idx.current = data.length;
-  }, [data]);
-
+  const mounted = useRef(false);
   useEffect(() => {
     setData(AnalysisTestData);
     setAnalysisData(AnalysisDefault);
   }, []);
+
+  useEffect(() => {
+    if (!mounted.current) mounted.current = true;
+    else {
+      const keyData = AnalysisKeyData(data, idx.current, analysisData);
+      setAnalysisData(keyData);
+      idx.current = data.length;
+    }
+  }, [data]);
 
   const renderItem = ({item}) => <AnalysisList info={item} />;
   return (

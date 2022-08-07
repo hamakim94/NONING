@@ -9,15 +9,51 @@ function AnalysisList({info}) {
           <View style={styles.leftContainer}>
             <Text style={styles.leftText}>{info.name}</Text>
           </View>
-          <View style={styles.rightContainer}>
-            <View style={styles.mainBar}>
-              <View style={barStyles(info.opt1, info.total).leftBar}>
-                <Text style={styles.barLeftText}>
+          <View style={{flex: 5, paddingHorizontal: '5%'}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                borderWidth: 2,
+                borderRadius: 3,
+                height: '110%',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <View
+                style={{
+                  flex: 6 * (info.opt1 / info.total),
+                  borderRightWidth: 1,
+                  backgroundColor: '#FF5F5F',
+                  width: '100%',
+                  height: '100%',
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'left',
+                    fontWeight: 'bold',
+                    color: '#FFFFFF',
+                    marginLeft: 7,
+                    marginTop: 2,
+                  }}>
                   {Math.round((info.opt1 / info.total) * 100)}%
                 </Text>
               </View>
-              <View style={barStyles(info.opt1, info.total).rightBar}>
-                <Text style={styles.barRightText}>
+              <View
+                style={{
+                  flex: 6 - 6 * (info.opt1 / info.total),
+                  borderLeftWidth: 1,
+                  backgroundColor: '#49D3CA',
+                  width: '100%',
+                  height: '100%',
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'right',
+                    fontWeight: 'bold',
+                    color: '#FFFFFF',
+                    marginRight: 7,
+                    marginTop: 2,
+                  }}>
                   {100 - Math.round((info.opt1 / info.total) * 100)}%
                 </Text>
               </View>

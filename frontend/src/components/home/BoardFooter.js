@@ -1,29 +1,54 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import UserContext from '../../util/UserContext';
 
-// 찜 : /api/boards/{boardid}/like          input : userId, reg
-// 찜 취소 : /api/boards/{boardid}/unlike   input : userId
+export default function BoardFooter({board, setBoards, navigation}) {
+  const {userData} = useContext(UserContext);
 
-export default function BoardFooter({board, boards, setBoards}) {
-  
+  const like = () => {
+    UseAxios.post(`/boards/${board.boardId}/like`, null, { params : {
+      userId : userData.userId,
+    }})
+      .then(res => {
+        console.log(res);
+      })
+      .then(err => {
+        console.log(err);
+      });
+  };
+  const unlike = () => {
+    UseAxios.delete(`/boards/${board.boardId}/unlike?userId=${userData.userId}`)
+      .then(res => {
+        // console.log(res);
+      })
+      .then(err => {
+        console.log(err);
+      });
+  };
+
   const toggleLike = () => {
-    setBoards({...board, user_like : Math.abs(1-board.user_like)})
+    setBoards({...board, userLike: !board.userLike});
+  };
 
-  }
-  
   return (
     <View style={styles.footerContainer}>
       <View style={styles.writerContainer}>
-        <Text>작성자 :  </Text>
-        <Image style={{ width:15 ,height:15, borderRadius:50 }} source={{uri : board.writer.img}}></Image>
-        <Text>{board.writer.nickname}</Text>
+        <Text>작성자 : </Text>
+        <Image style={{ width:15 ,height:15, borderRadius:50 }} source={{uri : board.writerImg ? board.writerImg : '../../assets/DefaultProfile.jpg'}}></Image>
+        <Text style={{paddingLeft:5}}>{board.writerNickname} </Text>
       </View>
 
       <View style={styles.numberLikeContainer}>
-        <Text>참여 : {board.opt1_selected + board.opt2_selected}명</Text>
-        <TouchableOpacity style={{margin:1}} onPress={() => toggleLike()}>
-          <AntDesign style={styles.iconColor(board.user_like)} name="heart" size={20} />
+        <Text style={{paddingRight:5}}>참여 : {board.opt1Selected + board.opt2Selected}명</Text>
+        <TouchableOpacity
+          style={{margin: 1}}
+          onPress={() =>  { userData === null ? navigation.navigate('LoginNav', {screen: 'LoginNav'}) : [toggleLike(), board.userLike ? unlike() : like() ]}}>
+          <AntDesign
+            style={styles.iconColor(board.userLike)}
+            name="heart"
+            size={20}
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -38,13 +63,13 @@ const styles = StyleSheet.create({
   },
   writerContainer: {
     flexDirection: 'row',
-    alignItems:'center'
+    alignItems: 'center',
   },
   numberLikeContainer: {
     flexDirection: 'row',
-    alignItems:'center'
+    alignItems: 'center',
   },
-  iconColor : (user_like) => ({
-    color : user_like === 1 ? '#FF7171' : '#606060'
-  })
+  iconColor: userLike => ({
+    color: userLike ? '#FF5F5F' : '#606060',
+  }),
 });

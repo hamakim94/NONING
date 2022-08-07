@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import {Divider} from '@rneui/themed';
 import React, {useState, useRef} from 'react';
@@ -13,6 +14,10 @@ import InputLabel from '../../components/signUp/InputLabel';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import schema from '../../components/board/BoardValidation';
+import SelectDropdown from 'react-native-select-dropdown';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import UseAxios from '../../util/UseAxios';
+import NoCheckInputText from '../../components/board/NoCheckInputText';
 
 export default function PlusScreen({navigation}) {
   const inputRef = useRef([]);
@@ -20,7 +25,7 @@ export default function PlusScreen({navigation}) {
   const [argu1Style, setArgu1Style] = useState(styles.blurInput);
   const [argu2Style, setArgu2Style] = useState(styles.blurInput);
 
-  console.log({errors});
+  //console.log({errors});
   const {
     handleSubmit,
     control,
@@ -30,16 +35,47 @@ export default function PlusScreen({navigation}) {
     mode: 'onChange',
     defaultValues: {
       title: '',
-      argu1: '',
-      argu2: '',
+      opt1: '',
+      opt2: '',
+      categoryCode : '',
     },
     resolver: yupResolver(schema),
   });
 
   const onSubmit = data => {
-    console.log(data);
-  };
+    data.categoryCode = nameToCode[data.categoryCode]
+     // console.log(data);
+    UseAxios.post(`/boards/write`,  
+      data
+    
+    ).then(navigation.navigate('HomeScreen'))
+    .catch(err => {
+      console.log(err)
+    })
 
+  };
+  const nameToCode = {
+    연애: 'B0101',
+    병맛: 'B0102',
+    음식: 'B0103',
+    게임: 'B0104',
+    운동: 'B0105',
+    학교: 'B0106',
+    직장: 'B0107',
+    갈등: 'B0108',
+    기타: 'B0199',
+  };
+  const categoryList = [
+    '연애', 
+    '병맛', 
+    '음식', 
+    '게임', 
+    '운동', 
+    '학교', 
+    '직장', 
+    '갈등', 
+    '기타', 
+  ];
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView style={{}}>
@@ -59,7 +95,7 @@ export default function PlusScreen({navigation}) {
         {/* 논쟁, 1/2안 입력 */}
         <View style={{marginTop: '5%'}}>
           <InputLabel name="논쟁" star="*" />
-          <NoCheckInput
+          <NoCheckInputText
             // placeholder='논쟁을 입력해주세요'
             control={control}
             style={titleStyle}
@@ -68,27 +104,75 @@ export default function PlusScreen({navigation}) {
             errorMessage={errors.title ? errors.title.message : ''}
             styles={styles}
             inputRef={inputRef}
-            index={0}></NoCheckInput>
+            index={0}></NoCheckInputText>
           <InputLabel name="1안" star="*" />
-          <NoCheckInput
+          <NoCheckInputText
             control={control}
             style={argu1Style}
             setStyle={setArgu1Style}
-            property="argu1"
-            errorMessage={errors.argu1 ? errors.argu1.message : ''}
+            property="opt1"
+            errorMessage={errors.opt1 ? errors.opt1.message : ''}
             styles={styles}
             inputRef={inputRef}
-            index={1}></NoCheckInput>
+            index={1}></NoCheckInputText>
           <InputLabel name="2안" star="*" />
-          <NoCheckInput
+          <NoCheckInputText
             control={control}
             style={argu2Style}
             setStyle={setArgu2Style}
-            property="argu2"
-            errorMessage={errors.argu2 ? errors.argu2.message : ''}
+            property="opt2"
+            errorMessage={errors.opt2 ? errors.opt2.message : ''}
             styles={styles}
             inputRef={inputRef}
-            index={2}></NoCheckInput>
+            index={2}></NoCheckInputText>
+          {/* 카테고리 */}
+          <View>
+          <InputLabel name="카테고리" star="*"></InputLabel>
+            <Controller
+              control={control}
+              render={({field: {onChange}}) => (
+                <View style={{flexDirection: 'row'}}>
+                  <SelectDropdown
+                    data={categoryList}
+                    defaultButtonText="선택"
+                    renderDropdownIcon={isOpened => {
+                      return (
+                        <FontAwesome
+                          name={isOpened ? 'chevron-up' : 'chevron-down'}
+                          color={'#444'}
+                          size={18}
+                        />
+                      );
+                    }}
+                    rowStyle={{
+                      backgroundColor: 'white',
+                    }}
+                    dropdownStyle={styles.dropDownOpen}
+                    buttonStyle={styles.dropDownButton}
+                    buttonTextStyle={{
+                      fontSize: 16,
+                      textAlign: 'left',
+                    }}
+                    onSelect={selectedItem => {
+                      onChange(selectedItem);
+                    }}
+                    buttonTextAfterSelection={selectedItem => {
+                      return selectedItem;
+                    }}
+                    rowTextForSelection={item => {
+                      return item;
+                    }}
+                  />
+                </View>
+              )}
+              name="categoryCode"
+            />
+            {errors.categoryCode ? (
+              <Text style={styles.errorText}>{errors.categoryCode.message}</Text>
+            ) : (
+              <Text style={styles.errorText} />
+            )}
+          </View>
         </View>
 
         {/* 미리보기 -> 카드 제대로 만들면 다시해야함!!*/}
@@ -96,18 +180,60 @@ export default function PlusScreen({navigation}) {
           <Divider orientation="vertical" style={{marginTop: '2.5%'}} />
           <Text style={styles.preview}> PREVIEW </Text>
           <View style={styles.card}>
-            <Text style={{textAlign: 'center'}}>{getValues('title')}</Text>
+            <View style={{marginBottom: '2.5%'}}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontWeight: 'bold',
+                  marginBottom: '5%',
+                }}>
+                {getValues('title')}
+              </Text>
+            </View>
             <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-              <Text>{getValues('argu1')}</Text>
-              <Text> | </Text>
-              <Text>{getValues('argu2')}</Text>
+              <View
+                style={{
+                  borderTopLeftRadius: 5,
+                  borderBottomLeftRadius: 5,
+                  borderWidth: 1,
+                  width: '55%',
+                  backgroundColor: 'rgba(255,90,110,0.2)',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    color: '#808080',
+                    textAlign: 'center',
+                    paddingVertical: '5%',
+                  }}>
+                  {getValues('opt1')}
+                </Text>
+              </View>
+              <View
+                style={{
+                  borderTopRightRadius: 5,
+                  borderBottomRightRadius: 5,
+                  borderWidth: 1,
+                  width: '55%',
+                  backgroundColor: 'rgba(73,211,202,0.2)',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    color: '#808080',
+                    textAlign: 'center',
+                    paddingVertical: '5%',
+                  }}>
+                  {getValues('opt2')}
+                </Text>
+              </View>
             </View>
           </View>
           <Divider orientation="vertical" style={{marginVertical: '7%'}} />
         </View>
 
         {/* 등록 버튼 */}
-        <View style={{alignItems: 'center', marginVertical: '3%'}}>
+        <View style={{alignItems: 'center', marginBottom: '3%'}}>
           <TouchableOpacity
             style={styles.checkButton}
             onPress={handleSubmit(onSubmit)}>
@@ -130,6 +256,7 @@ const styles = StyleSheet.create({
   registArgu: {
     fontWeight: 'bold',
     marginBottom: '3%',
+    fontSize: 18,
   },
   warning: {
     color: 'red',
@@ -141,8 +268,6 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: '#fff',
-    borderRadius: 5,
-    borderWidth: 1,
     marginHorizontal: '10%',
   },
   focusInput: {
@@ -197,7 +322,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF7171',
     borderRadius: 6,
     justifyContent: 'center',
-    paddingVertical: '2.5%',
+    padding: '2.5%',
   },
   buttonText: {
     color: 'white',

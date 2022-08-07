@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
-export default function HalfInputLabel({name, star}) {
+export default function InputLabel({name, star}) {
   return (
     <View style={styles.labelContainer}>
       <Text style={styles.label}>{name}</Text>
@@ -17,13 +17,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   labelStar: {
-    color: '#FF7171',
+    color: '#FF5F5F',
     textAlignVertical: 'top',
     paddingBottom: '1%',
   },
   labelContainer: {
-    flex: 1,
+    // flex: 1,
     flexDirection: 'row',
-    marginBottom: '1.5%',
+    marginBottom: '0.5%',
   },
 });
