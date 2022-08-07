@@ -1,6 +1,5 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useContext, useState} from 'react';
-import axios from 'axios';
+import React, {useContext} from 'react';
 import UserContext from '../../util/UserContext';
 // 투표 : /api/boards/{boardid}/vote
 export default function BoardBar({board, setBoards, navigation}) {
@@ -76,7 +75,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 5,
     justifyContent: 'center',
     backgroundColor:
-      userVote === 1 ? 'rgba(255,90,110,1)' : 'rgba(255,90,110,0.3)',
+      userVote === 1 ? 'rgba(255,95,95,1)' : 'rgba(255,95,95,0.2)',
   }),
   rightBar: (userVote, rightSize) => ({
     width: userVote === 0 ? '50%' : rightSize,
@@ -85,17 +84,17 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 5,
     justifyContent: 'center',
     backgroundColor:
-      userVote === 2 ? 'rgba(131,227,209,1)' : 'rgba(131,227,209,0.3)',
+      userVote === 2 ? 'rgba(73, 211, 202,1)' : 'rgba(73,211,202,0.2)',
   }),
   leftInnerText: userVote => ({
-    color: 'white',
+    color:  userVote === 1 ? '#FFFFFF' : '#808080',
     fontWeight: userVote === 0 ? '' : userVote === 1 ? 'bold' : '',
     textAlign: 'center',
     textAlignVertical: 'center',
     fontSize: 17,
   }),
   rightInnerText: userVote => ({
-    color: 'white',
+    color: userVote === 2 ? '#FFFFFF' : '#808080',
     fontWeight: userVote === 0 ? '' : userVote === 2 ? 'bold' : '',
     textAlign: 'center',
     textAlignVertical: 'center',

@@ -1,6 +1,6 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import React, { useState } from 'react';
+import React from 'react';
 
 export default function BoardHeader({board, navigation}) {
 
@@ -26,9 +26,9 @@ const styles = StyleSheet.create({
   },
   liveButton: (live) => ({
     width: 40,
-    borderColor: live ? '#FF7171' : '#808080',
+    borderColor: live ? '#FF5F5F' : '#808080',
     borderRadius: 5,
-    color: live  ? '#FF7171' : '#808080',
+    color: live  ? '#FF5F5F': '#808080',
     borderWidth: live  ? 2 : 1,
     fontWeight: 'bold',
     fontSize: 12,
