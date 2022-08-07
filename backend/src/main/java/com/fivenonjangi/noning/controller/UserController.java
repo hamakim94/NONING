@@ -6,8 +6,14 @@ import com.fivenonjangi.noning.data.dto.user.LoginRequestDTO;
 import com.fivenonjangi.noning.data.dto.user.SignupRequestDTO;
 import com.fivenonjangi.noning.data.dto.user.UserDTO;
 import com.fivenonjangi.noning.service.board.BoardService;
+import com.fivenonjangi.noning.service.etc.AwsS3Service;
 import com.fivenonjangi.noning.service.user.FollowService;
 import com.fivenonjangi.noning.service.user.UserService;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Encoding;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -33,18 +41,20 @@ public class UserController {
     private final BoardService boardService;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
-
-    @Autowired
-    public UserController(UserService userService, FollowService followService, BoardService boardService, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
-        this.userService = userService;
-        this.followService = followService;
-        this.boardService  = boardService;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
+    private final AwsS3Service awsS3Service;
 
     @PostMapping("/signup")
-    public ResponseEntity signupUser(@RequestBody SignupRequestDTO signupRequestDTO) {
+    public ResponseEntity signupUser(@RequestPart SignupRequestDTO signupRequestDTO, @RequestPart(value = "file") MultipartFile image) {
+        if (image != null&&image.getContentType().startsWith("image")){
+            try {
+                String img = awsS3Service.uploadFileV1("profileImg", image);
+                signupRequestDTO.setImg(img);
+            }
+            catch (Exception e){
+                //이미지 업로드 오류
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }
         try {
             userService.signupUser(signupRequestDTO, passwordEncoder);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -100,9 +110,12 @@ public class UserController {
         }
     }
     @PutMapping("/profiles/edit")
-    public ResponseEntity modifyUser(@RequestBody UserDTO userDTO, HttpServletRequest request){
+    public ResponseEntity modifyUser(@RequestPart UserDTO userDTO, @RequestPart(value = "file") MultipartFile image, HttpServletRequest request){
         if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userDTO.getUserId()))) {
             try {
+                if (image != null&&image.getContentType().startsWith("image")){
+                    userDTO.setImg(awsS3Service.uploadFileV1("profileImg", image));
+                }
                 userService.modifyUser(userDTO);
                 return new ResponseEntity<>(HttpStatus.OK);
             } catch (Exception e) {

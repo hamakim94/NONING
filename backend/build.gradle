@@ -71,5 +71,8 @@ dependencies {
     // 3. querydsl dependencies 추가
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+//    compile 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+//    implementation 'com.amazonaws:aws-java-sdk:1.11.404'
+    implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.3.1'
 }
 
