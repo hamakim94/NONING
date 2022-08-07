@@ -16,6 +16,7 @@ public interface UserService {
     void modifyUser(UserDTO userDTO) throws Exception;
     void editPassword(LoginRequestDTO.EditPasswordDTO editPasswordDTO, PasswordEncoder passwordEncoder) throws Exception;
     boolean checkPassword(String userId, String password, PasswordEncoder passwordEncoder);
+    boolean checkEmailOrNickname(String email, String nickname);
     void verifyEmail(String token) throws Exception;
     void findPassword(String email, String name, PasswordEncoder passwordEncoder) throws Exception;
     void deleteUser(long userId) throws Exception;

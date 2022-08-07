@@ -143,6 +143,14 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.OK);
         else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+    @PostMapping("/duplications/check")
+    public ResponseEntity checkDuplication(@RequestParam(required = false) String email,@RequestParam(required = false) String nickname, HttpServletRequest request){
+        if (email == null) email = "";
+        if (nickname == null) nickname = "";
+        if (userService.checkEmailOrNickname(email, nickname))
+            return new ResponseEntity<>(HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     @GetMapping("/verify")
     public ResponseEntity verifyingEmail(@Validated @RequestParam String token) {
         try {

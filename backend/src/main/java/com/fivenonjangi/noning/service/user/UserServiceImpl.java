@@ -144,6 +144,12 @@ public class UserServiceImpl implements UserService{
         else return false;
     }
     @Override
+    public boolean checkEmailOrNickname(String email, String nickname){
+        UserData userData = userDataRepository.findByEmailOrNickname(email,nickname);
+        if (userData == null) return true;
+        else return false;
+    }
+    @Override
     public void verifyEmail(String token) throws Exception{
         VerifyingToken verifyingToken = verifyingTokenRepository.findByIdAndExpirationDateAfterAndExpired(token, LocalDateTime.now(), false);
         if (verifyingToken == null) throw new Exception();
