@@ -93,7 +93,7 @@ function InfoScreen() {
   };
   return (
     <View style={styles.container}>
-      <KeyboardAwareScrollView keyboardShouldPersistTaps={'handled'}>
+      <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}>
         <View
           style={{
             flex: 1,

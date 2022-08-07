@@ -3,32 +3,22 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
 
 const filterButtons = [
-  {name: '전체', value: 'B01'},
-  {name: '연애', value: 'B0101'},
-  {name: '병맛', value: 'B0102'},
-  {name: '음식', value: 'B0103'},
-  {name: '게임', value: 'B0104'},
-  {name: '운동', value: 'B0105'},
-  {name: '학교', value: 'B0106'},
-  {name: '직장', value: 'B0107'},
-  {name: '갈등', value: 'B0108'},
-  {name: '기타', value: 'B0199'},
+  {name: '최신순'},
+  {name: '인기순'},
 ];
 
-function LiveFilterButtonTabs({setFilterName}) {
-  const [activeButton, setActiveButton] = useState('전체'); // useState, 어떤게 active한지 알려주는 부분
-  const FilterButton = (
-    {filterbutton}, // 이제 버튼 하나씩 올거임
-  ) => (
+function RecentPopularTabs({setIsPopular}) {
+  const [activeButton, setActiveButton] = useState('최신순'); // useState, 어떤게 active한지 알려주는 부분
+  
+  const FilterButton = ({filterbutton}) => (    // 이제 버튼 하나씩 올거임
     <TouchableOpacity
       onPress={() => [
         setActiveButton(filterbutton.name),
-        setFilterName(filterbutton.name),
+        setIsPopular(filterbutton.name),
       ]}>
       <Text
         style={[
@@ -44,10 +34,8 @@ function LiveFilterButtonTabs({setFilterName}) {
 
   return (
     <View style={styles.wrapper}>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={{borderBottomWidth: 1, height: 40}}>
+      <View
+        style={{ height: 30,  flexDirection:'row', justifyContent:'flex-end'}}>
         {filterButtons.map((filterbutton, index) => (
           <View
             key={index}
@@ -57,10 +45,11 @@ function LiveFilterButtonTabs({setFilterName}) {
               filterbutton={filterbutton}></FilterButton>
           </View>
         ))}
-      </ScrollView>
+      </View>
     </View>
   );
 }
+export default RecentPopularTabs;
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -68,23 +57,18 @@ const styles = StyleSheet.create({
   },
 
   isActive: {
-    width: 50,
+    width: 60,
     height: 25,
-    backgroundColor: '#FF7171',
+    color: '#FF5F5F',
     fontSize: 15,
-    borderRadius: 20,
-    color: '#ffffff',
-    paddingHorizontal: 10,
+    paddingHorizontal:5,
   },
 
   notActive: {
-    width: 50,
+    width: 60,
     height: 25,
-    backgroundColor: '#D9D9D9',
+    color: '#D9D9D9',
     fontSize: 15,
-    borderRadius: 20,
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
   },
 });
-
-export default LiveFilterButtonTabs;
