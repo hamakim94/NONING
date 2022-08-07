@@ -63,6 +63,8 @@ export default function YourPageScreen({route, navigation}) {
   const id = route.params.id;
   const isFocused = useIsFocused();
   const {userData} = useContext(UserContext);
+  const [active, setActive] = useState(false);
+
   const [routes] = useState([
     {key: 0, title: '얘찜논'},
     {key: 1, title: '얘참논'},
@@ -217,20 +219,20 @@ export default function YourPageScreen({route, navigation}) {
         <View style={{flex: 2}}>
           <TouchableOpacity
             style={{
-              backgroundColor: 'pink',
-              marginHorizontal: '10%',
-              borderRadius: 10,
-              width: '70%',
-              height: '50%',
-              marginTop: '2.5%',
+               backgroundColor: 'pink',
+               marginHorizontal: '10%',
+               borderRadius: 10,
+               width: '70%',
+               height: '50%',
+               marginTop: '2.5%',
             }}
             onPress={() => {userData.userId in yourPageData.followingIdList 
-            ? unfollow()
-            : follow()}}>
-            {/* <Text
-              style={{color: 'white', alignSelf: 'center', paddingTop: '3%'}}>
-              팔로우
-            </Text> */}
+              ? unfollow() 
+              : follow()}}>
+            <Text
+                style={{color: 'white', alignSelf: 'center', paddingTop: '5%'}}>
+                 팔로우
+            </Text> 
           </TouchableOpacity>
         </View>
       </View>
@@ -285,4 +287,5 @@ const styles = StyleSheet.create({
     paddingRight: '1.5%',
     alignSelf: 'flex-end',
   },
+  
 });
