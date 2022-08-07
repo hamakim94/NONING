@@ -1,16 +1,25 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
 export default function LiveHeader({live, navigation}) {
-
   return (
     <View style={styles.liveContainer}>
-      <Text style={styles.liveButton(live.is_live)} >LIVE</ Text>
-      <TouchableOpacity style={{marginHorizontal:6}} disabled={live.user_vote === 0} onPress={() =>
-              navigation.navigate('HomeDetail', {screen: 'HomeDetail'})
-            }>
-        <AntDesign style={styles.detail(live.user_vote)} name="doubleright" size={20} />
+      <Text style={styles.liveButton(live.isLive)}>LIVE</Text>
+      <TouchableOpacity
+        style={{marginHorizontal: 6}}
+        disabled={live.user_vote === 0}
+        onPress={() =>
+          navigation.navigate('ChatNav', {
+            screen: 'ChatInfoScreen',
+            params: {id: live.boardId},
+          })
+        }>
+        <AntDesign
+          style={styles.detail(live.userVote)}
+          name="doubleright"
+          size={20}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -24,7 +33,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     margin: '1%',
   },
-  liveButton: (is_live) => ({
+  liveButton: is_live => ({
     width: 50,
     borderColor: is_live === 1 ? '#FF7171' : '#808080',
     borderRadius: 5,
@@ -36,11 +45,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: 'center',
   }),
-  detail: (user_vote) => ({
+  detail: user_vote => ({
     justifyContent: 'center',
     alignItems: 'center',
     margin: 1,
     marginHorizontal: 5,
-    color : user_vote > 0 ? '#000000' : '#ffffff',
+    color: user_vote > 0 ? '#000000' : '#ffffff',
   }),
 });

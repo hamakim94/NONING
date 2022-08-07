@@ -8,22 +8,23 @@ import {
 import React, {useState} from 'react';
 
 const filterButtons = [
-  {name: '전체'},
-  {name: '연애'},
-  {name: '음식'},
-  {name: '게임'},
-  {name: '고민'},
-  {name: '운동'},
-  {name: '직장'},
-  {name: '갈등'},
-  {name: '싸피'},
+  {name: '전체', value: 'B01'},
+  {name: '연애', value: 'B0101'},
+  {name: '병맛', value: 'B0102'},
+  {name: '음식', value: 'B0103'},
+  {name: '게임', value: 'B0104'},
+  {name: '운동', value: 'B0105'},
+  {name: '학교', value: 'B0106'},
+  {name: '직장', value: 'B0107'},
+  {name: '갈등', value: 'B0108'},
+  {name: '기타', value: 'B0199'},
 ];
 
 function LiveFilterButtonTabs({setFilterName}) {
-  // useState, 어떤게 active한지 알려주는 부분
-  const [activeButton, setActiveButton] = useState('전체');
-  // 이제 버튼 하나씩 올거임
-  const FilterButton = ({filterbutton}) => (
+  const [activeButton, setActiveButton] = useState('전체'); // useState, 어떤게 active한지 알려주는 부분
+  const FilterButton = (
+    {filterbutton}, // 이제 버튼 하나씩 올거임
+  ) => (
     <TouchableOpacity
       onPress={() => [
         setActiveButton(filterbutton.name),
@@ -60,35 +61,30 @@ function LiveFilterButtonTabs({setFilterName}) {
     </View>
   );
 }
-export default LiveFilterButtonTabs;
 
 const styles = StyleSheet.create({
   wrapper: {
     width: '100%',
   },
-  container: {
-    flexDirection: 'row',
-    height: 50,
-    paddingTop: 10,
-    alignItems: 'center',
-  },
 
   isActive: {
-    width: 45,
-    height: 20,
+    width: 50,
+    height: 25,
     backgroundColor: '#FF7171',
-    fontSize: 12,
+    fontSize: 15,
     borderRadius: 20,
     color: '#ffffff',
     paddingHorizontal: 10,
   },
 
   notActive: {
-    width: 45,
-    height: 20,
+    width: 50,
+    height: 25,
     backgroundColor: '#D9D9D9',
-    fontSize: 12,
+    fontSize: 15,
     borderRadius: 20,
     paddingHorizontal: 10,
   },
 });
+
+export default LiveFilterButtonTabs;
