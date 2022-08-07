@@ -35,8 +35,7 @@ export default function BoardFooter({board, setBoards, navigation}) {
     <View style={styles.footerContainer}>
       <View style={styles.writerContainer}>
         <Text>작성자 : </Text>
-        {/* <Image style={{ width:15 ,height:15, borderRadius:50 }} source={board.writerImg === "img" ?  require('../../assets/DefaultProfile.jpg') : require(`${board.writerImg}`)}></Image> */}
-        <Image style={{ width:15 ,height:15, borderRadius:50 }} source={require('../../assets/DefaultProfile.jpg')}></Image>
+        <Image style={{ width:15 ,height:15, borderRadius:50 }} source={{uri : board.writerImg ? board.writerImg : '../../assets/DefaultProfile.jpg'}}></Image>
         <Text style={{paddingLeft:5}}>{board.writerNickname} </Text>
       </View>
 
