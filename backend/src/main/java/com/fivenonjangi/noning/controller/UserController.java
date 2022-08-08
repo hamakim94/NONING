@@ -43,16 +43,17 @@ public class UserController {
     public ResponseEntity signupUser(@RequestPart(value = "signupRequestDTO") String signupRequestDTOString, @RequestPart(value = "image", required = false) MultipartFile image) {
         Gson gson = new Gson();
         SignupRequestDTO signupRequestDTO = gson.fromJson(signupRequestDTOString, SignupRequestDTO.class);
+        String img = "";
         if (image != null&&image.getContentType().startsWith("image")){
             try {
-                String img = awsS3Service.uploadFileV1("profileImg", image);
-                signupRequestDTO.setImg(img);
+                img = awsS3Service.uploadFileV1("profileImg", image);
             }
             catch (Exception e){
                 //이미지 업로드 오류
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
         }
+        signupRequestDTO.setImg(img);
         try {
             userService.signupUser(signupRequestDTO, passwordEncoder);
             return new ResponseEntity<>(HttpStatus.OK);
