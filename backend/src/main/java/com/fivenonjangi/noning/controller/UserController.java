@@ -44,7 +44,7 @@ public class UserController {
     private final AwsS3Service awsS3Service;
 
     @PostMapping("/signup")
-    public ResponseEntity signupUser(@RequestPart SignupRequestDTO signupRequestDTO, @RequestPart(value = "file") MultipartFile image) {
+    public ResponseEntity signupUser(@RequestPart SignupRequestDTO signupRequestDTO, @RequestPart(value = "file", required = false) MultipartFile image) {
         if (image != null&&image.getContentType().startsWith("image")){
             try {
                 String img = awsS3Service.uploadFileV1("profileImg", image);
@@ -110,7 +110,7 @@ public class UserController {
         }
     }
     @PutMapping("/profiles/edit")
-    public ResponseEntity modifyUser(@RequestPart UserDTO userDTO, @RequestPart(value = "file") MultipartFile image, HttpServletRequest request){
+    public ResponseEntity modifyUser(@RequestPart UserDTO userDTO, @RequestPart(value = "file", required = false) MultipartFile image, HttpServletRequest request){
         if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userDTO.getUserId()))) {
             try {
                 if (image != null&&image.getContentType().startsWith("image")){
