@@ -10,7 +10,6 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import {PROFILES} from '../../data/profile';
 import UseAxios from '../../util/UseAxios';
 
 const Tab = createMaterialTopTabNavigator();

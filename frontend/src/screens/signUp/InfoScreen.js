@@ -15,6 +15,7 @@ import styles from '../../components/signUp/InfoStyles';
 import ImagePicker from 'react-native-image-crop-picker';
 import UploadModeModal from '../../components/signUp/UploadModeModal';
 import UseAxios from '../../util/UseAxios';
+import mime from 'mime';
 
 const MbtiGroup = [
   'ENFJ',
@@ -47,7 +48,7 @@ const imagePickerOption = {
   hideBottomControls: true,
 };
 
-function InfoScreen() {
+function InfoScreen({navigation}) {
   const inputRef = useRef([]);
   const [emailStyle, setEmailStyle] = useState(styles.checkBlurInput);
   const [pwStyle, setPwStyle] = useState(styles.blurInput);
@@ -61,10 +62,7 @@ function InfoScreen() {
   const [nickNameCheck, setNickNameCheck] = useState(false);
   const [imgSource, setImageSource] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const filename = imgSource !== null ? imgSource.split('/').pop() : '';
-  const match = /\.(\w+)%/.exec(filename ?? '');
-  const type = match ? `image/${match[1]}` : `image`;
-  const formdata = new FormData();
+
   const {
     handleSubmit,
     control,
@@ -88,28 +86,42 @@ function InfoScreen() {
     },
     resolver: yupResolver(schema),
   });
+
   const onSubmit = data => {
-    formdata.append('image', {uri: imgSource, name: filename, type});
-    formdata.append('email', data.email);
-    formdata.append('password', data.password);
-    formdata.append('nickname', data.nickname);
-    formdata.append('name', data.name);
-    formdata.append('img', '이거때매오류나요');
-    formdata.append('genderCode', data.gender);
-    formdata.append('mbti1Code', data.mbti1Code);
-    formdata.append('mbti2Code', data.mbti2Code);
-    formdata.append('mbti3Code', data.mbti3Code);
-    formdata.append('mbti4Code', data.mbti4Code);
-    formdata.append('age', data.age);
+    const formdata = new FormData();
+    const filename = imgSource !== null ? imgSource.split('/').pop() : null;
+    const imgData = {
+      uri: imgSource,
+      type: mime.getType(imgSource),
+      name: filename,
+    };
+    imgSource !== null ? formdata.append('image', imgData) : null;
+    const newData = {
+      email: data.email,
+      password: data.password,
+      nickname: data.nickname,
+      name: data.name,
+      img: null,
+      genderCode: data.gender,
+      mbti1Code: data.mbti1Code,
+      mbti2Code: data.mbti2Code,
+      mbti3Code: data.mbti3Code,
+      mbti4Code: data.mbti4Code,
+      age: data.age,
+    };
+    formdata.append('signupRequestDTO', JSON.stringify(newData));
+
     UseAxios.post('/users/signup', formdata, {
-      headers: {'content-type': 'multipart/form-data'},
+      headers: {'Content-Type': `multipart/form-data`},
     })
       .then(res => {
-        console.log(res);
+        alert(
+          data.email +
+            ' 주소로 인증메일이 발송되었습니다. 인증을 완료해주세요.',
+        );
+        navigation.navigate('CompleteScreen');
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => {});
   };
 
   const onLaunchCamera = () => {
