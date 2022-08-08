@@ -72,10 +72,6 @@ const messageList = [
   {msgId: 7, msg: '적토마님이 입장하였습니다.', betray: false},
 ];
 
-// let socket = socketIO('http://127.0.0.1:3000', {
-//   transports: ["websocket"]
-// });
-
 export default function ChatScreen({route}) {
   const [userList, setUserList] = useState([]);
   const [boardData, setboardData] = useState(route.params.data);
@@ -94,10 +90,25 @@ export default function ChatScreen({route}) {
     console.log(err.message);
   });
 
+  socket.on("welcome", (nickname) => {
+    // "~~님이 입장하셨습니다."
+    // msgId = chatRef.current, msg, betray=false 
+    const msgData = {
+      msgId: chatRef.current,
+      msg: nickname+"님이 입장하셨습니다.",
+      betray: false,
+    };
+    setMessageData([...messageData, msgData])
+  });
+
   useEffect(() => {
     socket.on('connect', () => {
-      console.log('connected --------------- socket ---------------');
+      console.log(userData.nickname + ' connect');
+      // console.log(boardData);
+      socket.emit('enter', boardData.boardId, userData);
     });
+  }, []);
+  useEffect(() => {
     setUserList(user);
     setMessageData(messageList);
   }, []);
@@ -105,19 +116,6 @@ export default function ChatScreen({route}) {
     chatRef.current =
       messageData != null ? messageData[messageData.length - 1].msgId + 1 : '';
   }, [messageData]);
-  // useEffect(() => {
-
-  // }, []);
-  // useEffect(() => {
-  //   console.log("useEffect");
-  //   socketRef.current = socketIO('http://127.0.0.1:3000', {
-  //     transports: ["websocket"]
-  //   });
-
-  //   return () => {
-  //     socketRef.current.disconnect();
-  //   }
-  // });
 
   const userRender = ({item}) => <ChatHeaderUser user={item}></ChatHeaderUser>;
 
