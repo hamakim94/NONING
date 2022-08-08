@@ -18,7 +18,7 @@ export default function BoardHeader({board, navigation}) {
 
 const styles = StyleSheet.create({
   liveContainer: {
-    height: '10%',
+    height: '13%',
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',

@@ -31,11 +31,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    height: '7%',
+    height: '4%',
     marginBottom: 5,
   },
   logo: {
-    width: 100,
+    width: 50,
     height: 50,
     resizeMode: 'contain',
   },
