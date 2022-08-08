@@ -62,13 +62,11 @@ function CheckInput({
                           email: value,
                         },
                       })
-                        .then(res => {
-                          console.log(res);
+                        .then(() => {
                           alert('확인되었습니다.');
                           setCheck(true);
                         })
-                        .catch(err => {
-                          console.log(err);
+                        .catch(() => {
                           alert('사용 중인 이메일입니다.');
                           setCheck(false);
                         })
@@ -77,13 +75,11 @@ function CheckInput({
                           nickname: value,
                         },
                       })
-                        .then(res => {
-                          console.log(res.data);
+                        .then(() => {
                           alert('확인되었습니다.');
                           setCheck(true);
                         })
-                        .catch(err => {
-                          console.log(err);
+                        .catch(() => {
                           alert('사용 중인 별명입니다.');
                           setCheck(false);
                         })
