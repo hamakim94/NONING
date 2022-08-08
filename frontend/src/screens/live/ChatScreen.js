@@ -20,6 +20,8 @@ import ChatBar from '../../components/live/chat/ChatBar';
 import ChatHeader from '../../components/live/chat/ChatHeader';
 import ChatContent from '../../components/live/chat/ChatContent';
 import UserContext from '../../util/UserContext';
+// import socketIO from 'socket.io-client';
+
 
 const user = [
   {userId: 1, nickname: '김토마', userVote: 1},
@@ -69,8 +71,12 @@ const messageList = [
     reg: '오후 10:49',
   },
   {msgId: 7, msg: '적토마님이 입장하였습니다.', betray: false},
-];
+]; 
 
+// let socket = socketIO('http://127.0.0.1:3000', {
+//   transports: ["websocket"] 
+// }); 
+ 
 export default function ChatScreen({route}) {
   const [userList, setUserList] = useState([]);
   const [boardData, setboardData] = useState(route.params.data);
@@ -78,6 +84,8 @@ export default function ChatScreen({route}) {
   const [msg, setMsg] = useState();
   const {userData} = useContext(UserContext);
   const chatRef = useRef(null);
+  // const socketRef = useRef();
+
   useEffect(() => {
     setUserList(user);
     setMessageData(messageList);
@@ -86,6 +94,42 @@ export default function ChatScreen({route}) {
     chatRef.current =
       messageData != null ? messageData[messageData.length - 1].msgId + 1 : '';
   }, [messageData]);
+  useEffect(() => {
+    let ws = new WebSocket('ws://10.0.2.2:3000');
+    ws.onopen = () => {
+        // connection opened
+        console.log('connected')
+    };
+
+    ws.onmessage = (e) => {
+        // a message was received
+        console.log(e.data);
+    };
+
+    ws.onerror = (e) => {
+        // an error occurred
+        console.log(e.message);
+    };
+
+    ws.onclose = (e) => {
+        // connection closed
+        console.log(e.code, e.reason);
+    };
+
+    return () => {
+        ws.close();
+    };
+  }, []);
+  // useEffect(() => {
+  //   console.log("useEffect");
+  //   socketRef.current = socketIO('http://127.0.0.1:3000', {
+  //     transports: ["websocket"] 
+  //   });
+
+  //   return () => {
+  //     socketRef.current.disconnect();
+  //   } 
+  // });
 
   const userRender = ({item}) => <ChatHeaderUser user={item}></ChatHeaderUser>;
 
@@ -104,13 +148,18 @@ export default function ChatScreen({route}) {
   };
 
   const onSubmit = () => {
-    const data = {
-      msgId: chatRef.current,
-      msg: msg,
-      nickname: userData.nickname,
-      userVote: boardData.userVote,
-    };
-    setMessageData([...messageData, data]);
+    console.log("msg: " + msg);
+    // socket.emit("send", msg);
+    // socket.on("message", (message) => {
+    //   console.log("message: " + message);
+    // });
+    // const data = {
+    //   msgId: chatRef.current,
+    //   msg: msg,
+    //   nickname: userData.nickname,
+    //   userVote: boardData.userVote,
+    // };
+    // setMessageData([...messageData, data]);
     setMsg('');
     Keyboard.dismiss();
   };
