@@ -18,7 +18,7 @@ function CompleteScreen({navigation}) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.homeButton}
-            onPress={() => navigation.navigate('HomeScreen')}>
+            onPress={() => navigation.navigate('HomeStack')}>
             <Text style={styles.homeText}>홈으로</Text>
           </TouchableOpacity>
         </View>

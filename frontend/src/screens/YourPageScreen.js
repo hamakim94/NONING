@@ -12,8 +12,9 @@ import {USER} from '../data/user';
 import VoteLike from '../components/userpage/VoteLike';
 import VoteDo from '../components/userpage/VoteDo';
 import VoteWrite from '../components/userpage/VoteWrite';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useIsFocused} from '@react-navigation/native';
-import UserContext from '../util/UserContext'
+import UserContext from '../util/UserContext';
 
 const renderTabBar = props => (
   <TabBar
@@ -66,9 +67,9 @@ export default function YourPageScreen({route, navigation}) {
   const [active, setActive] = useState(false);
 
   const [routes] = useState([
-    {key: 0, title: '얘찜논'},
-    {key: 1, title: '얘참논'},
-    {key: 2, title: '얘만논'},
+    {key: 0, title: userData.userId === id ? '내찜논' : '얘찜논'},
+    {key: 1, title: userData.userId === id ? '내참논' : '얘참논'},
+    {key: 2, title: userData.userId === id ? '내만논' : '얘만논'},
   ]);
 
   const renderScene = ({route}) => {
@@ -93,42 +94,68 @@ export default function YourPageScreen({route, navigation}) {
   useEffect(() => {
     UseAxios.get(`/users/${id}/page`).then(res => {
       setYourPageData(res.data);
-      console.log(res.data);
-      
+      console.log('데이터 ---------------------------------------- : \n' + res.data);
     });
   }, [isFocused]);
 
   const follow = () => {
-    console.log("팔")
+    console.log('팔');
     UseAxios.post(`/follows/add`, {
       userId: userData.userId,
-      targetUserId: id
-  })
-    .then(res => {console.log(res)})
-    .catch(err => {console.log(err)});
+      targetUserId: id,
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const unfollow = () => {
-    console.log("언팔")
+    console.log('언팔');
     UseAxios.post(`/follows/delete`, {
       userId: userData.userId,
-      targetUserId: id
+      targetUserId: id,
     })
-      .then(res => {console.log(res)})
-      .catch(err => {console.log(err)});
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
-  const fakeFollow = (myId) => {
-    setYourPageData( {...yourPageData, followerIdList : [...yourPageData.followerIdList, myId]})
-  }
-  const fakeUnFollow = (myId) => {
-    setYourPageData( {...yourPageData, followerIdList : yourPageData.followerIdList.filter(e => e !== myId)})
-  }
-  console.log(yourPageData.followerIdList)
-  console.log(userData.userId)
+  const fakeFollow = myId => {
+    setYourPageData({
+      ...yourPageData,
+      followerIdList: [...yourPageData.followerIdList, myId],
+    });
+  };
+  const fakeUnFollow = myId => {
+    setYourPageData({
+      ...yourPageData,
+      followerIdList: yourPageData.followerIdList.filter(e => e !== myId),
+    });
+  };
+  console.log(yourPageData.followerIdList);
+  console.log(userData.userId);
   return (
     <View style={styles.container}>
-      <View style={{flex: 0.1}}></View>
+      {id === userData.userId ? (
+        <View style={{flex: 0.1, alignSelf: 'flex-end'}}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() =>
+              navigation.push('SettingNav', {screen: 'SettingNav'})
+            }>
+            <AntDesign name={'setting'} size={28} color={'gray'} />
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={{flex: 0.1, alignSelf: 'flex-end'}} />
+      )}
+
       <View style={{flex: 0.23}}>
         {/* 프로필 이미지, 팔로우/팔로워*/}
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -136,7 +163,13 @@ export default function YourPageScreen({route, navigation}) {
           <View style={styles.profileImageBox}>
             <View>
               <Image
-                source={ {uri: yourPageData.user ? yourPageData.user.img ?  yourPageData.user.img : USER.user.img : ''} }
+                source={{
+                  uri: yourPageData.user
+                    ? yourPageData.user.img
+                      ? yourPageData.user.img
+                      : USER.user.img
+                    : '../assets/DefaultProfile.jpg',
+                }}
                 style={styles.profileImage}
               />
             </View>
@@ -227,26 +260,33 @@ export default function YourPageScreen({route, navigation}) {
           </View>
         </View>
         <View style={{flex: 2}}>
-          <TouchableOpacity
-            style={{
-               backgroundColor: 'pink',
-               marginHorizontal: '10%',
-               borderRadius: 10,
-               width: '70%',
-               height: '50%',
-               marginTop: '2.5%',
-            }}
-            
-            onPress={() => {yourPageData.followerIdList.indexOf(userData.userId) > 0 
-              ? [unfollow(), fakeUnFollow(userData.userId) ]
-              : [follow(), fakeFollow(userData.userId)]}}
-              >
-            <Text
+          {userData.userId === id ? (
+            <></>
+          ) : (
+            <TouchableOpacity
+              style={{
+                backgroundColor: 'pink',
+                marginHorizontal: '10%',
+                borderRadius: 10,
+                width: '70%',
+                height: '50%',
+                marginTop: '2.5%',
+              }}
+              onPress={() => {
+                yourPageData.followerIdList.indexOf(userData.userId) > 0
+                  ? [unfollow(), fakeUnFollow(userData.userId)]
+                  : [follow(), fakeFollow(userData.userId)];
+              }}>
+              <Text
                 style={{color: 'white', alignSelf: 'center', paddingTop: '5%'}}>
-                  {yourPageData.followerIdList
-                     ?  yourPageData.followerIdList.indexOf(userData.userId) > 0 ? '언팔로우' : '팔로우'  :  ''}
-            </Text> 
-          </TouchableOpacity>
+                {yourPageData.followerIdList
+                  ? yourPageData.followerIdList.indexOf(userData.userId) > 0
+                    ? '언팔로우'
+                    : '팔로우'
+                  : ''}
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
 
@@ -272,8 +312,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   button: {
-    alignItems: 'flex-end',
-    flex: 0.08,
+    // alignItems: 'flex-end',
+    // flex: 0.08,
     marginVertical: '1.5%',
   },
   profileImageBox: {
@@ -300,5 +340,4 @@ const styles = StyleSheet.create({
     paddingRight: '1.5%',
     alignSelf: 'flex-end',
   },
-  
 });

@@ -1,7 +1,7 @@
 import {Text, View, TextInput, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Controller} from 'react-hook-form';
-import axios from 'axios';
+import UseAxios from '../../util/UseAxios';
 
 function CheckInput({
   control,
@@ -16,7 +16,6 @@ function CheckInput({
   index,
 }) {
   const blank = /\s/g;
-
   return (
     <>
       <Controller
@@ -37,7 +36,10 @@ function CheckInput({
               ref={el => (inputRef.current[index] = el)}
               onFocus={() => setStyle(styles.checkFocusInput)}
               onBlur={() => setStyle(styles.checkBlurInput)}
-              onChangeText={value => onChange(value.replace(blank, ''))}
+              onChangeText={value => [
+                onChange(value.replace(blank, '')),
+                setCheck(false),
+              ]}
               value={value}
               returnKeyType="next"
               onSubmitEditing={() =>
@@ -53,38 +55,35 @@ function CheckInput({
                 Check ? styles.confirmTrueButton : styles.confirmFalseButton
               }
               onPress={() => {
-                property == 'email';
-                setCheck(true);
-                // ? axios({
-                //     url: `http://10.0.2.2:9999/api/signin`,
-                //     method: 'GET',
-                //     params: {email: value},
-                //   })
-                //     .then(res => {
-                //       console.log(res);
-                //       alert('확인되었습니다.');
-                //       setCheck(true);
-                //     })
-                //     .catch(err => {
-                //       console.log(err);
-                //       alert('사용 중인 이메일입니다.');
-                //       setCheck(false);
-                //     })
-                // : axios({
-                //     url: `http://10.0.2.2:9999/api/signin`,
-                //     method: 'GET',
-                //     params: {nickname: value},
-                //   })
-                //     .then(res => {
-                //       console.log(res.data);
-                //       alert('확인되었습니다.');
-                //       setCheck(true);
-                //     })
-                //     .catch(err => {
-                //       console.log(err);
-                //       alert('사용 중인 별명입니다.');
-                //       setCheck(false);
-                //     });
+                errorMessage === '' && value !== ''
+                  ? property == 'email'
+                    ? UseAxios.post('/users/duplications/check', null, {
+                        params: {
+                          email: value,
+                        },
+                      })
+                        .then(() => {
+                          alert('확인되었습니다.');
+                          setCheck(true);
+                        })
+                        .catch(() => {
+                          alert('사용 중인 이메일입니다.');
+                          setCheck(false);
+                        })
+                    : UseAxios.post('/users/duplications/check', null, {
+                        params: {
+                          nickname: value,
+                        },
+                      })
+                        .then(() => {
+                          alert('확인되었습니다.');
+                          setCheck(true);
+                        })
+                        .catch(() => {
+                          alert('사용 중인 별명입니다.');
+                          setCheck(false);
+                        })
+                  : alert('올바르지 않은 형식입니다.');
               }}>
               <Text style={styles.confirmText}>중복확인</Text>
             </TouchableOpacity>

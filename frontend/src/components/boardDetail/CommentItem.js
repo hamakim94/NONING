@@ -113,48 +113,24 @@ function CommentItem({
     }
   };
   return (
-    <View style={{flexDirection: 'row'}}>
-      {isReply ? (
-        <View
-          style={{flex: 0.8, justifyContent: 'center', alignItems: 'center'}}
-        />
-      ) : (
-        ''
-      )}
-      <View
-        style={{
-          flex: isReply ? 0.9 : 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+    <View style={styles.container}>
+      {isReply ? <View style={styles.blankContainer} /> : ''}
+      <View style={commentStyles(isReply).firstContainer}>
         <TouchableOpacity>
           <Avatar
             size={40}
             rounded
-            containerStyle={[
-              {
-                backgroundColor: 'white',
-                borderWidth: 3,
-              },
-              {
-                borderColor:
-                  commentData.writerVote == 1 ? '#FF5F5F' : '#49D3CA',
-              },
-            ]}
+            containerStyle={avaStyles(commentData.writerVote).avartarContainer}
             source={require('../../assets/ProfileImage.jpg')}
           />
         </TouchableOpacity>
       </View>
-      <View style={{flex: isReply ? 3.8 : 4.5, flexDirection: 'column'}}>
+      <View style={commentStyles(isReply).secondContainer}>
         <View>
-          <Text style={{fontSize: 13, color: 'black'}}>
-            {commentData.nickname}
-          </Text>
+          <Text style={styles.nickNameText}>{commentData.nickname}</Text>
         </View>
         <View>
-          <Text style={{fontSize: 13, fontWeight: 'bold', color: 'black'}}>
-            {commentData.content}
-          </Text>
+          <Text style={styles.contentText}>{commentData.content}</Text>
         </View>
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity
@@ -202,6 +178,46 @@ function CommentItem({
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+  },
+  blankContainer: {
+    flex: 0.8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  nickNameText: {
+    fontSize: 13,
+    color: 'black',
+  },
+  contentText: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+});
+
+const commentStyles = isReply =>
+  StyleSheet.create({
+    firstContainer: {
+      flex: isReply ? 0.9 : 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    secondContainer: {
+      flex: isReply ? 3.8 : 4.5,
+      flexDirection: 'column',
+    },
+  });
+
+const avaStyles = writerVote =>
+  StyleSheet.create({
+    avartarContainer: {
+      backgroundColor: 'white',
+      borderWidth: 3,
+      borderColor: writerVote == 1 ? '#FF5F5F' : '#49D3CA',
+    },
+  });
 
 export default React.memo(CommentItem);

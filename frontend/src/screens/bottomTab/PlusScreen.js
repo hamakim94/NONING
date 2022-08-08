@@ -17,6 +17,7 @@ import schema from '../../components/board/BoardValidation';
 import SelectDropdown from 'react-native-select-dropdown';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import UseAxios from '../../util/UseAxios';
+import NoCheckInputText from '../../components/board/NoCheckInputText';
 
 export default function PlusScreen({navigation}) {
   const inputRef = useRef([]);
@@ -43,7 +44,7 @@ export default function PlusScreen({navigation}) {
 
   const onSubmit = data => {
     data.categoryCode = nameToCode[data.categoryCode]
-    console.log(data);
+     // console.log(data);
     UseAxios.post(`/boards/write`,  
       data
     
@@ -94,7 +95,7 @@ export default function PlusScreen({navigation}) {
         {/* 논쟁, 1/2안 입력 */}
         <View style={{marginTop: '5%'}}>
           <InputLabel name="논쟁" star="*" />
-          <NoCheckInput
+          <NoCheckInputText
             // placeholder='논쟁을 입력해주세요'
             control={control}
             style={titleStyle}
@@ -103,9 +104,9 @@ export default function PlusScreen({navigation}) {
             errorMessage={errors.title ? errors.title.message : ''}
             styles={styles}
             inputRef={inputRef}
-            index={0}></NoCheckInput>
+            index={0}></NoCheckInputText>
           <InputLabel name="1안" star="*" />
-          <NoCheckInput
+          <NoCheckInputText
             control={control}
             style={argu1Style}
             setStyle={setArgu1Style}
@@ -113,9 +114,9 @@ export default function PlusScreen({navigation}) {
             errorMessage={errors.opt1 ? errors.opt1.message : ''}
             styles={styles}
             inputRef={inputRef}
-            index={1}></NoCheckInput>
+            index={1}></NoCheckInputText>
           <InputLabel name="2안" star="*" />
-          <NoCheckInput
+          <NoCheckInputText
             control={control}
             style={argu2Style}
             setStyle={setArgu2Style}
@@ -123,7 +124,7 @@ export default function PlusScreen({navigation}) {
             errorMessage={errors.opt2 ? errors.opt2.message : ''}
             styles={styles}
             inputRef={inputRef}
-            index={2}></NoCheckInput>
+            index={2}></NoCheckInputText>
           {/* 카테고리 */}
           <View>
           <InputLabel name="카테고리" star="*"></InputLabel>
@@ -133,7 +134,7 @@ export default function PlusScreen({navigation}) {
                 <View style={{flexDirection: 'row'}}>
                   <SelectDropdown
                     data={categoryList}
-                    defaultButtonText="SELECT"
+                    defaultButtonText="선택"
                     renderDropdownIcon={isOpened => {
                       return (
                         <FontAwesome
@@ -196,7 +197,7 @@ export default function PlusScreen({navigation}) {
                   borderBottomLeftRadius: 5,
                   borderWidth: 1,
                   width: '55%',
-                  backgroundColor: 'rgba(255,90,110,0.3)',
+                  backgroundColor: 'rgba(255,90,110,0.2)',
                   justifyContent: 'center',
                 }}>
                 <Text
@@ -214,7 +215,7 @@ export default function PlusScreen({navigation}) {
                   borderBottomRightRadius: 5,
                   borderWidth: 1,
                   width: '55%',
-                  backgroundColor: 'rgba(131,227,209,0.3)',
+                  backgroundColor: 'rgba(73,211,202,0.2)',
                   justifyContent: 'center',
                 }}>
                 <Text
