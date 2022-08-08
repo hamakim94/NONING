@@ -45,7 +45,7 @@ public class JwtTokenProvider {
         return this.createToken(userId.toString(), accessTokenValidMilisecond);
     }
 
-    // Jwt acess토큰 생성
+    // Jwt refresh토큰 생성
     public String createRefreshToken(Long userId) {
         String refreshToken = createToken(userId.toString(), refreshTokenValidMilisecond);
         redisService.setValues(userId.toString(), refreshToken, Duration.ofMillis(refreshTokenValidMilisecond));
