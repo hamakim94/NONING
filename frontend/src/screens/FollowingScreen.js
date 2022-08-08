@@ -18,6 +18,7 @@ function FollowingScreen({route, navigation}) {
   const {userData} = useContext(UserContext);
   const [myData, setMyData] = useState([]);
   const isFocused = useIsFocused();
+  const [fake, setFake] = useState(false);
   const id = route.params.id;
 
   useEffect(() => {
@@ -28,19 +29,20 @@ function FollowingScreen({route, navigation}) {
     }).then(
       console.log(followData)
     );
-  }, [isFocused]);
+  }, [isFocused, fake]);
 
   useEffect(() => {
     UseAxios.get(`/users/${userData.userId}/page`).then(res => {
       setMyData(res.data);
+      console.log(myData)
     });
   }, [isFocused]);
 
-  const follow = () => {
+  const follow = (item) => {
     console.log('팔');
     UseAxios.post(`/follows/add`, {
       userId: userData.userId,
-      targetUserId: item.userId,
+      targetUserId: item.userId
     })
       .then(res => {
         console.log(res);
@@ -50,11 +52,11 @@ function FollowingScreen({route, navigation}) {
       });
   };
 
-  const unfollow = () => {
+  const unfollow = (item) => {
     console.log('언팔');
     UseAxios.post(`/follows/delete`, {
       userId: userData.userId,
-      targetUserId: item.userId,
+      targetUserId: item.userId
     })
       .then(res => {
         console.log(res);
@@ -64,16 +66,16 @@ function FollowingScreen({route, navigation}) {
       });
   };
 
-  const fakeFollow = userId => {
-    setYourPageData({
+  const fakeFollow = yourId => {
+    setMyData({
       ...myData,
-      followingIdList: [...myData.followerIdList, myId],
+      followingIdList: [...myData.followingIdList, yourId],
     });
   };
-  const fakeUnFollow = userId => {
-    setYourPageData({
+  const fakeUnFollow = yourId => {
+    setMyData({
       ...myData,
-      followingIdList: myData.followerIdList.filter(e => e !== myId),
+      followingIdList: myData.followingIdList.filter(e => e !== yourId),
     });
   };
 
@@ -145,18 +147,17 @@ function FollowingScreen({route, navigation}) {
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={{flex: 0.5, justifyContent: 'center'}}
-        //   onPress={() => {
-        //     userData.userId === id
-        //       ? [remove(item.userId)]
-        //       : [];
-        //   }}
-          >
-             <Text style={{textAlign: 'center', height: '30%', width: '80%', textAlignVertical: 'center', borderRadius: 10, backgroundColor: 'rgba(255,95,95,1)', color: 'white'}}>
-                {myData.followingIdList
-                    ?myData.followingIdList.indexOf(item.userId) > 0
-                        ? '언팔로우'
+              onPress={() => {
+                myData.followingIdList.indexOf(item.userId) >= 0
+                  ? [unfollow(item), fakeUnFollow(item.userId)]
+                  : [follow(item), fakeFollow(item.userId)];
+              }}>
+              <Text style={{textAlign: 'center', height: '30%', width: '80%', textAlignVertical: 'center', borderRadius: 10, backgroundColor: 'rgba(255,95,95,1)', color: 'white'}}>
+                  {myData.followingIdList
+                    ? myData.followingIdList.indexOf(item.userId) >= 0
+                        ? '팔로잉'
                         : '팔로우'
-                    : '아닌디'}
+                    : ''}
               </Text>
           </TouchableOpacity>
       </View>

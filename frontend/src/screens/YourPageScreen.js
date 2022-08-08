@@ -194,7 +194,7 @@ export default function YourPageScreen({route, navigation}) {
                 }>
                 <Text> following</Text>
                 <Text style={{alignSelf: 'center'}}>
-                  {yourPageData.followerIdList
+                  {yourPageData.followingIdList
                     ? yourPageData['followingIdList'].length
                     : ''}
                 </Text>
@@ -273,14 +273,14 @@ export default function YourPageScreen({route, navigation}) {
                 marginTop: '2.5%',
               }}
               onPress={() => {
-                yourPageData.followerIdList.indexOf(userData.userId) > 0
+                yourPageData.followerIdList.indexOf(userData.userId) >= 0
                   ? [unfollow(), fakeUnFollow(userData.userId)]
                   : [follow(), fakeFollow(userData.userId)];
               }}>
               <Text
                 style={{color: 'white', alignSelf: 'center', paddingTop: '5%'}}>
                 {yourPageData.followerIdList
-                  ? yourPageData.followerIdList.indexOf(userData.userId) > 0
+                  ? yourPageData.followerIdList.indexOf(userData.userId) >= 0
                     ? '언팔로우'
                     : '팔로우'
                   : ''}
@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     borderWidth: 3,
-    borderColor: 'red',
+    borderColor: 'rgba(255,95,95,1)',
   },
   followsBox: {
     flex: 3,
