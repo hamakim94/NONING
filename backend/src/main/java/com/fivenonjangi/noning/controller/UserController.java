@@ -203,4 +203,16 @@ public class UserController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+    @PostMapping("/upload")
+    public ResponseEntity uploadFile (@RequestPart("image") MultipartFile image){
+        try {
+            if (image != null&&image.getContentType().startsWith("image")){
+                awsS3Service.uploadFileV1("profileImg", image);
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
