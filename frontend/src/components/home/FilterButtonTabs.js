@@ -52,7 +52,7 @@ function FilterButtonTabs({setFilterName}) {
           borderTopWidth:0.5,
           borderBottomWidth: 0.5,
           borderBottomColor: '#A6A6A6',
-          height: 40,
+          height: 30,
         }}>
         {filterButtons.map((filterbutton, index) => (
           <View
@@ -75,20 +75,20 @@ const styles = StyleSheet.create({
   },
 
   isActive: {
-    width: 50,
-    height: 25,
+    width: 45,
+    height: 20,
     backgroundColor: '#FF5F5F',
     color: 'white',
-    fontSize: 15,
+    fontSize: 12,
     borderRadius: 20,
     paddingHorizontal: 10,
   },
 
   notActive: {
-    width: 50,
-    height: 25,
+    width: 45,
+    height: 20,
     backgroundColor: '#D9D9D9',
-    fontSize: 15,
+    fontSize: 12,
     borderRadius: 20,
     paddingHorizontal: 10,
   },

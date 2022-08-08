@@ -31,12 +31,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    height: '7%',
+    height: '4%',
     marginBottom: 5,
   },
   logo: {
-    width: 100,
-    height: 50,
+    width: 70,
+    height: 30,
     resizeMode: 'contain',
   },
   iconsContainer: {
