@@ -15,6 +15,13 @@ import styles from '../../components/signUp/InfoStyles';
 import ImagePicker from 'react-native-image-crop-picker';
 import UploadModeModal from '../../components/signUp/UploadModeModal';
 import UseAxios from '../../util/UseAxios';
+import mime from "mime";
+
+class RNBlob extends Blob {
+  get [Symbol.toStringTag]() {
+    return 'Blob';
+  }
+}
 
 const MbtiGroup = [
   'ENFJ',
@@ -61,10 +68,8 @@ function InfoScreen() {
   const [nickNameCheck, setNickNameCheck] = useState(false);
   const [imgSource, setImageSource] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const filename = imgSource !== null ? imgSource.split('/').pop() : '';
-  const match = /\.(\w+)%/.exec(filename ?? '');
-  const type = match ? `image/${match[1]}` : `image`;
-  const formdata = new FormData();
+  // const newImageUri = imgSource !== null ? "file:///" + imgSource.split("file:/").join(""):'';
+  const filename = imgSource !== null ? imgSource.split('/').pop() : null;
   const {
     handleSubmit,
     control,
@@ -88,22 +93,62 @@ function InfoScreen() {
     },
     resolver: yupResolver(schema),
   });
+  const normalizeHeaders = (headers, normalizedName) => {
+    for (const [k, v] of Object.entries(headers)) {
+      if (k !== normalizedName && k.toUpperCase() === normalizedName.toUpperCase()) {
+        headers[normalizedName] = v;
+        delete headers[k];
+      }
+    }
+  }
   const onSubmit = data => {
-    formdata.append('image', {uri: imgSource, name: filename, type});
-    formdata.append('email', data.email);
-    formdata.append('password', data.password);
-    formdata.append('nickname', data.nickname);
-    formdata.append('name', data.name);
-    formdata.append('img', '이거때매오류나요');
-    formdata.append('genderCode', data.gender);
-    formdata.append('mbti1Code', data.mbti1Code);
-    formdata.append('mbti2Code', data.mbti2Code);
-    formdata.append('mbti3Code', data.mbti3Code);
-    formdata.append('mbti4Code', data.mbti4Code);
-    formdata.append('age', data.age);
+    const formdata = new FormData();
+    const imgData =  {uri: imgSource, type: mime.getType(imgSource), name: filename}
+    imgSource !== null ? formdata.append('file', imgData) : null
+    // formdata.append('email', "qwer@naver.com");
+    // formdata.append('password', data.password);
+    // formdata.append('nickname', data.nickname);
+    // formdata.append('name', data.name);
+    // formdata.append('genderCode', data.gender);
+    // formdata.append('mbti1Code', data.mbti1Code);
+    // formdata.append('mbti2Code', data.mbti2Code);
+    // formdata.append('mbti3Code', data.mbti3Code);
+    // formdata.append('mbti4Code', data.mbti4Code);
+    // formdata.append('age', data.age);
+    // const newData = {
+    // email : data.email,
+    // password: data.password,
+    // nickname: data.nickname,
+    // name: data.name,
+    // img: "img",
+    // genderCode : data.gender,
+    // mbti1Code : data.mbti1Code,
+    // mbti2Code : data.mbti2Code,
+    // mbti3Code : data.mbti3Code,
+    // mbti4Code : data.mbti4Code,
+    // age : data.age}
+     const newData = {
+    "email" : "1",
+    "password": '2',
+    "nickname": "3",
+    "name": "4",
+    "img" : "img",
+    "genderCode" : "5",
+    "mbti1Code" : "6",
+    "mbti2Code" : "7",
+    "mbti3Code" : "8",
+    "mbti4Code" : "9",
+    "age" : 10}
+    const parseData = new Blob([JSON.stringify(newData)], {type : "application/json"})
+    // formdata.append("signupRequestDTO", parseData)
+    formdata.append('signupRequestDTO', JSON.stringify(newData));
+
     UseAxios.post('/users/signup', formdata, {
-      headers: {'content-type': 'multipart/form-data'},
-    })
+      headers:{"Content-Type": `multipart/form-data`},
+      transformRequest: (data, headers) => {
+        return data;
+      },
+      })
       .then(res => {
         console.log(res);
       })
