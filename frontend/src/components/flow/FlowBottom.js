@@ -52,8 +52,7 @@ export default function FlowBottom({setBoards, board, navigation}) {
             <TouchableOpacity 
             style={{flexDirection: 'row',}} 
             onPress={() => navigation.push('YourPageScreen', {id: board.writerId})}>
-            <Text>작성자 이미지 클릭시 유어페이지 이동</Text>
-            {/* <Image style={styles.clickWriter} source={{uri : board.writer.img}}></Image> */}
+            <Image style={styles.clickWriter} source={{uri : board.writerImg}}></Image> 
         </TouchableOpacity>
         </View>
     </View>
@@ -72,10 +71,12 @@ const styles = StyleSheet.create({
       color: userLike ? '#FF7171' : '#606060',
     }),
     clickWriter: {
-        width:30 ,
-        height:30, 
+        width: 35 ,
+        height: 35, 
         borderRadius:50, 
-        marginRight: '3%',
-        marginTop: '3.5%' 
+        marginRight: '2.3%',
+        marginTop: '3%',
+        borderWidth: 3,
+        borderColor: 'rgba(131,227,209,1)'
     }
   });

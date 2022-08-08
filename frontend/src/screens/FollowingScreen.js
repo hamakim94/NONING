@@ -8,15 +8,15 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
-  Alert
 } from 'react-native';
 import UseAxios from '../util/UseAxios'
 import UserContext from '../util/UserContext';
 import {useIsFocused} from '@react-navigation/native';
 
-function FollowerScreen({route, navigation}) {
+function FollowingScreen({route, navigation}) {
   const [followData, setFollowData] = useState([]);
   const {userData} = useContext(UserContext);
+  const [myData, setMyData] = useState([]);
   const isFocused = useIsFocused();
   const [fake, setFake] = useState(false);
   const id = route.params.id;
@@ -31,48 +31,53 @@ function FollowerScreen({route, navigation}) {
     );
   }, [isFocused, fake]);
 
-  const followDelete = (userId) => {
-    console.log('팔취');
-    UseAxios.post(`/follows/followers/delete`, {
+  useEffect(() => {
+    UseAxios.get(`/users/${userData.userId}/page`).then(res => {
+      setMyData(res.data);
+      console.log(myData)
+    });
+  }, [isFocused]);
+
+  const follow = (item) => {
+    console.log('팔');
+    UseAxios.post(`/follows/add`, {
       userId: userData.userId,
-      targetUserId: userId
+      targetUserId: item.userId
     })
       .then(res => {
-        console.log(res.headers)
-        console.log(followData.followers);
-        console.log(userId);
+        console.log(res);
       })
       .catch(err => {
         console.log(err);
       });
-      [isFocused] };
-  
-  const remove = (userId) => {
-    Alert.alert(
-      '팔로우 취소',
-      '정말로 삭제하시겠어요?',
-      [ 
-        {
-        text: '삭제',
-        onPress: () => {
-          [fakeFollowDelete(userId), followDelete(userId), setFake(!fake)];
-        },
-        },
-        {text: '취소', onPress: () => {}},
-      ],
-      {
-        cancelable: true,
-        onDismiss: () => {},
-      },
-    );
   };
 
-  const fakeFollowDelete = userId => {
-    setFollowData({
-      ...followData,
-      followers: followData.followers.filter(e => e !== userId),
+  const unfollow = (item) => {
+    console.log('언팔');
+    UseAxios.post(`/follows/delete`, {
+      userId: userData.userId,
+      targetUserId: item.userId
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const fakeFollow = yourId => {
+    setMyData({
+      ...myData,
+      followingIdList: [...myData.followingIdList, yourId],
     });
-    };
+  };
+  const fakeUnFollow = yourId => {
+    setMyData({
+      ...myData,
+      followingIdList: myData.followingIdList.filter(e => e !== yourId),
+    });
+  };
 
   const ItemView = ({item}) => {
     return (
@@ -142,16 +147,18 @@ function FollowerScreen({route, navigation}) {
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={{flex: 0.5, justifyContent: 'center'}}
-          onPress={() => {
-            userData.userId === id
-              ? [remove(item.userId)]
-              : [];
-          }}>
-            { userData.userId === id
-            ? <Text style={{textAlign: 'center', height: '30%', width: '80%', textAlignVertical: 'center', borderRadius: 10, backgroundColor: 'rgba(255,95,95,1)', color: 'white'}}>
-                  {userData.userId === id ? '삭제' : ''}
+              onPress={() => {
+                myData.followingIdList.indexOf(item.userId) >= 0
+                  ? [unfollow(item), fakeUnFollow(item.userId)]
+                  : [follow(item), fakeFollow(item.userId)];
+              }}>
+              <Text style={{textAlign: 'center', height: '30%', width: '80%', textAlignVertical: 'center', borderRadius: 10, backgroundColor: 'rgba(255,95,95,1)', color: 'white'}}>
+                  {myData.followingIdList
+                    ? myData.followingIdList.indexOf(item.userId) >= 0
+                        ? '팔로잉'
+                        : '팔로우'
+                    : ''}
               </Text>
-            : ''}  
           </TouchableOpacity>
       </View>
     );
@@ -170,7 +177,7 @@ function FollowerScreen({route, navigation}) {
         <FlatList
           style={{}}
           navigation={navigation}
-          data={followData.followers}
+          data={followData.followings}
           keyExtractor={(item, index) => index.toString()}
           ItemSeparatorComponent={ItemSeparatorView}
           renderItem={ItemView}></FlatList>
@@ -198,4 +205,4 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 });
-export default FollowerScreen;
+export default FollowingScreen;

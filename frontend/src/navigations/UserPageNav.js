@@ -5,6 +5,7 @@ import UserPageScreen from '../screens/bottomTab/UserPageScreen';
 import DetailScreen from '../screens/board/DetailScreen';
 import SettingNav from './SettingNav';
 import FollowerScreen from '../screens/FollowerScreen';
+import FollowingScreen from '../screens/FollowingScreen'
 import YourPageScreen from '../screens/YourPageScreen'
 import LoginNav from './LoginNav';
 import UserContext from '../util/UserContext';
@@ -34,12 +35,14 @@ function UserPageNav() {
             headerShown: false,
           }}
         />
-        <Stack.Screen name="FollowerScreen" component={FollowerScreen}/>
+        
         <Stack.Screen name="DetailScreen" component={DetailScreen}/>
         <Stack.Screen name="YourPageScreen" component={YourPageScreen}
         options={{
           headerShown: false,
         }}/>
+        <Stack.Screen name="FollowerScreen" component={FollowerScreen}/>
+        <Stack.Screen name="FollowingScreen" component={FollowingScreen}/>
     </Stack.Navigator>
   );
 }
