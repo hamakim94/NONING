@@ -50,7 +50,6 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     // const i = userList.indexOf(socket.name);
     // userList.splice(i, 1);
-    console.log(socket.name);
     socket.broadcast.emit("left", socket.name);
     // socket.broadcast.emit("updateUser", userList);
   });
