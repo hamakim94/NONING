@@ -1,34 +1,56 @@
-import http from "http"; 
-import WebSocket from "ws";
-// import SocketIO from "socket.io";
-import express from "express";
-
+const express = require("express");
 const app = express();
- 
-app.get("/", (_, res) => { 
-    console.log("app.get"); 
-    // res.send({response: "Please"}).status(200);
+const http = require("http").createServer(app);
+const io = require("socket.io")(http);
+
+// app.use("/css", express.static("./css"));
+// app.use("/js", express.static("./js"));
+
+// app.get("/", (req, res) => {
+//   res.sendFile(__dirname + "/index.html");
+// });
+
+http.listen(3000, () => { 
+  console.log("server listening on port : 3000");
 });
 
-const handleListen = () => console.log(`Listening on http://localhost:3000`);
+let userList = [];
 
-const server = http.createServer(app);
-const wss = new WebSocket.Server({server});
-// const io = SocketIO(server);
+io.on("connection", (socket) => {
+  console.log("연결됐어요");
 
-const sockets = [];  
+  socket.on("enter", (boardId, userData) => {
+    socket.join(boardId); // 방 들어감 
+    userList.push(userData); // back에서 가지고 있을 userList (나중에 새로 들어온 사용자한테 보여줘야함)
+    socket.to(boardId).emit("welcome", userData.nickname);
+    // io.emit("welcome", userData.nickname); 
+  });
 
-wss.on("connection", (socket) => {
-    console.log("Connected to Browser");
+  // // 유저 입장
+  // socket.on("join", (data) => {
+  //   userList.push(data);
+  //   console.log("join" + data);
+  //   socket.name = data;
+  //   // 유저 정보 갱신
+  //   io.emit("updateUser", userList);
+  //   // 유저 입장 알리기(입장은 발신자 제외)
+  //   socket.broadcast.emit("joinUser", data);
+  // });
+
+  // // 메시지 보내기
+  // socket.on("msg", (data) => {
+  //   console.log("message: " + data);
+  //   io.emit("sm", {
+  //     name: socket.name,
+  //     msg: data,
+  //   }); // 발신자를 포함해서 모두 보내는것
+  //   // socket.broadcast.emit("sm", data); //발신자 제외
+  // });
+
+  // socket.on("disconnect", () => {
+  //   const i = userList.indexOf(socket.name);
+  //   userList.splice(i, 1);
+  //   socket.broadcast.emit("left", socket.name);
+  //   socket.broadcast.emit("updateUser", userList);
+  // });
 });
-// io.on("connection", (socket, userData) => {
-//     console.log("server connection");
-//     console.log(userData);
-
-//     socket.on("send", (msg) => {
-//         console.log("send msg: " + msg);
-//         io.emit("message", msg);
-//     })
-// }); 
-
-app.listen(3000, handleListen);
