@@ -6,6 +6,7 @@ import DetailScreen from '../screens/board/DetailScreen';
 import UserPageScreen from '../screens/bottomTab/UserPageScreen';
 import YourPageScreen from '../screens/YourPageScreen';
 import FollowerScreen from '../screens/FollowerScreen';
+import FollowingScreen from '../screens/FollowingScreen'
 import LoginNav from './LoginNav';
 
 const Stack = createNativeStackNavigator();
@@ -32,6 +33,10 @@ export default function FlowNav() {
       <Stack.Screen
         name="FollowerScreen"
         component={FollowerScreen}
+        options={{headerBackVisible: true, headerBackTitleVisible: false,}} />
+      <Stack.Screen
+        name="FollowingScreen"
+        component={FollowingScreen}
         options={{headerBackVisible: true, headerBackTitleVisible: false,}} />
     </Stack.Navigator>
   );
