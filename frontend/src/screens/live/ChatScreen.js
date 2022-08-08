@@ -22,7 +22,6 @@ import ChatContent from '../../components/live/chat/ChatContent';
 import UserContext from '../../util/UserContext';
 // import socketIO from 'socket.io-client';
 
-
 const user = [
   {userId: 1, nickname: '김토마', userVote: 1},
   {userId: 2, nickname: '토마토', userVote: 2},
@@ -71,12 +70,12 @@ const messageList = [
     reg: '오후 10:49',
   },
   {msgId: 7, msg: '적토마님이 입장하였습니다.', betray: false},
-]; 
+];
 
 // let socket = socketIO('http://127.0.0.1:3000', {
-//   transports: ["websocket"] 
-// }); 
- 
+//   transports: ["websocket"]
+// });
+
 export default function ChatScreen({route}) {
   const [userList, setUserList] = useState([]);
   const [boardData, setboardData] = useState(route.params.data);
@@ -85,8 +84,20 @@ export default function ChatScreen({route}) {
   const {userData} = useContext(UserContext);
   const chatRef = useRef(null);
   // const socketRef = useRef();
+  const io = require('socket.io/client-dist/socket.io');
+
+  const socket = io(`http://10.0.2.2:3000`, {
+    transports: ['websocket'], // you need to explicitly tell it to use websockets
+  });
+
+  socket.on('connect_error', err => {
+    console.log(err.message);
+  });
 
   useEffect(() => {
+    socket.on('connect', () => {
+      console.log('connected --------------- socket ---------------');
+    });
     setUserList(user);
     setMessageData(messageList);
   }, []);
@@ -94,41 +105,18 @@ export default function ChatScreen({route}) {
     chatRef.current =
       messageData != null ? messageData[messageData.length - 1].msgId + 1 : '';
   }, [messageData]);
-  useEffect(() => {
-    let ws = new WebSocket('ws://10.0.2.2:3000');
-    ws.onopen = () => {
-        // connection opened
-        console.log('connected')
-    };
+  // useEffect(() => {
 
-    ws.onmessage = (e) => {
-        // a message was received
-        console.log(e.data);
-    };
-
-    ws.onerror = (e) => {
-        // an error occurred
-        console.log(e.message);
-    };
-
-    ws.onclose = (e) => {
-        // connection closed
-        console.log(e.code, e.reason);
-    };
-
-    return () => {
-        ws.close();
-    };
-  }, []);
+  // }, []);
   // useEffect(() => {
   //   console.log("useEffect");
   //   socketRef.current = socketIO('http://127.0.0.1:3000', {
-  //     transports: ["websocket"] 
+  //     transports: ["websocket"]
   //   });
 
   //   return () => {
   //     socketRef.current.disconnect();
-  //   } 
+  //   }
   // });
 
   const userRender = ({item}) => <ChatHeaderUser user={item}></ChatHeaderUser>;
@@ -148,7 +136,7 @@ export default function ChatScreen({route}) {
   };
 
   const onSubmit = () => {
-    console.log("msg: " + msg);
+    console.log('msg: ' + msg);
     // socket.emit("send", msg);
     // socket.on("message", (message) => {
     //   console.log("message: " + message);
