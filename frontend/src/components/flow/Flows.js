@@ -30,7 +30,7 @@ function Flows({board, navigation}) {
 const styles = StyleSheet.create({
   mainContainer: {
     height: windowHeight,
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
   },
   container: {
     alignSelf: 'center',
@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
   },
   titleText: {
     width: '80%',
-    fontSize: 20,
+    fontSize: 25,
+    color: '#000000',
     fontWeight: 'bold',
     textAlign: 'center',
     justifyContent: 'center',

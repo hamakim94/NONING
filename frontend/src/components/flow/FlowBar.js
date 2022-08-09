@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   barContainer: {
     height: 100,
     alignSelf: 'center',
-    width: '80%',
+    width: '90%',
     padding: '5%',
     flexDirection: 'row',
   },
@@ -88,14 +88,14 @@ const styles = StyleSheet.create({
       userVote === 2 ? 'rgba(131,227,209,1)' : 'rgba(131,227,209,0.3)',
   }),
   leftInnerText: userVote => ({
-    color: 'white',
+    color:  userVote === 1 ? '#FFFFFF' : '#808080',
     fontWeight: userVote === 0 ? '' : userVote === 1 ? 'bold' : '',
     textAlign: 'center',
     textAlignVertical: 'center',
     fontSize: 17,
   }),
   rightInnerText: userVote => ({
-    color: 'white',
+    color:  userVote === 2 ? '#FFFFFF' : '#808080',
     fontWeight: userVote === 0 ? '' : userVote === 2 ? 'bold' : '',
     textAlign: 'center',
     textAlignVertical: 'center',

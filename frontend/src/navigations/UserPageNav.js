@@ -41,8 +41,8 @@ function UserPageNav() {
         options={{
           headerShown: false,
         }}/>
-        <Stack.Screen name="FollowerScreen" component={FollowerScreen}/>
-        <Stack.Screen name="FollowingScreen" component={FollowingScreen}/>
+        <Stack.Screen name="FollowerScreen" component={FollowerScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="FollowingScreen" component={FollowingScreen} options={{headerShown: false}}/>
     </Stack.Navigator>
   );
 }

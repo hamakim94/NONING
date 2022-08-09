@@ -127,8 +127,13 @@ function CommentItem({
               <Icon name="like2" color="#808080" size={11} />
             )}
           </TouchableOpacity>
+<<<<<<< HEAD
           <Text style={{fontSize: 12, color: 'black'}}>
             {commentData.likes}
+=======
+          <Text style={{fontSize: 12, color: '#000000'}}>
+            {commentData.userLike}
+>>>>>>> cc2ba906816afbea50949102ae1f2c6d50885b5d
           </Text>
           <TouchableOpacity
             style={{paddingTop: '1.5%', marginRight: '1%', marginLeft: '3%'}}
@@ -139,8 +144,13 @@ function CommentItem({
               <Icon name="dislike2" color="#808080" size={11} />
             )}
           </TouchableOpacity>
+<<<<<<< HEAD
           <Text style={{fontSize: 12, color: 'black'}}>
             {commentData.dislikes}
+=======
+          <Text style={{fontSize: 12, color: '#000000'}}>
+            {commentData.userDislike}
+>>>>>>> cc2ba906816afbea50949102ae1f2c6d50885b5d
           </Text>
           {isReply ? (
             ''
@@ -176,12 +186,12 @@ const styles = StyleSheet.create({
   },
   nickNameText: {
     fontSize: 13,
-    color: 'black',
+    color: '#000000',
   },
   contentText: {
     fontSize: 13,
     fontWeight: 'bold',
-    color: 'black',
+    color: '#000000',
   },
 });
 
@@ -201,7 +211,7 @@ const commentStyles = isReply =>
 const avaStyles = writerVote =>
   StyleSheet.create({
     avartarContainer: {
-      backgroundColor: 'white',
+      backgroundColor: '#FFFFFF',
       borderWidth: 3,
       borderColor: writerVote == 1 ? '#FF5F5F' : '#49D3CA',
     },

@@ -31,7 +31,7 @@ function CommentScreen() {
 const styles = StyleSheet.create({
   scene: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     marginTop: '2%',
   },
 });
