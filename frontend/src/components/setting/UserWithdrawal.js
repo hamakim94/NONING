@@ -58,7 +58,7 @@ const UserWithdrawal = () => {
                 value={values.password}
               />
             </View>
-            <Text style={{color: '#FF5F5F', fontSize: 10}}>
+            <Text style={{color: '#FF5A6E', fontSize: 10}}>
               {1 > values.password.length || values.password.length >= 6
                 ? ''
                 : '6자 이상 적어주세요'}
@@ -68,7 +68,6 @@ const UserWithdrawal = () => {
               ※탈퇴 및 가입을 반복할 경우, 서비스 악용 방지를 위해 재가입이
               제한됩니다.{'\n'}
               ※자세한 내용은 개인정보처리방침을 확인해주세요.{'\n'}
-              (보통 더 있는데 기능 관련이라 더 생각해봐야할듯여)
             </Text>
 
             <View style={styles.buttonContainer}>
@@ -106,7 +105,7 @@ const styles = StyleSheet.create({
     minHeight: 40,
   },
   button: isValid => ({
-    backgroundColor: isValid ? '#FF5F5F' : 'rgba(255,95,95,0.25)',
+    backgroundColor: isValid ? 'rgba(255,95,95,1)' : 'rgba(255,95,95,0.25)',
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: 42,
