@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 5,
     justifyContent: 'center',
     backgroundColor:
-      userVote === 1 ? 'rgba(255,90,110,1)' : 'rgba(255,90,110,0.3)',
+      userVote === 1 ? 'rgba(255,95,95,1)' : 'rgba(255,95,95,0.3)',
   }),
   rightBar: (userVote, rightSize) => ({
     width: userVote === 0 ? '50%' : rightSize,
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 5,
     justifyContent: 'center',
     backgroundColor:
-      userVote === 2 ? 'rgba(131,227,209,1)' : 'rgba(131,227,209,0.3)',
+      userVote === 2 ? 'rgba(73, 211, 202,1))' : 'rgba(73,211,202,0.3)',
   }),
   leftInnerText: userVote => ({
     color:  userVote === 1 ? '#FFFFFF' : '#808080',

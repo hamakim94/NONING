@@ -5,7 +5,7 @@ import React from 'react';
 export default function PrivacyScreen() {
   return (
     <View style={styles.container}>
-      <Text style={{fontSize:30, marginBottom:20}}>개인정보 처리방침</Text>
+      <Text style={{fontSize:30, marginBottom:20 ,color:'#000000'}}>개인정보 처리방침</Text>
       <ScrollView style={ styles.textContainer}>
         <PrivacyText />
       </ScrollView>
@@ -15,7 +15,8 @@ export default function PrivacyScreen() {
 
 const styles = StyleSheet.create({
   container : {
-    marginTop:30,
+    backgroundColor:'#FFFFFF',
+    paddingTop:30,
     flex:1,
     alignItems:'center',
   },

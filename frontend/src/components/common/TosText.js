@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function TosText() {
   return (
-    <Text style={{margin: '5%'}}>
+    <Text style={{margin: '5%', color: '#000000'}}>
       
       {`제1장 총칙
 

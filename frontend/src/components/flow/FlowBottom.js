@@ -34,6 +34,7 @@ export default function FlowBottom({setBoards, board, navigation}) {
     setBoards({...board, userLike: !board.userLike});
   };
   
+  const uriImg = board.writerImg ? {uri:board.writerImg} : require('../../assets/DefaultProfile.jpg')
 
   return (
     <View style={{flex: 0.25}}>
@@ -52,7 +53,7 @@ export default function FlowBottom({setBoards, board, navigation}) {
             <TouchableOpacity 
             style={{flexDirection: 'row',}} 
             onPress={() => navigation.push('YourPageScreen', {id: board.writerId})}>
-            <Image style={styles.clickWriter} source={{uri : board.writerImg}}></Image> 
+            <Image style={styles.clickWriter} source={uriImg}></Image> 
         </TouchableOpacity>
         </View>
     </View>

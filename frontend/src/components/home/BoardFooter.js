@@ -30,13 +30,14 @@ export default function BoardFooter({board, setBoards, navigation}) {
   const toggleLike = () => {
     setBoards({...board, userLike: !board.userLike});
   };
+  // const uriImg = board.writerImg ? {uri:board.writerImg} : require('../../assets/DefaultProfile.jpg')
 
   return (
     <View style={styles.footerContainer}>
       <View style={styles.writerContainer}>
         <Text style={{color: '#000000'}}>작성자 : </Text>
         <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => navigation.push('YourPageScreen', {id: board.writerId})}>
-            <Image style={{ width:15 ,height:15, borderRadius:50}} source={{uri : board.writerImg ? board.writerImg : '../../assets/DefaultProfile.jpg'}}></Image>
+            <Image style={{ width:15 ,height:15, borderRadius:50}}   source={board.writerImg ? {uri:board.writerImg} : require('../../assets/DefaultProfile.jpg')    }></Image>
             <Text style={{paddingLeft:5, color: '#000000'}}>{board.writerNickname} </Text>
         </TouchableOpacity>
       </View>
