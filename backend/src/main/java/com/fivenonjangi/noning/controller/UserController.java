@@ -110,7 +110,7 @@ public class UserController {
         try {
         String DTO = new String(userDTOString.getBytes("8859_1"), StandardCharsets.UTF_8);
         Gson gson = new Gson();
-        UserDTO userDTO = gson.fromJson(userDTOString, UserDTO.class);
+        UserDTO userDTO = gson.fromJson(DTO, UserDTO.class);
         if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userDTO.getUserId()))) {
             try {
                 if (image != null&&image.getContentType().startsWith("image")){
