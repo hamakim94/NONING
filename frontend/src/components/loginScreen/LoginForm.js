@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     width: '90%',
     color: '#FFFFFF',
     height: '40%',
-    backgroundColor: '#FF7171',
+    backgroundColor: '#FF5F5F',
     borderRadius: 6,
     justifyContent: 'center',
   },
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   errorText: {
-    color: '#FF7171',
+    color: '#FF5F5F',
     fontSize: 10,
     fontWeight: 'bold',
     marginLeft: '1%',

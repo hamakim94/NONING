@@ -58,7 +58,7 @@ const UserWithdrawal = () => {
                 value={values.password}
               />
             </View>
-            <Text style={{color: '#FF5F5F', fontSize: 10}}>
+            <Text style={{color: '#FF5A6E', fontSize: 10}}>
               {1 > values.password.length || values.password.length >= 6
                 ? ''
                 : '6자 이상 적어주세요'}
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     minHeight: 40,
   },
   button: isValid => ({
-    backgroundColor: isValid ? '#FF5F5F' : 'rgba(255,95,95,0.25)',
+    backgroundColor: isValid ? 'rgba(255,95,95,1)' : 'rgba(255,95,95,0.25)',
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: 42,
