@@ -142,7 +142,7 @@ function CommentItem({
               <Icon name="like2" color="#808080" size={11} />
             )}
           </TouchableOpacity>
-          <Text style={{fontSize: 12, color: 'black'}}>
+          <Text style={{fontSize: 12, color: '#000000'}}>
             {commentData.userLike}
           </Text>
           <TouchableOpacity
@@ -154,7 +154,7 @@ function CommentItem({
               <Icon name="dislike2" color="#808080" size={11} />
             )}
           </TouchableOpacity>
-          <Text style={{fontSize: 12, color: 'black'}}>
+          <Text style={{fontSize: 12, color: '#000000'}}>
             {commentData.userDislike}
           </Text>
           {isReply ? (
@@ -189,12 +189,12 @@ const styles = StyleSheet.create({
   },
   nickNameText: {
     fontSize: 13,
-    color: 'black',
+    color: '#000000',
   },
   contentText: {
     fontSize: 13,
     fontWeight: 'bold',
-    color: 'black',
+    color: '#000000',
   },
 });
 
@@ -214,7 +214,7 @@ const commentStyles = isReply =>
 const avaStyles = writerVote =>
   StyleSheet.create({
     avartarContainer: {
-      backgroundColor: 'white',
+      backgroundColor: '#FFFFFF',
       borderWidth: 3,
       borderColor: writerVote == 1 ? '#FF5F5F' : '#49D3CA',
     },

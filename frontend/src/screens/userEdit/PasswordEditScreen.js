@@ -152,7 +152,7 @@ function PasswordEditScreen() {
 
 const styles = StyleSheet.create({
   label: {
-    color: 'black',
+    color: '#000000',
     textAlignVertical: 'bottom',
     marginLeft: '1%',
     fontWeight: 'bold',
@@ -172,12 +172,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: '1%',
     paddingHorizontal: '5%',
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
   },
   focusInput: {
     width: '100%',
-    backgroundColor: 'white',
-    borderColor: 'black',
+    backgroundColor: '#FFFFFF',
+    borderColor: '#000000',
     paddingVertical: 0,
     paddingHorizontal: '2%',
     height: '100%',
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   },
   blurInput: {
     width: '100%',
-    borderColor: '#808080',
+    borderColor: '##FFFFFF',
     paddingVertical: 0,
     paddingHorizontal: '2%',
     height: '100%',

@@ -11,7 +11,7 @@ export default function ChatHeaderUser({user}) {
           rounded
           containerStyle={[
             {
-              backgroundColor: 'white',
+              backgroundColor: '#FFFFFF',
               borderWidth: 3,
               marginHorizontal: 5,
               marginTop: 6,

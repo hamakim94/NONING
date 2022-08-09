@@ -118,12 +118,12 @@ function UserSearchScreen({navigation}) {
   const ItemSeparatorView = () => {
     return (
       <View
-        style={{height: 0.5, width: '100%', backgroundColor: 'white'}}></View>
+        style={{height: 0.5, width: '100%', backgroundColor: '#FFFFFF'}}></View>
     );
   };
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
       <View style={styles.container}>
         <TextInput
           style={styles.textInputStyle}
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     marginHorizontal: 5,
     marginBottom: 10,
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     borderRadius: 10,
   },
 });

@@ -40,7 +40,7 @@ const LoginScreen = ({navigation}) => (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: 0,
   },
   logoContainer: {

@@ -146,7 +146,7 @@ export default function PlusScreen({navigation}) {
                       );
                     }}
                     rowStyle={{
-                      backgroundColor: 'white',
+                      backgroundColor: '#FFFFFF',
                     }}
                     dropdownStyle={styles.dropDownOpen}
                     buttonStyle={styles.dropDownButton}
@@ -188,7 +188,7 @@ export default function PlusScreen({navigation}) {
                   fontWeight: 'bold',
                   marginBottom: '5%',
                   fontSize: 20,
-                  color: 'black'
+                  color: '#000000'
                 }}>
                 {getValues('title')}
               </Text>
@@ -253,14 +253,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: '1%',
     paddingHorizontal: '5%',
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     height: '100%',
   },
   registArgu: {
     fontWeight: 'bold',
     marginBottom: '3%',
     fontSize: 18,
-    color: 'black'
+    color: '#000000'
   },
   warning: {
     color: '#FF5F5F',
@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
   preview: {
     textAlign: 'center',
     marginVertical: '5%',
-    color: 'black'
+    color: '#000000'
   },
   card: {
     backgroundColor: '#fff',
@@ -279,8 +279,8 @@ const styles = StyleSheet.create({
   },
   focusInput: {
     width: '100%',
-    backgroundColor: 'white',
-    borderColor: 'black',
+    backgroundColor: '#FFFFFF',
+    borderColor: '#000000',
     paddingVertical: 0,
     paddingHorizontal: '2%',
     height: '100%',
@@ -298,8 +298,8 @@ const styles = StyleSheet.create({
   },
   focusHalfInput: {
     width: '100%',
-    backgroundColor: 'white',
-    borderColor: 'black',
+    backgroundColor: '#FFFFFF',
+    borderColor: '#000000',
     paddingVertical: 0,
     paddingHorizontal: '4%',
     height: '100%',
@@ -325,14 +325,14 @@ const styles = StyleSheet.create({
   checkButton: {
     marginBottom: '5%',
     width: '23%',
-    color: 'white',
+    color: '#FFFFFF',
     backgroundColor: '#FF7171',
     borderRadius: 6,
     justifyContent: 'center',
     padding: '2.5%',
   },
   buttonText: {
-    color: 'white',
+    color: '#FFFFFF',
     fontFamily: 'Bold',
     textAlign: 'center',
     fontSize: 15,

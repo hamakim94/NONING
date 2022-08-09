@@ -30,8 +30,8 @@ const renderTabBar = props => (
     }}
     pressColor={'transparent'}
     style={{
-      backgroundColor: 'white',
-      shadowColor: 'white',
+      backgroundColor: '#FFFFFF',
+      shadowColor: '#FFFFFF',
       borderBottomWidth: 0.3,
       borderBottomColor: '#808080',
       borderTopColor: '#808080',
@@ -48,7 +48,7 @@ const renderTabBar = props => (
                 fontWeight: 'bold',
                 fontSize: 15,
               }
-            : {margin: 0, padding: 0, color: 'black', fontSize: 15}
+            : {margin: 0, padding: 0, color: '#000000', fontSize: 15}
         }>
         {route.title}
       </Text>
@@ -181,8 +181,8 @@ export default function YourPageScreen({route, navigation}) {
                 onPress={() =>
                   navigation.navigate('FollowerScreen', {id: yourPageData.user.userId})
                 }>
-                <Text style={{color: 'black', fontWeight: '500'}}> follower</Text>
-                <Text style={{alignSelf: 'center', color: 'black', fontWeight: '500'}}>
+                <Text style={{color: '#000000', fontWeight: '500'}}> follower</Text>
+                <Text style={{alignSelf: 'center', color: '#000000', fontWeight: '500'}}>
                   {yourPageData.followerIdList
                     ? yourPageData['followerIdList'].length
                     : ''}
@@ -192,8 +192,8 @@ export default function YourPageScreen({route, navigation}) {
                 onPress={() =>
                   navigation.navigate('FollowingScreen', {id: yourPageData.user.userId})
                 }>
-                <Text style={{color: 'black', fontWeight: '500' }}> following</Text>
-                <Text style={{alignSelf: 'center', color: 'black', fontWeight: '500' }}>
+                <Text style={{color: '#000000', fontWeight: '500' }}> following</Text>
+                <Text style={{alignSelf: 'center', color: '#000000', fontWeight: '500' }}>
                   {yourPageData.followingIdList
                     ? yourPageData['followingIdList'].length
                     : ''}
@@ -208,11 +208,11 @@ export default function YourPageScreen({route, navigation}) {
         {/* 닉네임, 특징 */}
         <View style={{marginStart: '5%', flex: 2}}>
           <View>
-            <Text style={{paddingBottom: '1.5%', fontWeight: 'bold', color: 'black'}}>
+            <Text style={{paddingBottom: '1.5%', fontWeight: 'bold', color:'#000000' }}>
               {yourPageData.user ? yourPageData.user.nickname : ''}
             </Text>
             {yourPageData.user ? (
-              <Text style={{color: 'black', fontWeight: '500'}}>
+              <Text style={{color: '#000000', fontWeight: '500'}}>
                 {(() => {
                   if (yourPageData.user.genderCode === 'G0101')
                     return <Text>남성</Text>;
@@ -236,8 +236,8 @@ export default function YourPageScreen({route, navigation}) {
                 })()}
                 {(() => {
                   if (yourPageData.user.mbti4Code === 'M0401')
-                    return <Text>P</Text>;
-                  else return <Text>J</Text>;
+                    return <Text>J</Text>;
+                  else return <Text>P</Text>;
                 })()}{' '}
                 /
                 {(() => {
@@ -279,7 +279,7 @@ export default function YourPageScreen({route, navigation}) {
                   : [follow(), fakeFollow(userData.userId)];
               }}>
               <Text
-                style={{color: 'white', alignSelf: 'center', paddingVertical: '3.5%', fontWeight: 'bold'}}>
+                style={{color: '#FFFFFF', alignSelf: 'center', paddingVertical: '3.5%', fontWeight: 'bold'}}>
                 {yourPageData.followerIdList
                   ? yourPageData.followerIdList.indexOf(userData.userId) >= 0
                     ? '팔로잉'
@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 16,
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
   },
   profileImageBox: {
     flex: 2,

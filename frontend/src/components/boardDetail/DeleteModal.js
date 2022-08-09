@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   deleteContainer: {
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     borderRadius: 7,
     padding: '5%',
   },
