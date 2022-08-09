@@ -79,34 +79,41 @@ export default function ChatScreen({route}) {
   const [msg, setMsg] = useState();
   const {userData} = useContext(UserContext);
   const chatRef = useRef(null);
-  // const socketRef = useRef();
-  const io = require('socket.io/client-dist/socket.io');
-
-  const socket = io(`http://10.0.2.2:3000`, {
-    transports: ['websocket'], // you need to explicitly tell it to use websockets
-  });
-
-  socket.on('connect_error', err => {
-    console.log(err.message);
-  });
-
-  socket.on("welcome", (nickname) => {
-    // "~~님이 입장하셨습니다."
-    // msgId = chatRef.current, msg, betray=false 
-    const msgData = {
-      msgId: chatRef.current,
-      msg: nickname+"님이 입장하셨습니다.",
-      betray: false,
-    };
-    setMessageData([...messageData, msgData])
-  });
 
   useEffect(() => {
-    socket.on('connect', () => {
+    const io = require('socket.io/client-dist/socket.io');
+    const socket = io(`http://i7a202.p.ssafy.io:3000`, {
+      transports: ['websocket'], // you need to explicitly tell it to use websockets
+    });
+
+    const connect_error = socket.on('connect_error', err => {
+      console.log(err.message);
+    });
+    const left = socket.on('left', name => {
+      console.log(name);
+    });
+    const welcome = socket.on('welcome', nickname => {
+      // "~~님이 입장하셨습니다."
+      // msgId = chatRef.current, msg, betray=false
+      console.log(1);
+      const msgData = {
+        msgId: chatRef.current,
+        msg: nickname + '님이 입장하셨습니다.',
+        betray: false,
+      };
+      console.log('welcome');
+      // setMessageData([...messageData, msgData]);
+    });
+
+    const connect = socket.on('connect', () => {
       console.log(userData.nickname + ' connect');
-      // console.log(boardData);
       socket.emit('enter', boardData.boardId, userData);
     });
+
+    return () => {
+      console.log('end');
+      socket.disconnect();
+    };
   }, []);
   useEffect(() => {
     setUserList(user);
