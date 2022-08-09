@@ -12,7 +12,7 @@ export default function InputLabel({name, star}) {
 
 const styles = StyleSheet.create({
   label: {
-    color: 'black',
+    color: '#000000',
     textAlignVertical: 'bottom',
     fontWeight: 'bold',
   },

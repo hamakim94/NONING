@@ -24,7 +24,8 @@ public class SecurityConfig{
     private final JwtTokenProvider jwtTokenProvider;
 
     private static final String[] PUBLIC_API_URI = {
-            "/api/users/signup", "/api/users/login", "/api/boards/list/**", "/api/users/logout", "/api/users/verify", "/api/users/passwords/find", "/api/users/reissue"
+            "/api/users/signup", "/api/users/login", "/api/boards/list/**", "/api/users/logout", "/api/users/verify", "/api/users/passwords/find", "/api/users/reissue", "/api/users/duplications/check"
+            ,"/api/users/upload"
     };
     private static final String[] PUBLIC_WEB_URI = {
            "/swagger-ui/**", "/swagger-resources/**",

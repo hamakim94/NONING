@@ -8,7 +8,7 @@ const Tab = createMaterialTopTabNavigator();
 function SearchNav() {
   return (
     <Tab.Navigator
-      style={{backgroundColor: 'white'}}
+      style={{backgroundColor: '#FFFFFF'}}
       initialRouteName="BoardSearchScreen"
       screenOptions={{
         tabBarActiveTintColor: '#FF7171',
@@ -17,11 +17,11 @@ function SearchNav() {
         tabBarIndicatorStyle: {backgroundColor: '#FF7171', width: '25%', marginHorizontal: '7%'},
         tabBarLabelStyle: {fontSize: 15},
         tabBarStyle: {
-          backgroundColor: 'white',
+          backgroundColor: '#FFFFFF',
           marginHorizontal: 20,
           marginTop: 5,
           marginBottom: 10,
-          shadowColor: 'white',
+          shadowColor: '#FFFFFF',
           borderBottomColor: '#808080',
           borderBottomWidth: 0.3,
         },

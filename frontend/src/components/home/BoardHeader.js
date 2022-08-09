@@ -1,5 +1,5 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import Feather from 'react-native-vector-icons/Feather';
 import React from 'react';
 
 export default function BoardHeader({board, navigation}) {
@@ -10,7 +10,7 @@ export default function BoardHeader({board, navigation}) {
       <TouchableOpacity style={{marginHorizontal:6}} onPress={() =>
               navigation.navigate('HomeDetail', {boardId : board.boardId})
             }>
-        <AntDesign style={styles.detail(1)} name="doubleright" size={20} />
+        <Feather style={styles.detail(1)} name="chevrons-right" size={25} />
       </TouchableOpacity>
     </View>
   );
@@ -18,7 +18,7 @@ export default function BoardHeader({board, navigation}) {
 
 const styles = StyleSheet.create({
   liveContainer: {
-    height: '10%',
+    height: '13%',
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -41,6 +41,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 1,
     marginHorizontal: 5,
-    color : user_vote > 0 ? '#000000' : '#ffffff',
+    color : user_vote > 0 ? '#808080' : '#ffffff',
   }),
 });

@@ -18,8 +18,8 @@ const renderTabBar = props => (
     }}
     pressColor={'transparent'}
     style={{
-      backgroundColor: 'white',
-      shadowColor: 'white',
+      backgroundColor: '#FFFFFF',
+      shadowColor: '#FFFFFF',
       borderBottomWidth: 0.3,
       borderBottomColor: '#808080',
       borderTopWidth: 0.3,
@@ -36,6 +36,7 @@ const renderTabBar = props => (
                 padding: 0,
                 fontWeight: 'bold',
                 fontSize: 15,
+                width: '110%',
               }
             : {margin: 0, padding: 0, color: '#808080', fontSize: 15}
         }>
@@ -86,6 +87,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: '1%',
     paddingHorizontal: '7%',
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
   },
 });

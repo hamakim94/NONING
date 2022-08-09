@@ -9,24 +9,24 @@ const Tab = createMaterialTopTabNavigator();
 function SignUpNav() {
   return (
     <Tab.Navigator
-      style={{backgroundColor: 'white'}}
+      style={{backgroundColor: '#FFFFFF'}}
       initialRouteName="ApproveScreen"
       screenOptions={{
         tabBarActiveTintColor: '#FF7171',
         tabBarInactiveTintColor: '#808080',
-        tabBarPressColor: '#C9C9C9',
+        tabBarPressColor: '#FFFFFF',
         tabBarIndicatorStyle: {backgroundColor: '#FF7171'},
         tabBarLabelStyle: {fontSize: 15},
         tabBarStyle: {
-          backgroundColor: 'white',
+          backgroundColor: '#FFFFFF',
           marginHorizontal: 20,
           marginTop: 5,
           marginBottom: 10,
-          shadowColor: 'white',
+          shadowColor: '#FFFFFF',
           borderBottomColor: '#808080',
           borderBottomWidth: 0.3,
         },
-        swipeEnabled: true,
+        swipeEnabled: false,
       }}>
       <Tab.Screen
         name="ApproveScreen"
@@ -34,16 +34,31 @@ function SignUpNav() {
         options={{
           tabBarLabel: '약관동의',
         }}
+        listeners={{
+          tabPress: e => {
+            e.preventDefault();
+          },
+        }}
       />
       <Tab.Screen
         name="InfoScreen"
         component={InfoScreen}
         options={{tabBarLabel: '회원정보'}}
+        listeners={{
+          tabPress: e => {
+            e.preventDefault();
+          },
+        }}
       />
       <Tab.Screen
         name="CompleteScreen"
         component={CompleteScreen}
         options={{tabBarLabel: '가입완료'}}
+        listeners={{
+          tabPress: e => {
+            e.preventDefault();
+          },
+        }}
       />
     </Tab.Navigator>
   );

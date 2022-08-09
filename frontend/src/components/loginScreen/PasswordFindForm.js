@@ -6,26 +6,17 @@ import * as yup from 'yup';
 import InputLabel from '../../components/signUp/InputLabel';
 import NoCheckInput from '../signUp/NoCheckInput';
 import UseAxios from '../../util/UseAxios';
-import UserContext from '../../util/UserContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function LoginForm({navigation}) {
+export default function PasswordFindForm({navigation}) {
   const inputRef = useRef([]);
   const [emailStyle, setEmailStyle] = useState(styles.blurInput);
-  const [pwStyle, setPwStyle] = useState(styles.blurInput);
-  const {userData, setUserData} = useContext(UserContext);
+  const [nameStyle, setNameStyle] = useState(styles.blurInput);
   const schema = yup.object({
     email: yup
       .string()
       .email('이메일 형식을 사용하세요.')
       .required('필수 항목입니다.'),
-    password: yup
-      .string()
-      .matches(
-        /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/,
-        '8~16자 영문, 숫자, 특수문자를 사용하세요.',
-      )
-      .required('필수 항목입니다.'),
+    name: yup.string().required('필수 항목입니다.'),
   });
   const {
     handleSubmit,
@@ -35,38 +26,34 @@ export default function LoginForm({navigation}) {
     mode: 'onChange',
     defaultValues: {
       email: '',
-      password: '',
+      name: '',
     },
     resolver: yupResolver(schema),
   });
   const onSubmit = data => {
-    UseAxios.post('/users/login', data)
-      .then(res => {
-        AsyncStorage.setItem('accesstoken', res.headers.accesstoken);
-        AsyncStorage.setItem('refreshtoken', res.headers.refreshtoken);
-        AsyncStorage.setItem('userdata', JSON.stringify(res.data));
-        setUserData(res.data);
-        console.log(res.headers.accesstoken);
-        console.log(res.headers.refreshtoken);
+    UseAxios.get('/users/passwords/find', {params: data})
+      .then(() => {
+        Alert.alert(
+          '비밀번호 재전송',
+          '해당 이메일로 임시 비밀번호를 보냈습니다, 확인해서 로그인해주세요.',
+          [
+            {text: '획인', onPress: () => navigation.goBack()},
+            {
+              text: '취소',
+              style: 'cancel',
+            },
+          ],
+          {
+            cancelable: true,
+          },
+        );
       })
       .catch(err => {
-        if (err.response.status === 401) {
-          Alert.alert(
-            'ID / 비밀번호 오류',
-            'ID 혹은 비밀번호가 일치하지 않습니다.',
-            [
-              {
-                text: '로그인 화면으로 돌아가기',
-              },
-              {
-                text: '비밀번호 찾기',
-                style: 'OK',
-                onPress: () => navigation.navigate('PasswordChangeScreen'),
-              },
-            ],
-          );
-        }
-        console.log(err.response.status === 401);
+        Alert.alert(
+          '이메일, 이름 확인',
+          '이름과 이메일을 다시 한 번 확인해주세요',
+          [{text: '확인', style: 'cancel'}],
+        );
       });
   };
   return (
@@ -87,31 +74,30 @@ export default function LoginForm({navigation}) {
           index={0}></NoCheckInput>
       </View>
       <View style={{paddingHorizontal: '5%'}}>
-        <InputLabel name="비밀번호"></InputLabel>
+        <InputLabel name="이름"></InputLabel>
         <NoCheckInput
           control={control}
-          style={pwStyle}
-          setStyle={setPwStyle}
-          property="password"
-          errorMessage={errors.password ? errors.password.message : ''}
+          style={nameStyle}
+          setStyle={setNameStyle}
+          property="name"
+          errorMessage={errors.name ? errors.name.message : ''}
           styles={styles}
           inputRef={inputRef}
           index={1}
-          blind={true}
           login={true}
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}></NoCheckInput>
       </View>
       <View style={{alignItems: 'center', marginVertical: '3%'}}>
         <TouchableOpacity
-          index={2}
+          index={1}
           style={
             Object.keys(errors).length > 0 ? styles.button : styles.checkButton
           }
           onPress={
             Object.keys(errors).length > 0 ? () => '' : handleSubmit(onSubmit)
           }>
-          <Text style={styles.buttonText}>로그인</Text>
+          <Text style={styles.buttonText}>비밀번호 찾기</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -120,25 +106,25 @@ export default function LoginForm({navigation}) {
 const styles = StyleSheet.create({
   focusInput: {
     width: '100%',
-    backgroundColor: '#FFFFFF',
-    borderColor: '#000000',
-    paddingHorizontal: '2%',
-    height: '80%',
+    backgroundColor: 'white',
+    borderColor: 'black',
+    paddingHorizontal: '1%',
+    height: '70%',
     borderRadius: 4,
     borderWidth: 1.5,
   },
   blurInput: {
     width: '100%',
     borderColor: '#808080',
-    paddingHorizontal: '2%',
-    height: '80%',
+    paddingHorizontal: '1%',
+    height: '70%',
     borderRadius: 4,
     borderWidth: 1,
   },
   button: {
     marginBottom: '5%',
     width: '90%',
-    color: '#FFFFFF',
+    color: 'white',
     height: '40%',
     backgroundColor: 'rgba(255, 95, 95, 0.4)',
     borderRadius: 6,
@@ -147,14 +133,14 @@ const styles = StyleSheet.create({
   checkButton: {
     marginBottom: '5%',
     width: '90%',
-    color: '#FFFFFF',
+    color: 'white',
     height: '40%',
     backgroundColor: '#FF5F5F',
     borderRadius: 6,
     justifyContent: 'center',
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: 'white',
     fontFamily: 'Bold',
     textAlign: 'center',
     fontSize: 15,

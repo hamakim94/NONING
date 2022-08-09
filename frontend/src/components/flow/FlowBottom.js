@@ -42,7 +42,7 @@ export default function FlowBottom({setBoards, board, navigation}) {
             <TouchableOpacity
                 style={styles.clickDetail}
                 onPress={() => navigation.push('DetailScreen', {screen: 'DetailScreen'})}>
-                    <MaterialCommunityIcons name={'text-box-search-outline'} size={35} color={'gray'} /> 
+                    <MaterialCommunityIcons name={'text-box-search-outline'} size={35} color={'#A6A6A6'} /> 
             </TouchableOpacity>
             <TouchableOpacity 
                 style={styles.clickLike} 
@@ -52,8 +52,7 @@ export default function FlowBottom({setBoards, board, navigation}) {
             <TouchableOpacity 
             style={{flexDirection: 'row',}} 
             onPress={() => navigation.push('YourPageScreen', {id: board.writerId})}>
-            <Text>작성자 이미지 클릭시 유어페이지 이동</Text>
-            {/* <Image style={styles.clickWriter} source={{uri : board.writer.img}}></Image> */}
+            <Image style={styles.clickWriter} source={{uri : board.writerImg}}></Image> 
         </TouchableOpacity>
         </View>
     </View>
@@ -69,13 +68,15 @@ const styles = StyleSheet.create({
       marginTop: '3%'
     },
     iconColor : userLike => ({
-      color: userLike ? '#FF7171' : '#606060',
+      color: userLike ? '#FF7171' : '#A6A6A6',
     }),
     clickWriter: {
-        width:30 ,
-        height:30, 
+        width: 35 ,
+        height: 35, 
         borderRadius:50, 
-        marginRight: '3%',
-        marginTop: '3.5%' 
+        marginRight: '2.3%',
+        marginTop: '3%',
+        borderWidth: 2,
+        borderColor: '#A6A6A6'
     }
   });

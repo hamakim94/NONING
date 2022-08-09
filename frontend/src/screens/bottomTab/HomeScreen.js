@@ -64,7 +64,7 @@ function HomeScreen({navigation}) {
   );
   const keyExtractor = item => item.boardId;
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
       <View style={{flex: 1, padding: 16}}>
         <LogoSearch navigation={navigation}></LogoSearch>
         <FilterButtonTabs setFilterName={setFilterName} />

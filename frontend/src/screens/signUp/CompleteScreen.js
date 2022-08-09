@@ -18,7 +18,7 @@ function CompleteScreen({navigation}) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.homeButton}
-            onPress={() => navigation.navigate('HomeScreen')}>
+            onPress={() => navigation.navigate('HomeStack')}>
             <Text style={styles.homeText}>홈으로</Text>
           </TouchableOpacity>
         </View>
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
   },
   topContainer: {
     flex: 3,
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   completeText: {
     fontSize: 15,
     fontWeight: '500',
-    color: 'black',
+    color: '#000000',
     marginBottom: 10,
     marginTop: '10%',
   },
@@ -74,13 +74,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 20,
-    color: 'white',
+    color: '#FFFFFF',
     textAlignVeritcal: 'center',
   },
   homeButton: {
     paddingVertical: '2%',
     borderRadius: 6,
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     marginHorizontal: '1%',
     minWidth: '30%',
     borderWidth: 1,
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     textAlignVeritcal: 'center',
-    color: 'black',
+    color: '#000000',
   },
 });
 

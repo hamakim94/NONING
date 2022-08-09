@@ -172,7 +172,7 @@ function ProfileEditScreen() {
                         textAlignVertical: 'center',
                         fontSize: 12,
                         paddingBottom: 1,
-                        color: 'black',
+                        color: '#000000',
                       }}>
                       남성
                     </Text>
@@ -198,7 +198,7 @@ function ProfileEditScreen() {
                         textAlignVertical: 'center',
                         fontSize: 12,
                         paddingBottom: 1,
-                        color: 'black',
+                        color: '#000000',
                       }}>
                       여성
                     </Text>
@@ -235,10 +235,10 @@ function ProfileEditScreen() {
                           );
                         }}
                         rowStyle={{
-                          backgroundColor: 'white',
+                          backgroundColor: '#FFFFFF',
                         }}
                         dropdownStyle={{
-                          backgroundColor: 'white',
+                          backgroundColor: '#FFFFFF',
                           borderWidth: 1,
                           borderRadius: 6,
                           borderColor: '#808080',
@@ -246,7 +246,7 @@ function ProfileEditScreen() {
                         buttonStyle={{
                           width: '75%',
                           height: 35,
-                          backgroundColor: 'white',
+                          backgroundColor: '#FFFFFF',
                           borderWidth: 1,
                           borderRadius: 6,
                           borderColor: '#808080',
@@ -288,11 +288,11 @@ function ProfileEditScreen() {
                     <SelectDropdown
                       data={ageGroup}
                       rowStyle={{
-                        backgroundColor: 'white',
+                        backgroundColor: '#FFFFFF',
                       }}
                       defaultButtonText="SELECT"
                       dropdownStyle={{
-                        backgroundColor: 'white',
+                        backgroundColor: '#FFFFFF',
                         borderWidth: 1,
                         borderRadius: 6,
                         borderColor: '#808080',
@@ -309,7 +309,7 @@ function ProfileEditScreen() {
                       buttonStyle={{
                         width: '75%',
                         height: 35,
-                        backgroundColor: 'white',
+                        backgroundColor: '#FFFFFF',
                         borderWidth: 1,
                         borderRadius: 6,
                         borderColor: '#808080',
@@ -357,7 +357,7 @@ function ProfileEditScreen() {
                 title="+"
                 titleStyle={{color: '#808080'}}
                 containerStyle={{
-                  backgroundColor: 'white',
+                  backgroundColor: '#FFFFFF',
                   borderWidth: 2,
                   borderColor: '#808080',
                 }}></Avatar>
@@ -380,7 +380,7 @@ function ProfileEditScreen() {
 
 const styles = StyleSheet.create({
   label: {
-    color: 'black',
+    color: '#000000',
     textAlignVertical: 'bottom',
     marginLeft: '1%',
     fontWeight: 'bold',
@@ -398,7 +398,7 @@ const styles = StyleSheet.create({
   button: {
     marginBottom: '5%',
     width: '23%',
-    color: 'white',
+    color: '#FFFFFF',
     height: '21%',
     backgroundColor: '#808080',
     borderRadius: 6,
@@ -407,14 +407,14 @@ const styles = StyleSheet.create({
   checkButton: {
     marginBottom: '5%',
     width: '23%',
-    color: 'white',
+    color: '#FFFFFF',
     height: '21%',
     backgroundColor: '#FF7171',
     borderRadius: 6,
     justifyContent: 'center',
   },
   buttonText: {
-    color: 'white',
+    color: '#FFFFFF',
     fontFamily: 'Bold',
     textAlign: 'center',
     fontSize: 15,
@@ -424,12 +424,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: '1%',
     paddingHorizontal: '5%',
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
   },
   focusInput: {
     width: '100%',
-    backgroundColor: 'white',
-    borderColor: 'black',
+    backgroundColor: '#FFFFFF',
+    borderColor: '#000000',
     paddingVertical: 0,
     paddingHorizontal: '2%',
     height: '100%',
@@ -447,8 +447,8 @@ const styles = StyleSheet.create({
   },
   checkFocusInput: {
     width: '75%',
-    backgroundColor: 'white',
-    borderColor: 'black',
+    backgroundColor: '#FFFFFF',
+    borderColor: '#000000',
     paddingVertical: 0,
     paddingHorizontal: '2%',
     height: '100%',
@@ -483,7 +483,7 @@ const styles = StyleSheet.create({
   confirmText: {
     textAlign: 'center',
     fontSize: 15,
-    color: 'white',
+    color: '#FFFFFF',
     fontWeight: '500',
   },
   errorText: {

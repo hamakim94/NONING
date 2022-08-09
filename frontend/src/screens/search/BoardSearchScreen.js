@@ -1,6 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {SafeAreaView, View, StyleSheet, FlatList, Text, TextInput, TouchableOpacity,
+import {
+  SafeAreaView,
+  View,
+  StyleSheet,
+  FlatList,
+  Text,
+  TextInput,
+  TouchableOpacity,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import UseAxios from '../../util/UseAxios';
@@ -41,7 +48,7 @@ function BoardSearchScreen(item, setItem, navigation) {
   const ItemSeparatorView = () => {
     return (
       <View
-        style={{height: 0.5, width: '100%', backgroundColor: '#c8c8c8'}}></View>
+        style={{height: 0.5, width: '100%', backgroundColor: '#FFFFFF'}}></View>
     );
   };
 
@@ -50,7 +57,9 @@ function BoardSearchScreen(item, setItem, navigation) {
       <View>
         {item ? (
           <TouchableOpacity
-          onPress={() => navigation.navigate('HomeDetail', {boardId : item.boardId})}>
+            onPress={() =>
+              navigation.navigate('HomeDetail', {boardId: item.boardId})
+            }>
             <View style={{height: 75, justifyContent: 'center'}}>
               <Text style={styles.itemStyle}>{item.title.toUpperCase()}</Text>
               <View style={{flexDirection: 'row'}}>
@@ -92,7 +101,7 @@ function BoardSearchScreen(item, setItem, navigation) {
   };
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
       <View style={StyleSheet.container}>
         <TextInput
           style={styles.textInputStyle}
@@ -124,7 +133,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     marginHorizontal: 5,
     marginBottom: 10,
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     borderRadius: 10,
   },
   optionIcon: {

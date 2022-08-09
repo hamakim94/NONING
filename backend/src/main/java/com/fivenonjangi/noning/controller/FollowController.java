@@ -31,7 +31,7 @@ public class FollowController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public ResponseEntity deleteFollowing(@RequestBody FollowRequestDTO followRequestDto, HttpServletRequest request){
         try{
             checkUser(followRequestDto.getUserId(), request);
@@ -56,7 +56,7 @@ public class FollowController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-    @DeleteMapping("/followers/delete")
+    @PostMapping("/followers/delete")
     public ResponseEntity deleteFollower(@RequestBody FollowRequestDTO followRequestDto, HttpServletRequest request){
         try{
             checkUser(followRequestDto.getUserId(), request);

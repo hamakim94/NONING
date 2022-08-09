@@ -1,10 +1,11 @@
-import {StyleSheet, ScrollView, View} from 'react-native';
+import {StyleSheet, ScrollView, View, Text} from 'react-native';
 import PrivacyText from '../../components/common/PrivacyText';
 import React from 'react';
 
 export default function PrivacyScreen() {
   return (
     <View style={styles.container}>
+      <Text style={{fontSize:30, marginBottom:20}}>개인정보 처리방침</Text>
       <ScrollView style={ styles.textContainer}>
         <PrivacyText />
       </ScrollView>

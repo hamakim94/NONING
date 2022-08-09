@@ -19,7 +19,7 @@ export default function ChatContent({data}) {
             containerStyle={[
               {
                 borderWidth: 3,
-                backgroundColor: 'white',
+                backgroundColor: '#FFFFFF',
                 marginTop: '1%',
               },
               {
