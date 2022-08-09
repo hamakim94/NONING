@@ -23,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -41,20 +43,15 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity signupUser(@RequestPart(value = "signupRequestDTO") String signupRequestDTOString, @RequestPart(value = "image", required = false) MultipartFile image) {
-        Gson gson = new Gson();
-        SignupRequestDTO signupRequestDTO = gson.fromJson(signupRequestDTOString, SignupRequestDTO.class);
-        String img = "";
-        if (image != null&&image.getContentType().startsWith("image")){
-            try {
-                img = awsS3Service.uploadFileV1("profileImg", image);
-            }
-            catch (Exception e){
-                //이미지 업로드 오류
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-        }
-        signupRequestDTO.setImg(img);
         try {
+            String DTO = new String(signupRequestDTOString.getBytes("8859_1"), StandardCharsets.UTF_8);
+            Gson gson = new Gson();
+            SignupRequestDTO signupRequestDTO = gson.fromJson(DTO, SignupRequestDTO.class);
+            String img = "";
+            if (image != null&&image.getContentType().startsWith("image")){
+                    img = awsS3Service.uploadFileV1("profileImg", image);
+            }
+            signupRequestDTO.setImg(img);
             userService.signupUser(signupRequestDTO, passwordEncoder);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
@@ -110,8 +107,10 @@ public class UserController {
     }
     @PutMapping("/profiles/edit")
     public ResponseEntity modifyUser(@RequestPart(value = "userDTO") String userDTOString, @RequestPart(value = "image", required = false) MultipartFile image, HttpServletRequest request){
+        try {
+        String DTO = new String(userDTOString.getBytes("8859_1"), StandardCharsets.UTF_8);
         Gson gson = new Gson();
-        UserDTO userDTO = gson.fromJson(userDTOString, UserDTO.class);
+        UserDTO userDTO = gson.fromJson(DTO, UserDTO.class);
         if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userDTO.getUserId()))) {
             try {
                 if (image != null&&image.getContentType().startsWith("image")){
@@ -123,6 +122,7 @@ public class UserController {
                 e.getStackTrace();
             }
         }
+        }catch (Exception e){}
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @PutMapping("/passwords/edit")
