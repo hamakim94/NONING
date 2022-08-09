@@ -22,17 +22,18 @@ import ChatContent from '../../components/live/chat/ChatContent';
 import UserContext from '../../util/UserContext';
 // import socketIO from 'socket.io-client';
 
-const user = [
-  {userId: 1, nickname: '김토마', userVote: 1},
-  {userId: 2, nickname: '토마토', userVote: 2},
-  {userId: 3, nickname: '박토토', userVote: 1},
-  {userId: 4, nickname: '박토마', userVote: 1},
-  {userId: 5, nickname: '적토마', userVote: 1},
-  {userId: 6, nickname: '맛토맛', userVote: 2},
-  {userId: 7, nickname: '심깻잎', userVote: 2},
-  {userId: 8, nickname: 'test08', userVote: 2},
-];
-const messageList = [
+// const user = [
+//   {userId: 1, nickname: '김토마', userVote: 1},
+//   {userId: 2, nickname: '토마토', userVote: 2},
+//   {userId: 3, nickname: '박토토', userVote: 1},
+//   {userId: 4, nickname: '박토마', userVote: 1},
+//   {userId: 5, nickname: '적토마', userVote: 1},
+//   {userId: 6, nickname: '맛토맛', userVote: 2},
+//   {userId: 7, nickname: '심깻잎', userVote: 2},
+//   {userId: 8, nickname: 'test08', userVote: 2},
+// ];
+const users = [];
+const messages = [
   {
     msgId: 1,
     msg: '아무리 그래도 토맛을 먹는건 좀...',
@@ -75,39 +76,53 @@ const messageList = [
 export default function ChatScreen({route}) {
   const [userList, setUserList] = useState([]);
   const [boardData, setboardData] = useState(route.params.data);
-  const [messageData, setMessageData] = useState(null);
+  const [messageList, setMessageList] = useState(messages);
   const [msg, setMsg] = useState();
   const {userData} = useContext(UserContext);
   const chatRef = useRef(null);
 
   useEffect(() => {
     const io = require('socket.io/client-dist/socket.io');
-    const socket = io(`http://i7a202.p.ssafy.io:3000`, {
+    // const socket = io(`http://i7a202.p.ssafy.io:3000`, {
+    const socket = io(`http://10.0.2.2:3000`, {
       transports: ['websocket'], // you need to explicitly tell it to use websockets
     });
 
-    const connect_error = socket.on('connect_error', err => {
-      console.log(err.message);
-    });
-    const left = socket.on('left', name => {
-      console.log(name);
-    });
-    const welcome = socket.on('welcome', nickname => {
-      // "~~님이 입장하셨습니다."
-      // msgId = chatRef.current, msg, betray=false
-      console.log(1);
-      const msgData = {
-        msgId: chatRef.current,
-        msg: nickname + '님이 입장하셨습니다.',
-        betray: false,
-      };
-      console.log('welcome');
-      // setMessageData([...messageData, msgData]);
-    });
-
-    const connect = socket.on('connect', () => {
+    socket.on('connect', () => {
       console.log(userData.nickname + ' connect');
       socket.emit('enter', boardData.boardId, userData);
+    });
+
+    socket.on('welcome', (userData, userCnt) => {
+      // 입장 메세지 보냄 
+      const msgData = {
+        msgId: chatRef.current,
+        msg: userData.nickname + ' 님이 입장하셨습니다.',
+        betray: false,
+      };
+      setMessageList([...messageList, msgData]);
+
+      // user update
+      // front단의 userlist update
+      // 상단 userlist
+      
+
+      // 인원수 최신화 (userCnt로 update)
+    });
+
+    socket.on('user_enter', (initUsers) => { // 본인한테만 
+      // initUsers.forEach((user) => {
+      //   setUserList([...userList, user]); 
+      // });
+      userList.concat(initUsers); // 이렇게 해도 flatlist가 다시 그려지는지 
+    });
+
+    socket.on('connect_error', (err) => {
+      console.log(err.message);
+    });
+
+    socket.on('left', (name) => {
+      console.log(name);
     });
 
     return () => {
@@ -116,13 +131,13 @@ export default function ChatScreen({route}) {
     };
   }, []);
   useEffect(() => {
-    setUserList(user);
-    setMessageData(messageList);
+    setUserList(users);
+    setMessageList(messages);
   }, []);
   useEffect(() => {
     chatRef.current =
-      messageData != null ? messageData[messageData.length - 1].msgId + 1 : '';
-  }, [messageData]);
+      messageList.length !== 0 ? messageList[messageList.length - 1].msgId + 1 : 1;
+  }, [messageList]);
 
   const userRender = ({item}) => <ChatHeaderUser user={item}></ChatHeaderUser>;
 
@@ -132,7 +147,7 @@ export default function ChatScreen({route}) {
 
   const msgRender = ({item}) => <ChatContent data={item} />;
 
-  const msgMemoized = useMemo(() => msgRender, [messageData]);
+  const msgMemoized = useMemo(() => msgRender, [messageList]);
 
   const msgKey = useCallback(item => item.msgId, []);
 
@@ -152,7 +167,7 @@ export default function ChatScreen({route}) {
     //   nickname: userData.nickname,
     //   userVote: boardData.userVote,
     // };
-    // setMessageData([...messageData, data]);
+    // setMessageList([...messageList, data]);
     setMsg('');
     Keyboard.dismiss();
   };
@@ -179,7 +194,7 @@ export default function ChatScreen({route}) {
         </View>
         <View style={{flex: 4.2, paddingHorizontal: '5%'}}>
           <FlatList
-            data={messageData}
+            data={messageList}
             renderItem={msgMemoized}
             keyExtractor={msgKey}></FlatList>
         </View>
