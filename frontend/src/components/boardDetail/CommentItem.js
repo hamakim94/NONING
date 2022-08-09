@@ -8,6 +8,7 @@ import axios from 'axios';
 function CommentItem({
   commentData,
   setCommentData,
+  writerData,
   commentIsopened,
   setCommentIsopened,
   isReply,
@@ -33,12 +34,10 @@ function CommentItem({
       ...commentData,
       like: !commentData.like,
       dislike: commentData.dislike ? !commentData.dislike : commentData.dislike,
-      userLike: commentData.like
-        ? commentData.userLike - 1
-        : commentData.userLike + 1,
-      userDislike: commentData.dislike
-        ? commentData.userDislike - 1
-        : commentData.userDislike,
+      likes: commentData.like ? commentData.likes - 1 : commentData.likes + 1,
+      dislikes: commentData.dislike
+        ? commentData.dislikes - 1
+        : commentData.dislikes,
     }));
   };
 
@@ -47,12 +46,10 @@ function CommentItem({
       ...commentData,
       like: commentData.like ? !commentData.like : commentData.like,
       dislike: !commentData.dislike,
-      userLike: commentData.like
-        ? commentData.userLike - 1
-        : commentData.userLike,
-      userDislike: commentData.dislike
-        ? commentData.userDislike - 1
-        : commentData.userDislike + 1,
+      likes: commentData.like ? commentData.likes - 1 : commentData.likes,
+      dislikes: commentData.dislike
+        ? commentData.dislikes - 1
+        : commentData.dislikes + 1,
     }));
   };
 
@@ -112,7 +109,7 @@ function CommentItem({
         break;
     }
   };
-  return (
+  return writerData ? (
     <View style={styles.container}>
       {isReply ? <View style={styles.blankContainer} /> : ''}
       <View style={commentStyles(isReply).firstContainer}>
@@ -120,14 +117,14 @@ function CommentItem({
           <Avatar
             size={40}
             rounded
-            containerStyle={avaStyles(commentData.writerVote).avartarContainer}
-            source={require('../../assets/ProfileImage.jpg')}
+            containerStyle={avaStyles(writerData[0].vote).avartarContainer}
+            source={{uri: writerData[0].img ? writerData[0].img : ''}}
           />
         </TouchableOpacity>
       </View>
       <View style={commentStyles(isReply).secondContainer}>
         <View>
-          <Text style={styles.nickNameText}>{commentData.nickname}</Text>
+          <Text style={styles.nickNameText}>{writerData[0].nickname}</Text>
         </View>
         <View>
           <Text style={styles.contentText}>{commentData.content}</Text>
@@ -143,7 +140,7 @@ function CommentItem({
             )}
           </TouchableOpacity>
           <Text style={{fontSize: 12, color: 'black'}}>
-            {commentData.userLike}
+            {commentData.likes}
           </Text>
           <TouchableOpacity
             style={{paddingTop: '1.5%', marginRight: '1%', marginLeft: '3%'}}
@@ -155,7 +152,7 @@ function CommentItem({
             )}
           </TouchableOpacity>
           <Text style={{fontSize: 12, color: 'black'}}>
-            {commentData.userDislike}
+            {commentData.dislikes}
           </Text>
           {isReply ? (
             ''
@@ -175,6 +172,8 @@ function CommentItem({
         <CommentModal></CommentModal>
       </View>
     </View>
+  ) : (
+    ''
   );
 }
 

@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Dimensions, Text, TextInput} from 'react-native';
-import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
+import {TabView, TabBar} from 'react-native-tab-view';
 import CommentScreen from './CommentScreen';
 import AnalysisScreen from './AnalysisScreen';
+import {useIsFocused} from '@react-navigation/native';
 
 const renderTabBar = props => (
   <TabBar
@@ -48,18 +49,33 @@ const renderTabBar = props => (
 
 const initialLayout = {width: Dimensions.get('window').width};
 
-const renderScene = SceneMap({
-  0: CommentScreen,
-  1: AnalysisScreen,
-});
-
 export default function DetailScreen({route}) {
-  console.log(route.params.boardId);
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     {key: 0, title: '댓글'},
     {key: 1, title: '분석'},
   ]);
+  const [participants, setParticipants] = useState(null);
+  const boardId = route.params.boardId;
+  const isFocused = useIsFocused();
+  const renderScene = ({route}) => {
+    switch (route.key) {
+      case 0:
+        return <CommentScreen boardId={boardId} participants={participants} />;
+      case 1:
+        return <AnalysisScreen boardId={boardId} participants={participants} />;
+    }
+  };
+  useEffect(() => {
+    if (isFocused) {
+      UseAxios.get(`/boards/${boardId}`).then(res => {
+        console.log(res);
+      });
+      UseAxios.get(`/boards/${boardId}/users`).then(res => {
+        setParticipants(res.data);
+      });
+    }
+  }, [isFocused]);
   return (
     <View style={styles.container}>
       <View style={{flex: 2.4, borderWidth: 2}}>

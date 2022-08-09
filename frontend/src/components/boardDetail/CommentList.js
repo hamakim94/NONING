@@ -4,13 +4,18 @@ import CommentItem from './CommentItem';
 import ReplyTestData from './ReplyTestData';
 import ReplyList from './ReplyList';
 
-function CommentList({comment}) {
+function CommentList({comment, participants}) {
   const [commentIsopened, setCommentIsopened] = useState(false);
   const [commentData, setCommentData] = useState(comment);
   const [replys, setReplys] = useState([]);
+  const [writerData, setWriterData] = useState(null);
   useEffect(() => {
-    setReplys(ReplyTestData);
-  }, []);
+    if (participants) {
+      setWriterData(
+        participants.filter(prev => prev.userId == commentData.writerId),
+      );
+    }
+  }, [participants]);
 
   const renderItem = ({item}) => (
     <ReplyList
@@ -25,6 +30,7 @@ function CommentList({comment}) {
       <CommentItem
         commentData={commentData}
         setCommentData={setCommentData}
+        writerData={writerData}
         commentIsopened={commentIsopened}
         setCommentIsopened={setCommentIsopened}
         isReply={false}></CommentItem>
