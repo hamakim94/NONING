@@ -9,15 +9,15 @@ const LoginScreen = ({navigation}) => (
       <View style={styles.logoContainer}>
         <Image
           style={styles.logo}
-          source={require('../../assets/LoginLogo.jpg')}></Image>
+          source={require('../../assets/header-logo-copy.png')}></Image>
       </View>
       <LoginForm navigation={navigation}></LoginForm>
       <View style={styles.passwordSignupContainer}>
         <View style={{flex: 1, alignItems: 'center', paddingLeft: '5%'}}>
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate('PasswordChangeScreen', {
-                screen: 'PasswordChangeScreen',
+              navigation.navigate('PasswordFindScreen', {
+                screen: 'PasswordFindScreen',
               })
             }>
             <Text style={{color: '#FF5F5F'}}>비밀번호 찾기</Text>
@@ -61,9 +61,8 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   logo: {
-    width: 100,
+    width: 130,
     height: 100,
-    borderRadius: 10,
   },
 });
 
