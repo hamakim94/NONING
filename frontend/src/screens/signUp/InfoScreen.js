@@ -111,10 +111,12 @@ function InfoScreen({navigation}) {
     };
     formdata.append('signupRequestDTO', JSON.stringify(newData));
 
+    // console.log(formdata);
     UseAxios.post('/users/signup', formdata, {
-      headers: {'Content-Type': `multipart/form-data`},
+      headers: {'Content-Type': `multipart/form-data;charset=UTF-8`},
     })
       .then(res => {
+        console.log(res);
         alert(
           data.email +
             ' 주소로 인증메일이 발송되었습니다. 인증을 완료해주세요.',
@@ -122,7 +124,7 @@ function InfoScreen({navigation}) {
         navigation.navigate('CompleteScreen');
       })
       .catch(err => {});
-  };
+   };
 
   const onLaunchCamera = () => {
     ImagePicker.openCamera(imagePickerOption)

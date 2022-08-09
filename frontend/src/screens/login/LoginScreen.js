@@ -16,8 +16,8 @@ const LoginScreen = ({navigation}) => (
         <View style={{flex: 1, alignItems: 'center', paddingLeft: '5%'}}>
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate('PasswordChangeScreen', {
-                screen: 'PasswordChangeScreen',
+              navigation.navigate('PasswordFindScreen', {
+                screen: 'PasswordFindScreen',
               })
             }>
             <Text style={{color: '#FF5F5F'}}>비밀번호 찾기</Text>
