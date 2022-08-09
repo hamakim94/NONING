@@ -1,7 +1,8 @@
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
 import {FlatList} from 'react-native-gesture-handler';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import Feather from 'react-native-vector-icons/Feather';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
 export default function VoteDo({navigation, myPageData}) {
   return (
@@ -27,57 +28,63 @@ export default function VoteDo({navigation, myPageData}) {
               {(() => {
                 if (item.userVote !== 0)
                   return (
-                    <View>
-                      <TouchableOpacity
-                        style={styles.detail}
-                        onPress={() =>
-                          navigation.push('DetailScreen', {
-                            screen: 'DetailScreen',
-                          })
-                        }>
-                        <AntDesign
-                          name={'doubleright'}
-                          size={20}
-                          color={'gray'}
-                        />
-                      </TouchableOpacity>
-                      <Text style={{fontWeight: 'bold'}}>{item.title}</Text>
-                      <View
-                        style={{flexDirection: 'row', marginVertical: '2%'}}>
-                        {(() => {
-                          if (item.userVote === 1)
-                            return (
-                              <AntDesign
-                                name={'checkcircleo'}
-                                size={15}
-                                color={'red'}
-                              />
-                            );
-                          else
-                            return (
-                              <AntDesign
-                                name={'checkcircleo'}
-                                size={15}
-                                color={'blue'}
-                              />
-                            );
-                        })()}
-                        {(() => {
-                          if (item.userVote === 1)
-                            return (
-                              <Text style={{fontWeight: 'bold'}}>
-                                {item.opt1}
-                              </Text>
-                            );
-                          else
-                            return (
-                              <Text style={{fontWeight: 'bold'}}>
-                                {item.opt2}
-                              </Text>
-                            );
-                        })()}
-                      </View>
-                    </View>
+                    <View style={{flex: 1, flexDirection: 'row', marginVertical: '2%'}}>
+                        <View style={{flex: 9, marginStart: 5}}>
+                            <Text style={{fontWeight: 'bold', color: 'black', marginTop: '2.5%', marginBottom: '1.5%'}}>{item.title}</Text>
+                            <View
+                              style={{flexDirection: 'row', marginBottom: '1.5%'}}>
+                              {(() => {
+                                if (item.userVote === 1)
+                                  return (
+                                    <EvilIcons
+                                      name={'sc-instagram'}
+                                      size={15}
+                                      color={'rgba(255,95,95,1)'}
+                                      style={{margin: 3}}
+                                    />
+                                  );
+                                else
+                                  return (
+                                    <EvilIcons
+                                      name={'sc-instagram'}
+                                      size={15}
+                                      color={'rgba(73, 211, 202,1)'}
+                                      style={{margin: 3}}
+                                    />
+                                  );
+                              })()}
+                              {(() => {
+                                if (item.userVote === 1)
+                                  return (
+                                    <Text style={{fontWeight: '500', color: 'black'}}>
+                                      {item.opt1}
+                                    </Text>
+                                  );
+                                else
+                                  return (
+                                    <Text style={{fontWeight: '500', color: 'black'}}>
+                                      {item.opt2}
+                                    </Text>
+                                  );
+                              })()}
+                            </View>
+                        </View>
+                        <View style={{flex: 1}}>
+                          <TouchableOpacity
+                            style={styles.detail}
+                            onPress={() =>
+                              navigation.push('DetailScreen', {
+                                screen: 'DetailScreen',
+                              })
+                            }>
+                            <Feather
+                              name={'chevrons-right'}
+                              size={25}
+                              color={'#A6A6A6'}
+                            />
+                          </TouchableOpacity>
+                        </View>
+                  </View>
                   );
                 else return;
               })()}
@@ -90,8 +97,6 @@ export default function VoteDo({navigation, myPageData}) {
 
 const styles = StyleSheet.create({
   detail: {
-    paddingTop: '0.8%',
-    paddingRight: '1.5%',
     alignSelf: 'flex-end',
   },
 });

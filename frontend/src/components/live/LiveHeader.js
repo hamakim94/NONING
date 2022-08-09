@@ -1,5 +1,5 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import Feather from 'react-native-vector-icons/Feather';
 import React, {useState} from 'react';
 
 export default function LiveHeader({live, navigation}) {
@@ -15,10 +15,10 @@ export default function LiveHeader({live, navigation}) {
             params: {id: live.boardId},
           })
         }>
-        <AntDesign
+        <Feather
           style={styles.detail(live.userVote)}
-          name="doubleright"
-          size={20}
+          name='chevrons-right'
+          size={25}
         />
       </TouchableOpacity>
     </View>

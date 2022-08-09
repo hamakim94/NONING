@@ -34,13 +34,15 @@ export default function BoardFooter({board, setBoards, navigation}) {
   return (
     <View style={styles.footerContainer}>
       <View style={styles.writerContainer}>
-        <Text>작성자 : </Text>
-        <Image style={{ width:15 ,height:15, borderRadius:50 }} source={{uri : board.writerImg ? board.writerImg : '../../assets/DefaultProfile.jpg'}}></Image>
-        <Text style={{paddingLeft:5}}>{board.writerNickname} </Text>
+        <Text style={{color: 'black'}}>작성자 : </Text>
+        <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => navigation.push('YourPageScreen', {id: board.writerId})}>
+            <Image style={{ width:15 ,height:15, borderRadius:50}} source={{uri : board.writerImg ? board.writerImg : '../../assets/DefaultProfile.jpg'}}></Image>
+            <Text style={{paddingLeft:5, color: 'black'}}>{board.writerNickname} </Text>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.numberLikeContainer}>
-        <Text style={{paddingRight:5}}>참여 : {board.opt1Selected + board.opt2Selected}명</Text>
+        <Text style={{paddingRight:5, color: 'black'}}>참여 : {board.opt1Selected + board.opt2Selected}명</Text>
         <TouchableOpacity
           style={{margin: 1}}
           onPress={() =>  { userData === null ? navigation.navigate('LoginNav', {screen: 'LoginNav'}) : [toggleLike(), board.userLike ? unlike() : like() ]}}>
@@ -70,6 +72,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   iconColor: userLike => ({
-    color: userLike ? '#FF5F5F' : '#606060',
+    color: userLike ? '#FF5F5F' : '#A6A6A6',
   }),
 });

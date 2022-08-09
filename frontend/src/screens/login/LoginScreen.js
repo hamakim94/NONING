@@ -9,7 +9,7 @@ const LoginScreen = ({navigation}) => (
       <View style={styles.logoContainer}>
         <Image
           style={styles.logo}
-          source={require('../../assets/LoginLogo.jpg')}></Image>
+          source={require('../../components/common/header-logo.png')}></Image>
       </View>
       <LoginForm navigation={navigation}></LoginForm>
       <View style={styles.passwordSignupContainer}>
@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-
     paddingHorizontal: 0,
   },
   logoContainer: {
@@ -61,9 +60,8 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   logo: {
-    width: 100,
-    height: 100,
-    borderRadius: 10,
+    width: 140,
+    height: 110,
   },
 });
 

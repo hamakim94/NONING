@@ -5,6 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LoginNav from './LoginNav';
 import SearchNav from './SearchNav';
 import UserContext from '../util/UserContext';
+import YourPageScreen from '../screens/YourPageScreen'
 
 const Stack = createNativeStackNavigator();
 
@@ -18,12 +19,14 @@ function HomeStack() {
         <Stack.Screen name="LoginNav"   component={LoginNav}     options={{title: '로그인', headerShown: false,}}/>
         <Stack.Screen name="SearchNav"  component={LoginNav}    options={{title: '검색', headerShown: false,}}/>
         <Stack.Screen name="HomeDetail" component={DetailScreen} options={{title: '디테일',}}/>
+        <Stack.Screen name="YourPageScreen" component={YourPageScreen} options={{title: '유저페이지',}}/>
       </>) : 
       
       (<>
         <Stack.Screen name="HomeScreen" component={HomeScreen}   options={{headerShown: false}} />
         <Stack.Screen name="SearchNav"  component={SearchNav}    options={{title: '검색',}}/>
         <Stack.Screen name="HomeDetail" component={DetailScreen} options={{title: '디테일',}}/>
+        <Stack.Screen name="YourPageScreen" component={YourPageScreen} options={{title: '유저페이지', headerShown: false,}}/>
       </>)}
       
     </Stack.Navigator>
