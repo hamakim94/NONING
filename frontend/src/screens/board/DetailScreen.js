@@ -4,6 +4,7 @@ import {TabView, TabBar} from 'react-native-tab-view';
 import CommentScreen from './CommentScreen';
 import AnalysisScreen from './AnalysisScreen';
 import {useIsFocused} from '@react-navigation/native';
+import DetailContext from '../../components/boardDetail/DetailContext';
 
 const renderTabBar = props => (
   <TabBar
@@ -61,9 +62,9 @@ export default function DetailScreen({route}) {
   const renderScene = ({route}) => {
     switch (route.key) {
       case 0:
-        return <CommentScreen boardId={boardId} participants={participants} />;
+        return <CommentScreen />;
       case 1:
-        return <AnalysisScreen boardId={boardId} participants={participants} />;
+        return <AnalysisScreen />;
     }
   };
   useEffect(() => {
@@ -77,23 +78,25 @@ export default function DetailScreen({route}) {
     }
   }, [isFocused]);
   return (
-    <View style={styles.container}>
-      <View style={{flex: 2.4, borderWidth: 2}}>
-        <Text>DetailScreen1</Text>
+    <DetailContext.Provider value={{boardId, participants}}>
+      <View style={styles.container}>
+        <View style={{flex: 2.4, borderWidth: 2}}>
+          <Text>DetailScreen1</Text>
+        </View>
+        <View style={{flex: 0.4, borderWidth: 2}}>
+          <Text>DetailScreen2</Text>
+        </View>
+        <View style={{flex: 3.2, marginTop: '1%'}}>
+          <TabView
+            navigationState={{index, routes}}
+            renderScene={renderScene}
+            onIndexChange={setIndex}
+            initialLayout={initialLayout}
+            renderTabBar={renderTabBar}
+          />
+        </View>
       </View>
-      <View style={{flex: 0.4, borderWidth: 2}}>
-        <Text>DetailScreen2</Text>
-      </View>
-      <View style={{flex: 3.2, marginTop: '1%'}}>
-        <TabView
-          navigationState={{index, routes}}
-          renderScene={renderScene}
-          onIndexChange={setIndex}
-          initialLayout={initialLayout}
-          renderTabBar={renderTabBar}
-        />
-      </View>
-    </View>
+    </DetailContext.Provider>
   );
 }
 

@@ -1,11 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {View, StyleSheet, FlatList, TextInput} from 'react-native';
 import CommentList from '../../components/boardDetail/CommentList';
 import {useIsFocused} from '@react-navigation/native';
+import DetailContext from '../../components/boardDetail/DetailContext';
 
-function CommentScreen({boardId, participants}) {
+function CommentScreen() {
   const isFocused = useIsFocused();
   const [comments, setComments] = useState([]);
+  const {boardId} = useContext(DetailContext);
   useEffect(() => {
     if (isFocused) {
       UseAxios.get(`/boards/${boardId}/comments/list`).then(res => {
@@ -13,10 +15,7 @@ function CommentScreen({boardId, participants}) {
       });
     }
   }, [isFocused]);
-  const renderItem = ({item}) => (
-    <CommentList comment={item} participants={participants} />
-  );
-
+  const renderItem = ({item}) => <CommentList comment={item} />;
   return (
     <View style={styles.scene}>
       <FlatList
