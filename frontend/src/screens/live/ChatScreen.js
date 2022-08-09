@@ -141,7 +141,7 @@ export default function ChatScreen({route}) {
   };
 
   const onSubmit = () => {
-    console.log('msg: ' + msg);
+    console.log('msg : ' + msg);
     // socket.emit("send", msg);
     // socket.on("message", (message) => {
     //   console.log("message: " + message);
