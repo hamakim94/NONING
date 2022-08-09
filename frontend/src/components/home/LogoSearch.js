@@ -7,7 +7,7 @@ export default function LogoSearch({navigation}) {
       <TouchableOpacity>
         <Image
           style={styles.logo}
-          source={require('../common/header-logo.png')}></Image>
+          source={require('../common/로공공.png')}></Image>
       </TouchableOpacity>
 
       <View style={styles.iconsContainer}>
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 50,
-    height: 50,
+    height: 90,
     resizeMode: 'contain',
   },
   iconsContainer: {

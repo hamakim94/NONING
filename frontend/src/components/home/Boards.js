@@ -27,8 +27,8 @@ function Boards({board, navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 30,
-    marginBottom: 30,
+    marginTop: 5,
+    marginBottom: 50,
     height: 200,
     width: '100%',
     borderWidth: 0.5,
@@ -38,7 +38,8 @@ const styles = StyleSheet.create({
     // elevation:0.5,
   },
   titleText: {
-    fontSize: 23,
+    fontSize: 20,
+    color: 'black',
     fontWeight: 'bold',
     textAlign: 'center',
     textAlignVertical: 'center',

@@ -12,7 +12,7 @@ import {USER} from '../data/user';
 import VoteLike from '../components/userpage/VoteLike';
 import VoteDo from '../components/userpage/VoteDo';
 import VoteWrite from '../components/userpage/VoteWrite';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useIsFocused} from '@react-navigation/native';
 import UserContext from '../util/UserContext';
 
@@ -48,7 +48,7 @@ const renderTabBar = props => (
                 fontWeight: 'bold',
                 fontSize: 15,
               }
-            : {margin: 0, padding: 0, color: '#808080', fontSize: 15}
+            : {margin: 0, padding: 0, color: 'black', fontSize: 15}
         }>
         {route.title}
       </Text>
@@ -143,20 +143,20 @@ export default function YourPageScreen({route, navigation}) {
   return (
     <View style={styles.container}>
       {id === userData.userId ? (
-        <View style={{flex: 0.1, alignSelf: 'flex-end'}}>
+        <View style={{flex: 0.07, alignSelf: 'flex-end'}}>
           <TouchableOpacity
             style={styles.button}
             onPress={() =>
               navigation.push('SettingNav', {screen: 'SettingNav'})
             }>
-            <AntDesign name={'setting'} size={28} color={'gray'} />
+            <Ionicons name={'settings'} size={28} color={'#A6A6A6'} />
           </TouchableOpacity>
         </View>
       ) : (
-        <View style={{flex: 0.1, alignSelf: 'flex-end'}} />
+        <View style={{flex: 0.07, alignSelf: 'flex-end'}} />
       )}
 
-      <View style={{flex: 0.23}}>
+      <View style={{flex: 0.26}}>
         {/* 프로필 이미지, 팔로우/팔로워*/}
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           {/* 프로필 이미지 */}
@@ -181,8 +181,8 @@ export default function YourPageScreen({route, navigation}) {
                 onPress={() =>
                   navigation.navigate('FollowerScreen', {id: yourPageData.user.userId})
                 }>
-                <Text> follower</Text>
-                <Text style={{alignSelf: 'center'}}>
+                <Text style={{color: 'black', fontWeight: '500'}}> follower</Text>
+                <Text style={{alignSelf: 'center', color: 'black', fontWeight: '500'}}>
                   {yourPageData.followerIdList
                     ? yourPageData['followerIdList'].length
                     : ''}
@@ -192,8 +192,8 @@ export default function YourPageScreen({route, navigation}) {
                 onPress={() =>
                   navigation.navigate('FollowingScreen', {id: yourPageData.user.userId})
                 }>
-                <Text> following</Text>
-                <Text style={{alignSelf: 'center'}}>
+                <Text style={{color: 'black', fontWeight: '500' }}> following</Text>
+                <Text style={{alignSelf: 'center', color: 'black', fontWeight: '500' }}>
                   {yourPageData.followingIdList
                     ? yourPageData['followingIdList'].length
                     : ''}
@@ -204,15 +204,15 @@ export default function YourPageScreen({route, navigation}) {
         </View>
       </View>
 
-      <View style={{flexDirection: 'row', flex: 0.12}}>
+      <View style={{flexDirection: 'row', flex: 0.13}}>
         {/* 닉네임, 특징 */}
         <View style={{marginStart: '5%', flex: 2}}>
           <View>
-            <Text style={{paddingBottom: '1.5%', fontWeight: 'bold'}}>
+            <Text style={{paddingBottom: '1.5%', fontWeight: 'bold', color: 'black'}}>
               {yourPageData.user ? yourPageData.user.nickname : ''}
             </Text>
             {yourPageData.user ? (
-              <Text>
+              <Text style={{color: 'black', fontWeight: '500'}}>
                 {(() => {
                   if (yourPageData.user.genderCode === 'G0101')
                     return <Text>남성</Text>;
@@ -265,12 +265,13 @@ export default function YourPageScreen({route, navigation}) {
           ) : (
             <TouchableOpacity
               style={{
-                backgroundColor: 'pink',
-                marginHorizontal: '10%',
+                backgroundColor: '#FF5F5F',
                 borderRadius: 10,
-                width: '70%',
+                width: '80%',
                 height: '50%',
                 marginTop: '2.5%',
+                alignContent: 'center',
+                marginStart: '2.5%'
               }}
               onPress={() => {
                 yourPageData.followerIdList.indexOf(userData.userId) >= 0
@@ -278,10 +279,10 @@ export default function YourPageScreen({route, navigation}) {
                   : [follow(), fakeFollow(userData.userId)];
               }}>
               <Text
-                style={{color: 'white', alignSelf: 'center', paddingTop: '5%'}}>
+                style={{color: 'white', alignSelf: 'center', paddingVertical: '3.5%', fontWeight: 'bold'}}>
                 {yourPageData.followerIdList
                   ? yourPageData.followerIdList.indexOf(userData.userId) >= 0
-                    ? '언팔로우'
+                    ? '팔로잉'
                     : '팔로우'
                   : ''}
               </Text>
@@ -307,33 +308,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingTop: '1%',
-    paddingHorizontal: '2.5%',
+    padding: 16,
     backgroundColor: 'white',
-  },
-  button: {
-    // alignItems: 'flex-end',
-    // flex: 0.08,
-    marginVertical: '1.5%',
   },
   profileImageBox: {
     flex: 2,
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    marginStart: '4%',
   },
   profileImage: {
     width: 100,
     height: 100,
     borderRadius: 50,
     borderWidth: 3,
-    borderColor: 'rgba(255,95,95,1)',
+    borderColor: '#A6A6A6',
   },
   followsBox: {
     flex: 3,
-  },
+   },
   follows: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    marginBottom: '20%',
+    marginBottom: '10%',
+    marginTop: '10%'
   },
   detail: {
     paddingTop: '0.8%',
