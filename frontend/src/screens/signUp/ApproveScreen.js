@@ -83,17 +83,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
   },
   scrollContainer: {
     flex: 2,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     borderStyle: 'solid',
     borderWidth: 1,
     borderRadius: 5,
-    borderColor: 'black',
+    borderColor: '#000000',
     marginVertical: '1%',
     marginHorizontal: 20,
     paddingVertical: '3%',
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   homeButton: {
     paddingVertical: '1%',
     borderRadius: 6,
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     marginHorizontal: '1%',
     minWidth: '15%',
     borderWidth: 1,
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 15,
-    color: 'white',
+    color: '#FFFFFF',
     textAlignVeritcal: 'center',
   },
   homeText: {
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: 'center',
     textAlignVeritcal: 'center',
-    color: 'black',
+    color: '#000000',
   },
 });
 

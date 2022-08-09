@@ -84,16 +84,17 @@ export default function PlusScreen({navigation}) {
           <View>
             <Text style={styles.registArgu}>논쟁등록</Text>
           </View>
-          <View>
-            <Text style={styles.warning}>
-              ※성별, 지역, 정치 논쟁은 그 내용과 관계없이 삭제됩니다.
-            </Text>
-          </View>
+         
           <Divider orientation="vertical" />
         </View>
 
         {/* 논쟁, 1/2안 입력 */}
-        <View style={{marginTop: '5%'}}>
+        <View style={{}}>
+        <View>
+            <Text style={styles.warning}>
+              ※성별, 지역, 정치 논쟁은 그 내용과 관계없이 삭제됩니다.
+            </Text>
+          </View>
           <InputLabel name="논쟁" star="*" />
           <NoCheckInputText
             // placeholder='논쟁을 입력해주세요'
@@ -145,7 +146,7 @@ export default function PlusScreen({navigation}) {
                       );
                     }}
                     rowStyle={{
-                      backgroundColor: 'white',
+                      backgroundColor: '#FFFFFF',
                     }}
                     dropdownStyle={styles.dropDownOpen}
                     buttonStyle={styles.dropDownButton}
@@ -175,7 +176,7 @@ export default function PlusScreen({navigation}) {
           </View>
         </View>
 
-        {/* 미리보기 -> 카드 제대로 만들면 다시해야함!!*/}
+        {/* 미리보기 */}
         <View style={{}}>
           <Divider orientation="vertical" style={{marginTop: '2.5%'}} />
           <Text style={styles.preview}> PREVIEW </Text>
@@ -186,6 +187,8 @@ export default function PlusScreen({navigation}) {
                   textAlign: 'center',
                   fontWeight: 'bold',
                   marginBottom: '5%',
+                  fontSize: 20,
+                  color: '#000000'
                 }}>
                 {getValues('title')}
               </Text>
@@ -250,21 +253,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: '1%',
     paddingHorizontal: '5%',
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     height: '100%',
   },
   registArgu: {
     fontWeight: 'bold',
     marginBottom: '3%',
     fontSize: 18,
+    color: '#000000'
   },
   warning: {
-    color: 'red',
-    marginBottom: '3%',
+    color: '#FF5F5F',
+    marginVertical: '3%',
+    alignSelf: 'center'
+
   },
   preview: {
     textAlign: 'center',
     marginVertical: '5%',
+    color: '#000000'
   },
   card: {
     backgroundColor: '#fff',
@@ -272,8 +279,8 @@ const styles = StyleSheet.create({
   },
   focusInput: {
     width: '100%',
-    backgroundColor: 'white',
-    borderColor: 'black',
+    backgroundColor: '#FFFFFF',
+    borderColor: '#000000',
     paddingVertical: 0,
     paddingHorizontal: '2%',
     height: '100%',
@@ -291,8 +298,8 @@ const styles = StyleSheet.create({
   },
   focusHalfInput: {
     width: '100%',
-    backgroundColor: 'white',
-    borderColor: 'black',
+    backgroundColor: '#FFFFFF',
+    borderColor: '#000000',
     paddingVertical: 0,
     paddingHorizontal: '4%',
     height: '100%',
@@ -318,14 +325,14 @@ const styles = StyleSheet.create({
   checkButton: {
     marginBottom: '5%',
     width: '23%',
-    color: 'white',
+    color: '#FFFFFF',
     backgroundColor: '#FF7171',
     borderRadius: 6,
     justifyContent: 'center',
     padding: '2.5%',
   },
   buttonText: {
-    color: 'white',
+    color: '#FFFFFF',
     fontFamily: 'Bold',
     textAlign: 'center',
     fontSize: 15,

@@ -7,7 +7,7 @@ export default function LogoSearch({navigation}) {
       <TouchableOpacity>
         <Image
           style={styles.logo}
-          source={require('../common/header-logo.png')}></Image>
+          source={require('../common/로공공.png')}></Image>
       </TouchableOpacity>
 
       <View style={styles.iconsContainer}>
@@ -31,17 +31,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    height: '7%',
+    height: '4%',
     marginBottom: 5,
   },
   logo: {
-    width: 100,
-    height: 50,
+    width: 50,
+    height: 90,
     resizeMode: 'contain',
   },
   iconsContainer: {
     flexDirection: 'row',
-    marginHorizontal: 20,
+    marginHorizontal: 10,
   },
   icon: {
     width: 20,

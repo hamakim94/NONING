@@ -27,15 +27,19 @@ function Boards({board, navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 30,
-    marginBottom: 30,
+    marginTop: 5,
+    marginBottom: 50,
     height: 200,
     width: '100%',
-    borderWidth: 1,
+    borderWidth: 0.5,
     borderRadius: 5,
+    // shadowOpacity : 0.1,
+    // shadowRadius:0.1,
+    // elevation:0.5,
   },
   titleText: {
     fontSize: 20,
+    color: '#000000',
     fontWeight: 'bold',
     textAlign: 'center',
     textAlignVertical: 'center',

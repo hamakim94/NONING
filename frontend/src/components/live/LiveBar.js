@@ -68,14 +68,14 @@ const styles = StyleSheet.create({
       userVote === 2 ? 'rgba(131,227,209,1)' : 'rgba(131,227,209,0.3)',
   }),
   leftInnerText: userVote => ({
-    color: 'white',
+    color: '#FFFFFF',
     fontWeight: userVote === 0 ? '' : userVote === 1 ? 'bold' : '',
     textAlign: 'center',
     textAlignVertical: 'center',
     fontSize: 17,
   }),
   rightInnerText: userVote => ({
-    color: 'white',
+    color: '#FFFFFF',
     fontWeight: userVote === 0 ? '' : userVote === 2 ? 'bold' : '',
     textAlign: 'center',
     textAlignVertical: 'center',

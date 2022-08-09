@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   whiteBox: {
     width: 300,
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     borderRadius: 4,
     elevation: 2,
   },

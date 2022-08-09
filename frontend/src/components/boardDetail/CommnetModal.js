@@ -49,7 +49,7 @@ export default function CommentModal() {
 
 const styles = StyleSheet.create({
   modalContainer: {
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     borderTopLeftRadius: 7,
     borderTopRightRadius: 7,
     borderWidth: 0.5,
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   deleteContainer: {
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     borderRadius: 5,
     borderWidth: 0.7,
   },

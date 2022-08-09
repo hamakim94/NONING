@@ -39,7 +39,7 @@ function RecentPopularTabs({setIsPopular}) {
         {filterButtons.map((filterbutton, index) => (
           <View
             key={index}
-            style={{alignItems: 'center', justifyContent: 'center', margin: 5}}>
+            style={{alignItems: 'center', justifyContent: 'center'}}>
             <FilterButton
               key={index}
               filterbutton={filterbutton}></FilterButton>
@@ -57,18 +57,18 @@ const styles = StyleSheet.create({
   },
 
   isActive: {
-    width: 60,
+    width: 50,
     height: 25,
     color: '#FF5F5F',
-    fontSize: 15,
-    paddingHorizontal:5,
+    fontSize: 13,
+    paddingHorizontal:3,
   },
 
   notActive: {
-    width: 60,
+    width: 50,
     height: 25,
-    color: '#D9D9D9',
-    fontSize: 15,
-    paddingHorizontal: 5,
+    color: '#808080',
+    fontSize: 13,
+    paddingHorizontal: 3,
   },
 });

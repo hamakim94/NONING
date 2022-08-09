@@ -5,7 +5,7 @@ import React from 'react';
 export default function TosScreen() {
   return (
     <View style={styles.container}>
-      <Text >서비스 이용약관</Text>
+      <Text style={{fontSize:30, marginBottom:20}}>서비스 이용약관</Text>
       <ScrollView style={styles.textContainer}>
         <TosText />
       </ScrollView>
