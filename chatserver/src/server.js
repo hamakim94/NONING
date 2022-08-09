@@ -36,7 +36,7 @@ io.on("connection", (socket) => {
   //   // 유저 입장 알리기(입장은 발신자 제외)
   //   socket.broadcast.emit("joinUser", data);
   // });
-
+  //
   // // 메시지 보내기
   // socket.on("msg", (data) => {
   //   console.log("message: " + data);
