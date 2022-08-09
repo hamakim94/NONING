@@ -20,6 +20,7 @@ import ChatBar from '../../components/live/chat/ChatBar';
 import ChatHeader from '../../components/live/chat/ChatHeader';
 import ChatContent from '../../components/live/chat/ChatContent';
 import UserContext from '../../util/UserContext';
+// import socketIO from 'socket.io-client';
 
 const user = [
   {userId: 1, nickname: '김토마', userVote: 1},
@@ -78,6 +79,42 @@ export default function ChatScreen({route}) {
   const [msg, setMsg] = useState();
   const {userData} = useContext(UserContext);
   const chatRef = useRef(null);
+
+  useEffect(() => {
+    const io = require('socket.io/client-dist/socket.io');
+    const socket = io(`http://i7a202.p.ssafy.io:3000`, {
+      transports: ['websocket'], // you need to explicitly tell it to use websockets
+    });
+
+    const connect_error = socket.on('connect_error', err => {
+      console.log(err.message);
+    });
+    const left = socket.on('left', name => {
+      console.log(name);
+    });
+    const welcome = socket.on('welcome', nickname => {
+      // "~~님이 입장하셨습니다."
+      // msgId = chatRef.current, msg, betray=false
+      console.log(1);
+      const msgData = {
+        msgId: chatRef.current,
+        msg: nickname + '님이 입장하셨습니다.',
+        betray: false,
+      };
+      console.log('welcome');
+      // setMessageData([...messageData, msgData]);
+    });
+
+    const connect = socket.on('connect', () => {
+      console.log(userData.nickname + ' connect');
+      socket.emit('enter', boardData.boardId, userData);
+    });
+
+    return () => {
+      console.log('end');
+      socket.disconnect();
+    };
+  }, []);
   useEffect(() => {
     setUserList(user);
     setMessageData(messageList);
@@ -104,13 +141,18 @@ export default function ChatScreen({route}) {
   };
 
   const onSubmit = () => {
-    const data = {
-      msgId: chatRef.current,
-      msg: msg,
-      nickname: userData.nickname,
-      userVote: boardData.userVote,
-    };
-    setMessageData([...messageData, data]);
+    console.log('msg : ' + msg);
+    // socket.emit("send", msg);
+    // socket.on("message", (message) => {
+    //   console.log("message: " + message);
+    // });
+    // const data = {
+    //   msgId: chatRef.current,
+    //   msg: msg,
+    //   nickname: userData.nickname,
+    //   userVote: boardData.userVote,
+    // };
+    // setMessageData([...messageData, data]);
     setMsg('');
     Keyboard.dismiss();
   };

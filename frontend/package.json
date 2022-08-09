@@ -42,6 +42,7 @@
     "react-native-select-dropdown": "^2.0.4",
     "react-native-tab-view": "^3.1.1",
     "react-native-vector-icons": "^9.2.0",
+    "socket.io": "^4.5.1",
     "yup": "^0.32.11"
   },
   "devDependencies": {
