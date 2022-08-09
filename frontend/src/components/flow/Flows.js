@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
   },
   titleText: {
     width: '80%',
-    fontSize: 20,
+    fontSize: 25,
+    color: 'black',
     fontWeight: 'bold',
     textAlign: 'center',
     justifyContent: 'center',

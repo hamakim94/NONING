@@ -42,7 +42,7 @@ export default function FlowBottom({setBoards, board, navigation}) {
             <TouchableOpacity
                 style={styles.clickDetail}
                 onPress={() => navigation.push('DetailScreen', {screen: 'DetailScreen'})}>
-                    <MaterialCommunityIcons name={'text-box-search-outline'} size={35} color={'gray'} /> 
+                    <MaterialCommunityIcons name={'text-box-search-outline'} size={35} color={'#A6A6A6'} /> 
             </TouchableOpacity>
             <TouchableOpacity 
                 style={styles.clickLike} 
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
       marginTop: '3%'
     },
     iconColor : userLike => ({
-      color: userLike ? '#FF7171' : '#606060',
+      color: userLike ? '#FF7171' : '#A6A6A6',
     }),
     clickWriter: {
         width: 35 ,
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
         borderRadius:50, 
         marginRight: '2.3%',
         marginTop: '3%',
-        borderWidth: 3,
-        borderColor: 'rgba(131,227,209,1)'
+        borderWidth: 2,
+        borderColor: '#A6A6A6'
     }
   });

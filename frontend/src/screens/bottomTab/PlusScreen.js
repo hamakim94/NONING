@@ -84,16 +84,17 @@ export default function PlusScreen({navigation}) {
           <View>
             <Text style={styles.registArgu}>논쟁등록</Text>
           </View>
-          <View>
-            <Text style={styles.warning}>
-              ※성별, 지역, 정치 논쟁은 그 내용과 관계없이 삭제됩니다.
-            </Text>
-          </View>
+         
           <Divider orientation="vertical" />
         </View>
 
         {/* 논쟁, 1/2안 입력 */}
-        <View style={{marginTop: '5%'}}>
+        <View style={{}}>
+        <View>
+            <Text style={styles.warning}>
+              ※성별, 지역, 정치 논쟁은 그 내용과 관계없이 삭제됩니다.
+            </Text>
+          </View>
           <InputLabel name="논쟁" star="*" />
           <NoCheckInputText
             // placeholder='논쟁을 입력해주세요'
@@ -175,7 +176,7 @@ export default function PlusScreen({navigation}) {
           </View>
         </View>
 
-        {/* 미리보기 -> 카드 제대로 만들면 다시해야함!!*/}
+        {/* 미리보기 */}
         <View style={{}}>
           <Divider orientation="vertical" style={{marginTop: '2.5%'}} />
           <Text style={styles.preview}> PREVIEW </Text>
@@ -186,6 +187,8 @@ export default function PlusScreen({navigation}) {
                   textAlign: 'center',
                   fontWeight: 'bold',
                   marginBottom: '5%',
+                  fontSize: 20,
+                  color: 'black'
                 }}>
                 {getValues('title')}
               </Text>
@@ -257,14 +260,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: '3%',
     fontSize: 18,
+    color: 'black'
   },
   warning: {
-    color: 'red',
-    marginBottom: '3%',
+    color: '#FF5F5F',
+    marginVertical: '3%',
+    alignSelf: 'center'
+
   },
   preview: {
     textAlign: 'center',
     marginVertical: '5%',
+    color: 'black'
   },
   card: {
     backgroundColor: '#fff',
