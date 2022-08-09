@@ -15,7 +15,7 @@ const UserWithdrawalScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     paddingTop: 30,
     paddingHorizontal: 0,
   },

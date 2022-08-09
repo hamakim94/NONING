@@ -120,8 +120,8 @@ export default function LoginForm({navigation}) {
 const styles = StyleSheet.create({
   focusInput: {
     width: '100%',
-    backgroundColor: 'white',
-    borderColor: 'black',
+    backgroundColor: '#FFFFFF',
+    borderColor: '#000000',
     paddingHorizontal: '2%',
     height: '80%',
     borderRadius: 4,
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   button: {
     marginBottom: '5%',
     width: '90%',
-    color: 'white',
+    color: '#FFFFFF',
     height: '40%',
     backgroundColor: 'rgba(255, 95, 95, 0.4)',
     borderRadius: 6,
@@ -147,14 +147,14 @@ const styles = StyleSheet.create({
   checkButton: {
     marginBottom: '5%',
     width: '90%',
-    color: 'white',
+    color: '#FFFFFF',
     height: '40%',
     backgroundColor: '#FF5F5F',
     borderRadius: 6,
     justifyContent: 'center',
   },
   buttonText: {
-    color: 'white',
+    color: '#FFFFFF',
     fontFamily: 'Bold',
     textAlign: 'center',
     fontSize: 15,

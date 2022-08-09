@@ -30,7 +30,7 @@ export default function VoteDo({navigation, myPageData}) {
                   return (
                     <View style={{flex: 1, flexDirection: 'row', marginVertical: '2%'}}>
                         <View style={{flex: 9, marginStart: 5}}>
-                            <Text style={{fontWeight: 'bold', color: 'black', marginTop: '2.5%', marginBottom: '1.5%'}}>{item.title}</Text>
+                            <Text style={{fontWeight: 'bold', color: '#000000', marginTop: '2.5%', marginBottom: '1.5%'}}>{item.title}</Text>
                             <View
                               style={{flexDirection: 'row', marginBottom: '1.5%'}}>
                               {(() => {
@@ -56,13 +56,13 @@ export default function VoteDo({navigation, myPageData}) {
                               {(() => {
                                 if (item.userVote === 1)
                                   return (
-                                    <Text style={{fontWeight: '500', color: 'black'}}>
+                                    <Text style={{fontWeight: '500', color: '#000000'}}>
                                       {item.opt1}
                                     </Text>
                                   );
                                 else
                                   return (
-                                    <Text style={{fontWeight: '500', color: 'black'}}>
+                                    <Text style={{fontWeight: '500', color: '#000000'}}>
                                       {item.opt2}
                                     </Text>
                                   );

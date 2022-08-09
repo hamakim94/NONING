@@ -165,7 +165,7 @@ function InfoScreen({navigation}) {
               size={100}
               rounded
               containerStyle={{
-                backgroundColor: 'white',
+                backgroundColor: '#FFFFFF',
                 borderWidth: 2,
                 borderColor: '#808080',
                 marginBottom: '5%',
@@ -317,7 +317,7 @@ function InfoScreen({navigation}) {
                       );
                     }}
                     rowStyle={{
-                      backgroundColor: 'white',
+                      backgroundColor: '#FFFFFF',
                     }}
                     dropdownStyle={styles.dropDownOpen}
                     buttonStyle={styles.dropDownButton}

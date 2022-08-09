@@ -13,6 +13,7 @@ import {
 import UseAxios from '../util/UseAxios'
 import UserContext from '../util/UserContext';
 import {useIsFocused} from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 function FollowerScreen({route, navigation}) {
   const [followData, setFollowData] = useState([]);
@@ -76,7 +77,7 @@ function FollowerScreen({route, navigation}) {
 
   const ItemView = ({item}) => {
     return (
-      <View style={{flex: 1, flexDirection: 'row'}}>
+      <View style={{flex: 1, flexDirection: 'row', paddingHorizontal: 16}}>
           <TouchableOpacity
             style={{flexDirection: 'row', flex: 1.5, margin: '2%'}}
             navigation={navigation}
@@ -95,10 +96,10 @@ function FollowerScreen({route, navigation}) {
                   height: 60,
                   borderRadius: 50,
                   borderWidth: 2,
-                  borderColor: 'rgba(255,90,110,1)', }}
+                  borderColor: '#A6A6A6', }}
               />
             </View>
-            <View style={{flex: 1, alignSelf: 'flex-start', paddingVertical: '5%'}}>
+            <View style={{flex: 1, alignSelf: 'flex-start', paddingVertical: '5%', paddingStart: 10}}>
               <Text style={styles.userNickname}>{item.nickname}</Text>
               <View style={{flexDirection: 'row'}}>
                 <Text>
@@ -148,7 +149,7 @@ function FollowerScreen({route, navigation}) {
               : [];
           }}>
             { userData.userId === id
-            ? <Text style={{textAlign: 'center', height: '30%', width: '80%', textAlignVertical: 'center', borderRadius: 10, backgroundColor: 'rgba(255,95,95,1)', color: 'white'}}>
+            ? <Text style={{textAlign: 'center', height: '30%', width: '80%', textAlignVertical: 'center', borderRadius: 10, backgroundColor: 'rgba(255,95,95,1)', color: '#FFFFFF'}}>
                   {userData.userId === id ? '삭제' : ''}
               </Text>
             : ''}  
@@ -160,21 +161,31 @@ function FollowerScreen({route, navigation}) {
   const ItemSeparatorView = () => {
     return (
       <View
-        style={{height: 0.5, width: '100%', backgroundColor: 'white'}}></View>
+        style={{height: 0.5, width: '100%', backgroundColor: '#FFFFFF'}}></View>
     );
   };
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-      <View style={styles.container}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
+      <View style={{flex: 0.15, flexDirection: 'row'}}>
+      <TouchableOpacity style={{height: 500}} onPress={() => navigation.pop()}>
+                <Ionicons
+                    style={{marginStart:15, marginVertical: 30}}
+                    name="arrow-back"
+                    size={30}
+                  />
+            </TouchableOpacity>
+            <View style={{ marginHorizontal: '31%', justifyContent: 'center', margin: 30, justifyContent: 'flex-start', height: 50}}>
+              <Text style={{fontWeight: 'bold', fontSize: 18, color: '#000000' }}>Follower</Text>
+            </View>
+        </View>
         <FlatList
-          style={{}}
+          style={{flex: 1}}
           navigation={navigation}
           data={followData.followers}
           keyExtractor={(item, index) => index.toString()}
           ItemSeparatorComponent={ItemSeparatorView}
           renderItem={ItemView}></FlatList>
-      </View>
     </SafeAreaView>
   );
 }
@@ -194,7 +205,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     marginHorizontal: 5,
     marginBottom: 10,
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     borderRadius: 10,
   },
 });

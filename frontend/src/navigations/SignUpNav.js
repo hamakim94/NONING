@@ -9,7 +9,7 @@ const Tab = createMaterialTopTabNavigator();
 function SignUpNav() {
   return (
     <Tab.Navigator
-      style={{backgroundColor: 'white'}}
+      style={{backgroundColor: '#FFFFFF'}}
       initialRouteName="ApproveScreen"
       screenOptions={{
         tabBarActiveTintColor: '#FF7171',
@@ -18,11 +18,11 @@ function SignUpNav() {
         tabBarIndicatorStyle: {backgroundColor: '#FF7171'},
         tabBarLabelStyle: {fontSize: 15},
         tabBarStyle: {
-          backgroundColor: 'white',
+          backgroundColor: '#FFFFFF',
           marginHorizontal: 20,
           marginTop: 5,
           marginBottom: 10,
-          shadowColor: 'white',
+          shadowColor: '#FFFFFF',
           borderBottomColor: '#808080',
           borderBottomWidth: 0.3,
         },
