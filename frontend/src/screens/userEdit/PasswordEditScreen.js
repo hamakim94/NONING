@@ -1,30 +1,34 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useContext} from 'react';
 import {
   Text,
   View,
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import UserContext from '../../util/UserContext';
+import UseAxios from '../../util/UseAxios';
 
-function PasswordEditScreen() {
+function PasswordEditScreen({navigation}) {
+  const {userData} = useContext(UserContext);
   const inputRef = useRef([]);
   const [currentpwStyle, setCurrentPwStyle] = useState(styles.blurInput);
   const [pwStyle, setPwStyle] = useState(styles.blurInput);
   const [pwConfirmStyle, setPwConfirmStyle] = useState(styles.blurInput);
   const schema = yup.object({
-    currentPw: yup
+    password: yup
       .string()
       .matches(
         /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/,
         '8~16자 영문, 숫자, 특수문자를 사용하세요.',
       )
       .required('필수 항목입니다.'),
-    password: yup
+    newPassword: yup
       .string()
       .matches(
         /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/,
@@ -33,7 +37,7 @@ function PasswordEditScreen() {
       .required('필수 항목입니다.'),
     passwordConfirm: yup
       .string()
-      .oneOf([yup.ref('password'), null], '비밀번호가 일치하지 않았습니다.')
+      .oneOf([yup.ref('newPassword'), null], '비밀번호가 일치하지 않았습니다.')
       .required('필수 항목입니다.'),
   });
 
@@ -44,8 +48,8 @@ function PasswordEditScreen() {
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      currentPw: '',
       password: '',
+      newPassword: '',
       passwordConfirm: '',
     },
     resolver: yupResolver(schema),
@@ -54,7 +58,33 @@ function PasswordEditScreen() {
   const blank = /\s/g;
 
   const onSubmit = data => {
-    console.log(data);
+    Alert.alert(
+      '비밀번호 변경',
+      '변경하시겠습니까?',
+      [
+        {
+          text: '확인',
+          onPress: () => {
+            UseAxios.put('/users/passwords/edit', {
+              password: data.password,
+              newPassword: data.newPassword,
+              userId: userData.userId,
+            })
+              .then(() => {
+                navigation.navigate('HomeStack');
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          },
+        },
+        {
+          text: '취소',
+          onPress: () => {},
+        },
+        // console.log('취소버튼'), style: 'cancel'},
+      ],
+    );
   };
 
   console.log(errors);
@@ -83,10 +113,10 @@ function PasswordEditScreen() {
               />
             </View>
           )}
-          name="currentPw"
+          name="password"
         />
-        {errors.currentPw ? (
-          <Text style={styles.errorText}>{errors.currentPw.message}</Text>
+        {errors.password ? (
+          <Text style={styles.errorText}>{errors.password.message}</Text>
         ) : (
           <Text style={styles.errorText}></Text>
         )}
@@ -113,10 +143,10 @@ function PasswordEditScreen() {
               />
             </View>
           )}
-          name="password"
+          name="newPassword"
         />
-        {errors.password ? (
-          <Text style={styles.errorText}>{errors.password.message}</Text>
+        {errors.newPassword ? (
+          <Text style={styles.errorText}>{errors.newPassword.message}</Text>
         ) : (
           <Text style={styles.errorText}></Text>
         )}
@@ -145,11 +175,24 @@ function PasswordEditScreen() {
         ) : (
           <Text style={styles.errorText}></Text>
         )}
+        <View style={{alignItems: 'center', marginVertical: '3%'}}>
+          <TouchableOpacity
+            index={3}
+            style={
+              Object.keys(errors).length > 0
+                ? styles.button
+                : styles.checkButton
+            }
+            onPress={
+              Object.keys(errors).length > 0 ? () => '' : handleSubmit(onSubmit)
+            }>
+            <Text style={styles.buttonText}>나아아아</Text>
+          </TouchableOpacity>
+        </View>
       </KeyboardAwareScrollView>
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   label: {
     color: 'black',
@@ -192,6 +235,37 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 4,
     borderWidth: 1,
+  },
+  button: {
+    marginBottom: '5%',
+    width: '90%',
+    color: 'white',
+    height: '40%',
+    backgroundColor: 'rgba(255, 95, 95, 0.4)',
+    borderRadius: 6,
+    justifyContent: 'center',
+  },
+  checkButton: {
+    marginBottom: '5%',
+    width: '90%',
+    color: 'white',
+    height: '40%',
+    backgroundColor: '#FF5F5F',
+    borderRadius: 6,
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontFamily: 'Bold',
+    textAlign: 'center',
+    fontSize: 15,
+  },
+  errorText: {
+    color: '#FF7171',
+    fontSize: 10,
+    fontWeight: 'bold',
+    marginLeft: '1%',
+    textAlignVertical: 'center',
   },
 });
 
