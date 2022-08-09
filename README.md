@@ -86,8 +86,9 @@ https://rainy-ixia-034.notion.site/dee646f3456e42f7934d8852ca9ad2bb
 #### branch 
 
 ```
-master -> develop -> FE_develop -> feat/기능명
-	   -> develop -> BE_develop -> feat/기능명
+master -> develop -> FE_develop -> feat-frontend/기능명
+	   -> develop -> BE_develop -> feat-backend/기능명
+     -> develop -> cHAT_develop -> feat-chat/기능명
 	   -> develop -> docs
 ```
 
@@ -95,6 +96,7 @@ master -> develop -> FE_develop -> feat/기능명
   - develop
     - BE_develop
     - FE_develop
+    - CHAT_develop
     - docs
 
 #### merge
