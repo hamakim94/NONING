@@ -20,7 +20,7 @@ const LoginScreen = ({navigation}) => (
                 screen: 'PasswordFindScreen',
               })
             }>
-            <Text style={{color: '#FF5F5F'}}>비밀번호 찾기</Text>
+            <Text style={{color: '#FF7171'}}>비밀번호 찾기</Text>
           </TouchableOpacity>
         </View>
 
@@ -29,7 +29,7 @@ const LoginScreen = ({navigation}) => (
             onPress={() =>
               navigation.navigate('SignUpNav', {screen: 'SignUpNav'})
             }>
-            <Text style={{color: '#FF5F5F'}}>회원 가입</Text>
+            <Text style={{color: '#FF7171'}}>회원 가입</Text>
           </TouchableOpacity>
         </View>
       </View>

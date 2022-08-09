@@ -68,7 +68,6 @@ const UserWithdrawal = () => {
               ※탈퇴 및 가입을 반복할 경우, 서비스 악용 방지를 위해 재가입이
               제한됩니다.{'\n'}
               ※자세한 내용은 개인정보처리방침을 확인해주세요.{'\n'}
-              (보통 더 있는데 기능 관련이라 더 생각해봐야할듯여)
             </Text>
 
             <View style={styles.buttonContainer}>

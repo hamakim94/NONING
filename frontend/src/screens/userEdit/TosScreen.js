@@ -5,7 +5,7 @@ import React from 'react';
 export default function TosScreen() {
   return (
     <View style={styles.container}>
-      <Text style={{fontSize:30, marginBottom:20}}>서비스 이용약관</Text>
+      <Text style={{fontSize:30, marginBottom:20, color:'#000000'}}>서비스 이용약관</Text>
       <ScrollView style={styles.textContainer}>
         <TosText />
       </ScrollView>
@@ -15,7 +15,8 @@ export default function TosScreen() {
 
 const styles = StyleSheet.create({
   container : {
-    marginTop:30,
+    backgroundColor:'#FFFFFF',
+    paddingTop:30,
     flex:1,
     alignItems:'center',
   },
@@ -23,6 +24,5 @@ const styles = StyleSheet.create({
     width:'90%',
     borderWidth:1,
     borderRadius:5,
-
   }
 });
