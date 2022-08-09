@@ -31,7 +31,6 @@ export default function PasswordFindForm({navigation}) {
     resolver: yupResolver(schema),
   });
   const onSubmit = data => {
-    console.log(data);
     UseAxios.get('/users/passwords/find', {params: data})
       .then(() => {
         Alert.alert(
