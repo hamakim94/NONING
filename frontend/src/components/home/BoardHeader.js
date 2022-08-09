@@ -8,7 +8,7 @@ export default function BoardHeader({board, navigation}) {
     <View style={styles.liveContainer}>
       <Text style={styles.liveButton(board.live)} >LIVE</ Text>
       <TouchableOpacity style={{marginHorizontal:6}} onPress={() =>
-              navigation.navigate('HomeDetail', {boardId : board.boardId})
+              navigation.navigate('DetailScreen', {boardId : board.boardId})
             }>
         <Feather style={styles.detail(1)} name="chevrons-right" size={25} />
       </TouchableOpacity>
@@ -41,6 +41,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 1,
     marginHorizontal: 5,
-    color : user_vote > 0 ? '#808080' : '#ffffff',
+    color : user_vote > 0 ? '#c9c9c9' : '#ffffff',
   }),
 });

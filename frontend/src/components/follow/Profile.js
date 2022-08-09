@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     wrapper :{
         marginVertical : 5,
         borderBottomWidth : 1,
-        borderColor : '#808080',
+        borderColor : '#c9c9c9',
     },
 
     profileContainer : {

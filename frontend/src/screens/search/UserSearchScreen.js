@@ -48,7 +48,7 @@ function UserSearchScreen({navigation}) {
       <TouchableOpacity
         style={{flexDirection: 'row', flex: 1.5}}
         onPress={() =>
-          navigation.navigate('yourPageScreen', {userId: item.userId})
+          navigation.navigate('YourPageScreen', {id: item.userId})
         }>
         <View
           style={{
@@ -58,21 +58,21 @@ function UserSearchScreen({navigation}) {
             justifyContent: 'center',
           }}>
           <Image
-            source={{uri: item.imageUrl}}
+            source={{uri : item.img ? item.img : '../../assets/DefaultProfile.jpg'}}
             style={{
               width: 60,
               height: 60,
               borderRadius: 50,
               borderWidth: 2,
-              borderColor: 'rgba(255,90,110,1)',
+              borderColor: '#c9c9c9',
             }}
           />
-          {/* <Image source={{uri: item.imag}} style={{width: 60, height: 60, borderRadius: 50, borderWidth: 2, borderColor: 'rgba(255,90,110,1)',}}/>   */}
+          
         </View>
         <View style={{flex: 1, alignSelf: 'flex-start', paddingVertical: '5%'}}>
           <Text style={styles.userNickname}>{item.nickname.toUpperCase()}</Text>
           <View style={{flexDirection: 'row'}}>
-            <Text>
+            <Text style={{color: '#808080'}}>
               {(() => {
                 if (item.genderCode === 'G0101') return <Text>남성</Text>;
                 else return <Text>여성</Text>;
@@ -91,8 +91,8 @@ function UserSearchScreen({navigation}) {
                 else return <Text>T</Text>;
               })()}
               {(() => {
-                if (item.mbti4Code === 'M0401') return <Text>P</Text>;
-                else return <Text>J</Text>;
+                if (item.mbti4Code === 'M0401') return <Text>J</Text>;
+                else return <Text>P</Text>;
               })()}{' '}
               /
               {(() => {
@@ -124,20 +124,22 @@ function UserSearchScreen({navigation}) {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
-      <View style={styles.container}>
-        <TextInput
-          style={styles.textInputStyle}
-          value={search}
-          placeholder="닉네임을 검색하세요"
-          underlineColorAndroid="transparent"
-          onChangeText={text => searchFilter(text)}></TextInput>
-        <FlatList
-          style={{}}
-          data={filterdData}
-          keyExtractor={(item, index) => index.toString()}
-          ItemSeparatorComponent={ItemSeparatorView}
-          renderItem={ItemView}></FlatList>
-      </View>
+        <View style={{flex:0.5, marginBottom:"1%"}}>
+            <TextInput
+              style={styles.textInputStyle}
+              value={search}
+              placeholder="닉네임을 검색하세요"
+              underlineColorAndroid="transparent"
+            onChangeText={text => searchFilter(text)}></TextInput>
+        </View>
+        <View style={{flex:5.5, paddingVertical:"2%"}}>
+            <FlatList
+              style={{}}
+              data={filterdData}
+              keyExtractor={(item, index) => index.toString()}
+              ItemSeparatorComponent={ItemSeparatorView}
+              renderItem={ItemView}></FlatList>
+        </View>
     </SafeAreaView>
   );
 }
@@ -146,6 +148,7 @@ const styles = StyleSheet.create({
   container: {},
   userNickname: {
     fontWeight: 'bold',
+    color: '#000000'
   },
   userInfo: {
     paddingTop: '1%',

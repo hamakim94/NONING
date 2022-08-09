@@ -362,7 +362,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     borderWidth: 3,
-    borderColor: '#A6A6A6',
+    borderColor: '#c9c9c9',
   },
   followsBox: {
     flex: 3,
