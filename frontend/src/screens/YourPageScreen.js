@@ -271,7 +271,7 @@ export default function YourPageScreen({route, navigation}) {
                 height: '50%',
                 marginTop: '2.5%',
                 alignContent: 'center',
-                marginStart: '2.5%'
+                marginStart: '1.3%'
               }}
               onPress={() => {
                 yourPageData.followerIdList.indexOf(userData.userId) >= 0
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     borderWidth: 3,
-    borderColor: '#A6A6A6',
+    borderColor: '#c9c9c9',
   },
   followsBox: {
     flex: 3,

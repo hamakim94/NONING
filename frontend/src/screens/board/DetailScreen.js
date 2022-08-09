@@ -53,7 +53,7 @@ const renderScene = SceneMap({
   1: AnalysisScreen,
 });
 
-export default function DetailScreen({route}) {
+export default function DetailScreen({route, navigation}) {
   console.log(route.params.boardId);
   const [index, setIndex] = useState(0);
   const [routes] = useState([

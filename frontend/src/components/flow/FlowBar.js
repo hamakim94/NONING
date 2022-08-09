@@ -40,7 +40,7 @@ export default function FlowBar({board,  boards, setBoards}) {
       <TouchableOpacity
             style={styles.leftBar(board.userVote, leftSize)}
             disabled={board.userVote > 0}
-            onPress={() => setOpt1Selected()}>
+            onPress={() => [setOpt1Selected(), posting(1)]}>
             <Text style={styles.leftInnerText(board.userVote)}>{board.opt1}</Text>
             {board.userVote > 0 && (
             <Text style={styles.leftInnerText(board.userVote)}>{leftSize}</Text>
@@ -49,7 +49,7 @@ export default function FlowBar({board,  boards, setBoards}) {
       <TouchableOpacity
             style={styles.rightBar(board.userVote, rightSize)}
             disabled={board.userVote > 0}
-            onPress={() => setOpt2Selected()}>
+            onPress={() => [setOpt2Selected(), posting(2)]}>
             <Text style={styles.rightInnerText(board.userVote)}>{board.opt2}</Text>
             {board.userVote > 0 && (
             <Text style={styles.rightInnerText(board.userVote)}>

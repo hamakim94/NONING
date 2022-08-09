@@ -80,7 +80,7 @@ export default function VoteDo({navigation, myPageData}) {
                             <Feather
                               name={'chevrons-right'}
                               size={25}
-                              color={'#A6A6A6'}
+                              color={'#c9c9c9'}
                             />
                           </TouchableOpacity>
                         </View>
