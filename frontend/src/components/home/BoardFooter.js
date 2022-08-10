@@ -7,9 +7,11 @@ export default function BoardFooter({board, setBoards, navigation}) {
   const {userData} = useContext(UserContext);
 
   const like = () => {
-    UseAxios.post(`/boards/${board.boardId}/like`, null, { params : {
-      userId : userData.userId,
-    }})
+    UseAxios.post(`/boards/${board.boardId}/like`, null, {
+      params: {
+        userId: userData.userId,
+      },
+    })
       .then(res => {
         console.log(res);
       })
@@ -35,17 +37,35 @@ export default function BoardFooter({board, setBoards, navigation}) {
     <View style={styles.footerContainer}>
       <View style={styles.writerContainer}>
         <Text style={{color: '#000000'}}>작성자 : </Text>
-        <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => navigation.push('YourPageScreen', {id: board.writerId})}>
-            <Image style={{ width:15 ,height:15, borderRadius:50}} source={{uri : board.writerImg ? board.writerImg : '../../assets/DefaultProfile.jpg'}}></Image>
-            <Text style={{paddingLeft:5, color: '#000000'}}>{board.writerNickname} </Text>
+        <TouchableOpacity
+          style={{flexDirection: 'row'}}
+          onPress={() =>
+            navigation.push('YourPageScreen', {id: board.writerId})
+          }>
+          <Image
+            style={{width: 15, height: 15, borderRadius: 50}}
+            source={{
+              uri: board.writerImg
+                ? board.writerImg
+                : '../../assets/DefaultProfile.jpg',
+            }}></Image>
+          <Text style={{paddingLeft: 5, color: '#000000'}}>
+            {board.writerNickname}{' '}
+          </Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.numberLikeContainer}>
-        <Text style={{paddingRight:5, color: '#000000'}}>참여 : {board.opt1Selected + board.opt2Selected}명</Text>
+        <Text style={{paddingRight: 5, color: '#000000'}}>
+          참여 : {board.opt1Selected + board.opt2Selected}명
+        </Text>
         <TouchableOpacity
           style={{margin: 1}}
-          onPress={() =>  { userData === null ? navigation.navigate('LoginNav', {screen: 'LoginNav'}) : [toggleLike(), board.userLike ? unlike() : like() ]}}>
+          onPress={() => {
+            userData === null
+              ? navigation.navigate('LoginNav', {screen: 'LoginNav'})
+              : [toggleLike(), board.userLike ? unlike() : like()];
+          }}>
           <AntDesign
             style={styles.iconColor(board.userLike)}
             name="heart"

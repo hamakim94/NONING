@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
       userVote === 2 ? 'rgba(73, 211, 202,1)' : 'rgba(73,211,202,0.2)',
   }),
   leftInnerText: userVote => ({
-    color:  userVote === 1 ? '#FFFFFF' : '#808080',
+    color: userVote === 1 ? '#FFFFFF' : '#808080',
     fontWeight: userVote === 0 ? '' : userVote === 1 ? 'bold' : '',
     textAlign: 'center',
     textAlignVertical: 'center',

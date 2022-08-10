@@ -5,7 +5,7 @@ import ReplyList from './ReplyList';
 import DetailContext from './DetailContext';
 import UseAxios from '../../util/UseAxios';
 
-function CommentList({comment}) {
+function CommentList({comment, setNested}) {
   const [commentIsopened, setCommentIsopened] = useState(false);
   const [commentData, setCommentData] = useState(comment);
   const [replys, setReplys] = useState([]);
@@ -44,6 +44,7 @@ function CommentList({comment}) {
         writerData={writerData}
         commentIsopened={commentIsopened}
         setCommentIsopened={setCommentIsopened}
+        setNested={setNested}
         isReply={false}></CommentItem>
       {commentIsopened ? (
         <View style={{marginTop: '2%'}}>

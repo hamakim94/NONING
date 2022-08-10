@@ -1,11 +1,34 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import Modal from 'react-native-modal';
-
-export default function DeleteModal({deleteModal, setDeleteModal, comment}) {
+import UseAxios from '../../util/UseAxios';
+import UserContext from '../../util/UserContext';
+import DetailContext from './DetailContext';
+export default function DeleteModal({
+  deleteModal,
+  setDeleteModal,
+  comment,
+  data,
+}) {
   const deviceHeight = require('react-native-extra-dimensions-android').get(
     'REAL_WINDOW_HEIGHT',
   );
+  const {userData} = useContext(UserContext);
+  const {boardId} = useContext(DetailContext);
+  const deleteComment = () => {
+    setDeleteModal(false);
+    if (data.writerId == userData.userId)
+      UseAxios.put(`/boards/${boardId}/comments/${data.commentId}/delete`)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    else {
+      alert('본인 글만 삭제할 수 있습니다.');
+    }
+  };
   return (
     <>
       <Modal
@@ -22,9 +45,7 @@ export default function DeleteModal({deleteModal, setDeleteModal, comment}) {
             <Text style={styles.modalText}>{comment}</Text>
           </View>
           <View style={styles.bottomModalbox}>
-            <TouchableOpacity
-              style={styles.bottomBox}
-              onPress={() => setDeleteModal(false)}>
+            <TouchableOpacity style={styles.bottomBox} onPress={deleteComment}>
               <Text style={styles.modalText}>삭제</Text>
             </TouchableOpacity>
             <TouchableOpacity

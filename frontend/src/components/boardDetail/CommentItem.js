@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import CommentModal from './CommnetModal';
 import UseAxios from '../../util/UseAxios';
 import DetailContext from './DetailContext';
+import CommentContext from './CommentContext';
 
 function CommentItem({
   commentData,
@@ -13,9 +14,10 @@ function CommentItem({
   commentIsopened,
   setCommentIsopened,
   isReply,
+  setNested,
 }) {
   const {boardId} = useContext(DetailContext);
-
+  const {setParentComment} = useContext(CommentContext);
   const likeAxios = (setter, likeCheck) => {
     UseAxios.put(
       `/boards/${boardId}/comments/${commentData.commentId}/${likeCheck}`,
@@ -97,6 +99,10 @@ function CommentItem({
         break;
     }
   };
+  const nestOnPress = () => {
+    setNested(true);
+    setParentComment(commentData.commentId);
+  };
   return writerData ? (
     <View style={styles.container}>
       {isReply ? <View style={styles.blankContainer} /> : ''}
@@ -128,7 +134,7 @@ function CommentItem({
             )}
           </TouchableOpacity>
           <Text style={{fontSize: 12, color: '#000000'}}>
-            {commentData.userLike}
+            {commentData.likes}
           </Text>
           <TouchableOpacity
             style={{paddingTop: '1.5%', marginRight: '1%', marginLeft: '3%'}}
@@ -140,24 +146,34 @@ function CommentItem({
             )}
           </TouchableOpacity>
           <Text style={{fontSize: 12, color: '#000000'}}>
-            {commentData.userDislike}
+            {commentData.dislikes}
           </Text>
           {isReply ? (
             ''
           ) : (
-            <TouchableOpacity
-              style={{marginLeft: '3%'}}
-              onPress={() => setCommentIsopened(prev => !prev)}>
-              <Text
-                style={{fontSize: 12, color: '#808080', fontWeight: 'bold'}}>
-                {commentIsopened ? '답글 숨기기' : '답글 보기'}
-              </Text>
-            </TouchableOpacity>
+            <>
+              <TouchableOpacity
+                style={{marginLeft: '3%'}}
+                onPress={() => setCommentIsopened(prev => !prev)}>
+                <Text
+                  style={{fontSize: 12, color: '#808080', fontWeight: 'bold'}}>
+                  {commentIsopened ? '답글 숨기기' : '답글 보기'}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{marginLeft: '3%'}}
+                onPress={nestOnPress}>
+                <Text
+                  style={{fontSize: 12, color: '#808080', fontWeight: 'bold'}}>
+                  답글 달기
+                </Text>
+              </TouchableOpacity>
+            </>
           )}
         </View>
       </View>
       <View style={{flex: 0.5, justifyContent: 'center'}}>
-        <CommentModal></CommentModal>
+        <CommentModal data={commentData}></CommentModal>
       </View>
     </View>
   ) : (

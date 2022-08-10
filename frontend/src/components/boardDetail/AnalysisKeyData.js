@@ -1,9 +1,9 @@
-export default function AnalysisKeyData(data, idx, analysisData) {
-  const objKey = analysisData;
-  for (let i = idx; i < data.length; i++) {
-    switch (data[i].user_vote) {
+export default function AnalysisKeyData(data, defaultData) {
+  let objKey = [...defaultData];
+  for (let i = 0; i < data.length; i++) {
+    switch (data[i].vote) {
       case 1:
-        switch (data[i].gender_code) {
+        switch (data[i].genderCode) {
           case 'G0101':
             objKey[0].opt1 = objKey[0].opt1 + 1;
             objKey[0].total = objKey[0].total + 1;
@@ -14,7 +14,7 @@ export default function AnalysisKeyData(data, idx, analysisData) {
             break;
         }
 
-        switch (data[i].age_range_code) {
+        switch (data[i].ageRangeCode) {
           case 'A0101':
             objKey[2].opt1 = objKey[2].opt1 + 1;
             objKey[2].total = objKey[2].total + 1;
@@ -37,13 +37,13 @@ export default function AnalysisKeyData(data, idx, analysisData) {
             break;
         }
 
-        switch (data[i].mbti1_code) {
+        switch (data[i].mbti1Code) {
           case 'M0101':
-            switch (data[i].mbti2_code) {
+            switch (data[i].mbti2Code) {
               case 'M0201':
-                switch (data[i].mbti3_code) {
+                switch (data[i].mbti3Code) {
                   case 'M0301':
-                    switch (data[i].mbti4_code) {
+                    switch (data[i].mbti4Code) {
                       case 'M0401':
                         objKey[7].opt1 = objKey[7].opt1 + 1;
                         objKey[7].total = objKey[7].total + 1;
@@ -55,7 +55,7 @@ export default function AnalysisKeyData(data, idx, analysisData) {
                     }
                     break;
                   case 'M0302':
-                    switch (data[i].mbti4_code) {
+                    switch (data[i].mbti4Code) {
                       case 'M0401':
                         objKey[9].opt1 = objKey[9].opt1 + 1;
                         objKey[9].total = objKey[9].total + 1;
@@ -69,9 +69,9 @@ export default function AnalysisKeyData(data, idx, analysisData) {
                 }
                 break; //M0201
               case 'M0202':
-                switch (data[i].mbti3_code) {
+                switch (data[i].mbti3Code) {
                   case 'M0301':
-                    switch (data[i].mbti4_code) {
+                    switch (data[i].mbti4Code) {
                       case 'M0401':
                         objKey[11].opt1 = objKey[11].opt1 + 1;
                         objKey[11].total = objKey[11].total + 1;
@@ -83,7 +83,7 @@ export default function AnalysisKeyData(data, idx, analysisData) {
                     }
                     break;
                   case 'M0302':
-                    switch (data[i].mbti4_code) {
+                    switch (data[i].mbti4Code) {
                       case 'M0401':
                         objKey[13].opt1 = objKey[13].opt1 + 1;
                         objKey[13].total = objKey[13].total + 1;
@@ -100,11 +100,11 @@ export default function AnalysisKeyData(data, idx, analysisData) {
             break; //M0101
 
           case 'M0102':
-            switch (data[i].mbti2_code) {
+            switch (data[i].mbti2Code) {
               case 'M0201':
-                switch (data[i].mbti3_code) {
+                switch (data[i].mbti3Code) {
                   case 'M0301':
-                    switch (data[i].mbti4_code) {
+                    switch (data[i].mbti4Code) {
                       case 'M0401':
                         objKey[15].opt1 = objKey[15].opt1 + 1;
                         objKey[15].total = objKey[15].total + 1;
@@ -116,7 +116,7 @@ export default function AnalysisKeyData(data, idx, analysisData) {
                     }
                     break;
                   case 'M0302':
-                    switch (data[i].mbti4_code) {
+                    switch (data[i].mbti4Code) {
                       case 'M0401':
                         objKey[17].opt1 = objKey[17].opt1 + 1;
                         objKey[17].total = objKey[17].total + 1;
@@ -130,9 +130,9 @@ export default function AnalysisKeyData(data, idx, analysisData) {
                 }
                 break; //M0201
               case 'M0202':
-                switch (data[i].mbti3_code) {
+                switch (data[i].mbti3Code) {
                   case 'M0301':
-                    switch (data[i].mbti4_code) {
+                    switch (data[i].mbti4Code) {
                       case 'M0401':
                         objKey[19].opt1 = objKey[19].opt1 + 1;
                         objKey[19].total = objKey[19].total + 1;
@@ -144,7 +144,7 @@ export default function AnalysisKeyData(data, idx, analysisData) {
                     }
                     break;
                   case 'M0302':
-                    switch (data[i].mbti4_code) {
+                    switch (data[i].mbti4Code) {
                       case 'M0401':
                         objKey[21].opt1 = objKey[21].opt1 + 1;
                         objKey[21].total = objKey[21].total + 1;
@@ -162,7 +162,7 @@ export default function AnalysisKeyData(data, idx, analysisData) {
         }
         break; //case 1
       case 2:
-        switch (data[i].gender_code) {
+        switch (data[i].genderCode) {
           case 'G0101':
             objKey[0].opt2 = objKey[0].opt2 + 1;
             objKey[0].total = objKey[0].total + 1;
@@ -173,7 +173,7 @@ export default function AnalysisKeyData(data, idx, analysisData) {
             break;
         }
 
-        switch (data[i].age_range_code) {
+        switch (data[i].ageRangeCode) {
           case 'A0101':
             objKey[2].opt2 = objKey[2].opt2 + 1;
             objKey[2].total = objKey[2].total + 1;
@@ -196,13 +196,13 @@ export default function AnalysisKeyData(data, idx, analysisData) {
             break;
         }
 
-        switch (data[i].mbti1_code) {
+        switch (data[i].mbti1Code) {
           case 'M0101':
-            switch (data[i].mbti2_code) {
+            switch (data[i].mbti2Code) {
               case 'M0201':
-                switch (data[i].mbti3_code) {
+                switch (data[i].mbti3Code) {
                   case 'M0301':
-                    switch (data[i].mbti4_code) {
+                    switch (data[i].mbti4Code) {
                       case 'M0401':
                         objKey[7].opt2 = objKey[7].opt2 + 1;
                         objKey[7].total = objKey[7].total + 1;
@@ -214,7 +214,7 @@ export default function AnalysisKeyData(data, idx, analysisData) {
                     }
                     break;
                   case 'M0302':
-                    switch (data[i].mbti4_code) {
+                    switch (data[i].mbti4Code) {
                       case 'M0401':
                         objKey[9].opt2 = objKey[9].opt2 + 1;
                         objKey[9].total = objKey[9].total + 1;
@@ -228,9 +228,9 @@ export default function AnalysisKeyData(data, idx, analysisData) {
                 }
                 break; //M0201
               case 'M0202':
-                switch (data[i].mbti3_code) {
+                switch (data[i].mbti3Code) {
                   case 'M0301':
-                    switch (data[i].mbti4_code) {
+                    switch (data[i].mbti4Code) {
                       case 'M0401':
                         objKey[11].opt2 = objKey[11].opt2 + 1;
                         objKey[11].total = objKey[11].total + 1;
@@ -242,7 +242,7 @@ export default function AnalysisKeyData(data, idx, analysisData) {
                     }
                     break;
                   case 'M0302':
-                    switch (data[i].mbti4_code) {
+                    switch (data[i].mbti4Code) {
                       case 'M0401':
                         objKey[13].opt2 = objKey[13].opt2 + 1;
                         objKey[13].total = objKey[13].total + 1;
@@ -259,11 +259,11 @@ export default function AnalysisKeyData(data, idx, analysisData) {
             break; //M0101
 
           case 'M0102':
-            switch (data[i].mbti2_code) {
+            switch (data[i].mbti2Code) {
               case 'M0201':
-                switch (data[i].mbti3_code) {
+                switch (data[i].mbti3Code) {
                   case 'M0301':
-                    switch (data[i].mbti4_code) {
+                    switch (data[i].mbti4Code) {
                       case 'M0401':
                         objKey[15].opt2 = objKey[15].opt2 + 1;
                         objKey[15].total = objKey[15].total + 1;
@@ -275,7 +275,7 @@ export default function AnalysisKeyData(data, idx, analysisData) {
                     }
                     break;
                   case 'M0302':
-                    switch (data[i].mbti4_code) {
+                    switch (data[i].mbti4Code) {
                       case 'M0401':
                         objKey[17].opt2 = objKey[17].opt2 + 1;
                         objKey[17].total = objKey[17].total + 1;
@@ -289,9 +289,9 @@ export default function AnalysisKeyData(data, idx, analysisData) {
                 }
                 break; //M0201
               case 'M0202':
-                switch (data[i].mbti3_code) {
+                switch (data[i].mbti3Code) {
                   case 'M0301':
-                    switch (data[i].mbti4_code) {
+                    switch (data[i].mbti4Code) {
                       case 'M0401':
                         objKey[19].opt2 = objKey[19].opt2 + 1;
                         objKey[19].total = objKey[19].total + 1;
@@ -303,7 +303,7 @@ export default function AnalysisKeyData(data, idx, analysisData) {
                     }
                     break;
                   case 'M0302':
-                    switch (data[i].mbti4_code) {
+                    switch (data[i].mbti4Code) {
                       case 'M0401':
                         objKey[21].opt2 = objKey[21].opt2 + 1;
                         objKey[21].total = objKey[21].total + 1;
@@ -322,5 +322,6 @@ export default function AnalysisKeyData(data, idx, analysisData) {
         break; //case 2
     }
   }
+  console.log('계산');
   return objKey;
 }

@@ -1,4 +1,4 @@
-export default AnalysisDefault = [
+const AnalysisDefault = [
   {
     id: 0,
     name: '남자',
@@ -161,3 +161,5 @@ export default AnalysisDefault = [
     total: 0,
   },
 ];
+
+export default AnalysisDefault;
