@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useContext} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import UserContext from '../../util/UserContext';
@@ -35,8 +35,8 @@ export default function BoardFooter({board, setBoards, navigation}) {
   return (
     <View style={styles.footerContainer}>
       <View style={styles.writerContainer}>
-        <Text style={{color: '#000000'}}>작성자 : </Text>
-        <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => navigation.push('YourPageScreen', {id: board.writerId})}>
+        <Text style={{color: '#000000'}}>작성자 : </Text>            
+        <TouchableOpacity style={{flexDirection: 'row', alignItems:'center'}} onPress={() => {board.writerNickname ? navigation.push('YourPageScreen', {id: board.writerId}) : Alert.alert('정보가 없습니다')} }>
             <Image style={{ width:15 ,height:15, borderRadius:50}}   source={board.writerImg ? {uri:board.writerImg} : require('../../assets/DefaultProfile.jpg')    }></Image>
             <Text style={{paddingLeft:5, color: '#000000'}}>{board.writerNickname} </Text>
         </TouchableOpacity>
