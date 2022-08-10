@@ -42,7 +42,9 @@ io.on('connection', (socket) => {
     io.to(boardId).emit('send', () => {});
   });
 
-  socket.on('betray', () => {
+  socket.on('betray', (boardId, userId) => {
+    // 해당 user의 vote 변경
+    // userList.get(boardId).find(user => user.userId = userId)[""]
     io.to(boardId).emit('betray', () => {});
   });
 

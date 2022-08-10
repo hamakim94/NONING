@@ -124,7 +124,14 @@ export default function ChatScreen({route}) {
 
       socket.emit('send', () => {});
 
-      socket.emit('betray', () => {});
+      // 먼저 http 통신 관련 처리
+      // 성공하면 실행
+
+      socket.emit('betray', boardData.boardId, userData.userId);
+      socket.on('betray', () => {
+        // opt1, opt2 수 변경
+        // 해당 user의 vote 변경
+      });
 
       // socket.on('connect_error', (err) => {
       //   console.log(err.message);
