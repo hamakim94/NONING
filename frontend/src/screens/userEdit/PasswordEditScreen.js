@@ -186,7 +186,7 @@ function PasswordEditScreen({navigation}) {
             onPress={
               Object.keys(errors).length > 0 ? () => '' : handleSubmit(onSubmit)
             }>
-            <Text style={styles.buttonText}>나아아아</Text>
+            <Text style={styles.buttonText}>비밀번호 변경</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAwareScrollView>
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingTop: '1%',
+    paddingTop: '10%',
     paddingHorizontal: '5%',
     backgroundColor: '#FFFFFF',
   },
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: '5%',
-    width: '90%',
+    width: '40%',
     color: 'white',
     height: '40%',
     backgroundColor: 'rgba(255, 95, 95, 0.4)',
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
   },
   checkButton: {
     marginBottom: '5%',
-    width: '90%',
+    width: '40%',
     color: 'white',
     height: '40%',
     backgroundColor: '#FF5F5F',

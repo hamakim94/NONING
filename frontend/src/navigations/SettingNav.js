@@ -26,13 +26,4 @@ export default function SettingNav() {
     </Stack.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-    width: 300,
-    marginTop: 16,
-  },
-});
+;

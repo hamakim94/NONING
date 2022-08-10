@@ -1,9 +1,10 @@
 import {Text} from 'react-native';
 import React from 'react';
 
+
 export default function TosText() {
   return (
-    <Text style={{margin:'5%'}}>
+    <Text style={{margin:'5%' ,color:'#000000'}}>
       
 {`
 1 개인정보의 처리 목적

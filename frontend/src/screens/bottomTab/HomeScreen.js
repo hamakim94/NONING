@@ -39,8 +39,9 @@ function HomeScreen({navigation}) {
   useEffect(() => {
     UseAxios.get('/boards/list', {
       params: {categorycode: filterToCode[filterName]},
-    }).then(res => {
-      if (isPopular === '인기순') { // 인기순이니?
+    }).then((res) => {
+      if (isPopular === '인기순') {
+        // 인기순이니?
         res.data.sort(function (a, b) {
           const participantsA = a.opt1Selected + a.opt2Selected;
           const participantsB = b.opt1Selected + b.opt2Selected;
@@ -48,7 +49,8 @@ function HomeScreen({navigation}) {
           if (participantsA === participantsB) return 0;
           if (participantsA < participantsB) return 1;
         });
-      } else { // 최신순이니?
+      } else {
+        // 최신순이니?
         res.data.sort(function (a, b) {
           if (a.boardId > b.boardId) return -1;
           if (a.boardId === b.boardId) return 0;
@@ -62,13 +64,13 @@ function HomeScreen({navigation}) {
   const renderItem = ({item}) => (
     <Boards board={item} navigation={navigation}></Boards>
   );
-  const keyExtractor = item => item.boardId;
+  const keyExtractor = (item) => item.boardId;
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
       <View style={{flex: 1, padding: 16}}>
         <LogoSearch navigation={navigation}></LogoSearch>
         <FilterButtonTabs setFilterName={setFilterName} />
-        <RecentPopularTabs setIsPopular ={setIsPopular} ></RecentPopularTabs>
+        <RecentPopularTabs setIsPopular={setIsPopular}></RecentPopularTabs>
         <FlatList
           showsVerticalScrollIndicator={false}
           removeClippedSubviews={true}
