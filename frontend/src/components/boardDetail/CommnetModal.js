@@ -4,7 +4,7 @@ import Modal from 'react-native-modal';
 import Entypo from 'react-native-vector-icons/Entypo';
 import DeleteModal from './DeleteModal';
 
-export default function CommentModal() {
+export default function CommentModal({data}) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
 
@@ -42,6 +42,7 @@ export default function CommentModal() {
         deleteModal={deleteModal}
         setDeleteModal={setDeleteModal}
         comment={'작성한 댓글(대댓글 포함)이 삭제 됩니다'}
+        data={data}
       />
     </View>
   );

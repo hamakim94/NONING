@@ -1,17 +1,33 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {View, StyleSheet, FlatList} from 'react-native';
 import CommentItem from './CommentItem';
-import ReplyTestData from './ReplyTestData';
 import ReplyList from './ReplyList';
+import DetailContext from './DetailContext';
+import UseAxios from '../../util/UseAxios';
 
-function CommentList({comment}) {
+function CommentList({comment, setNested}) {
   const [commentIsopened, setCommentIsopened] = useState(false);
   const [commentData, setCommentData] = useState(comment);
   const [replys, setReplys] = useState([]);
+  const [writerData, setWriterData] = useState(null);
+  const {boardId, participants} = useContext(DetailContext);
   useEffect(() => {
-    setReplys(ReplyTestData);
+    if (participants) {
+      setWriterData(
+        participants.filter(prev => prev.userId == commentData.writerId),
+      );
+    }
+  }, [participants]);
+  useEffect(() => {
+    UseAxios.get(`/boards/${boardId}/comments/${commentData.commentId}/list`)
+      .then(res => {
+        console.log(res);
+        setReplys(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }, []);
-
   const renderItem = ({item}) => (
     <ReplyList
       reply={item}
@@ -25,15 +41,17 @@ function CommentList({comment}) {
       <CommentItem
         commentData={commentData}
         setCommentData={setCommentData}
+        writerData={writerData}
         commentIsopened={commentIsopened}
         setCommentIsopened={setCommentIsopened}
+        setNested={setNested}
         isReply={false}></CommentItem>
       {commentIsopened ? (
         <View style={{marginTop: '2%'}}>
           <FlatList
             data={replys}
             renderItem={renderItem}
-            keyExtractor={reply => reply.id}
+            keyExtractor={reply => reply.commentId}
             scrollEnabled={false}
           />
         </View>
