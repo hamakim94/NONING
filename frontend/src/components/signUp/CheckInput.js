@@ -33,10 +33,10 @@ function CheckInput({
                 },
               ]}
               blurOnSubmit={false}
-              ref={el => (inputRef.current[index] = el)}
+              ref={(el) => (inputRef.current[index] = el)}
               onFocus={() => setStyle(styles.checkFocusInput)}
               onBlur={() => setStyle(styles.checkBlurInput)}
-              onChangeText={value => [
+              onChangeText={(value) => [
                 onChange(value.replace(blank, '')),
                 setCheck(false),
               ]}

@@ -39,17 +39,17 @@ export default function LoginForm({navigation}) {
     },
     resolver: yupResolver(schema),
   });
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     UseAxios.post('/users/login', data)
-      .then(res => {
+      .then((res) => {
         AsyncStorage.setItem('accesstoken', res.headers.accesstoken);
         AsyncStorage.setItem('refreshtoken', res.headers.refreshtoken);
-        AsyncStorage.setItem('userdata', JSON.stringify(res.data));
+        AsyncStorage.setItem('userId', JSON.stringify(res.data.userId));
         setUserData(res.data);
-        console.log(res.headers.accesstoken);
-        console.log(res.headers.refreshtoken);
+        // console.log(res.headers.accesstoken);
+        // console.log(res.headers.refreshtoken);
       })
-      .catch(err => {
+      .catch((err) => {
         if (err.response.status === 401) {
           Alert.alert(
             'ID / 비밀번호 오류',

@@ -13,7 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import UserContext from '../../util/UserContext';
 
 function SettingScreen({navigation}) {
-  const {userData, setUserData} = useContext(UserContext);
+  const {setUserData} = useContext(UserContext);
   const showAlert = () =>
     Alert.alert(
       '',
