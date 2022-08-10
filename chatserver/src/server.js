@@ -25,27 +25,53 @@ io.on('connection', (socket) => {
   });
 
   // 실시간 음성채팅방 입장
-  socket.on('enter', (boardId, userData) => {
-    socket.join(boardId); // 방 들어감
+  socket.on('enter', (boardData, userData) => {
+    socket.join(boardData.boardId); // 방 들어감
     // console.log("boardId: " + boardId);
     // console.log(userList.get(boardId) == undefined ? "undefined" : userList);
 
-    if (userList.get(boardId) == undefined) userList.set(boardId, new Array());
-    userList.get(boardId).push(userData); // back에서 가지고 있을 userList (나중에 새로 들어온 사용자한테 보여줘야함)
+    const userVoteData = {
+      userId: userData.userId,
+      nickname: userData.nickname,
+      img: userData.img,
+      userVote: boardData.userVote,
+    };
 
-    socket.to(boardId).emit('welcome', userData, userList.get(boardId).length); // 본인 외 다른 참가자한테 전달
+    socket.userVoteData = userVoteData;
+    socket.boardId = boardData.boardId;
+
+    if (userList.get(boardData.boardId) == undefined)
+      userList.set(boardData.boardId, new Set());
+
+    userList.get(boardData.boardId).add(socket); // back에서 가지고 있을 userList (나중에 새로 들어온 사용자한테 보여줘야함)
+
+    // io.sockets.clients(boardData.boardId);
+    const userDataList = userList
+      .get(boardData.boardId) // [socket1, socket2, socket3, ...]
+      .filter((socket) => socket.userVoteData);
+
+    socket.emit('user_enter', userDataList, userVoteData); // 본인한테만 전달
+    socket
+      .to(boardData.boardId)
+      .emit('welcome', userVoteData, userDataList.length); // 본인 외 다른 참가자한테 전달
     // socket.to(boardId).emit("enter", userData, userList.get(boardId).length);
-    socket.emit('user_enter', userList.get(boardId)); // 본인한테만 전달
   });
 
   socket.on('send', () => {
     io.to(boardId).emit('send', () => {});
   });
-
-  socket.on('betray', (boardId, userId) => {
+  // socket.on('betray', (boardId, userVoteData, opt1Cnt, opt2Cnt) => {
+  socket.on('betray', (opt1Cnt, opt2Cnt) => {
     // 해당 user의 vote 변경
-    // userList.get(boardId).find(user => user.userId = userId)[""]
-    io.to(boardId).emit('betray', () => {});
+    const user = socket.userData;
+    // const user = userList.get(boardId).find((user) => (user.userId = userVoteData.userId));
+    console.log('before betray: ' + user);
+    if (user['userVote'] == 1) user['userVote'] = 2;
+    else if (user['userVote'] == 2) user['userVote'] = 1;
+    console.log('after betray: ' + user);
+
+    // 본인 포함 방 안의 모든 사람들에게 전달
+    io.to(boardId).emit('betray', user, opt1Cnt, opt2Cnt);
   });
 
   // // 유저 입장
