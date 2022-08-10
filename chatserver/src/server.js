@@ -46,13 +46,10 @@ io.on('connection', (socket) => {
     userList.get(boardData.boardId).add(socket); // back에서 가지고 있을 userList (나중에 새로 들어온 사용자한테 보여줘야함)
 
     // io.sockets.clients(boardData.boardId);
-    let userDataList = new Array();
-    userList.get(boardData.boardId).forEach((socket) => {
-      userDataList.push(socket.userVoteData);
-    });
-
-    // console.log(userDataList);
-    // console.log(userDataList.length);
+    let userDataList = Array.from(
+      userList.get(boardData.boardId),
+      (socket) => socket.userVoteData,
+    );
 
     socket.emit('user_enter', userDataList, userVoteData); // 본인한테만 전달
     socket
