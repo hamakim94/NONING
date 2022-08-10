@@ -148,8 +148,20 @@ export default function DetailScreen({navigation, route}) {
         console.log(err);
       });
   };
-  // console.log(participants);
-
+  const deleteBoard = () => {
+    if (userData.userId === board.writerId)
+      UseAxios.put(`/boards/${boardId}/delete`)
+        .then(res => {
+          navigation.navigate(route.name);
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    else {
+      alert('본인 글만 삭제할 수 있습니다.');
+    }
+  };
   return (
     <DetailContext.Provider value={{boardId, participants}}>
       <View style={styles.container}>
@@ -215,31 +227,36 @@ export default function DetailScreen({navigation, route}) {
           </TouchableOpacity>
         </View>
         <View style={{flex: 0.3, justifyContent: 'flex-end'}}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{flexDirection: 'row'}}>
             <View>
               <Text style={{color: '#000000'}}>작성자 :</Text>
             </View>
-            <TouchableOpacity>
-              <View>
-                <Avatar
-                  size={19}
-                  rounded
-                  containerStyle={styles.avartarContainer}
-                  source={
-                    board
-                      ? board.writerImg
-                        ? {uri: board.writerImg}
-                        : require('../../assets/DefaultProfile.jpg')
-                      : ''
-                  }
-                />
-              </View>
-              <View>
-                <Text style={{color: '#000000'}}>
-                  {board ? board.writerNickname : ''}
-                </Text>
-              </View>
-            </TouchableOpacity>
+            <View>
+              <TouchableOpacity>
+                <View style={{flexDirection: 'row'}}>
+                  <Avatar
+                    size={19}
+                    rounded
+                    containerStyle={styles.avartarContainer}
+                    source={
+                      board
+                        ? board.writerImg
+                          ? {uri: board.writerImg}
+                          : require('../../assets/DefaultProfile.jpg')
+                        : ''
+                    }
+                  />
+                  <Text style={{color: '#000000'}}>
+                    {board ? board.writerNickname : ''}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={{flex: 1}}>
+              <TouchableOpacity onPress={deleteBoard}>
+                <Text>삭제</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
         <View style={{flex: 3.3, marginTop: '1%'}}>
