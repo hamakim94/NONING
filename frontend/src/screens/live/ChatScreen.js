@@ -20,7 +20,7 @@ import ChatBar from '../../components/live/chat/ChatBar';
 import ChatHeader from '../../components/live/chat/ChatHeader';
 import ChatContent from '../../components/live/chat/ChatContent';
 import UserContext from '../../util/UserContext';
-import { useIsFocused } from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 // import socketIO from 'socket.io-client';
 
 // const user = [
@@ -75,7 +75,7 @@ const messages = [
 ];
 
 const io = require('socket.io/client-dist/socket.io');
-let socket; 
+let socket;
 
 export default function ChatScreen({route}) {
   const [userList, setUserList] = useState([]);
@@ -87,53 +87,57 @@ export default function ChatScreen({route}) {
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    if(isFocused){
+    if (isFocused) {
       socket = io(`http://i7a202.p.ssafy.io:3000`, {
-      // socket = io(`http://10.0.2.2:3000`, {
+        // socket = io(`http://10.0.2.2:3000`, {
         transports: ['websocket'], // you need to explicitly tell it to use websockets
       });
-  
+
       socket.on('connect', () => {
         console.log(userData.nickname + ' connect');
         socket.emit('enter', boardData.boardId, userData);
       });
-  
+
       socket.on('welcome', (userData, userCnt) => {
-        // 입장 메세지 보냄 
+        // 입장 메세지 보냄
         const msgData = {
           msgId: chatRef.current,
           msg: userData.nickname + ' 님이 입장하셨습니다.',
           betray: false,
         };
         setMessageList([...messageList, msgData]);
-  
+
         // user update
         // front단의 userlist update
         // 상단 userlist
-        
-  
+
         // 인원수 최신화 (userCnt로 update)
       });
-  
-      socket.on('user_enter', (initUsers) => { // 본인한테만 
+
+      socket.on('user_enter', initUsers => {
+        // 본인한테만
         // initUsers.forEach((user) => {
-        //   setUserList([...userList, user]); 
+        //   setUserList([...userList, user]);
         // });
-        userList.concat(initUsers); // 이렇게 해도 flatlist가 다시 그려지는지 
+        userList.concat(initUsers); // 이렇게 해도 flatlist가 다시 그려지는지
       });
-  
-      socket.on('connect_error', (err) => {
-        console.log(err.message);
-      });
-  
-      socket.on('left', (name) => {
-        console.log(name);
-      });
+
+      socket.emit('send', () => {});
+
+      socket.emit('betray', () => {});
+
+      // socket.on('connect_error', (err) => {
+      //   console.log(err.message);
+      // });
+
+      // socket.on('left', (name) => {
+      //   console.log(name);
+      // });
     }
-    
+
     return () => {
       console.log('end');
-      if(socket) socket.disconnect();
+      if (socket) socket.disconnect();
     };
   }, [isFocused]);
 
@@ -141,10 +145,12 @@ export default function ChatScreen({route}) {
     setUserList(users);
     setMessageList(messages);
   }, []);
-  
+
   useEffect(() => {
     chatRef.current =
-      messageList.length !== 0 ? messageList[messageList.length - 1].msgId + 1 : 1;
+      messageList.length !== 0
+        ? messageList[messageList.length - 1].msgId + 1
+        : 1;
   }, [messageList]);
 
   const userRender = ({item}) => <ChatHeaderUser user={item}></ChatHeaderUser>;
