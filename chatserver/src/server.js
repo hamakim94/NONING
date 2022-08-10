@@ -1,6 +1,4 @@
-import useAxios from './UseAxios';
-import UseAxios from './UseAxios';
-import {logPlugin} from '@babel/preset-env/lib/debug';
+import UseAxios from './UseAxios.js';
 
 const express = require('express');
 const app = express();
