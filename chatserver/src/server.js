@@ -46,9 +46,13 @@ io.on('connection', (socket) => {
     userList.get(boardData.boardId).add(socket); // back에서 가지고 있을 userList (나중에 새로 들어온 사용자한테 보여줘야함)
 
     // io.sockets.clients(boardData.boardId);
-    const userDataList = userList
-      .get(boardData.boardId) // [socket1, socket2, socket3, ...]
-      .filter((socket) => socket.userVoteData);
+    let userDataList = new Array();
+    userList.get(boardData.boardId).forEach((socket) => {
+      userDataList.push(socket.userVoteData);
+    });
+
+    // console.log(userDataList);
+    // console.log(userDataList.length);
 
     socket.emit('user_enter', userDataList, userVoteData); // 본인한테만 전달
     socket
@@ -58,7 +62,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('send', () => {
-    io.to(boardId).emit('send', () => {});
+    io.to(socket.boardId).emit('send', () => {});
   });
   // socket.on('betray', (boardId, userVoteData, opt1Cnt, opt2Cnt) => {
   socket.on('betray', (opt1Cnt, opt2Cnt) => {
@@ -95,12 +99,12 @@ io.on('connection', (socket) => {
   //   // socket.broadcast.emit("sm", data); //발신자 제외
   // });
 
-  socket.on('disconnect', () => {
-    // const i = userList.indexOf(socket.name);
-    // userList.splice(i, 1);
-    // socket.broadcast.emit("left", socket.name);
-    // socket.broadcast.emit("updateUser", userList);
+  // socket.on('disconnect', () => {
+  //   // const i = userList.indexOf(socket.name);
+  //   // userList.splice(i, 1);
+  //   // socket.broadcast.emit("left", socket.name);
+  //   // socket.broadcast.emit("updateUser", userList);
 
-    socket.to(boardId).emit('left', () => {});
-  });
+  //   socket.to(boardId).emit('left', () => {});
+  // });
 });
