@@ -78,7 +78,7 @@ const io = require('socket.io/client-dist/socket.io');
 let socket;
 
 export default function ChatScreen({route, navigation}) {
-  const [userList, setUserList] = useState([]);
+  const [userList, setUserList] = useState(users);
   const [boardData, setboardData] = useState(route.params.data);
   const [messageList, setMessageList] = useState(messages);
   const [msg, setMsg] = useState();
@@ -166,6 +166,13 @@ export default function ChatScreen({route, navigation}) {
           betray: false,
         };
         setMessageList((messageList) => [...messageList, msgData]);
+        setUserList((userList) => {
+          const index = userList.findIndex(
+            (user) => user.userId == userVoteData.userId,
+          );
+          userList.splice(index, 1);
+          return [...userList];
+        });
       });
     }
 
@@ -218,19 +225,19 @@ export default function ChatScreen({route, navigation}) {
 
   const betray = () => {
     // 먼저 http 통신 관련 처리
-    UseAxios.put(`/chats/${board.boardId}/betray`, {
+    UseAxios.put(`/chats/${boardData.boardId}/betray`, {
       userId: myData.userId,
       vote: myData.userVote == 1 ? 2 : 1,
     })
       .then((res) => {
         // 성공하면 실행
-        socket.emit(
-          'betray',
-          boardData.boardId,
-          myData,
-          res.data.opt1,
-          rea.data.opt2,
-        );
+        // socket.emit(
+        //   'betray',
+        //   boardData.boardId,
+        //   myData,
+        //   res.data.opt1,
+        //   rea.data.opt2,
+        // );
       })
       .catch((err) => {
         console.log(err);
