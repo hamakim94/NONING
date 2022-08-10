@@ -108,21 +108,23 @@ public class UserController {
     @PutMapping("/profiles/edit")
     public ResponseEntity modifyUser(@RequestPart(value = "userDTO") String userDTOString, @RequestPart(value = "image", required = false) MultipartFile image, HttpServletRequest request){
         try {
-        String DTO = new String(userDTOString.getBytes("8859_1"), StandardCharsets.UTF_8);
-        Gson gson = new Gson();
-        UserDTO userDTO = gson.fromJson(DTO, UserDTO.class);
-        if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userDTO.getUserId()))) {
-            try {
-                if (image != null&&image.getContentType().startsWith("image")){
-                    userDTO.setImg(awsS3Service.uploadFileV1("profileImg", image));
+            String DTO = new String(userDTOString.getBytes("8859_1"), StandardCharsets.UTF_8);
+            Gson gson = new Gson();
+            UserDTO userDTO = gson.fromJson(DTO, UserDTO.class);
+            if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userDTO.getUserId()))) {
+                try {
+                    if (image != null&&image.getContentType().startsWith("image")){
+                        userDTO.setImg(awsS3Service.uploadFileV1("profileImg", image));
+                    }
+                    userDTO = userService.modifyUser(userDTO);
+                    return new ResponseEntity<>(userDTO, HttpStatus.OK);
+                } catch (Exception e) {
+                    e.getStackTrace();
                 }
-                userService.modifyUser(userDTO);
-                return new ResponseEntity<>(HttpStatus.OK);
-            } catch (Exception e) {
-                e.getStackTrace();
             }
+        }catch (Exception e){
+
         }
-        }catch (Exception e){}
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @PutMapping("/passwords/edit")

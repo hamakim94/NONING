@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 //@ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
 //        @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
@@ -97,8 +98,8 @@ public class BoardController {
     public ResponseEntity betray(@PathVariable("boardid") long boardId, @RequestBody BoardRequestDTO.BoardVoteDTO boardVoteDTO, HttpServletRequest request){
         if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(boardVoteDTO.getUserId()))){
             try {
-                boardService.betray(boardId, boardVoteDTO.getUserId(), boardVoteDTO.getVote(), LocalDateTime.now());
-                return new ResponseEntity<>(HttpStatus.OK);
+                Map<String, Integer> result = boardService.betray(boardId, boardVoteDTO.getUserId(), boardVoteDTO.getVote(), LocalDateTime.now());
+                return new ResponseEntity<>(result, HttpStatus.OK);
             }catch (Exception e){}
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
