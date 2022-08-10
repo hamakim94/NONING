@@ -85,6 +85,7 @@ export default function ChatScreen({route}) {
   const {userData} = useContext(UserContext);
   const chatRef = useRef(null);
   const isFocused = useIsFocused();
+  let myData;
 
   useEffect(() => {
     if (isFocused) {
@@ -95,10 +96,10 @@ export default function ChatScreen({route}) {
 
       socket.on('connect', () => {
         console.log(userData.nickname + ' connect');
-        socket.emit('enter', boardData.boardId, userData);
+        socket.emit('enter', boardData, userData);
       });
 
-      socket.on('welcome', (userData, userCnt) => {
+      socket.on('welcome', (userVoteData, userCnt) => {
         // 입장 메세지 보냄
         const msgData = {
           msgId: chatRef.current,
@@ -114,7 +115,9 @@ export default function ChatScreen({route}) {
         // 인원수 최신화 (userCnt로 update)
       });
 
-      socket.on('user_enter', initUsers => {
+      socket.on('user_enter', (initUsers, userVoteData) => {
+        // 본인 정보
+        myData = userVoteData;
         // 본인한테만
         // initUsers.forEach((user) => {
         //   setUserList([...userList, user]);
@@ -124,13 +127,22 @@ export default function ChatScreen({route}) {
 
       socket.emit('send', () => {});
 
-      // 먼저 http 통신 관련 처리
-      // 성공하면 실행
-
-      socket.emit('betray', boardData.boardId, userData.userId);
-      socket.on('betray', () => {
+      socket.on('betray', (userVoteData, opt1Cnt, opt2Cnt) => {
         // opt1, opt2 수 변경
+        setBoard({
+          ...board,
+          opt1Selected: opt1Cnt,
+          opt2Selected: opt2Cnt,
+        });
         // 해당 user의 vote 변경
+        myData['userVote'] = userVoteData['userVote'];
+        // 배신 메세지 전달
+        const msgData = {
+          msgId: chatRef.current,
+          msg: userVoteData.nickname + ' 님이 배신하셨습니다.',
+          betray: true,
+        };
+        setMessageList([...messageList, msgData]);
       });
 
       // socket.on('connect_error', (err) => {
@@ -164,15 +176,15 @@ export default function ChatScreen({route}) {
 
   const userMemoized = useMemo(() => userRender, [userList]);
 
-  const userKey = useCallback(item => item.userId, []);
+  const userKey = useCallback((item) => item.userId, []);
 
   const msgRender = ({item}) => <ChatContent data={item} />;
 
   const msgMemoized = useMemo(() => msgRender, [messageList]);
 
-  const msgKey = useCallback(item => item.msgId, []);
+  const msgKey = useCallback((item) => item.msgId, []);
 
-  const onChange = e => {
+  const onChange = (e) => {
     setMsg(e);
   };
 
@@ -192,6 +204,24 @@ export default function ChatScreen({route}) {
     setMsg('');
     Keyboard.dismiss();
   };
+
+  const betray = () => {
+    // 먼저 http 통신 관련 처리
+    UseAxios.put(`/boards/${board.boardId}/betray`, {
+      userId: myData.userId,
+      vote: myData.userVote == 1 ? 2 : 1,
+    }).then((res) => {
+      // 성공하면 실행
+      socket.emit(
+        'betray',
+        boardData.boardId,
+        myData,
+        res.data.opt1,
+        rea.data.opt2,
+      );
+    });
+  };
+
   return (
     <View style={{flex: 1, backgroundColor: '#FFFFFF'}}>
       <View style={{flex: 1}}>
@@ -226,7 +256,7 @@ export default function ChatScreen({route}) {
         </View>
         <View style={{flex: 4.5}}>
           <TextInput
-            onChangeText={e => onChange(e)}
+            onChangeText={(e) => onChange(e)}
             value={msg}
             onSubmitEditing={onSubmit}></TextInput>
         </View>
