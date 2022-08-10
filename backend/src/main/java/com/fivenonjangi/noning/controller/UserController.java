@@ -116,8 +116,8 @@ public class UserController {
                 if (image != null&&image.getContentType().startsWith("image")){
                     userDTO.setImg(awsS3Service.uploadFileV1("profileImg", image));
                 }
-                userService.modifyUser(userDTO);
-                return new ResponseEntity<>(HttpStatus.OK);
+                userDTO = userService.modifyUser(userDTO);
+                return new ResponseEntity<>(userDTO, HttpStatus.OK);
             } catch (Exception e) {
                 e.getStackTrace();
             }
