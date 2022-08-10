@@ -27,7 +27,7 @@ const imagePickerOption = {
   hideBottomControls: true,
 };
 
-function ProfileEditScreen() {
+function ProfileEditScreen({navigation}) {
   const inputRef = useRef([]);
   const {userData, setUserData} = useContext(UserContext);
   const [nicknameStyle, setNicknameStyle] = useState(styles.checkBlurInput);
@@ -47,8 +47,6 @@ function ProfileEditScreen() {
   });
 
   const onSubmit = (data) => {
-    console.log(userData);
-    console.log(data);
     const formdata = new FormData();
     const filename = imgSource !== null ? imgSource.split('/').pop() : null;
     const imgData = {
@@ -77,6 +75,7 @@ function ProfileEditScreen() {
       .then((res) => {
         setUserData(res.data);
       })
+      .then(() => navigation.goBack())
       .catch((err) => {
         console.log(err);
       });
@@ -127,9 +126,7 @@ function ProfileEditScreen() {
                 marginBottom: '5%',
               }}
               source={{
-                uri: imgSource
-                  ? imgSource
-                  : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+                uri: imgSource ? imgSource : userData.img,
               }}
             />
           </TouchableOpacity>
@@ -151,8 +148,8 @@ function ProfileEditScreen() {
           <TouchableOpacity
             style={
               Object.keys(errors).length === 0 && nickNameCheck
-                ? styles.checkButton
-                : styles.button
+                ? styles.checkButton2
+                : styles.button2
             }
             onPress={
               Object.keys(errors).length === 0 && nickNameCheck
