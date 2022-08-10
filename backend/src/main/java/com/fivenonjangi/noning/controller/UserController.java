@@ -109,35 +109,22 @@ public class UserController {
     public ResponseEntity modifyUser(@RequestPart(value = "userDTO") String userDTOString, @RequestPart(value = "image", required = false) MultipartFile image, HttpServletRequest request){
         try {
             String DTO = new String(userDTOString.getBytes("8859_1"), StandardCharsets.UTF_8);
-            System.out.println(1);
             Gson gson = new Gson();
-            System.out.println(2);
             UserDTO userDTO = gson.fromJson(DTO, UserDTO.class);
-            System.out.println(3);
             if (jwtTokenProvider.getUserPk(jwtTokenProvider.resolveToken(request, "ACCESSTOKEN")).equals(String.valueOf(userDTO.getUserId()))) {
-            System.out.println(4);
                 try {
-            System.out.println(5);
                     if (image != null&&image.getContentType().startsWith("image")){
-            System.out.println(6);
                         userDTO.setImg(awsS3Service.uploadFileV1("profileImg", image));
-            System.out.println(7);
                     }
-            System.out.println(8);
                     userDTO = userService.modifyUser(userDTO);
-            System.out.println(9);
                     return new ResponseEntity<>(userDTO, HttpStatus.OK);
                 } catch (Exception e) {
-            System.out.println(10);
                     e.getStackTrace();
                 }
-            System.out.println(11);
             }
         }catch (Exception e){
-            System.out.println(12);
 
         }
-            System.out.println(13);
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @PutMapping("/passwords/edit")
