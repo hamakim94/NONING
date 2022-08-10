@@ -1,6 +1,7 @@
 {
   "name": "chatserver",
   "version": "1.0.0",
+  "type": "module",
   "description": "Chatting Server using websocket",
   "main": "src/server.js",
   "scripts": {
