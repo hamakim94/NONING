@@ -48,8 +48,8 @@ function FilterButtonTabs({setFilterName}) {
         horizontal
         showsHorizontalScrollIndicator={false}
         style={{
-          borderTopColor : '#A6A6A6',
-          borderTopWidth:0.5,
+          borderTopColor: '#A6A6A6',
+          borderTopWidth: 0.5,
           borderBottomWidth: 0.5,
           borderBottomColor: '#A6A6A6',
           height: 40,
@@ -57,7 +57,11 @@ function FilterButtonTabs({setFilterName}) {
         {filterButtons.map((filterbutton, index) => (
           <View
             key={index}
-            style={{alignItems: 'center', justifyContent: 'center', marginHorizontal: 5}}>
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginHorizontal: 5,
+            }}>
             <FilterButton
               key={index}
               filterbutton={filterbutton}></FilterButton>

@@ -8,7 +8,11 @@ const Stack = createNativeStackNavigator();
 export default function LiveNav() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="LiveScreen" component={LiveScreen} options />
+      <Stack.Screen
+        name="LiveScreen"
+        component={LiveScreen}
+        options={{headerShown: false}}
+      />
       <Stack.Screen
         name="ChatNav"
         component={ChatNav}

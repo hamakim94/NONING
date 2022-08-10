@@ -47,11 +47,21 @@ function LiveFilterButtonTabs({setFilterName}) {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        style={{borderBottomWidth: 1, height: 40}}>
+        style={{
+          borderTopColor: '#A6A6A6',
+          borderTopWidth: 0.5,
+          borderBottomWidth: 0.5,
+          borderBottomColor: '#A6A6A6',
+          height: 40,
+        }}>
         {filterButtons.map((filterbutton, index) => (
           <View
             key={index}
-            style={{alignItems: 'center', justifyContent: 'center', margin: 5}}>
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginHorizontal: 5,
+            }}>
             <FilterButton
               key={index}
               filterbutton={filterbutton}></FilterButton>
@@ -70,10 +80,10 @@ const styles = StyleSheet.create({
   isActive: {
     width: 50,
     height: 25,
-    backgroundColor: '#FF7171',
-    fontSize: 15,
+    backgroundColor: '#FF5F5F',
+    color: '#FFFFFF',
+    fontSize: 13,
     borderRadius: 20,
-    color: '#ffffff',
     paddingHorizontal: 10,
   },
 
@@ -81,7 +91,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 25,
     backgroundColor: '#D9D9D9',
-    fontSize: 15,
+    fontSize: 13,
     borderRadius: 20,
     paddingHorizontal: 10,
   },

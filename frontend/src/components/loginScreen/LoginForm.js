@@ -39,17 +39,17 @@ export default function LoginForm({navigation}) {
     },
     resolver: yupResolver(schema),
   });
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     UseAxios.post('/users/login', data)
-      .then(res => {
+      .then((res) => {
         AsyncStorage.setItem('accesstoken', res.headers.accesstoken);
         AsyncStorage.setItem('refreshtoken', res.headers.refreshtoken);
-        AsyncStorage.setItem('userdata', JSON.stringify(res.data));
+        AsyncStorage.setItem('userId', JSON.stringify(res.data.userId));
         setUserData(res.data);
-        console.log(res.headers.accesstoken);
-        console.log(res.headers.refreshtoken);
+        // console.log(res.headers.accesstoken);
+        // console.log(res.headers.refreshtoken);
       })
-      .catch(err => {
+      .catch((err) => {
         if (err.response.status === 401) {
           Alert.alert(
             'ID / 비밀번호 오류',
@@ -61,7 +61,7 @@ export default function LoginForm({navigation}) {
               {
                 text: '비밀번호 찾기',
                 style: 'OK',
-                onPress: () => navigation.navigate('PasswordChangeScreen'),
+                onPress: () => navigation.navigate('PasswordFindScreen'),
               },
             ],
           );
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   errorText: {
-    color: '#FF7171',
+    color: '#FF5F5F',
     fontSize: 10,
     fontWeight: 'bold',
     marginLeft: '1%',

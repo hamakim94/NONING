@@ -5,7 +5,7 @@ import LiveHeader from './LiveHeader';
 import LiveBar from './LiveBar';
 import LiveFooter from './LiveFooter';
 
-export default function Lives({live, navigation}) {
+function Lives({live, navigation}) {
   const [liveData, setLiveData] = useState(live);
   useEffect(() => {
     setLiveData(live);
@@ -27,22 +27,27 @@ export default function Lives({live, navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 10,
-    marginBottom: 30,
-    height: 250,
+    marginTop: 5,
+    marginBottom: 50,
+    height: 200,
     width: '100%',
-    borderWidth: 1,
+    borderWidth: 0.5,
     borderRadius: 5,
+    // shadowOpacity : 0.1,
+    // shadowRadius:0.1,
+    // elevation:0.5,
   },
   titleText: {
-    fontSize: 25,
+    fontSize: 20,
+    color: '#000000',
     fontWeight: 'bold',
     textAlign: 'center',
     textAlignVertical: 'center',
   },
   titleContainer: {
-    height: 120,
+    height: 90,
     width: '100%',
+    padding: 5,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -53,3 +58,5 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
 });
+
+export default React.memo(Lives);
