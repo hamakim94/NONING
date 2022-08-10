@@ -114,7 +114,7 @@ export default function ChatScreen({route}) {
         // 인원수 최신화 (userCnt로 update)
       });
 
-      socket.on('user_enter', initUsers => {
+      socket.on('user_enter', (initUsers) => {
         // 본인한테만
         // initUsers.forEach((user) => {
         //   setUserList([...userList, user]);
@@ -164,15 +164,15 @@ export default function ChatScreen({route}) {
 
   const userMemoized = useMemo(() => userRender, [userList]);
 
-  const userKey = useCallback(item => item.userId, []);
+  const userKey = useCallback((item) => item.userId, []);
 
   const msgRender = ({item}) => <ChatContent data={item} />;
 
   const msgMemoized = useMemo(() => msgRender, [messageList]);
 
-  const msgKey = useCallback(item => item.msgId, []);
+  const msgKey = useCallback((item) => item.msgId, []);
 
-  const onChange = e => {
+  const onChange = (e) => {
     setMsg(e);
   };
 
@@ -226,7 +226,7 @@ export default function ChatScreen({route}) {
         </View>
         <View style={{flex: 4.5}}>
           <TextInput
-            onChangeText={e => onChange(e)}
+            onChangeText={(e) => onChange(e)}
             value={msg}
             onSubmitEditing={onSubmit}></TextInput>
         </View>
