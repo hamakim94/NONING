@@ -85,12 +85,11 @@ export default function ChatScreen({route, navigation}) {
   const {userData} = useContext(UserContext);
   const chatRef = useRef(null);
   const isFocused = useIsFocused();
-  let myData;
 
   useEffect(() => {
     if (isFocused) {
+      // socket = io(`http://10.0.2.2:3000`, {
       socket = io(`http://i7a202.p.ssafy.io:3000`, {
-        // socket = io(`http://10.0.2.2:3000`, {
         transports: ['websocket'], // you need to explicitly tell it to use websockets
       });
 
@@ -102,7 +101,7 @@ export default function ChatScreen({route, navigation}) {
         });
       });
 
-      socket.on('welcome', (userVoteData, userCnt) => {
+      socket.on('welcome', (userVoteData) => {
         // 입장 메세지 보냄
         const msgData = {
           msgId: chatRef.current,
@@ -114,18 +113,18 @@ export default function ChatScreen({route, navigation}) {
         // user update
         // front단의 userlist update
         // 상단 userlist
+        // users.push(userVoteData);
+        setUserList((userList) => [...userList, userVoteData]);
 
         // 인원수 최신화 (userCnt로 update)
       });
 
-      socket.on('user_enter', (initUsers, userVoteData) => {
+      socket.on('user_enter', (initUsers) => {
         // 본인 정보
-        myData = userVoteData;
+        // myData = userVoteData;
+
         // 본인한테만
-        // initUsers.forEach((user) => {
-        //   setUserList([...userList, user]);
-        // });
-        userList.concat(initUsers); // 이렇게 해도 flatlist가 다시 그려지는지
+        setUserList(initUsers);
       });
 
       socket.on('send', (userVoteData, msg) => {
@@ -146,14 +145,14 @@ export default function ChatScreen({route, navigation}) {
           opt2Selected: opt2Cnt,
         });
         // 해당 user의 vote 변경
-        myData['userVote'] = userVoteData['userVote'];
+        boardData['userVote'] = userVoteData.userVote;
         // 배신 메세지 전달
         const msgData = {
           msgId: chatRef.current,
           msg: userVoteData.nickname + ' 님이 배신하셨습니다.',
           betray: true,
         };
-        setMessageList([...messageList, msgData]);
+        setMessageList((messageList) => [...messageList, msgData]);
       });
 
       // socket.on('connect_error', (err) => {
@@ -219,30 +218,35 @@ export default function ChatScreen({route, navigation}) {
 
   const betray = () => {
     // 먼저 http 통신 관련 처리
-    UseAxios.put(`/boards/${board.boardId}/betray`, {
+    UseAxios.put(`/chats/${board.boardId}/betray`, {
       userId: myData.userId,
       vote: myData.userVote == 1 ? 2 : 1,
-    }).then((res) => {
-      // 성공하면 실행
-      socket.emit(
-        'betray',
-        boardData.boardId,
-        myData,
-        res.data.opt1,
-        rea.data.opt2,
-      );
-    });
+    })
+      .then((res) => {
+        // 성공하면 실행
+        socket.emit(
+          'betray',
+          boardData.boardId,
+          myData,
+          res.data.opt1,
+          rea.data.opt2,
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
     <View style={{flex: 1, backgroundColor: '#FFFFFF'}}>
       <View style={{flex: 1}}>
         <View style={{flex: 0.4}}>
-          <ChatHeader title={boardData.title} />
+          <ChatHeader title={boardData.title} userCnt={userList.length} />
         </View>
         <View
           style={{
-            flex: 0.6,
+            // flex: 0.6,
+            flex: 0.7,
             borderBottomWidth: 1,
             paddingHorizontal: '5%',
           }}>

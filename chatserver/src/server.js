@@ -7,13 +7,6 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-// app.use("/css", express.static("./css"));
-// app.use("/js", express.static("./js"));
-//
-// app.get("/", (req, res) => {
-//   res.sendFile(__dirname + "/index.html");
-// });
-
 http.listen(3000, () => {
   console.log('server listening on port : 3000');
 });
