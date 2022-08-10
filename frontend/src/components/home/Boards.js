@@ -9,8 +9,8 @@ function Boards({board, navigation}) {
 
   useEffect(() => {
     setBoardData(board);
-  }, [board])
-  
+  }, [board]);
+
   return (
     <View>
       <View style={styles.container}>
@@ -18,8 +18,14 @@ function Boards({board, navigation}) {
         <View style={styles.titleContainer}>
           <Text style={styles.titleText}>{board.title}</Text>
         </View>
-        <BoardBar board={boardData} setBoards={setBoardData} navigation={navigation}></BoardBar>
-        <BoardFooter board={boardData} setBoards={setBoardData } navigation={navigation}></BoardFooter>
+        <BoardBar
+          board={boardData}
+          setBoards={setBoardData}
+          navigation={navigation}></BoardBar>
+        <BoardFooter
+          board={boardData}
+          setBoards={setBoardData}
+          navigation={navigation}></BoardFooter>
       </View>
     </View>
   );
@@ -27,8 +33,8 @@ function Boards({board, navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 5,
-    marginBottom: 50,
+    marginTop: 30,
+    marginBottom: 30,
     height: 200,
     width: '100%',
     borderWidth: 0.5,
@@ -38,8 +44,7 @@ const styles = StyleSheet.create({
     // elevation:0.5,
   },
   titleText: {
-    fontSize: 20,
-    color: '#000000',
+    fontSize: 23,
     fontWeight: 'bold',
     textAlign: 'center',
     textAlignVertical: 'center',
