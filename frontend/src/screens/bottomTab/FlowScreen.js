@@ -9,7 +9,7 @@ function FlowScreen({navigation}) {
   const [boards, setBoards] = useState([]);
 
   useEffect(() => {
-    UseAxios.get('/boards/flow').then(res => {
+    UseAxios.get('/boards/flow').then((res) => {
       setBoards(res.data);
     });
   }, []);
@@ -20,7 +20,7 @@ function FlowScreen({navigation}) {
 
   const memoizedItem = useMemo(() => renderItem, [boards]);
 
-  const keyExtractor = useCallback(item => item.boardId, []);
+  const keyExtractor = useCallback((item) => item.boardId, []);
 
   const snapToOffsets = useMemo(
     () =>
