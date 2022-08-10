@@ -103,7 +103,7 @@ export default function ChatScreen({route}) {
         // 입장 메세지 보냄
         const msgData = {
           msgId: chatRef.current,
-          msg: userData.nickname + ' 님이 입장하셨습니다.',
+          msg: userData.nickname + ' 님이 입장하셨습니다. ',
           betray: false,
         };
         setMessageList([...messageList, msgData]);
