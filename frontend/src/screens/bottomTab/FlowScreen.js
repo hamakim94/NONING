@@ -10,6 +10,11 @@ function FlowScreen({navigation}) {
 
   useEffect(() => {
     UseAxios.get('/boards/flow').then((res) => {
+      res.data.sort(function (a, b) {
+        if (a.boardId > b.boardId) return -1;
+        if (a.boardId === b.boardId) return 0;
+        if (a.boardId < b.boardId) return 1;
+      });
       setBoards(res.data);
     });
   }, []);

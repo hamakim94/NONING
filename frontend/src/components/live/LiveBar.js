@@ -1,9 +1,10 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
+import UserContext from '../../util/UserContext';
 // 투표 : /api/lives/{liveid}/vote
 
 export default function LiveBar({live, setLives}) {
-  // 이제 여기서 props로 넣어줄거야, 그래서 voted가 1 이상이면 터치 못 하게 해야해
+  const {userData} = useContext(UserContext);
   const opt1_ratio = Math.round(
     (live.opt1Selected / (live.opt1Selected + live.opt2Selected)) * 100,
   );
@@ -18,12 +19,26 @@ export default function LiveBar({live, setLives}) {
     setLives({...live, opt2Selected: live.opt2Selected + 1, userVote: 2});
   };
 
+  const posting = (num) => {
+    // console.log(userData.userId + " " + num)
+    UseAxios.post(`/boards/${live.boardId}/vote`, {
+      userId: userData.userId,
+      vote: num,
+    })
+      .then((res) => {})
+      .catch((err) => {});
+  };
+
   return (
     <View style={styles.barContainer}>
       <TouchableOpacity
         style={styles.leftBar(live.userVote, leftSize)}
         disabled={live.userVote > 0}
-        onPress={() => setOpt1Selected()}>
+        onPress={() => {
+          userData === null
+            ? navigation.navigate('LoginNav', {screen: 'LoginNav'})
+            : [setOpt1Selected(), posting(1)];
+        }}>
         <Text style={styles.leftInnerText(live.userVote)}>{live.opt1}</Text>
         {live.userVote > 0 && (
           <Text style={styles.leftInnerText(live.userVote)}>{leftSize}</Text>
@@ -32,7 +47,11 @@ export default function LiveBar({live, setLives}) {
       <TouchableOpacity
         style={styles.rightBar(live.userVote, rightSize)}
         disabled={live.userVote > 0}
-        onPress={() => setOpt2Selected()}>
+        onPress={() => {
+          userData === null
+            ? navigation.navigate('LoginNav', {screen: 'LoginNav'})
+            : [setOpt2Selected(), posting(2)];
+        }}>
         <Text style={styles.rightInnerText(live.userVote)}>{live.opt2}</Text>
         {live.userVote > 0 && (
           <Text style={styles.rightInnerText(live.userVote)}>{rightSize}</Text>
@@ -44,9 +63,9 @@ export default function LiveBar({live, setLives}) {
 
 const styles = StyleSheet.create({
   barContainer: {
-    height: 100,
+    height: 80,
     width: '100%',
-    padding: '5%',
+    padding: '3%',
     flexDirection: 'row',
   },
   leftBar: (userVote, leftSize) => ({
@@ -56,7 +75,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 5,
     justifyContent: 'center',
     backgroundColor:
-      userVote === 1 ? 'rgba(255,99,99,1)' : 'rgba(255,99,99,0.3)',
+      userVote === 1 ? 'rgba(255,95,95,1)' : 'rgba(255,95,95,0.2)',
   }),
   rightBar: (userVote, rightSize) => ({
     width: userVote === 0 ? '50%' : rightSize,
@@ -65,17 +84,17 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 5,
     justifyContent: 'center',
     backgroundColor:
-      userVote === 2 ? 'rgba(131,227,209,1)' : 'rgba(131,227,209,0.3)',
+      userVote === 2 ? 'rgba(73, 211, 202,1)' : 'rgba(73,211,202,0.2)',
   }),
-  leftInnerText: userVote => ({
-    color: '#FFFFFF',
+  leftInnerText: (userVote) => ({
+    color: userVote === 1 ? '#FFFFFF' : '#808080',
     fontWeight: userVote === 0 ? '' : userVote === 1 ? 'bold' : '',
     textAlign: 'center',
     textAlignVertical: 'center',
     fontSize: 17,
   }),
-  rightInnerText: userVote => ({
-    color: '#FFFFFF',
+  rightInnerText: (userVote) => ({
+    color: userVote === 2 ? '#FFFFFF' : '#808080',
     fontWeight: userVote === 0 ? '' : userVote === 2 ? 'bold' : '',
     textAlign: 'center',
     textAlignVertical: 'center',

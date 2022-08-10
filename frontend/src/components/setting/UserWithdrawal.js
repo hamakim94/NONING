@@ -24,16 +24,17 @@ const UserWithdrawal = ({navigation}) => {
         {
           text: '탈퇴',
           onPress: () => {
-            UseAxios.put(`/users/delete`,null,  {params : {userId: userData.userId}})
+            UseAxios.put(`/users/delete`, null, {
+              params: {userId: userData.userId},
+            })
               .then(() => {
-                console.log('끼욧')
                 AsyncStorage.clear();
                 setUserData(null);
               })
               .then(() => {
                 navigation.navigate('HomeStack');
               })
-              .catch(err => console.log(err));
+              .catch((err) => console.log(err));
           },
         },
         {
@@ -64,7 +65,7 @@ const UserWithdrawal = ({navigation}) => {
         <CheckBox
           disabled={false}
           value={toggleCheckBox}
-          onValueChange={newValue => setToggleCheckBox(newValue)}
+          onValueChange={(newValue) => setToggleCheckBox(newValue)}
           tintColors={{true: '#FF7171'}}
         />
         <Text
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     minHeight: 40,
   },
-  loginButton: bool => ({
+  loginButton: (bool) => ({
     paddingVertical: '1%',
     borderRadius: 6,
     backgroundColor: bool ? '#FF7171' : '#808080',

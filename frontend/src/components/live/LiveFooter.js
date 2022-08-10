@@ -1,32 +1,89 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import {
+  Alert,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useContext} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
-// 찜 : /api/lives/{liveid}/like          input : userId, reg
-// 찜 취소 : /api/lives/{liveid}/unlike   input : userId
+import UserContext from '../../util/UserContext';
 
 export default function LiveFooter({live, setLives}) {
+  const {userData} = useContext(UserContext);
+
+  const like = () => {
+    UseAxios.post(`/boards/${live.boardId}/like`, null, {
+      params: {
+        userId: userData.userId,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .then((err) => {
+        console.log(err);
+      });
+  };
+  const unlike = () => {
+    UseAxios.delete(`/boards/${live.boardId}/unlike?userId=${userData.userId}`)
+      .then((res) => {
+        // console.log(res);
+      })
+      .then((err) => {
+        console.log(err);
+      });
+  };
+
   const toggleLike = () => {
-    setLives({...live, userLike: Math.abs(1 - live.userLike)});
+    setLives({...live, userLike: !live.userLike});
   };
 
   return (
     <View style={styles.footerContainer}>
       <View style={styles.writerContainer}>
-        <Text>호스트 : </Text>
-        <Text>{live.writerNickname}</Text>
+        <Text style={{color: '#000000'}}>호스트 : </Text>
+        <TouchableOpacity
+          style={{flexDirection: 'row', alignItems: 'center'}}
+          onPress={() => {
+            live.writerNickname
+              ? userData
+                ? navigation.push('YourPageScreen', {id: live.writerId})
+                : navigation.push('LoginNav')
+              : Alert.alert('정보가 없습니다');
+          }}>
+          <Image
+            style={{width: 15, height: 15, borderRadius: 50}}
+            source={
+              live.writerImg
+                ? {uri: live.writerImg}
+                : require('../../assets/DefaultProfile.jpg')
+            }></Image>
+          <Text style={{paddingLeft: 5, color: '#000000'}}>
+            {live.writerNickname}{' '}
+          </Text>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.numberLikeContainer}>
-        <Text style={{color: 'rgba(255,90,110,1)', fontWeight: 'bold'}}>
+        <Text style={{color: 'rgba(255,95,95,1)', fontWeight: 'bold'}}>
           {live.opt1Selected}{' '}
         </Text>
-        <Text>vs </Text>
-        <Text style={{color: 'rgba(131,227,209,1)', fontWeight: 'bold'}}>
+        <Text style={{color: '#000000'}}>vs </Text>
+        <Text style={{color: 'rgba(73, 211, 202,1)', fontWeight: 'bold'}}>
           {live.opt2Selected}{' '}
         </Text>
-        <Text>({live.opt1Selected + live.opt2Selected})</Text>
-        <TouchableOpacity style={{margin: 1}} onPress={() => toggleLike()}>
+        <Text style={{paddingRight: 5, color: '#000000'}}>
+          ({live.opt1Selected + live.opt2Selected})
+        </Text>
+        <TouchableOpacity
+          style={{margin: 1}}
+          onPress={() => {
+            userData === null
+              ? navigation.navigate('LoginNav', {screen: 'LoginNav'})
+              : [toggleLike(), live.userLike ? unlike() : like()];
+          }}>
           <AntDesign
             style={styles.iconColor(live.userLike)}
             name="heart"
@@ -52,7 +109,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  iconColor: userLike => ({
-    color: userLike === 1 ? '#FF7171' : '#606060',
+  iconColor: (userLike) => ({
+    color: userLike ? '#FF5F5F' : '#c9c9c9',
   }),
 });

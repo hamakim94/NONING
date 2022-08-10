@@ -8,15 +8,6 @@ export default function BoardBar({board, setBoards, navigation}) {
   const opt1_ratio = Math.round(
     (board.opt1Selected / (board.opt1Selected + board.opt2Selected)) * 100,
   );
-  const posting = num => {
-    // console.log(userData.userId + " " + num)
-    UseAxios.post(`/boards/${board.boardId}/vote`, {
-      userId: userData.userId,
-      vote: num,
-    })
-      .then(res => {})
-      .catch(err => {});
-  };
   const opt2_ratio = 100 - opt1_ratio;
   const leftSize = opt1_ratio + '%';
   const rightSize = opt2_ratio + '%';
@@ -26,6 +17,16 @@ export default function BoardBar({board, setBoards, navigation}) {
   };
   const setOpt2Selected = () => {
     setBoards({...board, opt2Selected: board.opt2Selected + 1, userVote: 2});
+  };
+
+  const posting = (num) => {
+    // console.log(userData.userId + " " + num)
+    UseAxios.post(`/boards/${board.boardId}/vote`, {
+      userId: userData.userId,
+      vote: num,
+    })
+      .then((res) => {})
+      .catch((err) => {});
   };
 
   return (
@@ -45,7 +46,6 @@ export default function BoardBar({board, setBoards, navigation}) {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.rightBar(board.userVote, rightSize)}
-        r
         disabled={board.userVote > 0}
         onPress={() => {
           userData === null
@@ -86,14 +86,14 @@ const styles = StyleSheet.create({
     backgroundColor:
       userVote === 2 ? 'rgba(73, 211, 202,1)' : 'rgba(73,211,202,0.2)',
   }),
-  leftInnerText: userVote => ({
-    color:  userVote === 1 ? '#FFFFFF' : '#808080',
+  leftInnerText: (userVote) => ({
+    color: userVote === 1 ? '#FFFFFF' : '#808080',
     fontWeight: userVote === 0 ? '' : userVote === 1 ? 'bold' : '',
     textAlign: 'center',
     textAlignVertical: 'center',
     fontSize: 17,
   }),
-  rightInnerText: userVote => ({
+  rightInnerText: (userVote) => ({
     color: userVote === 2 ? '#FFFFFF' : '#808080',
     fontWeight: userVote === 0 ? '' : userVote === 2 ? 'bold' : '',
     textAlign: 'center',
