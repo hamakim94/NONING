@@ -2,11 +2,11 @@ import {View, StyleSheet} from 'react-native';
 import React from 'react';
 import UserWithdrawal from '../../components/setting/UserWithdrawal';
 
-const UserWithdrawalScreen = () => {
+const UserWithdrawalScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={{paddingHorizontal: 20}}>
-        <UserWithdrawal></UserWithdrawal>
+        <UserWithdrawal navigation={navigation}></UserWithdrawal>
       </View>
     </View>
   );

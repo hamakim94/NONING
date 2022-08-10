@@ -1,98 +1,97 @@
-import {View, Text, StyleSheet, Pressable, Alert} from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
-import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import React, {useContext, useState} from 'react';
+import CheckBox from '@react-native-community/checkbox';
+import UserContext from '../../util/UserContext';
+import UseAxios from '../../util/UseAxios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {Formik} from 'formik';
-import * as Yup from 'yup';
+const UserWithdrawal = ({navigation}) => {
+  const [toggleCheckBox, setToggleCheckBox] = useState(false);
+  const {userData, setUserData} = useContext(UserContext);
 
-const showAlert = ({password}) =>
-  Alert.alert(
-    '회원 탈퇴',
-    '정말 탈퇴 하시겠습니까?',
-    [
-      {text: '획인', onPress: () => console.log(password)},
-      {text: '취소', onPress: () => console.log('취소버튼 '), style: 'cancel'},
-    ],
-    {
-      cancelable: true,
-    },
-  );
-
-const UserWithdrawal = () => {
-  const PasswordChangeSchema = Yup.object().shape({
-    password: Yup.string()
-      .min(6, 'Your password has to have  6 characters')
-      .required(),
-  });
+  const showAlert = () =>
+    Alert.alert(
+      '회원 탈퇴',
+      '정말 탈퇴 하시겠습니까?',
+      [
+        {
+          text: '탈퇴',
+          onPress: () => {
+            UseAxios.put(`/users/delete`,null,  {params : {userId: userData.userId}})
+              .then(() => {
+                console.log('끼욧')
+                AsyncStorage.clear();
+                setUserData(null);
+              })
+              .then(() => {
+                navigation.navigate('HomeStack');
+              })
+              .catch(err => console.log(err));
+          },
+        },
+        {
+          text: '취소',
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+      },
+    );
 
   return (
     <View style={styles.wrapper}>
-      <Formik
-        initialValues={{password: ''}}
-        onSubmit={values => showAlert(values)}
-        validationSchema={PasswordChangeSchema}
-        validateOnMount={true}>
-        {({handleChange, handleBlur, handleSubmit, values, isValid}) => (
-          <>
-            <Text style={{fontSize: 20, fontWeight: 'bold'}}>비밀번호*</Text>
-            <View
-              style={[
-                styles.inputField,
-                {
-                  borderColor:
-                    values.password.length < 1 || values.password.length >= 6
-                      ? '#ccc'
-                      : 'red',
-                },
-              ]}>
-              <TextInput
-                placeholderTextColor="#444"
-                placeholder="현재 비밀번호"
-                autoFocus={true}
-                autoCapitalize="none"
-                autoCorrect={false}
-                secureTextEntry={true}
-                textContentType="password"
-                onChangeText={handleChange('password')}
-                onBlur={handleBlur('password')}
-                value={values.password}
-              />
-            </View>
-            <Text style={{color: '#FF5A6E', fontSize: 10}}>
-              {1 > values.password.length || values.password.length >= 6
-                ? ''
-                : '6자 이상 적어주세요'}
-            </Text>
-
-            <Text style={{marginVertical: 20}}>
-              ※탈퇴 및 가입을 반복할 경우, 서비스 악용 방지를 위해 재가입이
-              제한됩니다.{'\n'}
-              ※자세한 내용은 개인정보처리방침을 확인해주세요.{'\n'}
-            </Text>
-
-            <View style={styles.buttonContainer}>
-              <Pressable
-                titleSize={20}
-                style={styles.button(isValid)}
-                onPress={handleSubmit}
-                disabled={!isValid}>
-                <Text style={styles.buttonText}>회원 탈퇴</Text>
-              </Pressable>
-              <Pressable
-                titleSize={20}
-                style={styles.button(false)}
-                disabled={!isValid}>
-                <Text style={styles.buttonText}>취소</Text>
-              </Pressable>
-            </View>
-          </>
-        )}
-      </Formik>
+      <View style={{alignItems: 'center'}}>
+        <Image
+          style={{width: 140, height: 110}}
+          source={require('../../assets/header-logo-copy.png')}></Image>
+      </View>
+      <Text style={{marginTop: 20}}>
+        ※ 탈퇴 및 가입을 반복할 경우, 서비스 악용 방지를 위해 재가입이
+        제한됩니다.{'\n'}※ 자세한 내용은 개인정보처리방침을 확인해주세요.{'\n'}
+      </Text>
+      <View
+        style={{
+          flexDirection: 'row',
+        }}>
+        <CheckBox
+          disabled={false}
+          value={toggleCheckBox}
+          onValueChange={newValue => setToggleCheckBox(newValue)}
+          tintColors={{true: '#FF7171'}}
+        />
+        <Text
+          style={{textAlignVertical: 'center', fontSize: 12, paddingBottom: 1}}
+          onPress={() => setToggleCheckBox(!toggleCheckBox)}>
+          회원 탈퇴를 진행합니다.
+        </Text>
+      </View>
+      <View style={styles.bottomContainer}>
+        <TouchableOpacity
+          disabled={!toggleCheckBox}
+          style={styles.loginButton(toggleCheckBox)}
+          onPress={() => showAlert()}>
+          <Text style={styles.loginText}>회원탈퇴</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+  },
   wrapper: {
     marginTop: 60,
   },
@@ -104,24 +103,29 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     minHeight: 40,
   },
-  button: isValid => ({
-    backgroundColor: isValid ? 'rgba(255,95,95,1)' : 'rgba(255,95,95,0.25)',
+  loginButton: bool => ({
+    paddingVertical: '1%',
+    borderRadius: 6,
+    backgroundColor: bool ? '#FF7171' : '#808080',
+    marginHorizontal: '1%',
+    width: 80,
+    height: 30,
+    borderWidth: 1,
+    borderColor: bool ? '#FF7171' : '#808080',
+  }),
+  loginText: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 15,
+    color: '#FFFFFF',
+    textAlignVeritcal: 'center',
+  },
+  bottomContainer: {
+    flex: 1,
+    marginTop: 30,
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: 42,
-    width: 100,
-    borderRadius: 10,
-  }),
-  buttonText: {
-    fontWeight: '600',
-    color: '#fff',
-    fontSize: 20,
-  },
-  buttonContainer: {
     flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-around',
-    marginTop: 50,
   },
 });
 export default UserWithdrawal;
