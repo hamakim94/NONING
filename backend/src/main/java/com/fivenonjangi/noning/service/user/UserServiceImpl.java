@@ -117,12 +117,25 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void modifyUser(UserDTO userDTO) throws Exception{
+    public UserDTO modifyUser(UserDTO userDTO) throws Exception{
         UserData userData = userDataRepository.findByUser_Id(userDTO.getUserId());
         userData.updateUserData(userDTO);
         userData.getUser().updateUser(userDTO, ageToAgeCode(userDTO.getAge()));
         userRepository.save(userData.getUser());
         userDataRepository.save(userData);
+
+        return UserDTO.builder()
+                .userId(userData.getUser().getId())
+                .nickname(userData.getNickname())
+                .img(userData.getImg())
+                .genderCode(userData.getUser().getGenderCode())
+                .mbti1Code(userData.getUser().getMbti1Code())
+                .mbti2Code(userData.getUser().getMbti2Code())
+                .mbti3Code(userData.getUser().getMbti3Code())
+                .mbti4Code(userData.getUser().getMbti4Code())
+                .age(userData.getUser().getAge())
+                .ageRangeCode(userData.getUser().getAgeRangeCode())
+                .build();
     }
     @Override
     public void editPassword(LoginRequestDTO.EditPasswordDTO editPasswordDTO, PasswordEncoder passwordEncoder) throws Exception {
