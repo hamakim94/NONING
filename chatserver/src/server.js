@@ -3,13 +3,6 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-// app.use("/css", express.static("./css"));
-// app.use("/js", express.static("./js"));
-//
-// app.get("/", (req, res) => {
-//   res.sendFile(__dirname + "/index.html");
-// });
-
 http.listen(3000, () => {
   console.log('server listening on port : 3000');
 });
@@ -27,8 +20,6 @@ io.on('connection', (socket) => {
   // 실시간 음성채팅방 입장
   socket.on('enter', (boardData, userData) => {
     socket.join(boardData.boardId); // 방 들어감
-    // console.log("boardId: " + boardId);
-    // console.log(userList.get(boardId) == undefined ? "undefined" : userList);
 
     const userVoteData = {
       userId: userData.userId,
@@ -51,10 +42,8 @@ io.on('connection', (socket) => {
       (socket) => socket.userVoteData,
     );
 
-    socket.emit('user_enter', userDataList, userVoteData); // 본인한테만 전달
-    socket
-      .to(boardData.boardId)
-      .emit('welcome', userVoteData, userDataList.length); // 본인 외 다른 참가자한테 전달
+    socket.emit('user_enter', userDataList); // 본인한테만 전달
+    socket.to(boardData.boardId).emit('welcome'); // 본인 외 다른 참가자한테 전달
     // socket.to(boardId).emit("enter", userData, userList.get(boardId).length);
   });
 
@@ -97,11 +86,8 @@ io.on('connection', (socket) => {
   // });
 
   socket.on('disconnect', () => {
-    // const i = userList.indexOf(socket.name);
-    // userList.splice(i, 1);
-    // socket.broadcast.emit("left", socket.name);
-    // socket.broadcast.emit("updateUser", userList);
+    userList.get(socket.boardId).delete(socket);
 
-    socket.to(socket.boardId).emit('left', () => {});
+    socket.to(socket.boardId).emit('left', socket.userVoteData);
   });
 });
