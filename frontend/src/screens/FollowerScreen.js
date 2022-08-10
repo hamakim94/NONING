@@ -13,7 +13,7 @@ import {
 import UseAxios from '../util/UseAxios'
 import UserContext from '../util/UserContext';
 import {useIsFocused} from '@react-navigation/native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Feather from 'react-native-vector-icons/Feather';
 
 function FollowerScreen({route, navigation}) {
   const [followData, setFollowData] = useState([]);
@@ -96,13 +96,13 @@ function FollowerScreen({route, navigation}) {
                   height: 60,
                   borderRadius: 50,
                   borderWidth: 2,
-                  borderColor: '#A6A6A6', }}
+                  borderColor: '#c9c9c9', }}
               />
             </View>
             <View style={{flex: 1, alignSelf: 'flex-start', paddingVertical: '5%', paddingStart: 10}}>
               <Text style={styles.userNickname}>{item.nickname}</Text>
               <View style={{flexDirection: 'row'}}>
-                <Text>
+                <Text style={{color:'#808080'}}>
                   {(() => {
                     if (item.genderCode === 'G0101') return <Text>남성</Text>;
                     else return <Text>여성</Text>;
@@ -167,25 +167,29 @@ function FollowerScreen({route, navigation}) {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
-      <View style={{flex: 0.15, flexDirection: 'row'}}>
-      <TouchableOpacity style={{height: 500}} onPress={() => navigation.pop()}>
-                <Ionicons
-                    style={{marginStart:15, marginVertical: 30}}
-                    name="arrow-back"
+      <View style={{flex:0.5, flexDirection:'row', marginVertical:"3%"}}>
+        <View style={{flex: 1, alignItems:"center", justifyContent:"center"}}>
+            <TouchableOpacity style={{}} onPress={() => navigation.pop()}>
+                <Feather
+                    name="chevron-left"
                     size={30}
+                    color='#000000'
                   />
             </TouchableOpacity>
-            <View style={{ marginHorizontal: '31%', justifyContent: 'center', margin: 30, justifyContent: 'flex-start', height: 50}}>
-              <Text style={{fontWeight: 'bold', fontSize: 18, color: '#000000' }}>Follower</Text>
-            </View>
         </View>
+        <View style={{flex:4, justifyContent:"center"}}>
+            <Text style={{fontWeight: 'bold', fontSize: 18, color: '#000000', textAlign:"center"}}>Follower</Text>
+        </View>
+        <View style={{flex:1}}></View>
+      </View>
+      <View style={{flex:5.5}}>
         <FlatList
-          style={{flex: 1}}
           navigation={navigation}
           data={followData.followers}
           keyExtractor={(item, index) => index.toString()}
           ItemSeparatorComponent={ItemSeparatorView}
           renderItem={ItemView}></FlatList>
+      </View>
     </SafeAreaView>
   );
 }
@@ -194,6 +198,7 @@ const styles = StyleSheet.create({
   container: {},
   userNickname: {
     fontWeight: 'bold',
+    color: '#000000'
   },
   userInfo: {
     paddingTop: '1%',

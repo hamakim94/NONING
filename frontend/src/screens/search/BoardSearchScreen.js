@@ -9,12 +9,12 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import UseAxios from '../../util/UseAxios';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
 const Tab = createMaterialTopTabNavigator();
 
-function BoardSearchScreen(item, setItem, navigation) {
+function BoardSearchScreen({navigation}) {
   const [boards, setBoards] = useState([]);
   const [filterdData, setfilterdData] = useState([]);
   const [search, setSearch] = useState('');
@@ -58,7 +58,7 @@ function BoardSearchScreen(item, setItem, navigation) {
         {item ? (
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate('HomeDetail', {boardId: item.boardId})
+              navigation.navigate('DetailScreen', {boardId : item.boardId})
             }>
             <View style={{height: 75, justifyContent: 'center'}}>
               <Text style={styles.itemStyle}>{item.title.toUpperCase()}</Text>
@@ -66,28 +66,28 @@ function BoardSearchScreen(item, setItem, navigation) {
                 {(() => {
                   if (item.userVote === 1)
                     return (
-                      <AntDesign
-                        name={'checkcircleo'}
+                      <EvilIcons
+                        name={'sc-instagram'}
                         size={15}
-                        color={'red'}
+                        color={'rgba(255,95,95,1)'}
                         style={styles.optionIcon}
                       />
                     );
                   else if (item.userVote === 2)
                     return (
-                      <AntDesign
-                        name={'checkcircleo'}
+                      <EvilIcons
+                        name={'sc-instagram'}
                         size={15}
-                        color={'blue'}
+                        color={'rgba(73, 211, 202,1)'}
                         style={styles.optionIcon}
                       />
                     );
                   else return;
                 })()}
                 {(() => {
-                  if (item.userVote == '1') return <Text>{item.opt1}</Text>;
+                  if (item.userVote == '1') return <Text style={{color: '#000000', fontWeight: '500'}}>{item.opt1}</Text>;
                   else if (item.userVote == '2')
-                    return <Text>{item.opt2}</Text>;
+                    return <Text style={{color: '#000000', fontWeight: '500'}}>{item.opt2}</Text>;
                   else return;
                 })()}
               </View>
@@ -102,19 +102,21 @@ function BoardSearchScreen(item, setItem, navigation) {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
-      <View style={StyleSheet.container}>
-        <TextInput
-          style={styles.textInputStyle}
-          value={search}
-          placeholder="논쟁 제목을 검색해 보세요."
-          underlineColorAndroid="transparent"
-          onChangeText={text => searchFilter(text)}></TextInput>
-        <FlatList
-          data={filterdData}
-          keyExtractor={(item, index) => index.toString()}
-          ItemSeparatorComponent={ItemSeparatorView}
-          renderItem={ItemView}></FlatList>
-      </View>
+        <View style={{flex:0.5, marginBottom:"1%"}}>
+            <TextInput
+              style={styles.textInputStyle}
+              value={search}
+              placeholder="논쟁 제목을 검색해 보세요."
+              underlineColorAndroid="transparent"
+              onChangeText={text => searchFilter(text)}></TextInput>
+          </View>
+          <View style={{flex:5.5, paddingVertical:"2%"}}>
+            <FlatList
+              data={filterdData}
+              keyExtractor={(item, index) => index.toString()}
+              ItemSeparatorComponent={ItemSeparatorView}
+              renderItem={ItemView}></FlatList>
+        </View>
     </SafeAreaView>
   );
 }
@@ -126,6 +128,7 @@ const styles = StyleSheet.create({
     marginLeft: '3.5%',
     paddingBottom: '1.5%',
     fontWeight: 'bold',
+    color: '#000000'
   },
   textInputStyle: {
     height: 45,

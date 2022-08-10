@@ -40,7 +40,7 @@ export default function FlowBar({board,  boards, setBoards}) {
       <TouchableOpacity
             style={styles.leftBar(board.userVote, leftSize)}
             disabled={board.userVote > 0}
-            onPress={() => setOpt1Selected()}>
+            onPress={() => [setOpt1Selected(), posting(1)]}>
             <Text style={styles.leftInnerText(board.userVote)}>{board.opt1}</Text>
             {board.userVote > 0 && (
             <Text style={styles.leftInnerText(board.userVote)}>{leftSize}</Text>
@@ -49,7 +49,7 @@ export default function FlowBar({board,  boards, setBoards}) {
       <TouchableOpacity
             style={styles.rightBar(board.userVote, rightSize)}
             disabled={board.userVote > 0}
-            onPress={() => setOpt2Selected()}>
+            onPress={() => [setOpt2Selected(), posting(2)]}>
             <Text style={styles.rightInnerText(board.userVote)}>{board.opt2}</Text>
             {board.userVote > 0 && (
             <Text style={styles.rightInnerText(board.userVote)}>
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 5,
     justifyContent: 'center',
     backgroundColor:
-      userVote === 1 ? 'rgba(255,90,110,1)' : 'rgba(255,90,110,0.3)',
+      userVote === 1 ? 'rgba(255,95,95,1)' : 'rgba(255,95,95,0.3)',
   }),
   rightBar: (userVote, rightSize) => ({
     width: userVote === 0 ? '50%' : rightSize,
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 5,
     justifyContent: 'center',
     backgroundColor:
-      userVote === 2 ? 'rgba(131,227,209,1)' : 'rgba(131,227,209,0.3)',
+      userVote === 2 ? 'rgba(73, 211, 202,1))' : 'rgba(73,211,202,0.3)',
   }),
   leftInnerText: userVote => ({
     color:  userVote === 1 ? '#FFFFFF' : '#808080',

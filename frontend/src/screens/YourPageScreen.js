@@ -94,7 +94,9 @@ export default function YourPageScreen({route, navigation}) {
   useEffect(() => {
     UseAxios.get(`/users/${id}/page`).then(res => {
       setYourPageData(res.data);
-      console.log('데이터 ---------------------------------------- : \n' + res.data);
+      console.log(
+        '데이터 ---------------------------------------- : \n' + res.data,
+      );
     });
   }, [isFocused]);
 
@@ -138,8 +140,9 @@ export default function YourPageScreen({route, navigation}) {
       followerIdList: yourPageData.followerIdList.filter(e => e !== myId),
     });
   };
-  console.log(yourPageData.followerIdList);
-  console.log(userData.userId);
+  // console.log(yourPageData.followerIdList);
+  // console.log(userData.userId);
+
   return (
     <View style={styles.container}>
       {id === userData.userId ? (
@@ -162,16 +165,24 @@ export default function YourPageScreen({route, navigation}) {
           {/* 프로필 이미지 */}
           <View style={styles.profileImageBox}>
             <View>
-              <Image
-                source={{
-                  uri: yourPageData.user
-                    ? yourPageData.user.img
-                      ? yourPageData.user.img
-                      : USER.user.img
-                    : '../assets/DefaultProfile.jpg',
-                }}
-                style={styles.profileImage}
-              />
+              {yourPageData.user ? (
+                yourPageData.user.img ? (
+                  <Image
+                    source={{uri: yourPageData.user.img}}
+                    style={styles.profileImage}
+                  />
+                ) : (
+                  <Image
+                    source={require('../assets/DefaultProfile.jpg')}
+                    style={styles.profileImage}
+                  />
+                )
+              ) : (
+                <Image
+                  source={require('../assets/DefaultProfile.jpg')}
+                  style={styles.profileImage}
+                />
+              )}
             </View>
           </View>
           {/* 팔로우/팔로워 */}
@@ -179,10 +190,20 @@ export default function YourPageScreen({route, navigation}) {
             <View style={styles.follows}>
               <TouchableOpacity
                 onPress={() =>
-                  navigation.navigate('FollowerScreen', {id: yourPageData.user.userId})
+                  navigation.navigate('FollowerScreen', {
+                    id: yourPageData.user.userId,
+                  })
                 }>
-                <Text style={{color: '#000000', fontWeight: '500'}}> follower</Text>
-                <Text style={{alignSelf: 'center', color: '#000000', fontWeight: '500'}}>
+                <Text style={{color: '#000000', fontWeight: '500'}}>
+                  {' '}
+                  follower
+                </Text>
+                <Text
+                  style={{
+                    alignSelf: 'center',
+                    color: '#000000',
+                    fontWeight: '500',
+                  }}>
                   {yourPageData.followerIdList
                     ? yourPageData['followerIdList'].length
                     : ''}
@@ -190,10 +211,20 @@ export default function YourPageScreen({route, navigation}) {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() =>
-                  navigation.navigate('FollowingScreen', {id: yourPageData.user.userId})
+                  navigation.navigate('FollowingScreen', {
+                    id: yourPageData.user.userId,
+                  })
                 }>
-                <Text style={{color: '#000000', fontWeight: '500' }}> following</Text>
-                <Text style={{alignSelf: 'center', color: '#000000', fontWeight: '500' }}>
+                <Text style={{color: '#000000', fontWeight: '500'}}>
+                  {' '}
+                  following
+                </Text>
+                <Text
+                  style={{
+                    alignSelf: 'center',
+                    color: '#000000',
+                    fontWeight: '500',
+                  }}>
                   {yourPageData.followingIdList
                     ? yourPageData['followingIdList'].length
                     : ''}
@@ -208,7 +239,12 @@ export default function YourPageScreen({route, navigation}) {
         {/* 닉네임, 특징 */}
         <View style={{marginStart: '5%', flex: 2}}>
           <View>
-            <Text style={{paddingBottom: '1.5%', fontWeight: 'bold', color:'#000000' }}>
+            <Text
+              style={{
+                paddingBottom: '1.5%',
+                fontWeight: 'bold',
+                color: '#000000',
+              }}>
               {yourPageData.user ? yourPageData.user.nickname : ''}
             </Text>
             {yourPageData.user ? (
@@ -271,7 +307,7 @@ export default function YourPageScreen({route, navigation}) {
                 height: '50%',
                 marginTop: '2.5%',
                 alignContent: 'center',
-                marginStart: '2.5%'
+                marginStart: '2.5%',
               }}
               onPress={() => {
                 yourPageData.followerIdList.indexOf(userData.userId) >= 0
@@ -279,7 +315,12 @@ export default function YourPageScreen({route, navigation}) {
                   : [follow(), fakeFollow(userData.userId)];
               }}>
               <Text
-                style={{color: '#FFFFFF', alignSelf: 'center', paddingVertical: '3.5%', fontWeight: 'bold'}}>
+                style={{
+                  color: '#FFFFFF',
+                  alignSelf: 'center',
+                  paddingVertical: '3.5%',
+                  fontWeight: 'bold',
+                }}>
                 {yourPageData.followerIdList
                   ? yourPageData.followerIdList.indexOf(userData.userId) >= 0
                     ? '팔로잉'
@@ -321,16 +362,16 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     borderWidth: 3,
-    borderColor: '#A6A6A6',
+    borderColor: '#c9c9c9',
   },
   followsBox: {
     flex: 3,
-   },
+  },
   follows: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     marginBottom: '10%',
-    marginTop: '10%'
+    marginTop: '10%',
   },
   detail: {
     paddingTop: '0.8%',

@@ -61,7 +61,7 @@ export default function LoginForm({navigation}) {
               {
                 text: '비밀번호 찾기',
                 style: 'OK',
-                onPress: () => navigation.navigate('PasswordChangeScreen'),
+                onPress: () => navigation.navigate('PasswordFindScreen'),
               },
             ],
           );
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   errorText: {
-    color: '#FF7171',
+    color: '#FF5F5F',
     fontSize: 10,
     fontWeight: 'bold',
     marginLeft: '1%',
