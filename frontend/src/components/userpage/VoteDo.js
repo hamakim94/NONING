@@ -9,7 +9,7 @@ export default function VoteDo({navigation, myPageData}) {
     <View style={{flex: 1}}>
       <FlatList
         style={{paddingVertical: '1%'}}
-        keyExtractor={item => item.boardId}
+        keyExtractor={(item) => item.boardId}
         data={myPageData.boardList}
         navigation={navigation}
         renderItem={({item}) => (
@@ -28,63 +28,93 @@ export default function VoteDo({navigation, myPageData}) {
               {(() => {
                 if (item.userVote !== 0)
                   return (
-                    <View style={{flex: 1, flexDirection: 'row', marginVertical: '2%'}}>
-                        <View style={{flex: 9, marginStart: 5}}>
-                            <Text style={{fontWeight: 'bold', color: '#000000', marginTop: '2.5%', marginBottom: '1.5%'}}>{item.title}</Text>
-                            <View
-                              style={{flexDirection: 'row', marginBottom: '1.5%'}}>
-                              {(() => {
-                                if (item.userVote === 1)
-                                  return (
-                                    <EvilIcons
-                                      name={'sc-instagram'}
-                                      size={15}
-                                      color={'rgba(255,95,95,1)'}
-                                      style={{margin: 3}}
-                                    />
-                                  );
-                                else
-                                  return (
-                                    <EvilIcons
-                                      name={'sc-instagram'}
-                                      size={15}
-                                      color={'rgba(73, 211, 202,1)'}
-                                      style={{margin: 3}}
-                                    />
-                                  );
-                              })()}
-                              {(() => {
-                                if (item.userVote === 1)
-                                  return (
-                                    <Text style={{fontWeight: '500', color: '#000000'}}>
-                                      {item.opt1}
-                                    </Text>
-                                  );
-                                else
-                                  return (
-                                    <Text style={{fontWeight: '500', color: '#000000'}}>
-                                      {item.opt2}
-                                    </Text>
-                                  );
-                              })()}
-                            </View>
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        marginVertical: '2%',
+                      }}>
+                      <View
+                        style={{
+                          flex: 9,
+                          marginStart: 5,
+                          justifyContent: 'center',
+                          height: 50,
+                        }}>
+                        <Text
+                          style={{
+                            fontWeight: 'bold',
+                            color: '#000000',
+                            marginTop: '2.5%',
+                            marginBottom: '1.5%',
+                            fontSize: 14,
+                          }}>
+                          {item.title}
+                        </Text>
+                        <View
+                          style={{flexDirection: 'row', marginBottom: '1.5%'}}>
+                          {(() => {
+                            if (item.userVote === 1)
+                              return (
+                                <EvilIcons
+                                  name={'sc-instagram'}
+                                  size={15}
+                                  color={'rgba(255,95,95,1)'}
+                                  style={{margin: 2}}
+                                />
+                              );
+                            else
+                              return (
+                                <EvilIcons
+                                  name={'sc-instagram'}
+                                  size={15}
+                                  color={'rgba(73, 211, 202,1)'}
+                                  style={{margin: 2}}
+                                />
+                              );
+                          })()}
+                          {(() => {
+                            if (item.userVote === 1)
+                              return (
+                                <Text
+                                  style={{
+                                    fontWeight: '500',
+                                    color: '#000000',
+                                    fontSize: 11,
+                                  }}>
+                                  {item.opt1}
+                                </Text>
+                              );
+                            else
+                              return (
+                                <Text
+                                  style={{
+                                    fontWeight: '500',
+                                    color: '#000000',
+                                    fontSize: 11,
+                                  }}>
+                                  {item.opt2}
+                                </Text>
+                              );
+                          })()}
                         </View>
-                        <View style={{flex: 1}}>
-                          <TouchableOpacity
-                            style={styles.detail}
-                            onPress={() =>
-                              navigation.push('DetailScreen', {
-                                screen: 'DetailScreen',
-                              })
-                            }>
-                            <Feather
-                              name={'chevrons-right'}
-                              size={25}
-                              color={'#c9c9c9'}
-                            />
-                          </TouchableOpacity>
-                        </View>
-                  </View>
+                      </View>
+                      <View style={{flex: 1}}>
+                        <TouchableOpacity
+                          style={styles.detail}
+                          onPress={() =>
+                            navigation.push('DetailScreen', {
+                              screen: 'DetailScreen',
+                            })
+                          }>
+                          <Feather
+                            name={'chevrons-right'}
+                            size={25}
+                            color={'#c9c9c9'}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
                   );
                 else return;
               })()}

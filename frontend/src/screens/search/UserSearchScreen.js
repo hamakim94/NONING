@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import UseAxios from '../../util/UseAxios';
+import {Divider} from '@rneui/themed';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -20,15 +21,15 @@ function UserSearchScreen({navigation}) {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    UseAxios.get('/users/list').then(res => {
+    UseAxios.get('/users/list').then((res) => {
       setUsers(res.data);
       setfilterdData(res.data);
     });
   }, []);
 
-  const searchFilter = text => {
+  const searchFilter = (text) => {
     if (text) {
-      const newData = users.filter(item => {
+      const newData = users.filter((item) => {
         const itemData = item.nickname
           ? item.nickname.toUpperCase()
           : ''.toUpperCase();
@@ -45,73 +46,81 @@ function UserSearchScreen({navigation}) {
 
   const ItemView = ({item}) => {
     return (
-      <TouchableOpacity
-        style={{flexDirection: 'row', flex: 1.5}}
-        onPress={() =>
-          navigation.navigate('YourPageScreen', {id: item.userId})
-        }>
-        <View
-          style={{
-            flexDirection: 'row',
-            flex: 0.3,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <Image
-            source={{uri : item.img ? item.img : '../../assets/DefaultProfile.jpg'}}
+      <View>
+        <TouchableOpacity
+          style={{flexDirection: 'row', flex: 1.5}}
+          onPress={() =>
+            navigation.navigate('YourPageScreen', {id: item.userId})
+          }>
+          <View
             style={{
-              width: 60,
-              height: 60,
-              borderRadius: 50,
-              borderWidth: 2,
-              borderColor: '#c9c9c9',
-            }}
-          />
-          
-        </View>
-        <View style={{flex: 1, alignSelf: 'flex-start', paddingVertical: '5%'}}>
-          <Text style={styles.userNickname}>{item.nickname.toUpperCase()}</Text>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={{color: '#808080'}}>
-              {(() => {
-                if (item.genderCode === 'G0101') return <Text>남성</Text>;
-                else return <Text>여성</Text>;
-              })()}{' '}
-              /
-              {(() => {
-                if (item.mbti1Code === 'M0101') return <Text> E</Text>;
-                else return <Text> I</Text>;
-              })()}
-              {(() => {
-                if (item.mbti2Code === 'M0201') return <Text>N</Text>;
-                else return <Text>S</Text>;
-              })()}
-              {(() => {
-                if (item.mbti3Code === 'M0301') return <Text>F</Text>;
-                else return <Text>T</Text>;
-              })()}
-              {(() => {
-                if (item.mbti4Code === 'M0401') return <Text>J</Text>;
-                else return <Text>P</Text>;
-              })()}{' '}
-              /
-              {(() => {
-                if (item.ageRangeCode === 'A0101')
-                  return <Text> 10대 미만</Text>;
-                else if (item.ageRangeCode === 'A0102')
-                  return <Text> 10대</Text>;
-                else if (item.ageRangeCode === 'A0103')
-                  return <Text> 20대</Text>;
-                else if (item.ageRangeCode === 'A0104')
-                  return <Text> 30대</Text>;
-                else if (item.ageRangeCode === 'A0104')
-                  return <Text> 40대</Text>;
-                else return <Text> 50대 이상</Text>;
-              })()}
-            </Text>
+              flex: 0.3,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Image
+              source={
+                item.img
+                  ? {uri: item.img}
+                  : require('../../assets/DefaultProfile.jpg')
+              }
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 50,
+                borderWidth: 2,
+                borderColor: '#c9c9c9',
+              }}
+            />
           </View>
-        </View>
-      </TouchableOpacity>
+          <View
+            style={{flex: 1, alignSelf: 'flex-start', marginVertical: '4%'}}>
+            <Text style={styles.userNickname}>
+              {item.nickname.toUpperCase()}
+            </Text>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={{color: '#808080', fontSize: 11}}>
+                {(() => {
+                  if (item.genderCode === 'G0101') return <Text>남성</Text>;
+                  else return <Text>여성</Text>;
+                })()}{' '}
+                /
+                {(() => {
+                  if (item.mbti1Code === 'M0101') return <Text> E</Text>;
+                  else return <Text> I</Text>;
+                })()}
+                {(() => {
+                  if (item.mbti2Code === 'M0201') return <Text>N</Text>;
+                  else return <Text>S</Text>;
+                })()}
+                {(() => {
+                  if (item.mbti3Code === 'M0301') return <Text>F</Text>;
+                  else return <Text>T</Text>;
+                })()}
+                {(() => {
+                  if (item.mbti4Code === 'M0401') return <Text>J</Text>;
+                  else return <Text>P</Text>;
+                })()}{' '}
+                /
+                {(() => {
+                  if (item.ageRangeCode === 'A0101')
+                    return <Text> 10대 미만</Text>;
+                  else if (item.ageRangeCode === 'A0102')
+                    return <Text> 10대</Text>;
+                  else if (item.ageRangeCode === 'A0103')
+                    return <Text> 20대</Text>;
+                  else if (item.ageRangeCode === 'A0104')
+                    return <Text> 30대</Text>;
+                  else if (item.ageRangeCode === 'A0104')
+                    return <Text> 40대</Text>;
+                  else return <Text> 50대 이상</Text>;
+                })()}
+              </Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+        <Divider width={0.5} style={{margin: '1%'}} />
+      </View>
     );
   };
 
@@ -123,23 +132,23 @@ function UserSearchScreen({navigation}) {
   };
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
-        <View style={{flex:0.5, marginBottom:"1%"}}>
-            <TextInput
-              style={styles.textInputStyle}
-              value={search}
-              placeholder="닉네임을 검색하세요"
-              underlineColorAndroid="transparent"
-            onChangeText={text => searchFilter(text)}></TextInput>
-        </View>
-        <View style={{flex:5.5, paddingVertical:"2%"}}>
-            <FlatList
-              style={{}}
-              data={filterdData}
-              keyExtractor={(item, index) => index.toString()}
-              ItemSeparatorComponent={ItemSeparatorView}
-              renderItem={ItemView}></FlatList>
-        </View>
+    <SafeAreaView
+      style={{flex: 1, backgroundColor: '#FFFFFF', paddingHorizontal: 16}}>
+      <View style={{flex: 0.5, marginBottom: '2%'}}>
+        <TextInput
+          style={styles.textInputStyle}
+          value={search}
+          placeholder="닉네임을 검색하세요"
+          underlineColorAndroid="transparent"
+          onChangeText={(text) => searchFilter(text)}></TextInput>
+      </View>
+      <View style={{flex: 5.5}}>
+        <FlatList
+          data={filterdData}
+          keyExtractor={(item, index) => index.toString()}
+          ItemSeparatorComponent={ItemSeparatorView}
+          renderItem={ItemView}></FlatList>
+      </View>
     </SafeAreaView>
   );
 }
@@ -148,7 +157,8 @@ const styles = StyleSheet.create({
   container: {},
   userNickname: {
     fontWeight: 'bold',
-    color: '#000000'
+    color: '#000000',
+    fontSize: 14,
   },
   userInfo: {
     paddingTop: '1%',
