@@ -96,12 +96,12 @@ io.on('connection', (socket) => {
   //   // socket.broadcast.emit("sm", data); //발신자 제외
   // });
 
-  // socket.on('disconnect', () => {
-  //   // const i = userList.indexOf(socket.name);
-  //   // userList.splice(i, 1);
-  //   // socket.broadcast.emit("left", socket.name);
-  //   // socket.broadcast.emit("updateUser", userList);
+  socket.on('disconnect', () => {
+    // const i = userList.indexOf(socket.name);
+    // userList.splice(i, 1);
+    // socket.broadcast.emit("left", socket.name);
+    // socket.broadcast.emit("updateUser", userList);
 
-  //   socket.to(boardId).emit('left', () => {});
-  // });
+    socket.to(socket.boardId).emit('left', () => {});
+  });
 });
