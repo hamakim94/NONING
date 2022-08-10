@@ -77,7 +77,7 @@ const messages = [];
 const io = require('socket.io/client-dist/socket.io');
 let socket;
 
-export default function ChatScreen({route}) {
+export default function ChatScreen({route, navigation}) {
   const [userList, setUserList] = useState([]);
   const [boardData, setboardData] = useState(route.params.data);
   const [messageList, setMessageList] = useState(messages);
@@ -96,7 +96,10 @@ export default function ChatScreen({route}) {
 
       socket.on('connect', () => {
         console.log(userData.nickname + ' connect');
-        socket.emit('enter', boardData, userData);
+        socket.emit('enter', boardData, userData, () => {
+          socket.disconnect();
+          navigation.goBack();
+        });
       });
 
       socket.on('welcome', (userVoteData, userCnt) => {
