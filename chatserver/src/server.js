@@ -1,10 +1,10 @@
 import UseAxios from './UseAxios.js';
 import express from 'express';
 import { createServer } from "http";
-import server from "socket.io";
+import { Server } from "socket.io";
 const app = express();
 const http = createServer(app);
-const io = server(http);
+const io = new Server(http);
 
 http.listen(3000, () => {
   console.log('server listening on port : 3000');
