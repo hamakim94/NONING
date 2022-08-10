@@ -1,4 +1,11 @@
-import {Alert, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useContext} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import UserContext from '../../util/UserContext';
@@ -7,22 +14,24 @@ export default function BoardFooter({board, setBoards, navigation}) {
   const {userData} = useContext(UserContext);
 
   const like = () => {
-    UseAxios.post(`/boards/${board.boardId}/like`, null, { params : {
-      userId : userData.userId,
-    }})
-      .then(res => {
+    UseAxios.post(`/boards/${board.boardId}/like`, null, {
+      params: {
+        userId: userData.userId,
+      },
+    })
+      .then((res) => {
         console.log(res);
       })
-      .then(err => {
+      .then((err) => {
         console.log(err);
       });
   };
   const unlike = () => {
     UseAxios.delete(`/boards/${board.boardId}/unlike?userId=${userData.userId}`)
-      .then(res => {
+      .then((res) => {
         // console.log(res);
       })
-      .then(err => {
+      .then((err) => {
         console.log(err);
       });
   };
@@ -35,18 +44,40 @@ export default function BoardFooter({board, setBoards, navigation}) {
   return (
     <View style={styles.footerContainer}>
       <View style={styles.writerContainer}>
-        <Text style={{color: '#000000'}}>작성자 : </Text>            
-        <TouchableOpacity style={{flexDirection: 'row', alignItems:'center'}} onPress={() => {board.writerNickname ? navigation.push('YourPageScreen', {id: board.writerId}) : Alert.alert('정보가 없습니다')} }>
-            <Image style={{ width:15 ,height:15, borderRadius:50}}   source={board.writerImg ? {uri:board.writerImg} : require('../../assets/DefaultProfile.jpg')    }></Image>
-            <Text style={{paddingLeft:5, color: '#000000'}}>{board.writerNickname} </Text>
+        <Text style={{color: '#000000'}}>작성자 : </Text>
+        <TouchableOpacity
+          style={{flexDirection: 'row', alignItems: 'center'}}
+          onPress={() => {
+            board.writerNickname
+              ? userData
+                ? navigation.push('YourPageScreen', {id: board.writerId})
+                : navigation.push('LoginNav')
+              : Alert.alert('정보가 없습니다');
+          }}>
+          <Image
+            style={{width: 15, height: 15, borderRadius: 50}}
+            source={
+              board.writerImg
+                ? {uri: board.writerImg}
+                : require('../../assets/DefaultProfile.jpg')
+            }></Image>
+          <Text style={{paddingLeft: 5, color: '#000000'}}>
+            {board.writerNickname}{' '}
+          </Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.numberLikeContainer}>
-        <Text style={{paddingRight:5, color: '#000000'}}>참여 : {board.opt1Selected + board.opt2Selected}명</Text>
+        <Text style={{paddingRight: 5, color: '#000000'}}>
+          참여 : {board.opt1Selected + board.opt2Selected}명
+        </Text>
         <TouchableOpacity
           style={{margin: 1}}
-          onPress={() =>  { userData === null ? navigation.navigate('LoginNav', {screen: 'LoginNav'}) : [toggleLike(), board.userLike ? unlike() : like() ]}}>
+          onPress={() => {
+            userData === null
+              ? navigation.navigate('LoginNav', {screen: 'LoginNav'})
+              : [toggleLike(), board.userLike ? unlike() : like()];
+          }}>
           <AntDesign
             style={styles.iconColor(board.userLike)}
             name="heart"
@@ -72,7 +103,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  iconColor: userLike => ({
+  iconColor: (userLike) => ({
     color: userLike ? '#FF5F5F' : '#c9c9c9',
   }),
 });
