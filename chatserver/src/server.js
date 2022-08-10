@@ -1,3 +1,7 @@
+import useAxios from './UseAxios';
+import UseAxios from './UseAxios';
+import {logPlugin} from '@babel/preset-env/lib/debug';
+
 const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
@@ -18,7 +22,7 @@ io.on('connection', (socket) => {
   });
 
   // 실시간 음성채팅방 입장
-  socket.on('enter', (boardData, userData) => {
+  socket.on('enter', (boardData, userData, done) => {
     socket.join(boardData.boardId); // 방 들어감
 
     const userVoteData = {
@@ -35,20 +39,33 @@ io.on('connection', (socket) => {
       userList.set(boardData.boardId, new Set());
 
     userList.get(boardData.boardId).add(socket); // back에서 가지고 있을 userList (나중에 새로 들어온 사용자한테 보여줘야함)
+    UseAxios.post('/chats/enter', null, {
+      params: {
+        boardId: socket.boardId,
+        vote: socket.userVoteData.userVote,
+      },
+    })
+      .then((res) => {
+        // io.sockets.clients(boardData.boardId);
+        let userDataList = Array.from(
+          userList.get(boardData.boardId),
+          (socket) => socket.userVoteData,
+        );
 
-    // io.sockets.clients(boardData.boardId);
-    let userDataList = Array.from(
-      userList.get(boardData.boardId),
-      (socket) => socket.userVoteData,
-    );
-
-    socket.emit('user_enter', userDataList); // 본인한테만 전달
-    socket.to(boardData.boardId).emit('welcome'); // 본인 외 다른 참가자한테 전달
-    // socket.to(boardId).emit("enter", userData, userList.get(boardId).length);
+        socket.emit('user_enter', userDataList, userVoteData); // 본인한테만 전달
+        socket
+          .to(boardData.boardId)
+          .emit('welcome', userVoteData, userDataList.length); // 본인 외 다른 참가자한테 전달
+      })
+      .catch((err) => {
+        console.log('enter failed');
+        done();
+      });
   });
 
-  socket.on('send', () => {
-    io.to(socket.boardId).emit('send', () => {});
+  socket.on('send', (msg) => {
+    const userVoteData = socket.userVoteData;
+    socket.to(socket.boardId).emit('send', userVoteData, msg);
   });
   // socket.on('betray', (boardId, userVoteData, opt1Cnt, opt2Cnt) => {
   socket.on('betray', (opt1Cnt, opt2Cnt) => {
@@ -85,9 +102,41 @@ io.on('connection', (socket) => {
   //   // socket.broadcast.emit("sm", data); //발신자 제외
   // });
 
-  socket.on('disconnect', () => {
+  socket.on('disconnecting', () => {
     userList.get(socket.boardId).delete(socket);
-
-    socket.to(socket.boardId).emit('left', socket.userVoteData);
+    if (userList.get(socket.boardId).size == 0) {
+      UseAxios.post('/chats/delete', null, {
+        params: {
+          boardId: socket.boardId,
+        },
+      })
+        .then((res) => {
+          console.log('Delete Room Success');
+          userList.delete(socket.boardId);
+        })
+        .catch((err) => {
+          console.log('Delete Room Failed');
+        });
+    } else {
+      UseAxios.post('/chats/leave', null, {
+        params: {
+          boardId: socket.boardId,
+          vote: socket.userVoteData.userVote,
+        },
+      })
+        .then((res) => {
+          console.log('Leave Room Success');
+          socket
+            .to(socket.boardId)
+            .emit(
+              'left',
+              socket.userVoteData,
+              userList.get(socket.boardId).size,
+            );
+        })
+        .catch((err) => {
+          console.log('Leave Room Failed');
+        });
+    }
   });
 });
