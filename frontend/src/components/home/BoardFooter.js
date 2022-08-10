@@ -46,21 +46,10 @@ export default function BoardFooter({board, setBoards, navigation}) {
       <View style={styles.writerContainer}>
         <Text style={{color: '#000000'}}>작성자 : </Text>
         <TouchableOpacity
-<<<<<<< HEAD
           style={{flexDirection: 'row'}}
           onPress={() =>
             navigation.push('YourPageScreen', {id: board.writerId})
           }>
-=======
-          style={{flexDirection: 'row', alignItems: 'center'}}
-          onPress={() => {
-            board.writerNickname
-              ? userData
-                ? navigation.push('YourPageScreen', {id: board.writerId})
-                : navigation.push('LoginNav')
-              : Alert.alert('정보가 없습니다');
-          }}>
->>>>>>> c8fcf117d52530e50c37949417338142f2370349
           <Image
             style={{width: 15, height: 15, borderRadius: 50}}
             source={
