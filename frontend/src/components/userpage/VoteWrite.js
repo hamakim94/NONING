@@ -3,14 +3,16 @@ import React, { useEffect, useState } from 'react';
 import {FlatList} from 'react-native-gesture-handler';
 import Feather from 'react-native-vector-icons/Feather';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import { useIsFocused } from '@react-navigation/native';
 
 export default function VoteWrite({navigation, id, myPageData}) {
+  const isFocused = useIsFocused();
   const [filteredData, setFilteredData] = useState([]);
   const isArr = Array.isArray(myPageData.boardList)
   useEffect(() => {
     const data = isArr? myPageData.boardList.filter(e=>e.writerId===id):[];
     setFilteredData(data);    
-  }, [isArr])
+  }, [isArr, isFocused])
 
   
   const keyExtractor = item => item.boardId;

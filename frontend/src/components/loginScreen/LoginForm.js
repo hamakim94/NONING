@@ -61,7 +61,7 @@ export default function LoginForm({navigation}) {
               {
                 text: '비밀번호 찾기',
                 style: 'OK',
-                onPress: () => navigation.navigate('PasswordChangeScreen'),
+                onPress: () => navigation.navigate('PasswordFindScreen'),
               },
             ],
           );
