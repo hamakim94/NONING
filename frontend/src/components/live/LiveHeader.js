@@ -17,7 +17,7 @@ export default function LiveHeader({live, navigation}) {
         }>
         <Feather
           style={styles.detail(live.userVote)}
-          name='chevrons-right'
+          name="chevrons-right"
           size={25}
         />
       </TouchableOpacity>
@@ -27,29 +27,29 @@ export default function LiveHeader({live, navigation}) {
 
 const styles = StyleSheet.create({
   liveContainer: {
-    height: '10%',
+    height: '13%',
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     margin: '1%',
   },
-  liveButton: is_live => ({
-    width: 50,
-    borderColor: is_live === 1 ? '#FF7171' : '#808080',
+  liveButton: (live) => ({
+    width: 40,
+    borderColor: live ? '#FF5F5F' : '#808080',
     borderRadius: 5,
-    color: is_live === 1 ? '#FF7171' : '#808080',
-    borderWidth: is_live === 1 ? 2 : 1,
+    color: live ? '#FF5F5F' : '#808080',
+    borderWidth: live ? 2 : 1,
     fontWeight: 'bold',
-    fontSize: 15,
+    fontSize: 12,
     margin: 2,
     textAlign: 'center',
     textAlignVertical: 'center',
   }),
-  detail: user_vote => ({
+  detail: (user_vote) => ({
     justifyContent: 'center',
     alignItems: 'center',
     margin: 1,
     marginHorizontal: 5,
-    color: user_vote > 0 ? '#000000' : '#ffffff',
+    color: user_vote > 0 ? '#c9c9c9' : '#ffffff',
   }),
 });
