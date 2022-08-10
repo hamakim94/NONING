@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
-    ChatRoom findByBoardId(long boardId);
+    ChatRoom findByBoardIdEquals(long boardId);
     @Transactional
     void deleteByBoardId(long boardId);
 }

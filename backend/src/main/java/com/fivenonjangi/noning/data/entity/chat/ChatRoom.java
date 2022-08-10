@@ -29,7 +29,7 @@ public class ChatRoom {
     public void enter(byte vote) {
         switch (vote) {
             case 1 :
-                opt1++;
+                this.opt1++;
                 break;
             case 2 :
                 opt2++;

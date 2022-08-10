@@ -20,7 +20,7 @@ public class ChatController {
     private final BoardService boardService;
 
     @PostMapping("/enter")
-    public ResponseEntity enterRoom(long boardId, byte vote) {
+    public ResponseEntity enterRoom(@RequestParam long boardId,@RequestParam byte vote) {
         try {
             ChatRoomResponseDTO chatRoomResponseDTO = chatService.enterRoom(boardId, vote);
             if (chatRoomResponseDTO == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

@@ -13,7 +13,7 @@ public class ChatServiceImpl implements ChatService{
 
     @Override
     public ChatRoomResponseDTO enterRoom(long boardId, byte vote) {
-        ChatRoom chatRoom = chatRoomRepository.findByBoardId(boardId);
+        ChatRoom chatRoom = chatRoomRepository.findByBoardIdEquals(boardId);
         if (chatRoom==null) chatRoom = ChatRoom.builder().boardId(boardId).build();
         chatRoom.enter(vote);
         chatRoom = chatRoomRepository.save(chatRoom);
@@ -25,7 +25,7 @@ public class ChatServiceImpl implements ChatService{
 
     @Override
     public ChatRoomResponseDTO leaveRoom(long boardId, byte vote) throws Exception {
-        ChatRoom chatRoom = chatRoomRepository.findByBoardId(boardId);
+        ChatRoom chatRoom = chatRoomRepository.findByBoardIdEquals(boardId);
         if (chatRoom==null) throw new Exception();
         chatRoom.leave(vote);
         chatRoom = chatRoomRepository.save(chatRoom);
@@ -37,7 +37,7 @@ public class ChatServiceImpl implements ChatService{
 
     @Override
     public ChatRoomResponseDTO betray(long boardId, byte vote) throws Exception {
-        ChatRoom chatRoom = chatRoomRepository.findByBoardId(boardId);
+        ChatRoom chatRoom = chatRoomRepository.findByBoardIdEquals(boardId);
         if (chatRoom==null) throw new Exception();
         chatRoom.betray(vote);
         chatRoom = chatRoomRepository.save(chatRoom);
