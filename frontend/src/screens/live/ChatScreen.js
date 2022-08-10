@@ -34,45 +34,45 @@ import {useIsFocused} from '@react-navigation/native';
 //   {userId: 8, nickname: 'test08', userVote: 2},
 // ];
 const users = [];
-const messages = [
-  {
-    msgId: 1,
-    msg: '아무리 그래도 토맛을 먹는건 좀...',
-    nickname: '김토마',
-    userVote: 1,
-    reg: '오후 10:49',
-  },
-  {
-    msgId: 2,
-    msg: '그럴거면 토마토맛토를 먹지',
-    nickname: '적토마',
-    userVote: 1,
-    reg: '오후 10:49',
-  },
-  {
-    msgId: 3,
-    msg: '아무리 그래도 토를 먹는건 좀...',
-    nickname: '토마토',
-    userVote: 2,
-    reg: '오후 10:49',
-  },
-  {
-    msgId: 4,
-    msg: '토 먹으면서 맛있는 척 가능?',
-    nickname: '맛토맛',
-    userVote: 2,
-    reg: '오후 10:49',
-  },
-  {msgId: 5, msg: '김토마님이 배신하였습니다.', betray: true},
-  {
-    msgId: 6,
-    msg: '누가 배신했냐?',
-    nickname: '김토마',
-    userVote: 1,
-    reg: '오후 10:49',
-  },
-  {msgId: 7, msg: '적토마님이 입장하였습니다.', betray: false},
-];
+const messages = [];
+//   {
+//     msgId: 1,
+//     msg: '아무리 그래도 토맛을 먹는건 좀...',
+//     nickname: '김토마',
+//     userVote: 1,
+//     reg: '오후 10:49',
+//   },
+//   {
+//     msgId: 2,
+//     msg: '그럴거면 토마토맛토를 먹지',
+//     nickname: '적토마',
+//     userVote: 1,
+//     reg: '오후 10:49',
+//   },
+//   {
+//     msgId: 3,
+//     msg: '아무리 그래도 토를 먹는건 좀...',
+//     nickname: '토마토',
+//     userVote: 2,
+//     reg: '오후 10:49',
+//   },
+//   {
+//     msgId: 4,
+//     msg: '토 먹으면서 맛있는 척 가능?',
+//     nickname: '맛토맛',
+//     userVote: 2,
+//     reg: '오후 10:49',
+//   },
+//   {msgId: 5, msg: '김토마님이 배신하였습니다.', betray: true},
+//   {
+//     msgId: 6,
+//     msg: '누가 배신했냐?',
+//     nickname: '김토마',
+//     userVote: 1,
+//     reg: '오후 10:49',
+//   },
+//   {msgId: 7, msg: '적토마님이 입장하였습니다.', betray: false},
+// ];
 
 const io = require('socket.io/client-dist/socket.io');
 let socket;
@@ -103,10 +103,10 @@ export default function ChatScreen({route}) {
         // 입장 메세지 보냄
         const msgData = {
           msgId: chatRef.current,
-          msg: userData.nickname + ' 님이 입장하셨습니다. ',
+          msg: userVoteData.nickname + ' 님이 입장하셨습니다. ',
           betray: false,
         };
-        setMessageList([...messageList, msgData]);
+        setMessageList((messageList) => [...messageList, msgData]);
 
         // user update
         // front단의 userlist update
@@ -125,7 +125,15 @@ export default function ChatScreen({route}) {
         userList.concat(initUsers); // 이렇게 해도 flatlist가 다시 그려지는지
       });
 
-      socket.emit('send', () => {});
+      socket.on('send', (userVoteData, msg) => {
+        const msgData = {
+          nickname: userVoteData.nickname,
+          userVote: userVoteData.userVote,
+          msgId: chatRef.current,
+          msg: msg,
+        };
+        setMessageList((messageList) => [...messageList, msgData]);
+      });
 
       socket.on('betray', (userVoteData, opt1Cnt, opt2Cnt) => {
         // opt1, opt2 수 변경
@@ -149,9 +157,14 @@ export default function ChatScreen({route}) {
       //   console.log(err.message);
       // });
 
-      // socket.on('left', (name) => {
-      //   console.log(name);
-      // });
+      socket.on('left', (userVoteData, userCnt) => {
+        const msgData = {
+          msgId: chatRef.current,
+          msg: userVoteData.nickname + ' 님이 퇴장하셨습니다. ',
+          betray: false,
+        };
+        setMessageList((messageList) => [...messageList, msgData]);
+      });
     }
 
     return () => {
@@ -189,18 +202,14 @@ export default function ChatScreen({route}) {
   };
 
   const onSubmit = () => {
-    console.log('msg : ' + msg);
-    // socket.emit("send", msg);
-    // socket.on("message", (message) => {
-    //   console.log("message: " + message);
-    // });
-    // const data = {
-    //   msgId: chatRef.current,
-    //   msg: msg,
-    //   nickname: userData.nickname,
-    //   userVote: boardData.userVote,
-    // };
-    // setMessageList([...messageList, data]);
+    socket.emit('send', msg);
+    const msgData = {
+      nickname: userData.nickname,
+      userVote: boardData.userVote,
+      msgId: chatRef.current,
+      msg: msg,
+    };
+    setMessageList([...messageList, msgData]);
     setMsg('');
     Keyboard.dismiss();
   };
