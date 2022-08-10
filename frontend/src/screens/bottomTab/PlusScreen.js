@@ -37,22 +37,19 @@ export default function PlusScreen({navigation}) {
       title: '',
       opt1: '',
       opt2: '',
-      categoryCode : '',
+      categoryCode: '',
     },
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = data => {
-    data.categoryCode = nameToCode[data.categoryCode]
-     // console.log(data);
-    UseAxios.post(`/boards/write`,  
-      data
-    
-    ).then(navigation.navigate('HomeScreen'))
-    .catch(err => {
-      console.log(err)
-    })
-
+  const onSubmit = (data) => {
+    data.categoryCode = nameToCode[data.categoryCode];
+    // console.log(data);
+    UseAxios.post(`/boards/write`, data)
+      .then(navigation.navigate('HomeScreen'))
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const nameToCode = {
     연애: 'B0101',
@@ -66,15 +63,15 @@ export default function PlusScreen({navigation}) {
     기타: 'B0199',
   };
   const categoryList = [
-    '연애', 
-    '병맛', 
-    '음식', 
-    '게임', 
-    '운동', 
-    '학교', 
-    '직장', 
-    '갈등', 
-    '기타', 
+    '연애',
+    '병맛',
+    '음식',
+    '게임',
+    '운동',
+    '학교',
+    '직장',
+    '갈등',
+    '기타',
   ];
   return (
     <View style={styles.container}>
@@ -84,13 +81,12 @@ export default function PlusScreen({navigation}) {
           <View>
             <Text style={styles.registArgu}>논쟁등록</Text>
           </View>
-         
           <Divider orientation="vertical" />
         </View>
 
         {/* 논쟁, 1/2안 입력 */}
-        <View style={{}}>
-        <View>
+        <View style={{marginTop: '2.5%'}}>
+          <View style={{alignItems: 'center'}}>
             <Text style={styles.warning}>
               ※성별, 지역, 정치 논쟁은 그 내용과 관계없이 삭제됩니다.
             </Text>
@@ -128,7 +124,7 @@ export default function PlusScreen({navigation}) {
             index={2}></NoCheckInputText>
           {/* 카테고리 */}
           <View>
-          <InputLabel name="카테고리" star="*"></InputLabel>
+            <InputLabel name="카테고리" star="*"></InputLabel>
             <Controller
               control={control}
               render={({field: {onChange}}) => (
@@ -136,7 +132,7 @@ export default function PlusScreen({navigation}) {
                   <SelectDropdown
                     data={categoryList}
                     defaultButtonText="선택"
-                    renderDropdownIcon={isOpened => {
+                    renderDropdownIcon={(isOpened) => {
                       return (
                         <FontAwesome
                           name={isOpened ? 'chevron-up' : 'chevron-down'}
@@ -146,7 +142,7 @@ export default function PlusScreen({navigation}) {
                       );
                     }}
                     rowStyle={{
-                      backgroundColor: '#FFFFFF',
+                      backgroundColor: 'white',
                     }}
                     dropdownStyle={styles.dropDownOpen}
                     buttonStyle={styles.dropDownButton}
@@ -154,13 +150,13 @@ export default function PlusScreen({navigation}) {
                       fontSize: 16,
                       textAlign: 'left',
                     }}
-                    onSelect={selectedItem => {
+                    onSelect={(selectedItem) => {
                       onChange(selectedItem);
                     }}
-                    buttonTextAfterSelection={selectedItem => {
+                    buttonTextAfterSelection={(selectedItem) => {
                       return selectedItem;
                     }}
-                    rowTextForSelection={item => {
+                    rowTextForSelection={(item) => {
                       return item;
                     }}
                   />
@@ -169,14 +165,16 @@ export default function PlusScreen({navigation}) {
               name="categoryCode"
             />
             {errors.categoryCode ? (
-              <Text style={styles.errorText}>{errors.categoryCode.message}</Text>
+              <Text style={styles.errorText}>
+                {errors.categoryCode.message}
+              </Text>
             ) : (
               <Text style={styles.errorText} />
             )}
           </View>
         </View>
 
-        {/* 미리보기 */}
+        {/* 미리보기*/}
         <View style={{}}>
           <Divider orientation="vertical" style={{marginTop: '2.5%'}} />
           <Text style={styles.preview}> PREVIEW </Text>
@@ -187,8 +185,6 @@ export default function PlusScreen({navigation}) {
                   textAlign: 'center',
                   fontWeight: 'bold',
                   marginBottom: '5%',
-                  fontSize: 20,
-                  color: '#000000'
                 }}>
                 {getValues('title')}
               </Text>
@@ -252,26 +248,23 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     paddingTop: '1%',
-    paddingHorizontal: '5%',
-    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 16,
+    backgroundColor: 'white',
     height: '100%',
   },
   registArgu: {
     fontWeight: 'bold',
-    marginBottom: '3%',
+    marginBottom: '4%',
     fontSize: 18,
-    color: '#000000'
+    color: '#000000',
   },
   warning: {
-    color: '#FF5F5F',
-    marginVertical: '3%',
-    alignSelf: 'center'
-
+    color: 'red',
+    marginBottom: '3%',
   },
   preview: {
     textAlign: 'center',
     marginVertical: '5%',
-    color: '#000000'
   },
   card: {
     backgroundColor: '#fff',
@@ -279,8 +272,8 @@ const styles = StyleSheet.create({
   },
   focusInput: {
     width: '100%',
-    backgroundColor: '#FFFFFF',
-    borderColor: '#000000',
+    backgroundColor: 'white',
+    borderColor: 'black',
     paddingVertical: 0,
     paddingHorizontal: '2%',
     height: '100%',
@@ -298,8 +291,8 @@ const styles = StyleSheet.create({
   },
   focusHalfInput: {
     width: '100%',
-    backgroundColor: '#FFFFFF',
-    borderColor: '#000000',
+    backgroundColor: 'white',
+    borderColor: 'black',
     paddingVertical: 0,
     paddingHorizontal: '4%',
     height: '100%',
@@ -325,14 +318,14 @@ const styles = StyleSheet.create({
   checkButton: {
     marginBottom: '5%',
     width: '23%',
-    color: '#FFFFFF',
+    color: 'white',
     backgroundColor: '#FF7171',
     borderRadius: 6,
     justifyContent: 'center',
     padding: '2.5%',
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: 'white',
     fontFamily: 'Bold',
     textAlign: 'center',
     fontSize: 15,

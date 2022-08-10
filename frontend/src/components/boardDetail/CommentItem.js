@@ -1,58 +1,63 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import {Avatar} from '@rneui/themed';
 import Icon from 'react-native-vector-icons/AntDesign';
 import CommentModal from './CommnetModal';
-import axios from 'axios';
+import UseAxios from '../../util/UseAxios';
+import DetailContext from './DetailContext';
+import CommentContext from './CommentContext';
 
 function CommentItem({
   commentData,
   setCommentData,
+  writerData,
   commentIsopened,
   setCommentIsopened,
   isReply,
+  setNested,
 }) {
-  const likeAxios = (code, setter, likeCheck) => {
-    axios({
-      url: `http://i7a202.p.ssafy.io:9999/api/boards/${boardid}/comments/${commentData.id}/${likeCheck}/${code}`,
-      method: 'PUT',
-    })
+  const {boardId} = useContext(DetailContext);
+  const {setParentComment} = useContext(CommentContext);
+  const likeAxios = (setter, likeCheck) => {
+    UseAxios.put(
+      `/boards/${boardId}/comments/${commentData.commentId}/${likeCheck}`,
+    )
       .then(res => {
-        console.log(res);
-        alert('성공');
         setter;
       })
       .catch(err => {
         console.log(err);
-        alert('실패');
+        alert('다시 한번 눌러주세요!');
       });
   };
 
   const setLikeData = () => {
     setCommentData(commentData => ({
       ...commentData,
-      like: !commentData.like,
-      dislike: commentData.dislike ? !commentData.dislike : commentData.dislike,
-      userLike: commentData.like
-        ? commentData.userLike - 1
-        : commentData.userLike + 1,
-      userDislike: commentData.dislike
-        ? commentData.userDislike - 1
+      userLike: !commentData.userLike,
+      userDislike: commentData.userDislike
+        ? !commentData.userDislike
         : commentData.userDislike,
+      likes: commentData.userLike
+        ? commentData.likes - 1
+        : commentData.likes + 1,
+      dislikes: commentData.userDislike
+        ? commentData.dislikes - 1
+        : commentData.dislikes,
     }));
   };
 
   const setdisLikeData = () => {
     setCommentData(commentData => ({
       ...commentData,
-      like: commentData.like ? !commentData.like : commentData.like,
-      dislike: !commentData.dislike,
-      userLike: commentData.like
-        ? commentData.userLike - 1
+      userLike: commentData.userLike
+        ? !commentData.userLike
         : commentData.userLike,
-      userDislike: commentData.dislike
-        ? commentData.userDislike - 1
-        : commentData.userDislike + 1,
+      userDislike: !commentData.userDislike,
+      likes: commentData.userLike ? commentData.likes - 1 : commentData.likes,
+      dislikes: commentData.userDislike
+        ? commentData.dislikes - 1
+        : commentData.dislikes + 1,
     }));
   };
 
@@ -61,58 +66,44 @@ function CommentItem({
       case 'like':
         switch (start) {
           case false:
-            switch (commentData.dislike) {
+            switch (commentData.userDislike) {
               case false:
-                setLikeData();
-                // likeAxios(0, setLikeData, likeCheck); 중립->좋아요
-                console.log(0);
-                console.log(commentData);
+                likeAxios(setLikeData(), likeCheck); //중립->좋아요
                 break;
               case true:
-                setLikeData();
-                // likeAxios(1, setLikeData, likeCheck); 싫어요->좋아요
-                console.log(1);
-                console.log(commentData);
+                likeAxios(setLikeData(), likeCheck); //싫어요->좋아요
                 break;
             }
             break;
           case true:
-            setLikeData();
-            // likeAxios(2, setLikeData); 좋아요->좋아요
-            console.log(2);
-            console.log(commentData);
+            likeAxios(setLikeData(), likeCheck); //좋아요->좋아요
             break;
         }
         break;
       case 'dislike':
         switch (start) {
           case false:
-            switch (commentData.like) {
+            switch (commentData.userLike) {
               case false:
-                setdisLikeData();
-                // likeAxios(0, setLikeData, likeCheck); 중립->좋아요
-                console.log(0);
-                console.log(commentData);
+                likeAxios(setdisLikeData(), likeCheck); //중립->좋아요
                 break;
               case true:
-                setdisLikeData();
-                // likeAxios(1, setLikeData, likeCheck); 싫어요->좋아요
-                console.log(1);
-                console.log(commentData);
+                likeAxios(setdisLikeData(), likeCheck); // 싫어요->좋아요
                 break;
             }
             break;
           case true:
-            setdisLikeData();
-            // likeAxios(2, setLikeData); 좋아요->좋아요
-            console.log(2);
-            console.log(commentData);
+            likeAxios(setdisLikeData(), likeCheck); //좋아요->좋아요
             break;
         }
         break;
     }
   };
-  return (
+  const nestOnPress = () => {
+    setNested(true);
+    setParentComment(commentData.commentId);
+  };
+  return writerData ? (
     <View style={styles.container}>
       {isReply ? <View style={styles.blankContainer} /> : ''}
       <View style={commentStyles(isReply).firstContainer}>
@@ -120,14 +111,14 @@ function CommentItem({
           <Avatar
             size={40}
             rounded
-            containerStyle={avaStyles(commentData.writerVote).avartarContainer}
-            source={require('../../assets/ProfileImage.jpg')}
+            containerStyle={avaStyles(writerData[0].vote).avartarContainer}
+            source={{uri: writerData[0].img ? writerData[0].img : ''}}
           />
         </TouchableOpacity>
       </View>
       <View style={commentStyles(isReply).secondContainer}>
         <View>
-          <Text style={styles.nickNameText}>{commentData.nickname}</Text>
+          <Text style={styles.nickNameText}>{writerData[0].nickname}</Text>
         </View>
         <View>
           <Text style={styles.contentText}>{commentData.content}</Text>
@@ -135,46 +126,58 @@ function CommentItem({
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity
             style={{paddingTop: '1.5%', marginRight: '1%'}}
-            onPress={() => likeOnPress(commentData.like, 'like')}>
-            {commentData.like ? (
+            onPress={() => likeOnPress(commentData.userLike, 'like')}>
+            {commentData.userLike ? (
               <Icon name="like1" color="#FF5F5F" size={11} />
             ) : (
               <Icon name="like2" color="#808080" size={11} />
             )}
           </TouchableOpacity>
           <Text style={{fontSize: 12, color: '#000000'}}>
-            {commentData.userLike}
+            {commentData.likes}
           </Text>
           <TouchableOpacity
             style={{paddingTop: '1.5%', marginRight: '1%', marginLeft: '3%'}}
-            onPress={() => likeOnPress(commentData.dislike, 'dislike')}>
-            {commentData.dislike ? (
+            onPress={() => likeOnPress(commentData.userDislike, 'dislike')}>
+            {commentData.userDislike ? (
               <Icon name="dislike1" color="#49D3CA" size={11} />
             ) : (
               <Icon name="dislike2" color="#808080" size={11} />
             )}
           </TouchableOpacity>
           <Text style={{fontSize: 12, color: '#000000'}}>
-            {commentData.userDislike}
+            {commentData.dislikes}
           </Text>
           {isReply ? (
             ''
           ) : (
-            <TouchableOpacity
-              style={{marginLeft: '3%'}}
-              onPress={() => setCommentIsopened(prev => !prev)}>
-              <Text
-                style={{fontSize: 12, color: '#808080', fontWeight: 'bold'}}>
-                {commentIsopened ? '답글 숨기기' : '답글 보기'}
-              </Text>
-            </TouchableOpacity>
+            <>
+              <TouchableOpacity
+                style={{marginLeft: '3%'}}
+                onPress={() => setCommentIsopened(prev => !prev)}>
+                <Text
+                  style={{fontSize: 12, color: '#808080', fontWeight: 'bold'}}>
+                  {commentIsopened ? '답글 숨기기' : '답글 보기'}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{marginLeft: '3%'}}
+                onPress={nestOnPress}>
+                <Text
+                  style={{fontSize: 12, color: '#808080', fontWeight: 'bold'}}>
+                  답글 달기
+                </Text>
+              </TouchableOpacity>
+            </>
           )}
         </View>
       </View>
       <View style={{flex: 0.5, justifyContent: 'center'}}>
-        <CommentModal></CommentModal>
+        <CommentModal data={commentData}></CommentModal>
       </View>
     </View>
+  ) : (
+    ''
   );
 }
 

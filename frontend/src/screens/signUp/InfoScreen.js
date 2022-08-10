@@ -124,7 +124,7 @@ function InfoScreen({navigation}) {
         navigation.navigate('CompleteScreen');
       })
       .catch(err => {});
-   };
+  };
 
   const onLaunchCamera = () => {
     ImagePicker.openCamera(imagePickerOption)
@@ -170,11 +170,13 @@ function InfoScreen({navigation}) {
                 borderColor: '#808080',
                 marginBottom: '5%',
               }}
-              source={{
-                uri: imgSource
-                  ? imgSource
-                  : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-              }}
+              source={
+                imgSource
+                  ? {
+                      uri: imgSource,
+                    }
+                  : require('../../assets/DefaultProfile.jpg')
+              }
             />
           </TouchableOpacity>
         </View>

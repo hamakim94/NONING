@@ -16,7 +16,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useIsFocused} from '@react-navigation/native';
 import UserContext from '../util/UserContext';
 
-const renderTabBar = props => (
+const renderTabBar = (props) => (
   <TabBar
     {...props}
     indicatorStyle={{
@@ -92,7 +92,7 @@ export default function YourPageScreen({route, navigation}) {
   };
 
   useEffect(() => {
-    UseAxios.get(`/users/${id}/page`).then(res => {
+    UseAxios.get(`/users/${id}/page`).then((res) => {
       setYourPageData(res.data);
       console.log(
         '데이터 ---------------------------------------- : \n' + res.data,
@@ -106,10 +106,10 @@ export default function YourPageScreen({route, navigation}) {
       userId: userData.userId,
       targetUserId: id,
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -120,24 +120,24 @@ export default function YourPageScreen({route, navigation}) {
       userId: userData.userId,
       targetUserId: id,
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  const fakeFollow = myId => {
+  const fakeFollow = (myId) => {
     setYourPageData({
       ...yourPageData,
       followerIdList: [...yourPageData.followerIdList, myId],
     });
   };
-  const fakeUnFollow = myId => {
+  const fakeUnFollow = (myId) => {
     setYourPageData({
       ...yourPageData,
-      followerIdList: yourPageData.followerIdList.filter(e => e !== myId),
+      followerIdList: yourPageData.followerIdList.filter((e) => e !== myId),
     });
   };
   // console.log(yourPageData.followerIdList);
@@ -301,7 +301,11 @@ export default function YourPageScreen({route, navigation}) {
           ) : (
             <TouchableOpacity
               style={{
-                backgroundColor: '#FF5F5F',
+                backgroundColor: yourPageData.followerIdList
+                  ? yourPageData.followerIdList.indexOf(userData.userId) >= 0
+                    ? '#c9c9c9'
+                    : 'rgba(255,95,95,1)'
+                  : '#FFFFFF',
                 borderRadius: 10,
                 width: '80%',
                 height: '50%',

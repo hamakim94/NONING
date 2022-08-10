@@ -13,7 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import UserContext from '../../util/UserContext';
 
 function SettingScreen({navigation}) {
-  const {userData, setUserData} = useContext(UserContext);
+  const {setUserData} = useContext(UserContext);
   const showAlert = () =>
     Alert.alert(
       '',
@@ -23,12 +23,12 @@ function SettingScreen({navigation}) {
           text: '확인',
           onPress: () => {
             UseAxios.get('/users/logout')
-              .then(res => {
+              .then((res) => {
                 navigation.navigate('HomeScreen');
                 AsyncStorage.clear();
                 setUserData(null);
               })
-              .catch(err => {
+              .catch((err) => {
                 console.log(err);
               });
           },
@@ -55,10 +55,7 @@ function SettingScreen({navigation}) {
         onPress={() =>
           navigation.push('ProfileEditScreen', {screen: 'ProfileEditScreen'})
         }>
-        <Text style={styles.menuText}>
-          {' '}
-          프로필 편집{' '}
-        </Text>
+        <Text style={styles.menuText}> 프로필 편집 </Text>
       </TouchableOpacity>
       <View style={{marginHorizontal: 10}}>
         <Divider width={1}></Divider>
@@ -68,10 +65,7 @@ function SettingScreen({navigation}) {
         onPress={() =>
           navigation.push('PasswordEditScreen', {screen: 'PasswordEditScreen'})
         }>
-        <Text style={styles.menuText}>
-          {' '}
-          비밀번호 변경{' '}
-        </Text>
+        <Text style={styles.menuText}> 비밀번호 변경 </Text>
       </TouchableOpacity>
       <View style={{marginHorizontal: 10}}>
         <Divider width={1}></Divider>
@@ -89,10 +83,7 @@ function SettingScreen({navigation}) {
       <TouchableOpacity
         style={styles.menuContainer}
         onPress={() => navigation.push('TosScreen', {screen: 'TosScreen'})}>
-        <Text style={styles.menuText}>
-          {' '}
-          서비스 이용약관{' '}
-        </Text>
+        <Text style={styles.menuText}> 서비스 이용약관 </Text>
       </TouchableOpacity>
       <View style={{marginHorizontal: 10}}>
         <Divider width={1}></Divider>
@@ -102,9 +93,7 @@ function SettingScreen({navigation}) {
         onPress={() =>
           navigation.push('PrivacyScreen', {screen: 'PrivacyScreen'})
         }>
-        <Text style={styles.menuText}>
-          개인정보 처리방침
-        </Text>
+        <Text style={styles.menuText}>개인정보 처리방침</Text>
       </TouchableOpacity>
       <View style={{marginHorizontal: 10}}>
         <Divider width={1}></Divider>

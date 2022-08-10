@@ -8,10 +8,11 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import UseAxios from '../util/UseAxios'
+import UseAxios from '../util/UseAxios';
 import UserContext from '../util/UserContext';
 import {useIsFocused} from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
+import {Divider} from '@rneui/themed';
 
 function FollowingScreen({route, navigation}) {
   const [followData, setFollowData] = useState([]);
@@ -22,19 +23,19 @@ function FollowingScreen({route, navigation}) {
   const id = route.params.id;
 
   useEffect(() => {
-    UseAxios.get(`/follows/list/${id}`).then(res => {
-      setFollowData(res.data);
-      console.log(followData)
-      console.log('페이지 주인:' + id)
-    }).then(
-      console.log(followData)
-    );
+    UseAxios.get(`/follows/list/${id}`)
+      .then((res) => {
+        setFollowData(res.data);
+        console.log(followData);
+        console.log('페이지 주인:' + id);
+      })
+      .then(console.log(followData));
   }, [isFocused, fake]);
 
   useEffect(() => {
-    UseAxios.get(`/users/${userData.userId}/page`).then(res => {
+    UseAxios.get(`/users/${userData.userId}/page`).then((res) => {
       setMyData(res.data);
-      console.log(myData)
+      console.log(myData);
     });
   }, [isFocused]);
 
@@ -42,12 +43,12 @@ function FollowingScreen({route, navigation}) {
     console.log('팔');
     UseAxios.post(`/follows/add`, {
       userId: userData.userId,
-      targetUserId: item.userId
+      targetUserId: item.userId,
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -56,59 +57,71 @@ function FollowingScreen({route, navigation}) {
     console.log('언팔');
     UseAxios.post(`/follows/delete`, {
       userId: userData.userId,
-      targetUserId: item.userId
+      targetUserId: item.userId,
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  const fakeFollow = yourId => {
+  const fakeFollow = (yourId) => {
     setMyData({
       ...myData,
       followingIdList: [...myData.followingIdList, yourId],
     });
   };
-  const fakeUnFollow = yourId => {
+  const fakeUnFollow = (yourId) => {
     setMyData({
       ...myData,
-      followingIdList: myData.followingIdList.filter(e => e !== yourId),
+      followingIdList: myData.followingIdList.filter((e) => e !== yourId),
     });
   };
 
-
-
   const ItemView = ({item}) => {
     return (
-      <View style={{flex: 1, flexDirection: 'row', paddingHorizontal: 16}}>
+      <View style={{flex: 1, paddingHorizontal: 16}}>
+        <View style={{flexDirection: 'row'}}>
           <TouchableOpacity
-            style={{flexDirection: 'row', flex: 1.5, margin: '2%'}}
+            style={{flexDirection: 'row', flex: 1.5, margin: '1%'}}
             navigation={navigation}
             onPress={() =>
-              navigation.navigate('YourPageScreen', {id: item.userId})}>
+              navigation.navigate('YourPageScreen', {id: item.userId})
+            }>
             <View
               style={{
                 flexDirection: 'row',
                 flex: 0.3,
                 alignItems: 'center',
-                justifyContent: 'center', }}>
+                justifyContent: 'center',
+              }}>
               <Image
-                source={{uri: item.img}}
+                source={
+                  item.img
+                    ? {uri: item.img}
+                    : require('../assets/DefaultProfile.jpg')
+                }
                 style={{
-                  width: 60,
-                  height: 60,
+                  width: 50,
+                  height: 50,
                   borderRadius: 50,
                   borderWidth: 2,
-                  borderColor: '#c9c9c9', }}
+                  borderColor: '#c9c9c9',
+                }}
               />
             </View>
-            <View style={{flex: 1, alignSelf: 'flex-start', paddingVertical: '5%', paddingStart: 10}}>
+            <View
+              style={{
+                flex: 1,
+                alignSelf: 'flex-start',
+                paddingVertical: '5%',
+                paddingStart: 10,
+              }}>
               <Text style={styles.userNickname}>{item.nickname}</Text>
               <View style={{flexDirection: 'row'}}>
-                <Text style={{color: '#808080'}}>
+                <Text style={{color: '#808080', fontSize: 11}}>
                   {(() => {
                     if (item.genderCode === 'G0101') return <Text>남성</Text>;
                     else return <Text>여성</Text>;
@@ -148,20 +161,36 @@ function FollowingScreen({route, navigation}) {
               </View>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={{flex: 0.5, justifyContent: 'center'}}
-              onPress={() => {
-                myData.followingIdList.indexOf(item.userId) >= 0
-                  ? [unfollow(item), fakeUnFollow(item.userId)]
-                  : [follow(item), fakeFollow(item.userId)];
+          <TouchableOpacity
+            style={{flex: 0.5, justifyContent: 'center'}}
+            onPress={() => {
+              myData.followingIdList.indexOf(item.userId) >= 0
+                ? [unfollow(item), fakeUnFollow(item.userId)]
+                : [follow(item), fakeFollow(item.userId)];
+            }}>
+            <Text
+              style={{
+                textAlign: 'center',
+                height: '30%',
+                width: '80%',
+                textAlignVertical: 'center',
+                borderRadius: 10,
+                backgroundColor: myData.followingIdList
+                  ? myData.followingIdList.indexOf(item.userId) >= 0
+                    ? '#c9c9c9'
+                    : 'rgba(255,95,95,1)'
+                  : '#FFFFFF',
+                color: '#FFFFFF',
               }}>
-              <Text style={{textAlign: 'center', height: '30%', width: '80%', textAlignVertical: 'center', borderRadius: 10, backgroundColor: 'rgba(255,95,95,1)', color: '#FFFFFF'}}>
-                  {myData.followingIdList
-                    ? myData.followingIdList.indexOf(item.userId) >= 0
-                        ? '팔로잉'
-                        : '팔로우'
-                    : ''}
-              </Text>
+              {myData.followingIdList
+                ? myData.followingIdList.indexOf(item.userId) >= 0
+                  ? '팔로잉'
+                  : '팔로우'
+                : ''}
+            </Text>
           </TouchableOpacity>
+        </View>
+        <Divider width={0.5} style={{margin: '0.5%'}} />
       </View>
     );
   };
@@ -175,22 +204,26 @@ function FollowingScreen({route, navigation}) {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
-      <View style={{flex:0.5, flexDirection:'row', marginVertical:"3%"}}>
-        <View style={{flex: 1, alignItems:"center", justifyContent:"center"}}>
-            <TouchableOpacity style={{}} onPress={() => navigation.pop()}>
-                <Feather
-                    name="chevron-left"
-                    size={30}
-                    color='#000000'
-                  />
-            </TouchableOpacity>
+      <View style={{flex: 0.5, flexDirection: 'row', marginVertical: '3%'}}>
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <TouchableOpacity style={{}} onPress={() => navigation.pop()}>
+            <Feather name="chevron-left" size={30} color="#000000" />
+          </TouchableOpacity>
         </View>
-        <View style={{flex:4, justifyContent:"center"}}>
-            <Text style={{fontWeight: 'bold', fontSize: 18, color: '#000000', textAlign:"center"}}>Following</Text>
+        <View style={{flex: 4, justifyContent: 'center'}}>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              fontSize: 18,
+              color: '#000000',
+              textAlign: 'center',
+            }}>
+            Following
+          </Text>
         </View>
-        <View style={{flex:1}}></View>
+        <View style={{flex: 1}}></View>
       </View>
-      <View style={{flex:5.5}}>
+      <View style={{flex: 5.5}}>
         <FlatList
           navigation={navigation}
           data={followData.followings}
@@ -206,7 +239,8 @@ const styles = StyleSheet.create({
   container: {},
   userNickname: {
     fontWeight: 'bold',
-    color: '#000000'
+    color: '#000000',
+    fontSize: 14,
   },
   userInfo: {
     paddingTop: '1%',
