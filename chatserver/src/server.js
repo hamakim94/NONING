@@ -58,8 +58,9 @@ io.on('connection', (socket) => {
     // socket.to(boardId).emit("enter", userData, userList.get(boardId).length);
   });
 
-  socket.on('send', () => {
-    io.to(socket.boardId).emit('send', () => {});
+  socket.on('send', (msg) => {
+    const userVoteData = socket.userVoteData;
+    socket.to(socket.boardId).emit('send',userVoteData, msg);
   });
   // socket.on('betray', (boardId, userVoteData, opt1Cnt, opt2Cnt) => {
   socket.on('betray', (opt1Cnt, opt2Cnt) => {
@@ -96,12 +97,8 @@ io.on('connection', (socket) => {
   //   // socket.broadcast.emit("sm", data); //발신자 제외
   // });
 
-  socket.on('disconnect', () => {
-    // const i = userList.indexOf(socket.name);
-    // userList.splice(i, 1);
-    // socket.broadcast.emit("left", socket.name);
-    // socket.broadcast.emit("updateUser", userList);
-
-    socket.to(socket.boardId).emit('left', () => {});
+  socket.on('disconnecting', () => {
+    userList.get(socket.boardId).delete(socket);
+    socket.to(socket.boardId).emit('left', socket.userVoteData, userList.get(socket.boardId).size);
   });
 });
