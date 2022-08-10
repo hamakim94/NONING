@@ -1,5 +1,6 @@
-import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {Image, StyleSheet, View, TouchableOpacity} from 'react-native';
 import React from 'react';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function LiveLogoSearch({navigation}) {
   return (
@@ -7,7 +8,7 @@ export default function LiveLogoSearch({navigation}) {
       <TouchableOpacity>
         <Image
           style={styles.logo}
-          source={require('../common/header-logo.png')}></Image>
+          source={require('../common/로공공.png')}></Image>
       </TouchableOpacity>
 
       <View style={styles.iconsContainer}>
@@ -15,11 +16,12 @@ export default function LiveLogoSearch({navigation}) {
           onPress={() =>
             navigation.navigate('SearchNav', {screen: 'SearchNav'})
           }>
-          <Image
-            source={{
-              uri: 'https://img.icons8.com/material-outlined/60/000000/search--v1.png',
-            }}
-            style={styles.icon}></Image>
+          <Ionicons
+            name={'search'}
+            size={20}
+            color={'#000000'}
+            style={{resizeMode: 'contain'}}
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -31,17 +33,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    height: 30,
+    height: '4%',
     marginBottom: 5,
   },
   logo: {
-    width: 100,
-    height: 50,
+    width: 50,
+    height: 90,
     resizeMode: 'contain',
   },
   iconsContainer: {
     flexDirection: 'row',
-    marginHorizontal: 20,
+    marginHorizontal: 10,
   },
   icon: {
     width: 20,

@@ -12,10 +12,10 @@ function SignUpNav() {
       style={{backgroundColor: '#FFFFFF'}}
       initialRouteName="ApproveScreen"
       screenOptions={{
-        tabBarActiveTintColor: '#FF7171',
+        tabBarActiveTintColor: '#FF5F5F',
         tabBarInactiveTintColor: '#808080',
         tabBarPressColor: '#FFFFFF',
-        tabBarIndicatorStyle: {backgroundColor: '#FF7171'},
+        tabBarIndicatorStyle: {backgroundColor: '#FF5F5F'},
         tabBarLabelStyle: {fontSize: 15},
         tabBarStyle: {
           backgroundColor: '#FFFFFF',

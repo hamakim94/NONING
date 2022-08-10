@@ -8,7 +8,7 @@ const Tab = createMaterialTopTabNavigator();
 function SearchNav() {
   return (
     <Tab.Navigator
-      style={{backgroundColor: '#FFFFFF'}}
+      style={{backgroundColor: 'white'}}
       initialRouteName="BoardSearchScreen"
       screenOptions={{
         tabBarActiveTintColor: '#FF7171',
@@ -39,10 +39,6 @@ function SearchNav() {
         component={UserSearchScreen}
         options={{tabBarLabel: '사용자'}}
       />
-      {/* <Tab.Screen
-        name="UserPageScreen"
-        component={UserPageScreen}
-      /> */}
     </Tab.Navigator>
   );
 }

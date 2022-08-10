@@ -9,12 +9,13 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import UseAxios from '../../util/UseAxios';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import {Divider} from '@rneui/themed';
 
 const Tab = createMaterialTopTabNavigator();
 
-function BoardSearchScreen(item, setItem, navigation) {
+function BoardSearchScreen({navigation}) {
   const [boards, setBoards] = useState([]);
   const [filterdData, setfilterdData] = useState([]);
   const [search, setSearch] = useState('');
@@ -22,15 +23,15 @@ function BoardSearchScreen(item, setItem, navigation) {
   useEffect(() => {
     UseAxios.get('/boards/list', {
       params: {categorycode: 0},
-    }).then(res => {
+    }).then((res) => {
       setBoards(res.data);
       setfilterdData(res.data);
     });
   }, []);
 
-  const searchFilter = text => {
+  const searchFilter = (text) => {
     if (text) {
-      const newData = boards.filter(item => {
+      const newData = boards.filter((item) => {
         const itemData = item.title
           ? item.title.toUpperCase()
           : ''.toUpperCase();
@@ -58,36 +59,55 @@ function BoardSearchScreen(item, setItem, navigation) {
         {item ? (
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate('HomeDetail', {boardId: item.boardId})
+              navigation.navigate('DetailScreen', {boardId: item.boardId})
             }>
-            <View style={{height: 75, justifyContent: 'center'}}>
+            <View style={{height: 65, justifyContent: 'center'}}>
               <Text style={styles.itemStyle}>{item.title.toUpperCase()}</Text>
               <View style={{flexDirection: 'row'}}>
                 {(() => {
                   if (item.userVote === 1)
                     return (
-                      <AntDesign
-                        name={'checkcircleo'}
+                      <EvilIcons
+                        name={'sc-instagram'}
                         size={15}
-                        color={'red'}
+                        color={'rgba(255,95,95,1)'}
                         style={styles.optionIcon}
                       />
                     );
                   else if (item.userVote === 2)
                     return (
-                      <AntDesign
-                        name={'checkcircleo'}
+                      <EvilIcons
+                        name={'sc-instagram'}
                         size={15}
-                        color={'blue'}
+                        color={'rgba(73, 211, 202,1)'}
                         style={styles.optionIcon}
                       />
                     );
                   else return;
                 })()}
                 {(() => {
-                  if (item.userVote == '1') return <Text>{item.opt1}</Text>;
+                  if (item.userVote == '1')
+                    return (
+                      <Text
+                        style={{
+                          color: '#000000',
+                          fontWeight: '500',
+                          fontSize: 11,
+                        }}>
+                        {item.opt1}
+                      </Text>
+                    );
                   else if (item.userVote == '2')
-                    return <Text>{item.opt2}</Text>;
+                    return (
+                      <Text
+                        style={{
+                          color: '#000000',
+                          fontWeight: '500',
+                          fontSize: 11,
+                        }}>
+                        {item.opt2}
+                      </Text>
+                    );
                   else return;
                 })()}
               </View>
@@ -96,19 +116,23 @@ function BoardSearchScreen(item, setItem, navigation) {
         ) : (
           ''
         )}
+        <Divider width={0.5} />
       </View>
     );
   };
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
-      <View style={StyleSheet.container}>
+    <SafeAreaView
+      style={{flex: 1, backgroundColor: '#FFFFFF', paddingHorizontal: 16}}>
+      <View style={{flex: 0.5, marginBottom: '0.7%'}}>
         <TextInput
           style={styles.textInputStyle}
           value={search}
           placeholder="논쟁 제목을 검색해 보세요."
           underlineColorAndroid="transparent"
-          onChangeText={text => searchFilter(text)}></TextInput>
+          onChangeText={(text) => searchFilter(text)}></TextInput>
+      </View>
+      <View style={{flex: 5.5}}>
         <FlatList
           data={filterdData}
           keyExtractor={(item, index) => index.toString()}
@@ -126,6 +150,8 @@ const styles = StyleSheet.create({
     marginLeft: '3.5%',
     paddingBottom: '1.5%',
     fontWeight: 'bold',
+    color: '#000000',
+    fontSize: 14,
   },
   textInputStyle: {
     height: 45,
