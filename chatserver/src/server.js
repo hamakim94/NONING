@@ -16,8 +16,12 @@ io.on('connection', (socket) => {
   console.log('connected');
 
   // 채팅 대기방 입장
-  socket.on('wait', (boardId) => {
-    socket.emit('wait', userList.get(boardId));
+  socket.on('wait', () => {
+    let userDataList = Array.from(
+      userList.get(boardData.boardId),
+      (socket) => socket.userVoteData,
+    );
+    socket.emit('wait', userDataList);
   });
 
   // 실시간 음성채팅방 입장
@@ -64,22 +68,15 @@ io.on('connection', (socket) => {
 
   socket.on('send', (msg) => {
     const userVoteData = socket.userVoteData;
-    socket.to(socket.boardId).emit('send', userVoteData, msg);
+    const reg = new Date().toLocaleTimeString();
+    io.to(socket.boardId).emit('send', userVoteData, msg, reg);
   });
 
-  // socket.on('betray', (boardId, userVoteData, opt1Cnt, opt2Cnt) => {
   socket.on('betray', (opt1Cnt, opt2Cnt) => {
     // 해당 user의 vote 변경
     const user = socket.userVoteData;
-    // const user = userList.get(boardId).find((user) => (user.userId = userVoteData.userId));
-    // console.log('before betray: ');
-    // console.log(user);
-
     if (user['userVote'] == 1) user['userVote'] = 2;
     else if (user['userVote'] == 2) user['userVote'] = 1;
-
-    // console.log('after betray: ');
-    // console.log(user);
 
     // 본인 포함 방 안의 모든 사람들에게 전달
     io.to(socket.boardId).emit('betray', user, opt1Cnt, opt2Cnt);

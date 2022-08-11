@@ -21,7 +21,6 @@ import ChatHeader from '../../components/live/chat/ChatHeader';
 import ChatContent from '../../components/live/chat/ChatContent';
 import UserContext from '../../util/UserContext';
 import {useIsFocused} from '@react-navigation/native';
-// import socketIO from 'socket.io-client';
 
 const users = [];
 const messages = [];
@@ -58,7 +57,6 @@ export default function ChatScreen({route, navigation}) {
         // user update
         // front단의 userlist update
         // 상단 userlist
-        // users.push(userVoteData);
         setUserList((userList) => [...userList, userVoteData]);
 
         // 입장 메세지 보냄
@@ -71,8 +69,6 @@ export default function ChatScreen({route, navigation}) {
       });
 
       socket.on('user_enter', (initUsers) => {
-        // 본인 정보
-        // myData = userVoteData;
         // 본인한테만
         setUserList(initUsers);
 
@@ -85,7 +81,8 @@ export default function ChatScreen({route, navigation}) {
         setMessageList((messageList) => [...messageList, msgData]);
       });
 
-      socket.on('send', (userVoteData, msg) => {
+      socket.on('send', (userVoteData, msg, reg) => {
+        console.log(reg.slice(0, -3));
         const msgData = {
           nickname: userVoteData.nickname,
           userVote: userVoteData.userVote,
@@ -174,13 +171,6 @@ export default function ChatScreen({route, navigation}) {
 
   const onSubmit = () => {
     socket.emit('send', msg);
-    const msgData = {
-      nickname: userData.nickname,
-      userVote: boardData.userVote,
-      msgId: chatRef.current,
-      msg: msg,
-    };
-    setMessageList([...messageList, msgData]);
     setMsg('');
     Keyboard.dismiss();
   };
@@ -199,18 +189,6 @@ export default function ChatScreen({route, navigation}) {
           ...boardData,
           userVote: boardData.userVote == 1 ? 2 : 1,
         }));
-        // userList.map((user) =>
-        //   user.userId === userData.userId
-        //     ? {...user, userVote: user.userVote == 1 ? 2 : 1}
-        //     : user,
-        // );
-        // setUserList(
-        //   userList.map((user) =>
-        //     user.userId === userData.userId
-        //       ? {...user, userVote: user.userVote == 1 ? 2 : 1}
-        //       : user,
-        //   ),
-        // );
       })
       .catch((err) => {
         console.log(err);
