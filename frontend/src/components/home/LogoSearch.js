@@ -1,6 +1,6 @@
 import {Image, StyleSheet, View, TouchableOpacity} from 'react-native';
 import React from 'react';
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function LogoSearch({navigation}) {
   return (
@@ -16,7 +16,12 @@ export default function LogoSearch({navigation}) {
           onPress={() =>
             navigation.navigate('SearchNav', {screen: 'SearchNav'})
           }>
-         <Ionicons name={'search'} size={20} color={'#000000'} style={{resizeMode: 'contain',}} /> 
+          <Ionicons
+            name={'search'}
+            size={20}
+            color={'#000000'}
+            style={{resizeMode: 'contain'}}
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -28,12 +33,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    height: '4%',
-    marginBottom: 5,
+    height: '7%',
+    padding: '3%',
   },
   logo: {
-    width: 50,
-    height: 90,
+    width: 70,
     resizeMode: 'contain',
   },
   iconsContainer: {

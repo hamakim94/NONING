@@ -9,17 +9,25 @@ function Boards({board, navigation}) {
 
   useEffect(() => {
     setBoardData(board);
-  }, [board])
-  
+  }, [board]);
+
   return (
     <View>
       <View style={styles.container}>
-        <BoardHeader board={boardData} navigation={navigation}></BoardHeader>
-        <View style={styles.titleContainer}>
-          <Text style={styles.titleText}>{board.title}</Text>
+        <View style={styles.cardContainer}>
+          <BoardHeader board={boardData} navigation={navigation}></BoardHeader>
+          <View style={styles.titleContainer}>
+            <Text style={styles.titleText}>{board.title}</Text>
+          </View>
+          <BoardBar
+            board={boardData}
+            setBoards={setBoardData}
+            navigation={navigation}></BoardBar>
         </View>
-        <BoardBar board={boardData} setBoards={setBoardData} navigation={navigation}></BoardBar>
-        <BoardFooter board={boardData} setBoards={setBoardData } navigation={navigation}></BoardFooter>
+        <BoardFooter
+          board={boardData}
+          setBoards={setBoardData}
+          navigation={navigation}></BoardFooter>
       </View>
     </View>
   );
@@ -28,9 +36,12 @@ function Boards({board, navigation}) {
 const styles = StyleSheet.create({
   container: {
     marginTop: 5,
-    marginBottom: 50,
-    height: 200,
+    marginBottom: 20,
+    height: 180,
     width: '100%',
+  },
+  cardContainer: {
+    flex: 5,
     borderWidth: 0.5,
     borderRadius: 5,
     // shadowOpacity : 0.1,
@@ -38,14 +49,14 @@ const styles = StyleSheet.create({
     // elevation:0.5,
   },
   titleText: {
-    fontSize: 20,
+    fontSize: 17,
     color: '#000000',
     fontWeight: 'bold',
     textAlign: 'center',
     textAlignVertical: 'center',
   },
   titleContainer: {
-    height: 90,
+    flex: 2.4,
     width: '100%',
     padding: 5,
     justifyContent: 'center',

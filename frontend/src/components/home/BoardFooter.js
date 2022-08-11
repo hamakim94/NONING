@@ -44,9 +44,9 @@ export default function BoardFooter({board, setBoards, navigation}) {
   return (
     <View style={styles.footerContainer}>
       <View style={styles.writerContainer}>
-        <Text style={{color: '#000000'}}>작성자 : </Text>
+        {/* <Text style={{color: '#000000'}}>작성자 : </Text> */}
         <TouchableOpacity
-          style={{flexDirection: 'row'}}
+          style={{flexDirection: 'row', alignItems: 'center'}}
           onPress={() =>
             navigation.push('YourPageScreen', {id: board.writerId})
           }>
@@ -57,14 +57,14 @@ export default function BoardFooter({board, setBoards, navigation}) {
                 ? {uri: board.writerImg}
                 : require('../../assets/DefaultProfile.jpg')
             }></Image>
-          <Text style={{paddingLeft: 5, color: '#000000'}}>
+          <Text style={{paddingLeft: 5, color: '#000000', fontSize: 13}}>
             {board.writerNickname}{' '}
           </Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.numberLikeContainer}>
-        <Text style={{paddingRight: 5, color: '#000000'}}>
+        <Text style={{paddingRight: 5, color: '#000000', fontSize: 13}}>
           참여 : {board.opt1Selected + board.opt2Selected}명
         </Text>
         <TouchableOpacity
@@ -77,7 +77,7 @@ export default function BoardFooter({board, setBoards, navigation}) {
           <AntDesign
             style={styles.iconColor(board.userLike)}
             name="heart"
-            size={20}
+            size={17}
           />
         </TouchableOpacity>
       </View>

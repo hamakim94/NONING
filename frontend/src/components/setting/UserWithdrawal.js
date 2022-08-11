@@ -49,12 +49,12 @@ const UserWithdrawal = ({navigation}) => {
 
   return (
     <View style={styles.wrapper}>
-      <View style={{alignItems: 'center'}}>
+      <View style={{alignItems: 'center', marginBottom: 30}}>
         <Image
           style={{width: 140, height: 110}}
           source={require('../../assets/header-logo-copy.png')}></Image>
       </View>
-      <Text style={{marginTop: 20}}>
+      <Text style={{marginTop: 20, color: '#000000'}}>
         ※ 탈퇴 및 가입을 반복할 경우, 서비스 악용 방지를 위해 재가입이
         제한됩니다.{'\n'}※ 자세한 내용은 개인정보처리방침을 확인해주세요.{'\n'}
       </Text>
@@ -69,7 +69,12 @@ const UserWithdrawal = ({navigation}) => {
           tintColors={{true: '#FF7171'}}
         />
         <Text
-          style={{textAlignVertical: 'center', fontSize: 12, paddingBottom: 1}}
+          style={{
+            textAlignVertical: 'center',
+            fontSize: 12,
+            paddingBottom: 1,
+            color: '#000000',
+          }}
           onPress={() => setToggleCheckBox(!toggleCheckBox)}>
           회원 탈퇴를 진행합니다.
         </Text>
@@ -94,15 +99,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   wrapper: {
-    marginTop: 60,
-  },
-  inputField: {
-    borderRadius: 4,
-    borderColor: 'gray',
-    backgroundColor: '#FAFAFA',
-    marginBottom: 10,
-    borderWidth: 1,
-    minHeight: 40,
+    margin: '10%',
   },
   loginButton: (bool) => ({
     paddingVertical: '1%',

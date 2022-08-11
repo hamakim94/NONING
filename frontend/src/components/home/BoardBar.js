@@ -63,7 +63,7 @@ export default function BoardBar({board, setBoards, navigation}) {
 
 const styles = StyleSheet.create({
   barContainer: {
-    height: 80,
+    flex: 2.4,
     width: '100%',
     padding: '3%',
     flexDirection: 'row',
@@ -91,13 +91,13 @@ const styles = StyleSheet.create({
     fontWeight: userVote === 0 ? '' : userVote === 1 ? 'bold' : '',
     textAlign: 'center',
     textAlignVertical: 'center',
-    fontSize: 17,
+    fontSize: 13,
   }),
   rightInnerText: (userVote) => ({
     color: userVote === 2 ? '#FFFFFF' : '#808080',
     fontWeight: userVote === 0 ? '' : userVote === 2 ? 'bold' : '',
     textAlign: 'center',
     textAlignVertical: 'center',
-    fontSize: 17,
+    fontSize: 13,
   }),
 });

@@ -65,21 +65,27 @@ function HomeScreen({navigation}) {
     <Boards board={item} navigation={navigation}></Boards>
   );
   const keyExtractor = (item) => item.boardId;
+
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
-      <View style={{flex: 1, padding: 16}}>
+      <View style={{flex: 1}}>
         <LogoSearch navigation={navigation}></LogoSearch>
+        <Divider width={0.5} color={'#A6A6A6'}></Divider>
         <FilterButtonTabs setFilterName={setFilterName} />
+        <Divider width={0.5} color={'#A6A6A6'}></Divider>
         <RecentPopularTabs setIsPopular={setIsPopular}></RecentPopularTabs>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          removeClippedSubviews={true}
-          legacyImplementation={true}
-          data={boards}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-          maxToRenderPerBatch={10}
-          disableVirtualization={true}></FlatList>
+        <Divider width={0.5} color={'#A6A6A6'}></Divider>
+        <View style={{flex: 1, paddingHorizontal: 16}}>
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            removeClippedSubviews={true}
+            legacyImplementation={true}
+            data={boards}
+            renderItem={renderItem}
+            keyExtractor={keyExtractor}
+            maxToRenderPerBatch={10}
+            disableVirtualization={true}></FlatList>
+        </View>
       </View>
     </SafeAreaView>
   );

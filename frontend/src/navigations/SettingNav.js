@@ -22,8 +22,15 @@ export default function SettingNav() {
       <Stack.Screen
         name="UserWithdrawalScreen"
         component={UserWithdrawalScreen}
+        options={{
+          title: '회원 탈퇴',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          headerTitleAlign: 'center',
+          headerShadowVisible: false,
+        }}
       />
     </Stack.Navigator>
   );
 }
-;
