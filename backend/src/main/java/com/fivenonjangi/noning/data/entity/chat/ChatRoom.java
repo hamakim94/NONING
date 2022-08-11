@@ -1,5 +1,6 @@
 package com.fivenonjangi.noning.data.entity.chat;
 
+import com.fivenonjangi.noning.data.entity.board.Board;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -17,8 +18,9 @@ public class ChatRoom {
     @Column(name = "chat_room_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    @Column(name = "board_id")
-    long boardId;
+    @OneToOne
+    @JoinColumn(name = "board_id")
+    Board board;
     @Column(name = "opt1_selected")
     @ColumnDefault("0")
     int opt1Selected;
