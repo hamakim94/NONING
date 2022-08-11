@@ -47,9 +47,6 @@ function SettingScreen({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{marginHorizontal: 10}}>
-        <Divider width={1}></Divider>
-      </View>
       <TouchableOpacity
         style={styles.menuContainer}
         onPress={() =>
@@ -57,9 +54,7 @@ function SettingScreen({navigation}) {
         }>
         <Text style={styles.menuText}> 프로필 편집 </Text>
       </TouchableOpacity>
-      <View style={{marginHorizontal: 10}}>
-        <Divider width={1}></Divider>
-      </View>
+      <Divider width={0.5}></Divider>
       <TouchableOpacity
         style={styles.menuContainer}
         onPress={() =>
@@ -67,9 +62,7 @@ function SettingScreen({navigation}) {
         }>
         <Text style={styles.menuText}> 비밀번호 변경 </Text>
       </TouchableOpacity>
-      <View style={{marginHorizontal: 10}}>
-        <Divider width={1}></Divider>
-      </View>
+      <Divider width={0.5}></Divider>
       <TouchableOpacity
         style={styles.menuContainer}
         onPress={() =>
@@ -77,17 +70,13 @@ function SettingScreen({navigation}) {
         }>
         <Text style={styles.menuText}> 문의하기 </Text>
       </TouchableOpacity>
-      <View style={{marginHorizontal: 10}}>
-        <Divider width={1}></Divider>
-      </View>
+      <Divider width={0.5}></Divider>
       <TouchableOpacity
         style={styles.menuContainer}
         onPress={() => navigation.push('TosScreen', {screen: 'TosScreen'})}>
         <Text style={styles.menuText}> 서비스 이용약관 </Text>
       </TouchableOpacity>
-      <View style={{marginHorizontal: 10}}>
-        <Divider width={1}></Divider>
-      </View>
+      <Divider width={0.5}></Divider>
       <TouchableOpacity
         style={styles.menuContainer}
         onPress={() =>
@@ -95,15 +84,11 @@ function SettingScreen({navigation}) {
         }>
         <Text style={styles.menuText}>개인정보 처리방침</Text>
       </TouchableOpacity>
-      <View style={{marginHorizontal: 10}}>
-        <Divider width={1}></Divider>
-      </View>
+      <Divider width={0.5}></Divider>
       <TouchableOpacity style={styles.menuContainer} onPress={showAlert}>
         <Text style={styles.menuText}> 로그아웃 </Text>
       </TouchableOpacity>
-      <View style={{marginHorizontal: 10}}>
-        <Divider width={1}></Divider>
-      </View>
+      <Divider width={0.5}></Divider>
       <TouchableOpacity
         style={styles.menuContainer}
         onPress={() =>
@@ -113,9 +98,7 @@ function SettingScreen({navigation}) {
         }>
         <Text style={styles.menuText}> 회원탈퇴 </Text>
       </TouchableOpacity>
-      <View style={{marginHorizontal: 10}}>
-        <Divider width={1}></Divider>
-      </View>
+      <Divider width={1}></Divider>
     </SafeAreaView>
   );
 }
@@ -126,14 +109,13 @@ const styles = StyleSheet.create({
   },
   menuContainer: {
     flexDirection: 'row',
-    height: 60,
+    flex: 0.85,
     paddingHorizontal: 20,
     margin: 10,
     alignItems: 'center',
   },
   menuText: {
     fontSize: 18,
-    fontWeight: 'bold',
     color: '#000000',
   },
 });
