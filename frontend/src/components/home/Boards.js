@@ -3,13 +3,14 @@ import React, {useEffect, useState} from 'react';
 import BoardHeader from './BoardHeader';
 import BoardBar from './BoardBar';
 import BoardFooter from './BoardFooter';
+import {useIsFocused} from '@react-navigation/native';
 
 function Boards({board, navigation}) {
   const [boardData, setBoardData] = useState(board);
-
+  const isFocused = useIsFocused();
   useEffect(() => {
     setBoardData(board);
-  }, [board]);
+  }, [isFocused, board]);
 
   return (
     <View>
@@ -33,8 +34,8 @@ function Boards({board, navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 30,
-    marginBottom: 30,
+    marginTop: 5,
+    marginBottom: 50,
     height: 200,
     width: '100%',
     borderWidth: 0.5,
@@ -44,7 +45,8 @@ const styles = StyleSheet.create({
     // elevation:0.5,
   },
   titleText: {
-    fontSize: 23,
+    fontSize: 20,
+    color: '#000000',
     fontWeight: 'bold',
     textAlign: 'center',
     textAlignVertical: 'center',

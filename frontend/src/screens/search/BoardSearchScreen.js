@@ -49,13 +49,18 @@ function BoardSearchScreen({navigation}) {
   const ItemSeparatorView = () => {
     return (
       <View
-        style={{height: 0.5, width: '100%', backgroundColor: '#FFFFFF'}}></View>
+        style={{
+          height: 1,
+          width: '100%',
+          backgroundColor: '#FFFFFF',
+          flex: 1,
+        }}></View>
     );
   };
 
   const ItemView = ({item}) => {
     return (
-      <View>
+      <View style={{}}>
         {item ? (
           <TouchableOpacity
             onPress={() =>
@@ -120,11 +125,37 @@ function BoardSearchScreen({navigation}) {
       </View>
     );
   };
+  componentWillMount = () => {
+    this.keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      this._keyboardDidShow,
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      this._keyboardDidHide,
+    );
+  };
 
+  componentWillUnmount = () => {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  };
+
+  _keyboardDidShow = () => {
+    if (!this.state.bottomPanelHidden) {
+      this._panel.hide();
+    }
+  };
+
+  _keyboardDidHide = () => {};
   return (
-    <SafeAreaView
-      style={{flex: 1, backgroundColor: '#FFFFFF', paddingHorizontal: 16}}>
-      <View style={{flex: 0.5, marginBottom: '0.7%'}}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+        paddingHorizontal: 16,
+      }}>
+      <View style={{flex: 0.5, paddingBottom: '0.7%', height: '100%'}}>
         <TextInput
           style={styles.textInputStyle}
           value={search}
@@ -139,12 +170,11 @@ function BoardSearchScreen({navigation}) {
           ItemSeparatorComponent={ItemSeparatorView}
           renderItem={ItemView}></FlatList>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
   itemStyle: {
     paddingTop: '3%',
     marginLeft: '3.5%',

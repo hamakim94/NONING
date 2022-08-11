@@ -9,7 +9,14 @@ const windowHeight = Dimensions.get('window').height * 0.934;
 
 function Flows({board, navigation}) {
   const [boardData, setBoardData] = useState(board);
-  return (
+  console.log('boardData' + boardData);
+
+  return boardData.length === 0 ? (
+    <View>
+      {' '}
+      <Text> Fffffffffffff</Text>
+    </View>
+  ) : (
     <View style={styles.mainContainer}>
       <WaveAnimation />
       <FireAnimation />

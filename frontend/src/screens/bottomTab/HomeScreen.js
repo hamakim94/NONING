@@ -48,6 +48,7 @@ function HomeScreen({navigation}) {
           if (participantsA > participantsB) return -1;
           if (participantsA === participantsB) return 0;
           if (participantsA < participantsB) return 1;
+          [isFocused];
         });
       } else {
         // 최신순이니?

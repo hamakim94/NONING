@@ -1,12 +1,14 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {View, FlatList, Dimensions} from 'react-native';
+import {View, FlatList, Dimensions, Text, TouchableOpacity} from 'react-native';
 import Flows from '../../components/flow/Flows';
 import UseAxios from '../../util/UseAxios';
+import {useIsFocused} from '@react-navigation/native';
 
 const windowHeight = Dimensions.get('window').height * 0.934;
 
 function FlowScreen({navigation}) {
   const [boards, setBoards] = useState([]);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     UseAxios.get('/boards/flow').then((res) => {
@@ -17,7 +19,7 @@ function FlowScreen({navigation}) {
       });
       setBoards(res.data);
     });
-  }, []);
+  }, [isFocused]);
 
   const renderItem = ({item}) => (
     <Flows board={item} navigation={navigation}></Flows>
@@ -32,7 +34,14 @@ function FlowScreen({navigation}) {
       Array.from(Array(boards.length)).map((_, index) => index * windowHeight),
     [boards],
   );
-  return (
+  return boards.length === 0 ? (
+    <View style={{flex: 1, backgroundColor: '#FFFFFF'}}>
+      <Text>투표가 모두 완료됐어용 나중에 꾸밀게용</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('PlusScreen')}>
+        <Text> 글쓰러가기</Text>
+      </TouchableOpacity>
+    </View>
+  ) : (
     <View style={{flex: 1}}>
       <FlatList
         showsVerticalScrollIndicator={false}

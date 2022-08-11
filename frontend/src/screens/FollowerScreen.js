@@ -68,6 +68,7 @@ function FollowerScreen({route, navigation}) {
         onDismiss: () => {},
       },
     );
+    [isFocused];
   };
 
   const fakeFollowDelete = (userId) => {
@@ -75,6 +76,7 @@ function FollowerScreen({route, navigation}) {
       ...followData,
       followers: followData.followers.filter((e) => e !== userId),
     });
+    [isFocused];
   };
 
   const ItemView = ({item}) => {
