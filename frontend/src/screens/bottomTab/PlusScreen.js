@@ -18,12 +18,14 @@ import SelectDropdown from 'react-native-select-dropdown';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import UseAxios from '../../util/UseAxios';
 import NoCheckInputText from '../../components/board/NoCheckInputText';
+import {useIsFocused} from '@react-navigation/native';
 
 export default function PlusScreen({navigation}) {
   const inputRef = useRef([]);
   const [titleStyle, setTitleStyle] = useState(styles.blurInput);
   const [argu1Style, setArgu1Style] = useState(styles.blurInput);
   const [argu2Style, setArgu2Style] = useState(styles.blurInput);
+  const isFocused = useIsFocused();
 
   //console.log({errors});
   const {
@@ -32,7 +34,7 @@ export default function PlusScreen({navigation}) {
     formState: {errors},
     getValues,
   } = useForm({
-    mode: 'onChange',
+    mode: 'onchange',
     defaultValues: {
       title: '',
       opt1: '',
@@ -50,6 +52,7 @@ export default function PlusScreen({navigation}) {
       .catch((err) => {
         console.log(err);
       });
+    [isFocused];
   };
   const nameToCode = {
     연애: 'B0101',
@@ -329,5 +332,20 @@ const styles = StyleSheet.create({
     fontFamily: 'Bold',
     textAlign: 'center',
     fontSize: 15,
+  },
+  dropDownOpen: {
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderRadius: 6,
+    borderColor: '#808080',
+    width: '25%',
+  },
+  dropDownButton: {
+    width: '25%',
+    height: 30,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderRadius: 6,
+    borderColor: '#808080',
   },
 });

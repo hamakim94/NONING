@@ -12,6 +12,7 @@ import {
 import UseAxios from '../../util/UseAxios';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {Divider} from '@rneui/themed';
+import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -49,13 +50,18 @@ function BoardSearchScreen({navigation}) {
   const ItemSeparatorView = () => {
     return (
       <View
-        style={{height: 0.5, width: '100%', backgroundColor: '#FFFFFF'}}></View>
+        style={{
+          height: 1,
+          width: '100%',
+          backgroundColor: '#FFFFFF',
+          flex: 1,
+        }}></View>
     );
   };
 
   const ItemView = ({item}) => {
     return (
-      <View>
+      <View style={{}}>
         {item ? (
           <TouchableOpacity
             onPress={() =>
@@ -120,31 +126,54 @@ function BoardSearchScreen({navigation}) {
       </View>
     );
   };
+  componentWillMount = () => {
+    this.keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      this._keyboardDidShow,
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      this._keyboardDidHide,
+    );
+  };
 
+  componentWillUnmount = () => {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  };
+
+  _keyboardDidShow = () => {
+    if (!this.state.bottomPanelHidden) {
+      this._panel.hide();
+    }
+  };
+
+  _keyboardDidHide = () => {};
   return (
-    <SafeAreaView
-      style={{flex: 1, backgroundColor: '#FFFFFF', paddingHorizontal: 16}}>
-      <View style={{flex: 0.5, marginBottom: '0.7%'}}>
-        <TextInput
-          style={styles.textInputStyle}
-          value={search}
-          placeholder="논쟁 제목을 검색해 보세요."
-          underlineColorAndroid="transparent"
-          onChangeText={(text) => searchFilter(text)}></TextInput>
-      </View>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+        paddingHorizontal: 16,
+      }}>
+      <TextInput
+        style={styles.textInputStyle}
+        value={search}
+        placeholder="논쟁 제목을 검색해 보세요."
+        underlineColorAndroid="transparent"
+        onChangeText={(text) => searchFilter(text)}></TextInput>
       <View style={{flex: 5.5}}>
-        <FlatList
+        <KeyboardAwareFlatList
           data={filterdData}
           keyExtractor={(item, index) => index.toString()}
           ItemSeparatorComponent={ItemSeparatorView}
-          renderItem={ItemView}></FlatList>
+          renderItem={ItemView}></KeyboardAwareFlatList>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
   itemStyle: {
     paddingTop: '3%',
     marginLeft: '3.5%',

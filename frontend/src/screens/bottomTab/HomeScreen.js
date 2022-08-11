@@ -48,6 +48,7 @@ function HomeScreen({navigation}) {
           if (participantsA > participantsB) return -1;
           if (participantsA === participantsB) return 0;
           if (participantsA < participantsB) return 1;
+          [isFocused];
         });
       } else {
         // 최신순이니?
@@ -59,7 +60,7 @@ function HomeScreen({navigation}) {
       }
       setBoards(res.data);
     });
-  }, [filterName, userData, isFocused, isPopular]);
+  }, [isFocused, filterName, userData, isPopular]);
   // 함수로 뺴놔야 잘 작동 렌더링이 한 번만 일어난다.
   const renderItem = ({item}) => (
     <Boards board={item} navigation={navigation}></Boards>

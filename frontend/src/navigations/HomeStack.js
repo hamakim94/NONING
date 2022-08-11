@@ -7,6 +7,8 @@ import LoginNav from './LoginNav';
 import SearchNav from './SearchNav';
 import UserContext from '../util/UserContext';
 import YourPageScreen from '../screens/YourPageScreen';
+import FollowerScreen from '../screens/FollowerScreen';
+import FollowingScreen from '../screens/FollowingScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -42,6 +44,16 @@ function HomeStack() {
             component={YourPageScreen}
             options={{title: '유저페이지'}}
           />
+          <Stack.Screen
+            name="FollowerScreen"
+            component={FollowerScreen}
+            options={{title: '팔로워페이지', headerShown: false}}
+          />
+          <Stack.Screen
+            name="FollowingScreen"
+            component={FollowingScreen}
+            options={{title: '팔로잉페이지', headerShown: false}}
+          />
         </>
       ) : (
         <>
@@ -64,6 +76,16 @@ function HomeStack() {
             name="YourPageScreen"
             component={YourPageScreen}
             options={{title: '유저페이지', headerShown: false}}
+          />
+          <Stack.Screen
+            name="FollowerScreen"
+            component={FollowerScreen}
+            options={{title: '팔로워페이지', headerShown: false}}
+          />
+          <Stack.Screen
+            name="FollowingScreen"
+            component={FollowingScreen}
+            options={{title: '팔로잉페이지', headerShown: false}}
           />
         </>
       )}

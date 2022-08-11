@@ -3,13 +3,14 @@ import React, {useEffect, useState} from 'react';
 import BoardHeader from './BoardHeader';
 import BoardBar from './BoardBar';
 import BoardFooter from './BoardFooter';
+import {useIsFocused} from '@react-navigation/native';
 
 function Boards({board, navigation}) {
   const [boardData, setBoardData] = useState(board);
-
+  const isFocused = useIsFocused();
   useEffect(() => {
     setBoardData(board);
-  }, [board]);
+  }, [isFocused, board]);
 
   return (
     <View>
@@ -24,6 +25,10 @@ function Boards({board, navigation}) {
             setBoards={setBoardData}
             navigation={navigation}></BoardBar>
         </View>
+        <BoardBar
+          board={boardData}
+          setBoards={setBoardData}
+          navigation={navigation}></BoardBar>
         <BoardFooter
           board={boardData}
           setBoards={setBoardData}
