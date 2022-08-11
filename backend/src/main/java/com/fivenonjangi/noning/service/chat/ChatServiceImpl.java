@@ -18,8 +18,8 @@ public class ChatServiceImpl implements ChatService{
         chatRoom.enter(vote);
         chatRoom = chatRoomRepository.save(chatRoom);
         return ChatRoomResponseDTO.builder()
-                .opt1(chatRoom.getOpt1())
-                .opt2(chatRoom.getOpt2())
+                .opt1Selected(chatRoom.getOpt1Selected())
+                .opt2Selected(chatRoom.getOpt2Selected())
                 .build();
     }
 
@@ -30,8 +30,8 @@ public class ChatServiceImpl implements ChatService{
         chatRoom.leave(vote);
         chatRoom = chatRoomRepository.save(chatRoom);
         return ChatRoomResponseDTO.builder()
-                .opt1(chatRoom.getOpt1())
-                .opt2(chatRoom.getOpt2())
+                .opt1Selected(chatRoom.getOpt1Selected())
+                .opt2Selected(chatRoom.getOpt2Selected())
                 .build();
     }
 
@@ -42,8 +42,8 @@ public class ChatServiceImpl implements ChatService{
         chatRoom.betray(vote);
         chatRoom = chatRoomRepository.save(chatRoom);
         return ChatRoomResponseDTO.builder()
-                .opt1(chatRoom.getOpt1())
-                .opt2(chatRoom.getOpt2())
+                .opt1Selected(chatRoom.getOpt1Selected())
+                .opt2Selected(chatRoom.getOpt2Selected())
                 .build();
     }
 
