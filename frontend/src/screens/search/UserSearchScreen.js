@@ -13,6 +13,8 @@ import {
 import UseAxios from '../../util/UseAxios';
 import {Divider} from '@rneui/themed';
 
+import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
+
 const Tab = createMaterialTopTabNavigator();
 
 function UserSearchScreen({navigation}) {
@@ -134,20 +136,18 @@ function UserSearchScreen({navigation}) {
   return (
     <SafeAreaView
       style={{flex: 1, backgroundColor: '#FFFFFF', paddingHorizontal: 16}}>
-      <View style={{flex: 0.5, marginBottom: '2%'}}>
-        <TextInput
-          style={styles.textInputStyle}
-          value={search}
-          placeholder="닉네임을 검색하세요"
-          underlineColorAndroid="transparent"
-          onChangeText={(text) => searchFilter(text)}></TextInput>
-      </View>
+      <TextInput
+        style={styles.textInputStyle}
+        value={search}
+        placeholder="닉네임을 검색하세요"
+        underlineColorAndroid="transparent"
+        onChangeText={(text) => searchFilter(text)}></TextInput>
       <View style={{flex: 5.5}}>
-        <FlatList
+        <KeyboardAwareFlatList
           data={filterdData}
           keyExtractor={(item, index) => index.toString()}
           ItemSeparatorComponent={ItemSeparatorView}
-          renderItem={ItemView}></FlatList>
+          renderItem={ItemView}></KeyboardAwareFlatList>
       </View>
     </SafeAreaView>
   );

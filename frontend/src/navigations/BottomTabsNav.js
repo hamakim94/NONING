@@ -61,6 +61,7 @@ function BottomTabsNav() {
             name="PlusScreen"
             component={LoginNav}
             options={{
+              unmountOnBlur: true,
               tabBarShowLabel: false,
               headerShown: false,
               tabBarIcon: ({size}) => (
@@ -137,6 +138,7 @@ function BottomTabsNav() {
             name="PlusScreen"
             component={PlusScreen}
             options={{
+              unmountOnBlur: true,
               headerShown: false,
               tabBarShowLabel: false,
               tabBarIcon: ({size}) => (

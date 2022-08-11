@@ -34,7 +34,7 @@ export default function PlusScreen({navigation}) {
     formState: {errors},
     getValues,
   } = useForm({
-    mode: 'onChange',
+    mode: 'onchange',
     defaultValues: {
       title: '',
       opt1: '',
@@ -76,7 +76,6 @@ export default function PlusScreen({navigation}) {
     '갈등',
     '기타',
   ];
-
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView style={{}}>
@@ -239,7 +238,7 @@ export default function PlusScreen({navigation}) {
         <View style={{alignItems: 'center', marginBottom: '3%'}}>
           <TouchableOpacity
             style={styles.checkButton}
-            onPress={(handleSubmit(onSubmit), [isFocused])}>
+            onPress={handleSubmit(onSubmit)}>
             <Text style={styles.buttonText}>등록</Text>
           </TouchableOpacity>
         </View>
