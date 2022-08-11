@@ -1,7 +1,9 @@
 package com.fivenonjangi.noning.service.chat;
 
 import com.fivenonjangi.noning.data.dto.chat.ChatRoomResponseDTO;
+import com.fivenonjangi.noning.data.entity.board.Board;
 import com.fivenonjangi.noning.data.entity.chat.ChatRoom;
+import com.fivenonjangi.noning.data.repository.board.BoardRepository;
 import com.fivenonjangi.noning.data.repository.chat.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,16 +12,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class ChatServiceImpl implements ChatService{
     private final ChatRoomRepository chatRoomRepository;
+    private final BoardRepository boardRepository;
 
     @Override
     public ChatRoomResponseDTO enterRoom(long boardId, byte vote) {
+        Board board = boardRepository.getReferenceById(boardId);
         ChatRoom chatRoom = chatRoomRepository.findByBoardIdEquals(boardId);
-        if (chatRoom==null) chatRoom = ChatRoom.builder().boardId(boardId).build();
+        if (chatRoom==null) chatRoom = ChatRoom.builder().board(board).build();
         chatRoom.enter(vote);
         chatRoom = chatRoomRepository.save(chatRoom);
         return ChatRoomResponseDTO.builder()
-                .opt1(chatRoom.getOpt1())
-                .opt2(chatRoom.getOpt2())
+                .opt1Selected(chatRoom.getOpt1Selected())
+                .opt2Selected(chatRoom.getOpt2Selected())
                 .build();
     }
 
@@ -30,8 +34,8 @@ public class ChatServiceImpl implements ChatService{
         chatRoom.leave(vote);
         chatRoom = chatRoomRepository.save(chatRoom);
         return ChatRoomResponseDTO.builder()
-                .opt1(chatRoom.getOpt1())
-                .opt2(chatRoom.getOpt2())
+                .opt1Selected(chatRoom.getOpt1Selected())
+                .opt2Selected(chatRoom.getOpt2Selected())
                 .build();
     }
 
@@ -42,8 +46,8 @@ public class ChatServiceImpl implements ChatService{
         chatRoom.betray(vote);
         chatRoom = chatRoomRepository.save(chatRoom);
         return ChatRoomResponseDTO.builder()
-                .opt1(chatRoom.getOpt1())
-                .opt2(chatRoom.getOpt2())
+                .opt1Selected(chatRoom.getOpt1Selected())
+                .opt2Selected(chatRoom.getOpt2Selected())
                 .build();
     }
 

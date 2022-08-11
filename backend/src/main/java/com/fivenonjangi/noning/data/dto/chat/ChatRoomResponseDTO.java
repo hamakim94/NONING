@@ -10,6 +10,6 @@ import lombok.*;
 @Builder
 @ToString
 public class ChatRoomResponseDTO {
-    private int opt1;
-    private int opt2;
+    private int opt1Selected;
+    private int opt2Selected;
 }
