@@ -19,42 +19,42 @@ public class ChatRoom {
     long id;
     @Column(name = "board_id")
     long boardId;
-    @Column
+    @Column(name = "opt1_selected")
     @ColumnDefault("0")
-    int opt1;
-    @Column
+    int opt1Selected;
+    @Column(name = "opt2_selected")
     @ColumnDefault("0")
-    int opt2;
+    int opt2Selected;
 
     public void enter(byte vote) {
         switch (vote) {
             case 1 :
-                this.opt1++;
+                this.opt1Selected++;
                 break;
             case 2 :
-                opt2++;
+                opt2Selected++;
                 break;
         }
     }
     public void leave(byte vote) {
         switch (vote) {
             case 1 :
-                opt1--;
+                opt1Selected--;
                 break;
             case 2 :
-                opt2--;
+                opt2Selected--;
                 break;
         }
     }
     public void betray(byte vote) {
         switch (vote) {
             case 1 :
-                opt1++;
-                opt2--;
+                opt1Selected++;
+                opt2Selected--;
                 break;
             case 2 :
-                opt2++;
-                opt1--;
+                opt2Selected++;
+                opt1Selected--;
                 break;
         }
     }
