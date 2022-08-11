@@ -84,12 +84,13 @@ export default function ChatScreen({route, navigation}) {
   const [msg, setMsg] = useState();
   const {userData} = useContext(UserContext);
   const chatRef = useRef(null);
+  const scrollRef = useRef(null);
   const isFocused = useIsFocused();
 
   useEffect(() => {
     if (isFocused) {
-      // socket = io(`http://10.0.2.2:3000`, {
-      socket = io(`http://i7a202.p.ssafy.io:3000`, {
+      socket = io(`http://10.0.2.2:3000`, {
+        // socket = io(`http://i7a202.p.ssafy.io:3000`, {
         transports: ['websocket'], // you need to explicitly tell it to use websockets
       });
 
@@ -200,7 +201,7 @@ export default function ChatScreen({route, navigation}) {
 
   const userKey = useCallback((item) => item.userId, []);
 
-  const msgRender = ({item}) => <ChatContent data={item} />;
+  const msgRender = ({item}) => <ChatContent data={item} userList={userList} />;
 
   const msgMemoized = useMemo(() => msgRender, [messageList]);
 
@@ -226,18 +227,24 @@ export default function ChatScreen({route, navigation}) {
   const betray = () => {
     // 먼저 http 통신 관련 처리
     UseAxios.put(`/chats/${boardData.boardId}/betray`, {
-      userId: myData.userId,
-      vote: myData.userVote == 1 ? 2 : 1,
+      userId: userData.userId,
+      vote: boardData.userVote == 1 ? 2 : 1,
     })
       .then((res) => {
-        // 성공하면 실행
-        // socket.emit(
-        //   'betray',
-        //   boardData.boardId,
-        //   myData,
-        //   res.data.opt1,
-        //   rea.data.opt2,
-        // );
+        setboardData({
+          ...boardData,
+          opt1Selected: res.data.opt1,
+          opt2Selected: res.data.opt2,
+          userVote: boardData.userVote == 1 ? 2 : 1,
+        });
+        setUserList(
+          userList.map((user) =>
+            user.userId === userData.userId
+              ? {...user, userVote: user.userVote == 1 ? 2 : 1}
+              : user,
+          ),
+        );
+        // console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -248,14 +255,20 @@ export default function ChatScreen({route, navigation}) {
     <View style={{flex: 1, backgroundColor: '#FFFFFF'}}>
       <View style={{flex: 1}}>
         <View style={{flex: 0.4}}>
-          <ChatHeader title={boardData.title} userCnt={userList.length} />
+          <ChatHeader
+            title={boardData.title}
+            userCnt={userList.length}
+            navigation={navigation}
+          />
         </View>
         <View
           style={{
             // flex: 0.6,
-            flex: 0.7,
+            flex: 0.6,
             borderBottomWidth: 1,
             paddingHorizontal: '5%',
+            minHeight: 30,
+            maxHeight: 70,
           }}>
           <FlatList
             horizontal={true}
@@ -263,17 +276,22 @@ export default function ChatScreen({route, navigation}) {
             renderItem={userMemoized}
             keyExtractor={userKey}></FlatList>
         </View>
-        <View style={{flex: 0.8}}>
-          <ChatBar />
+        <View
+          style={{flex: 0.9, minHeight: 50, maxHeight: 80, marginBottom: '5%'}}>
+          <ChatBar betray={betray} boardData={boardData} />
         </View>
         <View style={{flex: 4.2, paddingHorizontal: '5%'}}>
           <FlatList
+            ref={scrollRef}
+            onContentSizeChange={() => {
+              setTimeout(() => scrollRef.current.scrollToEnd(), 500);
+            }}
             data={messageList}
             renderItem={msgMemoized}
             keyExtractor={msgKey}></FlatList>
         </View>
       </View>
-      <View style={{borderWidth: 1, flexDirection: 'row'}}>
+      <View style={{borderWidth: 1, flexDirection: 'row', maxHeight: 40}}>
         <View style={{flex: 0.7, justifyContent: 'center', borderWidth: 1}}>
           <Text style={{textAlign: 'center'}}>버튼</Text>
         </View>

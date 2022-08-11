@@ -21,9 +21,16 @@ export default function ChatHeaderUser({user}) {
               borderColor: user.userVote == 1 ? '#FF5F5F' : '#49D3CA',
             },
           ]}
+          source={{uri: user.img}}
         />
       </TouchableOpacity>
-      <Text style={{textAlign: 'center', fontSize: 10, fontWeight: 'bold'}}>
+      <Text
+        style={{
+          textAlign: 'center',
+          fontSize: 10,
+          fontWeight: 'bold',
+          marginTop: 1,
+        }}>
         {user.nickname}
       </Text>
     </View>
