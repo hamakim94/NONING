@@ -30,9 +30,9 @@ const io = require('socket.io/client-dist/socket.io');
 let socket;
 
 export default function ChatScreen({route, navigation}) {
-  const [userList, setUserList] = useState([]);
+  const [userList, setUserList] = useState(users);
   const [boardData, setBoardData] = useState(route.params.data);
-  const [messageList, setMessageList] = useState([]);
+  const [messageList, setMessageList] = useState(messages);
   const [msg, setMsg] = useState();
   const {userData} = useContext(UserContext);
   const chatRef = useRef(null);
@@ -96,50 +96,36 @@ export default function ChatScreen({route, navigation}) {
       });
 
       socket.on('betray', (userVoteData, opt1Cnt, opt2Cnt) => {
-        // // 해당 user의 vote 변경
-        // userList.find(userVoteData)['userVote'] = userVoteData.userVote;
-        // console.log('userList');
-        // console.log(userList);
-        // console.log('userVoteData');
-        // console.log(userVoteData);
-
-        // setUserList((userList) => []);
-        setUserList((userList) => {
-          console.log('before betray user');
-          console.log(userList.find(userVoteData));
-          // userList.map((user) => {
-          //   if (user === userVoteData) {
-          //     console.log('before betray user');
-          //     console.log(user);
-          //   }
-          // });
-        });
-
-        // setUserList((userList) => {
-        //   // userList.find(userVoteData)['userVote'] = userVoteData.userVote;
-        //   // userList.map((user) =>
-        //   //   user.userId === userVoteData.userId
-        //   //     ? {...user, userVote: userVoteData.userVote}
-        //   //     : user,
-        //   // );
-        // });
-
-        // setUserList((userList) => {
-        //   userList.map((user) => {
-        //     if (user === userVoteData) {
-        //       console.log('after betray user');
-        //       console.log(user);
-        //     }
-        //   });
-        // });
-
-        // opt1, opt2 수 변경
-        setBoardData({
-          ...boardData,
+        setBoardData((prev) => ({
+          ...prev,
           opt1Selected: opt1Cnt,
           opt2Selected: opt2Cnt,
-        });
+        }));
+        // // 해당 user의 vote 변경
+        // userList.find(userVoteData)['userVote'] = userVoteData.userVote;
+        // userList.map((user) => {
+        //   if (user === userVoteData) {
+        //     console.log('before betray user');
+        //     console.log(user);
+        //   }
 
+        //   user.userId === userVoteData.userId
+        //     ? {...user, userVote: userVoteData.userVote}
+        //     : user;
+        //   // console.log(user);
+        // });
+
+        // userList.map((user) => {
+        //   if (user === userVoteData) {
+        //     console.log('after betray user');
+        //     // console.log(user);
+        //   }
+        // });
+
+        // });
+        // opt1, opt2 수 변경
+
+        // console.log(boardData);
         // 배신 메세지 전달
         const msgData = {
           msgId: chatRef.current,
@@ -150,9 +136,9 @@ export default function ChatScreen({route, navigation}) {
         setMessageList((messageList) => [...messageList, msgData]);
       });
 
-      // socket.on('connect_error', (err) => {
-      //   console.log(err.message);
-      // });
+      socket.on('connect_error', (err) => {
+        console.log(err.message);
+      });
 
       socket.on('left', (userVoteData, userCnt) => {
         const msgData = {
@@ -176,11 +162,6 @@ export default function ChatScreen({route, navigation}) {
       if (socket) socket.disconnect();
     };
   }, [isFocused]);
-
-  // useEffect(() => {
-  //   setUserList(users);
-  //   setMessageList(messages);
-  // }, []);
 
   useEffect(() => {
     chatRef.current =
@@ -284,7 +265,8 @@ export default function ChatScreen({route, navigation}) {
           <FlatList
             ref={scrollRef}
             onContentSizeChange={() => {
-              setTimeout(() => scrollRef.current.scrollToEnd(), 500);
+              // setTimeout(() => , 500);
+              scrollRef.current.scrollToEnd();
             }}
             data={messageList}
             renderItem={msgMemoized}
