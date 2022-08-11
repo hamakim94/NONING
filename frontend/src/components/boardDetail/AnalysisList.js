@@ -1,13 +1,19 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 
-function AnalysisList({info}) {
+function AnalysisList({info, myData}) {
   return (
     <View style={styles.container}>
       {info.total > 0 ? (
         <View style={styles.barContainer}>
           <View style={styles.leftContainer}>
-            <Text style={styles.leftText}>{info.name}</Text>
+            <Text
+              style={[
+                styles.leftText,
+                myData.includes(info.name) ? {color: '#FF5F5F'} : '',
+              ]}>
+              {info.name}
+            </Text>
           </View>
           <View style={{flex: 5, paddingHorizontal: '5%'}}>
             <View
@@ -21,8 +27,8 @@ function AnalysisList({info}) {
               }}>
               <View
                 style={{
-                  flex: 6 * (info.opt1 / info.total),
-                  borderRightWidth: 1,
+                  flex: 6.001 * (info.opt1 / info.total),
+                  // borderRightWidth: 1,
                   backgroundColor: '#FF5F5F',
                   width: '100%',
                   height: '100%',
@@ -40,8 +46,8 @@ function AnalysisList({info}) {
               </View>
               <View
                 style={{
-                  flex: 6 - 6 * (info.opt1 / info.total),
-                  borderLeftWidth: 1,
+                  flex: 6.001 - 6 * (info.opt1 / info.total),
+                  // borderLeftWidth: 1,
                   backgroundColor: '#49D3CA',
                   width: '100%',
                   height: '100%',
@@ -54,7 +60,9 @@ function AnalysisList({info}) {
                     marginRight: 7,
                     marginTop: 2,
                   }}>
-                  {100 - Math.round((info.opt1 / info.total) * 100)}%
+                  {100 - Math.round((info.opt1 / info.total) * 100) > 14
+                    ? 100 - Math.round((info.opt1 / info.total) * 100) + '%'
+                    : ''}
                 </Text>
               </View>
             </View>

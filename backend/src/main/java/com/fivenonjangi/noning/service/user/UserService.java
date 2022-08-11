@@ -13,7 +13,7 @@ public interface UserService {
     UserData getUserDataById(long id);
     List<VoterResponseDTO> getVoterListByBoardId(long boardId);
     UserDTO getUserById(long userId) throws Exception;
-    void modifyUser(UserDTO userDTO) throws Exception;
+    UserDTO modifyUser(UserDTO userDTO) throws Exception;
     void editPassword(LoginRequestDTO.EditPasswordDTO editPasswordDTO, PasswordEncoder passwordEncoder) throws Exception;
     boolean checkPassword(String userId, String password, PasswordEncoder passwordEncoder);
     boolean checkEmailOrNickname(String email, String nickname);

@@ -9,7 +9,12 @@ function FlowScreen({navigation}) {
   const [boards, setBoards] = useState([]);
 
   useEffect(() => {
-    UseAxios.get('/boards/flow').then(res => {
+    UseAxios.get('/boards/flow').then((res) => {
+      res.data.sort(function (a, b) {
+        if (a.boardId > b.boardId) return -1;
+        if (a.boardId === b.boardId) return 0;
+        if (a.boardId < b.boardId) return 1;
+      });
       setBoards(res.data);
     });
   }, []);
@@ -20,7 +25,7 @@ function FlowScreen({navigation}) {
 
   const memoizedItem = useMemo(() => renderItem, [boards]);
 
-  const keyExtractor = useCallback(item => item.boardId, []);
+  const keyExtractor = useCallback((item) => item.boardId, []);
 
   const snapToOffsets = useMemo(
     () =>

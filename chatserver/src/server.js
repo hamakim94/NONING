@@ -70,15 +70,19 @@ io.on('connection', (socket) => {
   // socket.on('betray', (boardId, userVoteData, opt1Cnt, opt2Cnt) => {
   socket.on('betray', (opt1Cnt, opt2Cnt) => {
     // 해당 user의 vote 변경
-    const user = socket.userData;
+    const user = socket.userVoteData;
     // const user = userList.get(boardId).find((user) => (user.userId = userVoteData.userId));
-    console.log('before betray: ' + user);
+    // console.log('before betray: ');
+    // console.log(user);
+
     if (user['userVote'] == 1) user['userVote'] = 2;
     else if (user['userVote'] == 2) user['userVote'] = 1;
-    console.log('after betray: ' + user);
+
+    // console.log('after betray: ');
+    // console.log(user);
 
     // 본인 포함 방 안의 모든 사람들에게 전달
-    io.to(boardId).emit('betray', user, opt1Cnt, opt2Cnt);
+    io.to(socket.boardId).emit('betray', user, opt1Cnt, opt2Cnt);
   });
 
   socket.on('disconnecting', () => {

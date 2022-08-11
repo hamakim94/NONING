@@ -5,10 +5,12 @@ import com.fivenonjangi.noning.data.entity.etc.VerifyingToken;
 import com.fivenonjangi.noning.data.entity.user.User;
 import com.fivenonjangi.noning.data.entity.user.UserData;
 import com.fivenonjangi.noning.data.repository.board.BoardVoteRepositoryCustom;
+import com.fivenonjangi.noning.data.repository.user.FollowRepository;
 import com.fivenonjangi.noning.data.repository.user.UserDataRepository;
 import com.fivenonjangi.noning.data.repository.user.UserRepository;
 import com.fivenonjangi.noning.data.repository.etc.VerifyingTokenRepository;
 import com.fivenonjangi.noning.service.etc.MailService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
@@ -26,15 +29,8 @@ public class UserServiceImpl implements UserService{
     private final BoardVoteRepositoryCustom boardVoteRepositoryCustom;
     private final MailService mailService;
     private final VerifyingTokenRepository verifyingTokenRepository;
+    private final FollowRepository followRepository;
 
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserDataRepository userDataRepository, BoardVoteRepositoryCustom boardVoteRepositoryCustom, MailService mailService, VerifyingTokenRepository verifyingTokenRepository) {
-        this.userRepository = userRepository;
-        this.userDataRepository = userDataRepository;
-        this.boardVoteRepositoryCustom = boardVoteRepositoryCustom;
-        this.mailService = mailService;
-        this.verifyingTokenRepository = verifyingTokenRepository;
-    }
 
     @Override
     public void signupUser(SignupRequestDTO signupRequestDTO, PasswordEncoder passwordEncoder) throws Exception{
@@ -121,12 +117,25 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void modifyUser(UserDTO userDTO) throws Exception{
+    public UserDTO modifyUser(UserDTO userDTO) throws Exception{
         UserData userData = userDataRepository.findByUser_Id(userDTO.getUserId());
         userData.updateUserData(userDTO);
         userData.getUser().updateUser(userDTO, ageToAgeCode(userDTO.getAge()));
         userRepository.save(userData.getUser());
         userDataRepository.save(userData);
+
+        return UserDTO.builder()
+                .userId(userData.getUser().getId())
+                .nickname(userData.getNickname())
+                .img(userData.getImg())
+                .genderCode(userData.getUser().getGenderCode())
+                .mbti1Code(userData.getUser().getMbti1Code())
+                .mbti2Code(userData.getUser().getMbti2Code())
+                .mbti3Code(userData.getUser().getMbti3Code())
+                .mbti4Code(userData.getUser().getMbti4Code())
+                .age(userData.getUser().getAge())
+                .ageRangeCode(userData.getUser().getAgeRangeCode())
+                .build();
     }
     @Override
     public void editPassword(LoginRequestDTO.EditPasswordDTO editPasswordDTO, PasswordEncoder passwordEncoder) throws Exception {
@@ -174,6 +183,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public void deleteUser(long userId) throws Exception {
         userDataRepository.deleteByUser_Id(userId);
+        followRepository.deleteAllByFromUserIdEqualsOrToUserIdEquals(userId, userId);
         User user = userRepository.findById(userId).get();
         user.deleteUser(LocalDateTime.now());
         userRepository.save(user);

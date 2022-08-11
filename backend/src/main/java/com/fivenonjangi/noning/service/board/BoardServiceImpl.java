@@ -9,11 +9,14 @@ import com.fivenonjangi.noning.data.entity.board.BoardVote;
 import com.fivenonjangi.noning.data.entity.user.User;
 import com.fivenonjangi.noning.data.repository.board.*;
 import com.fivenonjangi.noning.data.repository.user.UserRepository;
+import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -99,7 +102,7 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public void betray(long boardId, long userId, byte vote, LocalDateTime now) throws Exception {
+    public Map<String, Integer> betray(long boardId, long userId, byte vote, LocalDateTime now) throws Exception {
         BoardData boardData = boardDataRepository.findByBoard_Id(boardId);
         BoardVote boardVote = boardVoteRepository.findByBoard_IdAndUser_Id(boardId, userId);
         if (boardVote.getVote() == vote) throw new Exception();
@@ -107,6 +110,10 @@ public class BoardServiceImpl implements BoardService{
         boardVoteRepository.save(boardVote);
         boardData.updateVote(vote, true);
         boardDataRepository.save(boardData);
+        Map<String, Integer> map = new HashMap<>();
+        map.put("opt1", boardData.getOpt1Selected());
+        map.put("opt2",boardData.getOpt2Selected());
+        return map;
     }
 
     @Override
