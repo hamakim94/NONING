@@ -96,36 +96,22 @@ export default function ChatScreen({route, navigation}) {
       });
 
       socket.on('betray', (userVoteData, opt1Cnt, opt2Cnt) => {
-        setBoardData((prev) => ({
-          ...prev,
+        // 배신 후 opt1, opt2 수 업데이트
+        setBoardData((boardData) => ({
+          ...boardData,
           opt1Selected: opt1Cnt,
           opt2Selected: opt2Cnt,
         }));
-        // // 해당 user의 vote 변경
-        // userList.find(userVoteData)['userVote'] = userVoteData.userVote;
-        // userList.map((user) => {
-        //   if (user === userVoteData) {
-        //     console.log('before betray user');
-        //     console.log(user);
-        //   }
 
-        //   user.userId === userVoteData.userId
-        //     ? {...user, userVote: userVoteData.userVote}
-        //     : user;
-        //   // console.log(user);
-        // });
+        // 해당 user의 vote 변경
+        setUserList((userList) => {
+          const index = userList.findIndex(
+            (user) => user.userId == userVoteData.userId,
+          );
+          userList[index].userVote = userVoteData.userVote;
+          return [...userList];
+        });
 
-        // userList.map((user) => {
-        //   if (user === userVoteData) {
-        //     console.log('after betray user');
-        //     // console.log(user);
-        //   }
-        // });
-
-        // });
-        // opt1, opt2 수 변경
-
-        // console.log(boardData);
         // 배신 메세지 전달
         const msgData = {
           msgId: chatRef.current,
@@ -209,11 +195,10 @@ export default function ChatScreen({route, navigation}) {
         socket.emit('betray', res.data.opt1, res.data.opt2);
 
         // 본인 정보 바꾸기
-        setBoardData({
+        setBoardData((boardData) => ({
           ...boardData,
           userVote: boardData.userVote == 1 ? 2 : 1,
-        });
-
+        }));
         // userList.map((user) =>
         //   user.userId === userData.userId
         //     ? {...user, userVote: user.userVote == 1 ? 2 : 1}
