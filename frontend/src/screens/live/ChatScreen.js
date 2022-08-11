@@ -23,63 +23,15 @@ import UserContext from '../../util/UserContext';
 import {useIsFocused} from '@react-navigation/native';
 // import socketIO from 'socket.io-client';
 
-// const user = [
-//   {userId: 1, nickname: '김토마', userVote: 1},
-//   {userId: 2, nickname: '토마토', userVote: 2},
-//   {userId: 3, nickname: '박토토', userVote: 1},
-//   {userId: 4, nickname: '박토마', userVote: 1},
-//   {userId: 5, nickname: '적토마', userVote: 1},
-//   {userId: 6, nickname: '맛토맛', userVote: 2},
-//   {userId: 7, nickname: '심깻잎', userVote: 2},
-//   {userId: 8, nickname: 'test08', userVote: 2},
-// ];
 const users = [];
 const messages = [];
-//   {
-//     msgId: 1,
-//     msg: '아무리 그래도 토맛을 먹는건 좀...',
-//     nickname: '김토마',
-//     userVote: 1,
-//     reg: '오후 10:49',
-//   },
-//   {
-//     msgId: 2,
-//     msg: '그럴거면 토마토맛토를 먹지',
-//     nickname: '적토마',
-//     userVote: 1,
-//     reg: '오후 10:49',
-//   },
-//   {
-//     msgId: 3,
-//     msg: '아무리 그래도 토를 먹는건 좀...',
-//     nickname: '토마토',
-//     userVote: 2,
-//     reg: '오후 10:49',
-//   },
-//   {
-//     msgId: 4,
-//     msg: '토 먹으면서 맛있는 척 가능?',
-//     nickname: '맛토맛',
-//     userVote: 2,
-//     reg: '오후 10:49',
-//   },
-//   {msgId: 5, msg: '김토마님이 배신하였습니다.', betray: true},
-//   {
-//     msgId: 6,
-//     msg: '누가 배신했냐?',
-//     nickname: '김토마',
-//     userVote: 1,
-//     reg: '오후 10:49',
-//   },
-//   {msgId: 7, msg: '적토마님이 입장하였습니다.', betray: false},
-// ];
 
 const io = require('socket.io/client-dist/socket.io');
 let socket;
 
 export default function ChatScreen({route, navigation}) {
   const [userList, setUserList] = useState(users);
-  const [boardData, setboardData] = useState(route.params.data);
+  const [boardData, setBoardData] = useState(route.params.data);
   const [messageList, setMessageList] = useState(messages);
   const [msg, setMsg] = useState();
   const {userData} = useContext(UserContext);
@@ -103,6 +55,12 @@ export default function ChatScreen({route, navigation}) {
       });
 
       socket.on('welcome', (userVoteData) => {
+        // user update
+        // front단의 userlist update
+        // 상단 userlist
+        // users.push(userVoteData);
+        setUserList((userList) => [...userList, userVoteData]);
+
         // 입장 메세지 보냄
         const msgData = {
           msgId: chatRef.current,
@@ -110,22 +68,21 @@ export default function ChatScreen({route, navigation}) {
           betray: false,
         };
         setMessageList((messageList) => [...messageList, msgData]);
-
-        // user update
-        // front단의 userlist update
-        // 상단 userlist
-        // users.push(userVoteData);
-        setUserList((userList) => [...userList, userVoteData]);
-
-        // 인원수 최신화 (userCnt로 update)
       });
 
       socket.on('user_enter', (initUsers) => {
         // 본인 정보
         // myData = userVoteData;
-
         // 본인한테만
         setUserList(initUsers);
+
+        // 입장 메세지 보냄
+        const msgData = {
+          msgId: chatRef.current,
+          msg: userData.nickname + ' 님이 입장하셨습니다. ',
+          betray: false,
+        };
+        setMessageList((messageList) => [...messageList, msgData]);
       });
 
       socket.on('send', (userVoteData, msg) => {
@@ -139,20 +96,40 @@ export default function ChatScreen({route, navigation}) {
       });
 
       socket.on('betray', (userVoteData, opt1Cnt, opt2Cnt) => {
+        // // 해당 user의 vote 변경
+        // userList.find(userVoteData)['userVote'] = userVoteData.userVote;
+        userList.map((user) => {
+          if (user === userVoteData) {
+            console.log('before betray user');
+            console.log(user);
+          }
+
+          user.userId === userVoteData.userId
+            ? {...user, userVote: userVoteData.userVote}
+            : user;
+        });
+
+        userList.map((user) => {
+          if (user === userVoteData) {
+            console.log('after betray user');
+            console.log(user);
+          }
+        });
+
         // opt1, opt2 수 변경
-        setBoard({
-          ...board,
+        setBoardData({
+          ...boardData,
           opt1Selected: opt1Cnt,
           opt2Selected: opt2Cnt,
         });
-        // 해당 user의 vote 변경
-        boardData['userVote'] = userVoteData.userVote;
+
         // 배신 메세지 전달
         const msgData = {
           msgId: chatRef.current,
           msg: userVoteData.nickname + ' 님이 배신하셨습니다.',
           betray: true,
         };
+
         setMessageList((messageList) => [...messageList, msgData]);
       });
 
@@ -231,20 +208,26 @@ export default function ChatScreen({route, navigation}) {
       vote: boardData.userVote == 1 ? 2 : 1,
     })
       .then((res) => {
-        setboardData({
+        socket.emit('betray', res.data.opt1, res.data.opt2);
+
+        // 본인 정보 바꾸기
+        setBoardData({
           ...boardData,
-          opt1Selected: res.data.opt1,
-          opt2Selected: res.data.opt2,
           userVote: boardData.userVote == 1 ? 2 : 1,
         });
-        setUserList(
-          userList.map((user) =>
-            user.userId === userData.userId
-              ? {...user, userVote: user.userVote == 1 ? 2 : 1}
-              : user,
-          ),
-        );
-        // console.log(res);
+
+        // userList.map((user) =>
+        //   user.userId === userData.userId
+        //     ? {...user, userVote: user.userVote == 1 ? 2 : 1}
+        //     : user,
+        // );
+        // setUserList(
+        //   userList.map((user) =>
+        //     user.userId === userData.userId
+        //       ? {...user, userVote: user.userVote == 1 ? 2 : 1}
+        //       : user,
+        //   ),
+        // );
       })
       .catch((err) => {
         console.log(err);

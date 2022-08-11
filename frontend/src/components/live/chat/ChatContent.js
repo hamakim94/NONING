@@ -3,7 +3,6 @@ import {Avatar} from '@rneui/themed';
 import React from 'react';
 
 export default function ChatContent({data, userList}) {
-  console.log(data);
   return data.betray == null ? (
     <View
       style={{
