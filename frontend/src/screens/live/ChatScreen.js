@@ -30,9 +30,9 @@ const io = require('socket.io/client-dist/socket.io');
 let socket;
 
 export default function ChatScreen({route, navigation}) {
-  const [userList, setUserList] = useState(users);
+  const [userList, setUserList] = useState([]);
   const [boardData, setBoardData] = useState(route.params.data);
-  const [messageList, setMessageList] = useState(messages);
+  const [messageList, setMessageList] = useState([]);
   const [msg, setMsg] = useState();
   const {userData} = useContext(UserContext);
   const chatRef = useRef(null);
@@ -98,23 +98,40 @@ export default function ChatScreen({route, navigation}) {
       socket.on('betray', (userVoteData, opt1Cnt, opt2Cnt) => {
         // // 해당 user의 vote 변경
         // userList.find(userVoteData)['userVote'] = userVoteData.userVote;
-        userList.map((user) => {
-          if (user === userVoteData) {
-            console.log('before betray user');
-            console.log(user);
-          }
+        // console.log('userList');
+        // console.log(userList);
+        // console.log('userVoteData');
+        // console.log(userVoteData);
 
-          user.userId === userVoteData.userId
-            ? {...user, userVote: userVoteData.userVote}
-            : user;
+        // setUserList((userList) => []);
+        setUserList((userList) => {
+          console.log('before betray user');
+          console.log(userList.find(userVoteData));
+          // userList.map((user) => {
+          //   if (user === userVoteData) {
+          //     console.log('before betray user');
+          //     console.log(user);
+          //   }
+          // });
         });
 
-        userList.map((user) => {
-          if (user === userVoteData) {
-            console.log('after betray user');
-            console.log(user);
-          }
-        });
+        // setUserList((userList) => {
+        //   // userList.find(userVoteData)['userVote'] = userVoteData.userVote;
+        //   // userList.map((user) =>
+        //   //   user.userId === userVoteData.userId
+        //   //     ? {...user, userVote: userVoteData.userVote}
+        //   //     : user,
+        //   // );
+        // });
+
+        // setUserList((userList) => {
+        //   userList.map((user) => {
+        //     if (user === userVoteData) {
+        //       console.log('after betray user');
+        //       console.log(user);
+        //     }
+        //   });
+        // });
 
         // opt1, opt2 수 변경
         setBoardData({
@@ -160,10 +177,10 @@ export default function ChatScreen({route, navigation}) {
     };
   }, [isFocused]);
 
-  useEffect(() => {
-    setUserList(users);
-    setMessageList(messages);
-  }, []);
+  // useEffect(() => {
+  //   setUserList(users);
+  //   setMessageList(messages);
+  // }, []);
 
   useEffect(() => {
     chatRef.current =
@@ -240,7 +257,7 @@ export default function ChatScreen({route, navigation}) {
         <View style={{flex: 0.4}}>
           <ChatHeader
             title={boardData.title}
-            userCnt={userList.length}
+            userCnt={userList ? userList.length : 0}
             navigation={navigation}
           />
         </View>
