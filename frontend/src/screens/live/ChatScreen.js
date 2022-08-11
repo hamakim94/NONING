@@ -15,6 +15,8 @@ import React, {
   useRef,
   useContext,
 } from 'react';
+const users = [];
+const messages = [];
 import ChatHeaderUser from '../../components/live/chat/ChatHeaderUser';
 import ChatBar from '../../components/live/chat/ChatBar';
 import ChatHeader from '../../components/live/chat/ChatHeader';
@@ -22,9 +24,6 @@ import ChatContent from '../../components/live/chat/ChatContent';
 import UserContext from '../../util/UserContext';
 import {useIsFocused} from '@react-navigation/native';
 // import socketIO from 'socket.io-client';
-
-const users = [];
-const messages = [];
 
 const io = require('socket.io/client-dist/socket.io');
 let socket;
@@ -37,6 +36,7 @@ export default function ChatScreen({route, navigation}) {
   const {userData} = useContext(UserContext);
   const chatRef = useRef(null);
   const scrollRef = useRef(null);
+  const [boardCheck, setBoardCheck] = useState(true);
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -96,33 +96,36 @@ export default function ChatScreen({route, navigation}) {
       });
 
       socket.on('betray', (userVoteData, opt1Cnt, opt2Cnt) => {
-        // // 해당 user의 vote 변경
-        // userList.find(userVoteData)['userVote'] = userVoteData.userVote;
-        userList.map((user) => {
-          if (user === userVoteData) {
-            console.log('before betray user');
-            console.log(user);
-          }
-
-          user.userId === userVoteData.userId
-            ? {...user, userVote: userVoteData.userVote}
-            : user;
-        });
-
-        userList.map((user) => {
-          if (user === userVoteData) {
-            console.log('after betray user');
-            console.log(user);
-          }
-        });
-
-        // opt1, opt2 수 변경
-        setBoardData({
-          ...boardData,
+        setBoardData((prev) => ({
+          ...prev,
           opt1Selected: opt1Cnt,
           opt2Selected: opt2Cnt,
-        });
+        }));
+        // // 해당 user의 vote 변경
+        // userList.find(userVoteData)['userVote'] = userVoteData.userVote;
+        // userList.map((user) => {
+        //   if (user === userVoteData) {
+        //     console.log('before betray user');
+        //     console.log(user);
+        //   }
 
+        //   user.userId === userVoteData.userId
+        //     ? {...user, userVote: userVoteData.userVote}
+        //     : user;
+        //   // console.log(user);
+        // });
+
+        // userList.map((user) => {
+        //   if (user === userVoteData) {
+        //     console.log('after betray user');
+        //     // console.log(user);
+        //   }
+        // });
+
+        // });
+        // opt1, opt2 수 변경
+
+        // console.log(boardData);
         // 배신 메세지 전달
         const msgData = {
           msgId: chatRef.current,
@@ -133,9 +136,9 @@ export default function ChatScreen({route, navigation}) {
         setMessageList((messageList) => [...messageList, msgData]);
       });
 
-      // socket.on('connect_error', (err) => {
-      //   console.log(err.message);
-      // });
+      socket.on('connect_error', (err) => {
+        console.log(err.message);
+      });
 
       socket.on('left', (userVoteData, userCnt) => {
         const msgData = {
@@ -159,11 +162,6 @@ export default function ChatScreen({route, navigation}) {
       if (socket) socket.disconnect();
     };
   }, [isFocused]);
-
-  useEffect(() => {
-    setUserList(users);
-    setMessageList(messages);
-  }, []);
 
   useEffect(() => {
     chatRef.current =
@@ -240,7 +238,7 @@ export default function ChatScreen({route, navigation}) {
         <View style={{flex: 0.4}}>
           <ChatHeader
             title={boardData.title}
-            userCnt={userList.length}
+            userCnt={userList ? userList.length : 0}
             navigation={navigation}
           />
         </View>
@@ -267,7 +265,8 @@ export default function ChatScreen({route, navigation}) {
           <FlatList
             ref={scrollRef}
             onContentSizeChange={() => {
-              setTimeout(() => scrollRef.current.scrollToEnd(), 500);
+              // setTimeout(() => , 500);
+              scrollRef.current.scrollToEnd();
             }}
             data={messageList}
             renderItem={msgMemoized}
