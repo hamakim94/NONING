@@ -65,53 +65,27 @@ function LiveScreen({navigation}) {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
-      <View style={{flex: 1, padding: 16}}>
+      <View style={{flex: 1}}>
         <LiveLogoSearch navigation={navigation}></LiveLogoSearch>
-        <Divider width={0.5}></Divider>
+        <Divider width={0.5} color={'#A6A6A6'}></Divider>
         <LiveFilterButtonTabs setFilterName={setFilterName} />
+        <Divider width={0.5} color={'#A6A6A6'}></Divider>
         <LiveRecentPopularTabs
           setIsPopular={setIsPopular}></LiveRecentPopularTabs>
-        <Divider width={0.5}></Divider>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          removeClippedSubviews={true}
-          legacyImplementation={true}
-          data={lives}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-          disableVirtualization={true}></FlatList>
+        <Divider width={0.5} color={'#A6A6A6'}></Divider>
+        <View style={{flex: 1, paddingHorizontal: 16}}>
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            removeClippedSubviews={true}
+            legacyImplementation={true}
+            data={lives}
+            renderItem={renderItem}
+            keyExtractor={keyExtractor}
+            disableVirtualization={true}></FlatList>
+        </View>
       </View>
     </SafeAreaView>
   );
 }
-const styles = StyleSheet.create({
-  buttonContainer: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-    height: 30,
-    marginBottom: 5,
-  },
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-    width: 300,
-    marginTop: 16,
-  },
-  scrollContainer: {
-    container: {
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      flexDirection: 'row',
-      height: 30,
-      marginBottom: 5,
-    },
-  },
-  textFocused: {
-    color: '#FF7171',
-  },
-  textNotFocused: {},
-});
+
 export default LiveScreen;

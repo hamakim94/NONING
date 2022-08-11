@@ -43,7 +43,7 @@ export default function LiveFooter({live, setLives}) {
   return (
     <View style={styles.footerContainer}>
       <View style={styles.writerContainer}>
-        <Text style={{color: '#000000'}}>호스트 : </Text>
+        {/* <Text style={{color: '#000000'}}>호스트 : </Text> */}
         <TouchableOpacity
           style={{flexDirection: 'row', alignItems: 'center'}}
           onPress={() => {
@@ -67,14 +67,24 @@ export default function LiveFooter({live, setLives}) {
       </View>
 
       <View style={styles.numberLikeContainer}>
-        <Text style={{color: 'rgba(255,95,95,1)', fontWeight: 'bold'}}>
+        <Text
+          style={{
+            color: 'rgba(255,95,95,1)',
+            fontWeight: 'bold',
+            fontSize: 13,
+          }}>
           {live.opt1Selected}{' '}
         </Text>
         <Text style={{color: '#000000'}}>vs </Text>
-        <Text style={{color: 'rgba(73, 211, 202,1)', fontWeight: 'bold'}}>
+        <Text
+          style={{
+            color: 'rgba(73, 211, 202,1)',
+            fontWeight: 'bold',
+            fontSize: 13,
+          }}>
           {live.opt2Selected}{' '}
         </Text>
-        <Text style={{paddingRight: 5, color: '#000000'}}>
+        <Text style={{paddingRight: 5, color: '#000000', fontSize: 13}}>
           ({live.opt1Selected + live.opt2Selected})
         </Text>
         <TouchableOpacity
@@ -87,7 +97,7 @@ export default function LiveFooter({live, setLives}) {
           <AntDesign
             style={styles.iconColor(live.userLike)}
             name="heart"
-            size={20}
+            size={17}
           />
         </TouchableOpacity>
       </View>
