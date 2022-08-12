@@ -37,5 +37,13 @@ public class Board {
     public void deleteBoard(){
         this.isDeleted = true;
     }
+    public void openLive(long liveId){
+        this.isLive = true;
+        this.liveId = liveId;
+    }
+    public void closeLive(){
+        this.isLive = false;
+        this.liveId = 0;
+    }
 
 }
