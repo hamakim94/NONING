@@ -16,9 +16,9 @@ io.on('connection', (socket) => {
   console.log('connected');
 
   // 채팅 대기방 입장
-  socket.on('wait', () => {
-    let userDataList = Array.from(
-      userList.get(boardData.boardId),
+  socket.on('wait', (boardId) => {
+    let userDataList = userList.get(boardId) == undefined ? null : Array.from(
+      userList.get(boardId),
       (socket) => socket.userVoteData,
     );
     socket.emit('wait', userDataList);
