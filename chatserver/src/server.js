@@ -68,7 +68,7 @@ io.on('connection', (socket) => {
 
   socket.on('send', (msg) => {
     const userVoteData = socket.userVoteData;
-    const reg = new Date().toLocaleTimeString();
+    const reg = new Date().toLocaleTimeString('ko-KR');
     io.to(socket.boardId).emit('send', userVoteData, msg, reg);
   });
 
