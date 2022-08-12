@@ -2,6 +2,14 @@ package com.fivenonjangi.noning.data.repository.live;
 
 import com.fivenonjangi.noning.data.dto.board.BoardResponseDTO;
 import com.fivenonjangi.noning.data.dto.live.LiveResponseDTO;
+import com.fivenonjangi.noning.data.entity.board.QBoard;
+import com.fivenonjangi.noning.data.entity.board.QBoardData;
+import com.fivenonjangi.noning.data.entity.board.QBoardLike;
+import com.fivenonjangi.noning.data.entity.board.QBoardVote;
+import com.fivenonjangi.noning.data.entity.chat.QChatRoom;
+import com.fivenonjangi.noning.data.entity.comment.QComment;
+import com.fivenonjangi.noning.data.entity.user.QUser;
+import com.fivenonjangi.noning.data.entity.user.QUserData;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
@@ -27,6 +35,13 @@ public class LiveRepositoryImpl implements LiveRepositoryCustom{
     public LiveRepositoryImpl(JPAQueryFactory queryFactory){
         this.queryFactory = queryFactory;
     }
+
+    QBoard board = QBoard.board;
+    QBoardData boardData = QBoardData.boardData;
+    QBoardLike boardLike = QBoardLike.boardLike;
+    QBoardVote boardVote = QBoardVote.boardVote;
+    QUserData userData = QUserData.userData;
+    QChatRoom chatRoom = QChatRoom.chatRoom;
 
     @Override
     public List<LiveResponseDTO> findByUserIdAndCateCode(long userId, String categoryCode) {
@@ -77,6 +92,8 @@ public class LiveRepositoryImpl implements LiveRepositoryCustom{
                     .opt1Selected(tuple.get(boardData.opt1Selected))
                     .opt2Selected(tuple.get(boardData.opt2Selected))
                     .likes(tuple.get(boardData.likes))
+                    .liveOpt1Selected(tuple.get(chatRoom.opt1Selected) == null ? 0 : tuple.get(chatRoom.opt1Selected))
+                    .liveOpt2Selected(tuple.get(chatRoom.opt2Selected) == null ? 0 : tuple.get(chatRoom.opt2Selected))
                     .userLike(tuple.get(17, Boolean.class))
                     .userVote(tuple.get(18, Byte.class))
                     .build();
