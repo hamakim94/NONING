@@ -30,7 +30,7 @@ public class MailServiceImpl implements MailService {
         msgg+= "<div align='center' style='border:1px solid black; font-family:verdana';>";
         msgg+= "<h3 style='color:black;'>회원가입 인증 링크.</h3>";
         msgg+= "<div style='font-size:130%'>";
-        String link = String.format("<strong><a href='http://i7a202.p.ssafy.io:8888/api/users/verify?token=%s'>인증하기</a>", token);
+        String link = String.format("<strong><a href='https://i7a202.p.ssafy.io/api/users/verify?token=%s'>인증하기</a>", token);
         msgg+= link;
         msgg+= "</strong><div><br/> ";
         msgg+= "</div>";
