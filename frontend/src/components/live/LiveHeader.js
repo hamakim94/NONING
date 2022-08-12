@@ -8,7 +8,7 @@ export default function LiveHeader({live, navigation}) {
       <Text style={styles.liveButton(live.isLive)}>LIVE</Text>
       <TouchableOpacity
         style={{marginHorizontal: 6}}
-        disabled={live.user_vote === 0}
+        disabled={live.userVote === 0}
         onPress={() =>
           navigation.navigate('ChatNav', {
             screen: 'ChatInfoScreen',

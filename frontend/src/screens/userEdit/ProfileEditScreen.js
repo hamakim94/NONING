@@ -1,12 +1,19 @@
 import React, {useState, useRef, useContext} from 'react';
-import {View, TouchableOpacity, Platform, Text} from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Platform,
+  Text,
+  StyleSheet,
+  useWindowDimensions,
+  Dimensions,
+} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Avatar} from '@rneui/themed';
 import InputLabel from '../../components/signUp/InputLabel';
 import CheckInput from '../../components/signUp/CheckInput';
-import styles from '../../components/signUp/InfoStyles';
 import ImagePicker from 'react-native-image-crop-picker';
 import UploadModeModal from '../../components/signUp/UploadModeModal';
 import UseAxios from '../../util/UseAxios';
@@ -47,6 +54,8 @@ const MbtiGroup = [
   'ISTJ',
   'ISTP',
 ];
+const screenHeight = Dimensions.get('window').height;
+const screenWidth = Dimensions.get('window').width;
 
 function ProfileEditScreen({navigation}) {
   const inputRef = useRef([]);
@@ -134,36 +143,31 @@ function ProfileEditScreen({navigation}) {
   };
   return (
     <View style={styles.container}>
-      <KeyboardAwareScrollView keyboardShouldPersistTaps={'always'}>
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <UploadModeModal
-            visible={modalVisible}
-            onClose={() => setModalVisible(false)}
-            onLaunchCamera={onLaunchCamera}
-            onLaunchImageLibrary={onLaunchImageLibrary}
+      <View style={styles.imgContainer}>
+        <UploadModeModal
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          onLaunchCamera={onLaunchCamera}
+          onLaunchImageLibrary={onLaunchImageLibrary}
+        />
+        <InputLabel name="프로필 이미지" star=""></InputLabel>
+        <TouchableOpacity onPress={modalOpen}>
+          <Avatar
+            size={100}
+            rounded
+            containerStyle={{
+              backgroundColor: '#FFFFFF',
+              borderWidth: 2,
+              borderColor: '#808080',
+              marginBottom: '5%',
+            }}
+            source={{
+              uri: imgSource ? imgSource : userData.img,
+            }}
           />
-          <InputLabel name="프로필 이미지" star=""></InputLabel>
-          <TouchableOpacity onPress={modalOpen}>
-            <Avatar
-              size={100}
-              rounded
-              containerStyle={{
-                backgroundColor: '#FFFFFF',
-                borderWidth: 2,
-                borderColor: '#808080',
-                marginBottom: '5%',
-              }}
-              source={{
-                uri: imgSource ? imgSource : userData.img,
-              }}
-            />
-          </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.nicknameContainer}>
         <InputLabel name="닉네임" star="*"></InputLabel>
         <CheckInput
           control={control}
@@ -175,8 +179,10 @@ function ProfileEditScreen({navigation}) {
           errorMessage={errors.nickname ? errors.nickname.message : ''}
           styles={styles}
           inputRef={inputRef}
+          edit={true}
           index={0}></CheckInput>
-
+      </View>
+      <View style={styles.mbtiNameContainer}>
         <View style={{flexDirection: 'row'}}>
           <View style={{flex: 1}}>
             <InputLabel name="MBTI" star="*"></InputLabel>
@@ -254,34 +260,199 @@ function ProfileEditScreen({navigation}) {
               index={5}></NoCheckInput>
           </View>
         </View>
-
-        <View style={{alignItems: 'center'}}>
-          <TouchableOpacity
+      </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={
+            Object.keys(errors).length === 0 && nickNameCheck
+              ? styles.checkButton
+              : styles.button
+          }
+          onPress={
+            Object.keys(errors).length === 0 && nickNameCheck
+              ? handleSubmit(onSubmit)
+              : () => {
+                  alert('입력을 확인해주세요.');
+                }
+          }>
+          <View
             style={
               Object.keys(errors).length === 0 && nickNameCheck
                 ? styles.checkButton
                 : styles.button
-            }
-            onPress={
-              Object.keys(errors).length === 0 && nickNameCheck
-                ? handleSubmit(onSubmit)
-                : () => {
-                    alert('입력을 확인해주세요.');
-                  }
             }>
-            <View
-              style={{
-                height: 60,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text style={styles.buttonText}>변경</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAwareScrollView>
+            <Text style={styles.buttonText}>변경</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
+const styles = StyleSheet.create({
+  imgContainer: {
+    position: 'absolute',
+    top: 10,
+    left: screenWidth / 2 - 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  nicknameContainer: {
+    position: 'absolute',
+    top: 140,
+    left: 16,
+    right: 16,
+  },
+  mbtiNameContainer: {
+    position: 'absolute',
+    top: 200,
+    left: 16,
+    right: 16,
+  },
+  buttonContainer: {
+    position: 'absolute',
+    top: 250,
+    height: 110,
+    left: 16,
+    right: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button: {
+    width: '100%',
+    color: '#FFFFFF',
+    height: 30,
+    backgroundColor: '#808080',
+    borderRadius: 6,
+    justifyContent: 'center',
+  },
+  checkButton: {
+    width: '100%',
+    height: 30,
+    color: '#FFFFFF',
+    backgroundColor: '#FF7171',
+    borderRadius: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontFamily: 'Bold',
+    textAlign: 'center',
+    fontSize: 15,
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingTop: '1%',
+    paddingHorizontal: 16,
+    backgroundColor: '#FFFFFF',
+  },
+  focusInput: {
+    width: '100%',
+    backgroundColor: '#FFFFFF',
+    borderColor: '#000000',
+    paddingVertical: 0,
+    paddingHorizontal: '2%',
+    height: '100%',
+    borderRadius: 4,
+    borderWidth: 1.5,
+  },
+  blurInput: {
+    width: '100%',
+    borderColor: '#808080',
+    paddingVertical: 0,
+    paddingHorizontal: '2%',
+    height: '100%',
+    borderRadius: 4,
+    borderWidth: 1,
+  },
+  focusHalfInput: {
+    width: '100%',
+    backgroundColor: '#FFFFFF',
+    borderColor: '#000000',
+    paddingVertical: 0,
+    paddingHorizontal: '4%',
+    height: '100%',
+    borderRadius: 4,
+    borderWidth: 1.5,
+  },
+  blurHalfInput: {
+    width: '100%',
+    borderColor: '#808080',
+    paddingVertical: 0,
+    paddingHorizontal: '4%',
+    height: '100%',
+    borderRadius: 4,
+    borderWidth: 1,
+  },
+  checkFocusInput: {
+    width: '75%',
+    backgroundColor: '#FFFFFF',
+    borderColor: '#000000',
+    paddingVertical: 0,
+    paddingHorizontal: '2%',
+    height: '100%',
+    borderRadius: 4,
+    borderWidth: 1.5,
+  },
+  checkBlurInput: {
+    width: '75%',
+    borderColor: '#808080',
+    height: '100%',
+    paddingVertical: 0,
+    paddingHorizontal: '2%',
+    borderRadius: 4,
+    borderWidth: 1,
+  },
+  confirmFalseButton: {
+    paddingVertical: '1%',
+    height: '100%',
+    borderRadius: 6,
+    backgroundColor: '#808080',
+    marginHorizontal: '3%',
+    width: '22%',
+  },
+  confirmTrueButton: {
+    paddingVertical: '1%',
+    height: '100%',
+    borderRadius: 6,
+    backgroundColor: '#FF7171',
+    marginHorizontal: '3%',
+    width: '22%',
+  },
+  confirmText: {
+    textAlign: 'center',
+    fontSize: 15,
+    color: '#FFFFFF',
+    fontWeight: '500',
+  },
+  errorText: {
+    color: '#FF7171',
+    fontSize: 10,
+    fontWeight: 'bold',
+    marginLeft: '1%',
+    marginVertical: 2,
+  },
+  checkBoxText: {
+    textAlignVertical: 'center',
+    fontSize: 12,
+    paddingBottom: 1,
+    color: '#000000',
+  },
+  dropDownOpen: {
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderRadius: 6,
+    borderColor: '#808080',
+  },
+  dropDownButton: {
+    width: '75%',
+    height: 30,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderRadius: 6,
+    borderColor: '#808080',
+  },
+});
 export default ProfileEditScreen;

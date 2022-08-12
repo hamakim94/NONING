@@ -5,10 +5,13 @@ import {
   ScrollView,
   View,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import TosText from '../../components/common/TosText';
 import PrivacyText from '../../components/common/PrivacyText';
+
+const windowWidth = Dimensions.get('screen').width;
 
 function ApproveScreen({navigation}) {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
@@ -31,8 +34,8 @@ function ApproveScreen({navigation}) {
         <CheckBox
           disabled={false}
           value={toggleCheckBox}
-          onValueChange={newValue => setToggleCheckBox(newValue)}
-          tintColors={{true: '#FF7171'}}
+          onValueChange={(newValue) => setToggleCheckBox(newValue)}
+          tintColors={{true: '#FF5F5F'}}
         />
         <Text
           style={{textAlignVertical: 'center', fontSize: 12, paddingBottom: 1}}
@@ -53,8 +56,8 @@ function ApproveScreen({navigation}) {
         <CheckBox
           disabled={false}
           value={toggleCheckBox2}
-          onValueChange={newValue => setToggleCheckBox2(newValue)}
-          tintColors={{true: '#FF7171'}}
+          onValueChange={(newValue) => setToggleCheckBox2(newValue)}
+          tintColors={{true: '#FF5F5F'}}
         />
         <Text
           style={{textAlignVertical: 'center', fontSize: 12, paddingBottom: 1}}
@@ -64,15 +67,15 @@ function ApproveScreen({navigation}) {
       </View>
       <View style={styles.bottomContainer}>
         <TouchableOpacity
-          disabled={ !(toggleCheckBox && toggleCheckBox2)}
-          style={styles.loginButton(toggleCheckBox && toggleCheckBox2)}
-          onPress={() => navigation.navigate('InfoScreen')}>
-          <Text style={styles.loginText}>등록</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
           style={styles.homeButton}
           onPress={() => navigation.goBack()}>
           <Text style={styles.homeText}>취소</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          disabled={!(toggleCheckBox && toggleCheckBox2)}
+          style={styles.loginButton(toggleCheckBox && toggleCheckBox2)}
+          onPress={() => navigation.navigate('InfoScreen')}>
+          <Text style={styles.loginText}>등록</Text>
         </TouchableOpacity>
       </View>
       <View style={{flex: 1}}></View>
@@ -95,32 +98,36 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: '#000000',
     marginVertical: '1%',
-    marginHorizontal: 20,
+    marginHorizontal: 16,
     paddingVertical: '3%',
     paddingHorizontal: '4%',
   },
   bottomContainer: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     flexDirection: 'row',
+    marginHorizontal: 16,
   },
-  loginButton : bool => ({
-    paddingVertical: '1%',
+  loginButton: (bool) => ({
     borderRadius: 6,
-    backgroundColor: bool ? '#FF7171' : '#808080',
-    marginHorizontal: '1%',
-    minWidth: '15%',
+    backgroundColor: bool ? '#FF5F5F' : '#808080',
+    height: 40,
+    marginLeft: 8,
+    width: (windowWidth - 32) / 2 - 8,
     borderWidth: 1,
-    borderColor: bool ? '#FF7171' : '#808080',
+    borderColor: bool ? '#FF5F5F' : '#808080',
+    justifyContent: 'center',
   }),
   homeButton: {
-    paddingVertical: '1%',
+    marginRight: 8,
+    height: 40,
     borderRadius: 6,
     backgroundColor: '#FFFFFF',
-    marginHorizontal: '1%',
-    minWidth: '15%',
+    width: (windowWidth - 32) / 2 - 8,
     borderWidth: 1,
+
+    justifyContent: 'center',
   },
   loginText: {
     fontWeight: 'bold',

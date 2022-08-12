@@ -10,7 +10,7 @@ import React, {useContext} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import UserContext from '../../util/UserContext';
 
-export default function LiveFooter({live, setLives}) {
+export default function LiveFooter({live, setLives, navigation}) {
   const {userData} = useContext(UserContext);
 
   const like = () => {
@@ -60,7 +60,7 @@ export default function LiveFooter({live, setLives}) {
                 ? {uri: live.writerImg}
                 : require('../../assets/DefaultProfile.jpg')
             }></Image>
-          <Text style={{paddingLeft: 5, color: '#000000'}}>
+          <Text style={{paddingLeft: 5, color: '#000000', fontSize: 13}}>
             {live.writerNickname}{' '}
           </Text>
         </TouchableOpacity>

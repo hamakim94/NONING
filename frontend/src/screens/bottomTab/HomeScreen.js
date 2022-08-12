@@ -1,20 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Divider} from '@rneui/base/dist/Divider';
-import {
-  View,
-  SafeAreaView,
-  FlatList,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import {View, SafeAreaView, FlatList} from 'react-native';
 import LogoSearch from '../../components/home/LogoSearch';
 import FilterButtonTabs from '../../components/home/FilterButtonTabs';
 import Boards from '../../components/home/Boards';
-import axios from 'axios';
 import UseAxios from '../../util/UseAxios';
 import UserContext from '../../util/UserContext';
-import {useIsFocused} from '@react-navigation/native';
 import RecentPopularTabs from '../../components/home/RecentPopularTabs';
+import {useIsFocused} from '@react-navigation/native';
 
 // 게시글 가져오기 :  /api/boards/list/{userid}  인풋 : userId, categoryCode, order?categorycode=””
 function HomeScreen({navigation}) {
@@ -22,8 +15,8 @@ function HomeScreen({navigation}) {
   const [boards, setBoards] = useState([]);
   const [isPopular, setIsPopular] = useState('최신');
   const {userData} = useContext(UserContext);
+  const [refreshing, setRefreshing] = useState(false);
   const isFocused = useIsFocused();
-
   const filterToCode = {
     전체: 0,
     연애: 'B0101',
@@ -36,31 +29,40 @@ function HomeScreen({navigation}) {
     갈등: 'B0108',
     기타: 'B0199',
   };
-  useEffect(() => {
+
+  const getData = () => {
+    setRefreshing(true);
     UseAxios.get('/boards/list', {
       params: {categorycode: filterToCode[filterName]},
-    }).then((res) => {
-      if (isPopular === '인기순') {
-        // 인기순이니?
-        res.data.sort(function (a, b) {
-          const participantsA = a.opt1Selected + a.opt2Selected;
-          const participantsB = b.opt1Selected + b.opt2Selected;
-          if (participantsA > participantsB) return -1;
-          if (participantsA === participantsB) return 0;
-          if (participantsA < participantsB) return 1;
-          [isFocused];
-        });
-      } else {
-        // 최신순이니?
-        res.data.sort(function (a, b) {
-          if (a.boardId > b.boardId) return -1;
-          if (a.boardId === b.boardId) return 0;
-          if (a.boardId < b.boardId) return 1;
-        });
-      }
-      setBoards(res.data);
-    });
-  }, [isFocused, filterName, userData, isPopular]);
+    })
+      .then((res) => {
+        if (isPopular === '인기순') {
+          // 인기순이니?
+          res.data.sort(function (a, b) {
+            const participantsA = a.opt1Selected + a.opt2Selected;
+            const participantsB = b.opt1Selected + b.opt2Selected;
+            if (participantsA > participantsB) return -1;
+            if (participantsA === participantsB) return 0;
+            if (participantsA < participantsB) return 1;
+          });
+        } else {
+          // 최신순이니?
+          res.data.sort(function (a, b) {
+            if (a.boardId > b.boardId) return -1;
+            if (a.boardId === b.boardId) return 0;
+            if (a.boardId < b.boardId) return 1;
+          });
+        }
+        setBoards(res.data);
+      })
+      .then(() => setRefreshing(false));
+  };
+  const onRefresh = () => {
+    if (!refreshing) {
+      getData();
+    }
+  };
+  useEffect(() => getData(), [filterName, userData, isPopular, isFocused]);
   // 함수로 뺴놔야 잘 작동 렌더링이 한 번만 일어난다.
   const renderItem = ({item}) => (
     <Boards board={item} navigation={navigation}></Boards>
@@ -85,7 +87,10 @@ function HomeScreen({navigation}) {
             renderItem={renderItem}
             keyExtractor={keyExtractor}
             maxToRenderPerBatch={10}
-            disableVirtualization={true}></FlatList>
+            initialNumToRender={10}
+            disableVirtualization={true}
+            onRefresh={onRefresh}
+            refreshing={refreshing}></FlatList>
         </View>
       </View>
     </SafeAreaView>

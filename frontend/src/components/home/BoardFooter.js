@@ -20,7 +20,7 @@ export default function BoardFooter({board, setBoards, navigation}) {
       },
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .then((err) => {
         console.log(err);

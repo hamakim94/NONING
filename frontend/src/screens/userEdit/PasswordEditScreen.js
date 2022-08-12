@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  Dimensions,
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -13,6 +14,9 @@ import * as yup from 'yup';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import UserContext from '../../util/UserContext';
 import UseAxios from '../../util/UseAxios';
+
+const screenHeight = Dimensions.get('window').height;
+const screenWidth = Dimensions.get('window').width;
 
 function PasswordEditScreen({navigation}) {
   const {userData} = useContext(UserContext);
@@ -57,41 +61,40 @@ function PasswordEditScreen({navigation}) {
 
   const blank = /\s/g;
 
-  const onSubmit = data => {
-    Alert.alert(
-      '비밀번호 변경',
-      '변경하시겠습니까?',
-      [
-        {
-          text: '확인',
-          onPress: () => {
-            UseAxios.put('/users/passwords/edit', {
-              password: data.password,
-              newPassword: data.newPassword,
-              userId: userData.userId,
+  const onSubmit = (data) => {
+    Alert.alert('비밀번호 변경', '변경하시겠습니까?', [
+      {
+        text: '확인',
+        onPress: () => {
+          UseAxios.put('/users/passwords/edit', {
+            password: data.password,
+            newPassword: data.newPassword,
+            userId: userData.userId,
+          })
+            .then(() => {
+              navigation.navigate('HomeStack');
             })
-              .then(() => {
-                navigation.navigate('HomeStack');
-              })
-              .catch(err => {
-                console.log(err);
+            .catch((err) => {
+              console.log(err);
+              Alert.alert('비밀번호 오류', '비밀번호가 일치하지 않습니다', {
+                text: '확인',
               });
-          },
+            });
         },
-        {
-          text: '취소',
-          onPress: () => {},
-        },
-        // console.log('취소버튼'), style: 'cancel'},
-      ],
-    );
+      },
+      {
+        text: '취소',
+        onPress: () => {},
+      },
+      // console.log('취소버튼'), style: 'cancel'},
+    ]);
   };
 
   console.log(errors);
 
   return (
     <View style={styles.container}>
-      <KeyboardAwareScrollView keyboardShouldPersistTaps={'handled'}>
+      <View style={styles.currentPasswordContainer}>
         <View style={styles.labelContainer}>
           <Text style={styles.label}>현재 비밀번호</Text>
           <Text style={styles.labelStar}>*</Text>
@@ -105,7 +108,7 @@ function PasswordEditScreen({navigation}) {
                 blurOnSubmit={false}
                 onFocus={() => setCurrentPwStyle(styles.focusInput)}
                 onBlur={() => setCurrentPwStyle(styles.blurInput)}
-                onChangeText={value => onChange(value.replace(blank, ''))}
+                onChangeText={(value) => onChange(value.replace(blank, ''))}
                 value={value}
                 returnKeyType="next"
                 onSubmitEditing={() => inputRef.current[1].focus()}
@@ -120,7 +123,8 @@ function PasswordEditScreen({navigation}) {
         ) : (
           <Text style={styles.errorText}></Text>
         )}
-
+      </View>
+      <View style={styles.newPasswordContainer}>
         <View style={styles.labelContainer}>
           <Text style={styles.label}>새 비밀번호</Text>
           <Text style={styles.labelStar}>*</Text>
@@ -132,10 +136,10 @@ function PasswordEditScreen({navigation}) {
               <TextInput
                 style={pwStyle}
                 blurOnSubmit={false}
-                ref={el => (inputRef.current[1] = el)}
+                ref={(el) => (inputRef.current[1] = el)}
                 onFocus={() => setPwStyle(styles.focusInput)}
                 onBlur={() => setPwStyle(styles.blurInput)}
-                onChangeText={value => onChange(value.replace(blank, ''))}
+                onChangeText={(value) => onChange(value.replace(blank, ''))}
                 value={value}
                 returnKeyType="next"
                 onSubmitEditing={() => inputRef.current[2].focus()}
@@ -158,10 +162,10 @@ function PasswordEditScreen({navigation}) {
               <TextInput
                 style={pwConfirmStyle}
                 blurOnSubmit={false}
-                ref={el => (inputRef.current[2] = el)}
+                ref={(el) => (inputRef.current[2] = el)}
                 onFocus={() => setPwConfirmStyle(styles.focusInput)}
                 onBlur={() => setPwConfirmStyle(styles.blurInput)}
-                onChangeText={value => onChange(value.replace(blank, ''))}
+                onChangeText={(value) => onChange(value.replace(blank, ''))}
                 value={value}
                 returnKeyType="next"
                 secureTextEntry={true}
@@ -175,21 +179,20 @@ function PasswordEditScreen({navigation}) {
         ) : (
           <Text style={styles.errorText}></Text>
         )}
-        <View style={{alignItems: 'center', marginVertical: '3%'}}>
-          <TouchableOpacity
-            index={3}
-            style={
-              Object.keys(errors).length > 0
-                ? styles.button
-                : styles.checkButton
-            }
-            onPress={
-              Object.keys(errors).length > 0 ? () => '' : handleSubmit(onSubmit)
-            }>
-            <Text style={styles.buttonText}>비밀번호 변경</Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAwareScrollView>
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          index={3}
+          style={
+            Object.keys(errors).length > 0 ? styles.button : styles.checkButton
+          }
+          onPress={
+            Object.keys(errors).length > 0 ? () => '' : handleSubmit(onSubmit)
+          }>
+          <Text style={styles.buttonText}>비밀번호 변경</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -201,7 +204,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   labelStar: {
-    color: '#FF7171',
+    color: '#FF5F5F',
     textAlignVertical: 'top',
     paddingBottom: '1%',
   },
@@ -214,8 +217,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingTop: '10%',
-    paddingHorizontal: '5%',
+    paddingHorizontal: 16,
     backgroundColor: '#FFFFFF',
+  },
+  currentPasswordContainer: {
+    position: 'absolute',
+    top: 30,
+    left: 16,
+    right: 16,
+  },
+  newPasswordContainer: {
+    position: 'absolute',
+    top: 110,
+    left: 16,
+    right: 16,
   },
   focusInput: {
     width: '100%',
@@ -236,32 +251,43 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderWidth: 1,
   },
+
+  buttonContainer: {
+    position: 'absolute',
+    top: 150,
+    height: 200,
+    left: 16,
+    right: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
   button: {
-    marginBottom: '5%',
-    width: '40%',
-    color: 'white',
-    height: '40%',
-    backgroundColor: 'rgba(255, 95, 95, 0.4)',
+    width: '100%',
+    color: '#FFFFFF',
+    height: 40,
+    backgroundColor: '#808080',
     borderRadius: 6,
     justifyContent: 'center',
   },
   checkButton: {
-    marginBottom: '5%',
-    width: '40%',
-    color: 'white',
-    height: '40%',
+    width: '100%',
+    height: 40,
+    color: '#FFFFFF',
     backgroundColor: '#FF5F5F',
     borderRadius: 6,
     justifyContent: 'center',
+    alignItems: 'center',
   },
+
   buttonText: {
-    color: 'white',
+    color: '#FFFFFF',
     fontFamily: 'Bold',
     textAlign: 'center',
     fontSize: 15,
   },
   errorText: {
-    color: '#FF7171',
+    color: '#FF5F5F',
     fontSize: 10,
     fontWeight: 'bold',
     marginLeft: '1%',

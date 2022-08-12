@@ -19,9 +19,15 @@ function Lives({live, navigation}) {
           <View style={styles.titleContainer}>
             <Text style={styles.titleText}>{live.title}</Text>
           </View>
-          <LiveBar live={liveData} setLives={setLiveData}></LiveBar>
+          <LiveBar
+            live={liveData}
+            setLives={setLiveData}
+            navigation={navigation}></LiveBar>
         </View>
-        <LiveFooter live={liveData} setLives={setLiveData}></LiveFooter>
+        <LiveFooter
+          live={liveData}
+          setLives={setLiveData}
+          navigation={navigation}></LiveFooter>
       </View>
     </View>
   );
