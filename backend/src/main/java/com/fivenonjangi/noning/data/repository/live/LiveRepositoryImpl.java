@@ -65,12 +65,12 @@ public class LiveRepositoryImpl implements LiveRepositoryCustom{
                 .leftJoin(userData)
                 .on(board.writer.id.eq(userData.user.id))
                 .leftJoin(boardLike)
-                .on(board.id.eq(boardLike.board.id).and(boardLike.user.id.eq(userId)))
+                .on(board.id.eq(boardLike.board.id).and(board.isLive.eq(true)).and(boardLike.user.id.eq(userId)))
                 .leftJoin(boardVote)
                 .on(board.id.eq(boardVote.board.id).and(boardVote.user.id.eq(userId)))
                 .leftJoin(chatRoom)
                 .on(board.id.eq(chatRoom.board.id))
-                .where(board.isDeleted.eq(false).and(categoryFilter(categoryCode)))
+                .where(board.isDeleted.eq(false).and(board.isLive.eq(true)).and(categoryFilter(categoryCode)))
                 .fetch();
 
         List<LiveResponseDTO> result = new ArrayList<LiveResponseDTO>();
