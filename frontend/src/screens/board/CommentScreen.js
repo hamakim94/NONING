@@ -23,35 +23,28 @@ function CommentScreen({board}) {
   useEffect(() => {
     if (isFocused) {
       UseAxios.get(`/boards/${boardId}/comments/list`)
-        .then(res => {
+        .then((res) => {
           setComments(res.data);
         })
-        .catch(err => {});
+        .catch((err) => {});
     }
   }, [isFocused]);
   const renderItem = ({item}) => (
     <CommentList comment={item} setNested={setNested} />
   );
-  const onChange = e => {
+  const onChange = (e) => {
     setContent(e);
   };
   const onSubmit = () => {
-    // const data = {
-    //   msgId: chatRef.current,
-    //   msg: msg,
-    //   nickname: userData.nickname,
-    //   userVote: boardData.userVote,
-    // };
-    // setMessageData([...messageData, data]);
     UseAxios.post(`/boards/${boardId}/comments/write`, {
       content: content,
       level: nested ? 1 : 0,
       parentId: nested ? parentComment : 0,
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
     setContent('');
@@ -66,11 +59,11 @@ function CommentScreen({board}) {
               <FlatList
                 data={comments}
                 renderItem={renderItem}
-                keyExtractor={comment => comment.commentId}
+                keyExtractor={(comment) => comment.commentId}
               />
               {nested ? <Text>답글 다는 중</Text> : ''}
               <TextInput
-                onChangeText={e => onChange(e)}
+                onChangeText={(e) => onChange(e)}
                 value={content}
                 onSubmitEditing={onSubmit}></TextInput>
             </>
