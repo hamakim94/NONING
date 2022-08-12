@@ -7,6 +7,7 @@ import LiveLogoSearch from '../../components/live/LiveLogoSearch';
 import UseAxios from '../../util/UseAxios';
 import UserContext from '../../util/UserContext';
 import LiveRecentPopularTabs from '../../components/live/LiveRecentPopularTabs';
+import {useIsFocused} from '@react-navigation/native';
 
 function LiveScreen({navigation}) {
   const {userData} = useContext(UserContext);
@@ -14,6 +15,7 @@ function LiveScreen({navigation}) {
   const [isPopular, setIsPopular] = useState('최신');
   const [lives, setLives] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const isFocused = useIsFocused();
 
   const filterToCode = {
     전체: 0,
@@ -59,7 +61,7 @@ function LiveScreen({navigation}) {
     }
   };
 
-  useEffect(() => getData(), [filterName, userData, isPopular]);
+  useEffect(() => getData(), [filterName, userData, isPopular, isFocused]);
 
   const renderItem = ({item}) => (
     <Lives live={item} navigation={navigation}></Lives>
