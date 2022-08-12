@@ -6,7 +6,6 @@ import FilterButtonTabs from '../../components/home/FilterButtonTabs';
 import Boards from '../../components/home/Boards';
 import UseAxios from '../../util/UseAxios';
 import UserContext from '../../util/UserContext';
-import {useIsFocused} from '@react-navigation/native';
 import RecentPopularTabs from '../../components/home/RecentPopularTabs';
 
 // 게시글 가져오기 :  /api/boards/list/{userid}  인풋 : userId, categoryCode, order?categorycode=””
@@ -15,7 +14,6 @@ function HomeScreen({navigation}) {
   const [boards, setBoards] = useState([]);
   const [isPopular, setIsPopular] = useState('최신');
   const {userData} = useContext(UserContext);
-  const isFocused = useIsFocused();
   const [refreshing, setRefreshing] = useState(false);
   const filterToCode = {
     전체: 0,
@@ -31,7 +29,6 @@ function HomeScreen({navigation}) {
   };
 
   const getData = () => {
-    console.log('렌더링');
     setRefreshing(true);
     UseAxios.get('/boards/list', {
       params: {categorycode: filterToCode[filterName]},
@@ -63,7 +60,7 @@ function HomeScreen({navigation}) {
       getData();
     }
   };
-  useEffect(() => getData(), [filterName, userData, isPopular, isFocused]);
+  useEffect(() => getData(), [filterName, userData, isPopular]);
   // 함수로 뺴놔야 잘 작동 렌더링이 한 번만 일어난다.
   const renderItem = ({item}) => (
     <Boards board={item} navigation={navigation}></Boards>
