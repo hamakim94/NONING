@@ -122,7 +122,7 @@ function BoardSearchScreen({navigation}) {
         ) : (
           ''
         )}
-        <Divider width={0.5} />
+        <Divider width={0.5} style={{margin: '1%'}} />
       </View>
     );
   };
@@ -187,7 +187,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingLeft: 20,
     marginHorizontal: 5,
-    marginBottom: 10,
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
   },
