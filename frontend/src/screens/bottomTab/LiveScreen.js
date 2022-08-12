@@ -36,9 +36,9 @@ function LiveScreen({navigation}) {
       params: {categorycode: filterToCode[filterName]},
     })
       .then((res) => {
-        const result = res.data.filter((board) => board.live);
+        // const result = res.data.filter((board) => board.live);
         if (isPopular === '인기순') {
-          result.sort(function (a, b) {
+          res.data.sort(function (a, b) {
             const participantsA = a.liveOpt1Selected + a.liveOpt2Selected;
             const participantsB = b.liveOpt1Selected + b.liveOpt2Selected;
             if (participantsA > participantsB) return -1;
@@ -46,13 +46,13 @@ function LiveScreen({navigation}) {
             if (participantsA < participantsB) return 1;
           });
         } else {
-          result.sort(function (a, b) {
-            if (a.boardId > b.boardId) return -1;
-            if (a.boardId === b.boardId) return 0;
-            if (a.boardId < b.boardId) return 1;
+          res.data.sort(function (a, b) {
+            if (a.liveId > b.liveId) return -1;
+            if (a.liveId === b.liveId) return 0;
+            if (a.liveId < b.liveId) return 1;
           });
         }
-        setLives(result);
+        setLives(res.data);
       })
       .then(() => setRefreshing(false));
   };
