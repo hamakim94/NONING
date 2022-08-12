@@ -3,7 +3,6 @@ import React from 'react';
 import {FlatList} from 'react-native-gesture-handler';
 import Feather from 'react-native-vector-icons/Feather';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import {Divider} from '@rneui/themed';
 
 export default function VoteDo({navigation, myPageData}) {
   return (
@@ -14,7 +13,12 @@ export default function VoteDo({navigation, myPageData}) {
         data={myPageData.boardList}
         navigation={navigation}
         renderItem={({item}) => (
-          <View style={{borderBottomWidth: 0.3}}>
+          <View
+            style={
+              item.userVote !== 0
+                ? {borderBottomWidth: 0.3}
+                : {borderBottomWidth: 0}
+            }>
             <View
               style={{
                 flex: 1.2,
