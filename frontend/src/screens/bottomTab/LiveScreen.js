@@ -32,26 +32,27 @@ function LiveScreen({navigation}) {
 
   const getData = () => {
     setRefreshing(true);
-    UseAxios.get('/boards/list', {
+    UseAxios.get('/lives/list', {
       params: {categorycode: filterToCode[filterName]},
     })
       .then((res) => {
+        const result = res.data.filter((board) => board.live);
         if (isPopular === '인기순') {
-          res.data.sort(function (a, b) {
-            const participantsA = a.opt1Selected + a.opt2Selected;
-            const participantsB = b.opt1Selected + b.opt2Selected;
+          result.sort(function (a, b) {
+            const participantsA = a.liveOpt1Selected + a.liveOpt2Selected;
+            const participantsB = b.liveOpt1Selected + b.liveOpt2Selected;
             if (participantsA > participantsB) return -1;
             if (participantsA === participantsB) return 0;
             if (participantsA < participantsB) return 1;
           });
         } else {
-          res.data.sort(function (a, b) {
+          result.sort(function (a, b) {
             if (a.boardId > b.boardId) return -1;
             if (a.boardId === b.boardId) return 0;
             if (a.boardId < b.boardId) return 1;
           });
         }
-        setLives(res.data);
+        setLives(result);
       })
       .then(() => setRefreshing(false));
   };

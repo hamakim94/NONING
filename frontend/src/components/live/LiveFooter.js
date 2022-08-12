@@ -73,7 +73,7 @@ export default function LiveFooter({live, setLives, navigation}) {
             fontWeight: 'bold',
             fontSize: 13,
           }}>
-          {live.opt1Selected}{' '}
+          {live.liveOpt1Selected}{' '}
         </Text>
         <Text style={{color: '#000000'}}>vs </Text>
         <Text
@@ -82,10 +82,10 @@ export default function LiveFooter({live, setLives, navigation}) {
             fontWeight: 'bold',
             fontSize: 13,
           }}>
-          {live.opt2Selected}{' '}
+          {live.liveOpt2Selected}{' '}
         </Text>
         <Text style={{paddingRight: 5, color: '#000000', fontSize: 13}}>
-          ({live.opt1Selected + live.opt2Selected})
+          ({live.liveOpt1Selected + live.liveOpt2Selected})
         </Text>
         <TouchableOpacity
           style={{margin: 1}}
