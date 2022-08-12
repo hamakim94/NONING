@@ -25,10 +25,6 @@ function Boards({board, navigation}) {
             setBoards={setBoardData}
             navigation={navigation}></BoardBar>
         </View>
-        <BoardBar
-          board={boardData}
-          setBoards={setBoardData}
-          navigation={navigation}></BoardBar>
         <BoardFooter
           board={boardData}
           setBoards={setBoardData}
