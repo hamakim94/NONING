@@ -77,8 +77,8 @@ public class LiveRepositoryImpl implements LiveRepositoryCustom{
                     .opt1Selected(tuple.get(boardData.opt1Selected))
                     .opt2Selected(tuple.get(boardData.opt2Selected))
                     .likes(tuple.get(boardData.likes))
-                    .userLike(tuple.get(15, Boolean.class))
-                    .userVote(tuple.get(16, Byte.class))
+                    .userLike(tuple.get(17, Boolean.class))
+                    .userVote(tuple.get(18, Byte.class))
                     .build();
 
             result.add(liveResponseDTO);
