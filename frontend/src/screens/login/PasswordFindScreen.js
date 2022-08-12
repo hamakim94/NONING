@@ -7,7 +7,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const PasswordFindScreen = ({navigation}) => (
   <View style={styles.container}>
     <KeyboardAwareScrollView keyboardShouldPersistTaps={'handled'}>
-      <View style={styles.logoContainer}>   
+      <View style={styles.logoContainer}>
         <View style={styles.logoImageContainer}>
           <FontAwesome name="lock" size={70} color="white"></FontAwesome>
         </View>
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   logoImageContainer: {
     width: 100,
     height: 100,
-    backgroundColor: '#FF7171',
+    backgroundColor: '#FF5F5F',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 50,
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     marginTop: 10,
-    alignItems:'center'
+    alignItems: 'center',
   },
 });
 

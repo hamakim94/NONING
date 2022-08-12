@@ -87,7 +87,7 @@ function InfoScreen({navigation}) {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     const formdata = new FormData();
     const filename = imgSource !== null ? imgSource.split('/').pop() : null;
     const imgData = {
@@ -115,31 +115,35 @@ function InfoScreen({navigation}) {
     UseAxios.post('/users/signup', formdata, {
       headers: {'Content-Type': `multipart/form-data;charset=UTF-8`},
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         alert(
           data.email +
-            ' 주소로 인증메일이 발송되었습니다. 인증을 완료해주세요.',
+            ' 주소로 인증메일이' +
+            '\n' +
+            '발송되었습니다.' +
+            '\n' +
+            '인증을 완료 후 로그인해주세요!.',
         );
         navigation.navigate('CompleteScreen');
       })
-      .catch(err => {});
+      .catch((err) => {});
   };
 
   const onLaunchCamera = () => {
     ImagePicker.openCamera(imagePickerOption)
-      .then(image => {
+      .then((image) => {
         setImageSource(image.path);
       })
-      .catch(err => {});
+      .catch((err) => {});
   };
   // 갤러리에서 사진 선택
   const onLaunchImageLibrary = () => {
     ImagePicker.openPicker(imagePickerOption)
-      .then(image => {
+      .then((image) => {
         setImageSource(image.path);
       })
-      .catch(err => {});
+      .catch((err) => {});
   };
 
   const modalOpen = () => {
@@ -259,7 +263,7 @@ function InfoScreen({navigation}) {
                   <CheckBox
                     disabled={false}
                     value={maleCheckBox}
-                    onValueChange={newValue =>
+                    onValueChange={(newValue) =>
                       femaleCheckBox
                         ? [
                             setMaleCheckBox(newValue),
@@ -271,13 +275,13 @@ function InfoScreen({navigation}) {
                             newValue ? onChange('G0101') : onChange(''),
                           ]
                     }
-                    tintColors={{true: '#FF7171'}}
+                    tintColors={{true: '#FF5F5F'}}
                   />
                   <Text style={styles.checkBoxText}>남성</Text>
                   <CheckBox
                     disabled={false}
                     value={femaleCheckBox}
-                    onValueChange={newValue =>
+                    onValueChange={(newValue) =>
                       maleCheckBox
                         ? [
                             setMaleCheckBox(!maleCheckBox),
@@ -289,7 +293,7 @@ function InfoScreen({navigation}) {
                             newValue ? onChange('G0102') : onChange(''),
                           ]
                     }
-                    tintColors={{true: '#FF7171'}}
+                    tintColors={{true: '#FF5F5F'}}
                   />
                   <Text style={styles.checkBoxText}>여성</Text>
                 </View>
@@ -309,7 +313,7 @@ function InfoScreen({navigation}) {
                   <SelectDropdown
                     data={MbtiGroup}
                     defaultButtonText="SELECT"
-                    renderDropdownIcon={isOpened => {
+                    renderDropdownIcon={(isOpened) => {
                       return (
                         <FontAwesome
                           name={isOpened ? 'chevron-up' : 'chevron-down'}
@@ -327,7 +331,7 @@ function InfoScreen({navigation}) {
                       fontSize: 16,
                       textAlign: 'left',
                     }}
-                    onSelect={selectedItem => {
+                    onSelect={(selectedItem) => {
                       onChange(selectedItem),
                         setValue(
                           'mbti1Code',
@@ -346,10 +350,10 @@ function InfoScreen({navigation}) {
                           selectedItem[3] == 'J' ? 'M0401' : 'M0402',
                         );
                     }}
-                    buttonTextAfterSelection={selectedItem => {
+                    buttonTextAfterSelection={(selectedItem) => {
                       return selectedItem;
                     }}
-                    rowTextForSelection={item => {
+                    rowTextForSelection={(item) => {
                       return item;
                     }}
                   />

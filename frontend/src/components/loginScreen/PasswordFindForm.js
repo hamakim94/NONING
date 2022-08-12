@@ -30,7 +30,7 @@ export default function PasswordFindForm({navigation}) {
     },
     resolver: yupResolver(schema),
   });
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     UseAxios.get('/users/passwords/find', {params: data})
       .then(() => {
         Alert.alert(
@@ -48,7 +48,7 @@ export default function PasswordFindForm({navigation}) {
           },
         );
       })
-      .catch(err => {
+      .catch((err) => {
         Alert.alert(
           '이메일, 이름 확인',
           '이름과 이메일을 다시 한 번 확인해주세요',
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     marginBottom: '5%',
     width: '90%',
     color: 'white',
-    height: '40%',
+    height: 40,
     backgroundColor: 'rgba(255, 95, 95, 0.4)',
     borderRadius: 6,
     justifyContent: 'center',
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     marginBottom: '5%',
     width: '90%',
     color: 'white',
-    height: '40%',
+    height: 40,
     backgroundColor: '#FF5F5F',
     borderRadius: 6,
     justifyContent: 'center',

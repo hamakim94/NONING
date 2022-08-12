@@ -74,7 +74,7 @@ export default function LoginForm({navigation}) {
       style={{
         flex: 2,
       }}>
-      <View style={{paddingHorizontal: '5%'}}>
+      <View>
         <InputLabel name="이메일"></InputLabel>
         <NoCheckInput
           control={control}
@@ -86,7 +86,7 @@ export default function LoginForm({navigation}) {
           inputRef={inputRef}
           index={0}></NoCheckInput>
       </View>
-      <View style={{paddingHorizontal: '5%'}}>
+      <View>
         <InputLabel name="비밀번호"></InputLabel>
         <NoCheckInput
           control={control}
@@ -137,18 +137,18 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: '5%',
-    width: '90%',
+    width: '100%',
     color: '#FFFFFF',
-    height: '40%',
+    height: 40,
     backgroundColor: 'rgba(255, 95, 95, 0.4)',
     borderRadius: 6,
     justifyContent: 'center',
   },
   checkButton: {
     marginBottom: '5%',
-    width: '90%',
+    width: '100%',
     color: '#FFFFFF',
-    height: '40%',
+    height: 40,
     backgroundColor: '#FF5F5F',
     borderRadius: 6,
     justifyContent: 'center',

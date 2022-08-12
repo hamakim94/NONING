@@ -311,16 +311,15 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: 'absolute',
-    top: screenHeight * 0.6,
-    height: 200,
+    top: 250,
+    height: 110,
     left: 16,
     right: 16,
     alignItems: 'center',
     justifyContent: 'center',
   },
   button: {
-    marginBottom: '5%',
-    width: 80,
+    width: '100%',
     color: '#FFFFFF',
     height: 30,
     backgroundColor: '#808080',
@@ -328,10 +327,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   checkButton: {
-    width: 80,
+    width: '100%',
     height: 30,
     color: '#FFFFFF',
-
     backgroundColor: '#FF7171',
     borderRadius: 6,
     justifyContent: 'center',

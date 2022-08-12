@@ -76,6 +76,9 @@ function PasswordEditScreen({navigation}) {
             })
             .catch((err) => {
               console.log(err);
+              Alert.alert('비밀번호 오류', '비밀번호가 일치하지 않습니다', {
+                text: '확인',
+              });
             });
         },
       },
@@ -177,6 +180,7 @@ function PasswordEditScreen({navigation}) {
           <Text style={styles.errorText}></Text>
         )}
       </View>
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           index={3}
@@ -200,7 +204,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   labelStar: {
-    color: '#FF7171',
+    color: '#FF5F5F',
     textAlignVertical: 'top',
     paddingBottom: '1%',
   },
@@ -250,7 +254,7 @@ const styles = StyleSheet.create({
 
   buttonContainer: {
     position: 'absolute',
-    top: screenHeight * 0.6,
+    top: 150,
     height: 200,
     left: 16,
     right: 16,
@@ -259,20 +263,18 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    marginBottom: '5%',
-    width: 100,
+    width: '100%',
     color: '#FFFFFF',
-    height: 30,
+    height: 40,
     backgroundColor: '#808080',
     borderRadius: 6,
     justifyContent: 'center',
   },
   checkButton: {
-    width: 100,
-    height: 30,
+    width: '100%',
+    height: 40,
     color: '#FFFFFF',
-
-    backgroundColor: '#FF7171',
+    backgroundColor: '#FF5F5F',
     borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
@@ -285,7 +287,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   errorText: {
-    color: '#FF7171',
+    color: '#FF5F5F',
     fontSize: 10,
     fontWeight: 'bold',
     marginLeft: '1%',
