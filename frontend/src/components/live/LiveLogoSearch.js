@@ -33,12 +33,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    height: '4%',
-    marginBottom: 5,
+    height: '7%',
+    padding: '3%',
   },
   logo: {
-    width: 50,
-    height: 90,
+    width: 70,
     resizeMode: 'contain',
   },
   iconsContainer: {

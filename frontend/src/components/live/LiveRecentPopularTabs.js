@@ -1,20 +1,14 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import React, {useState} from 'react';
 
-const filterButtons = [
-  {name: '최신순'},
-  {name: '인기순'},
-];
+const filterButtons = [{name: '최신순'}, {name: '인기순'}];
 
 function LiveRecentPopularTabs({setIsPopular}) {
   const [activeButton, setActiveButton] = useState('최신순'); // useState, 어떤게 active한지 알려주는 부분
-  
-  const FilterButton = ({filterbutton}) => (    // 이제 버튼 하나씩 올거임
+
+  const FilterButton = (
+    {filterbutton}, // 이제 버튼 하나씩 올거임
+  ) => (
     <TouchableOpacity
       onPress={() => [
         setActiveButton(filterbutton.name),
@@ -34,8 +28,7 @@ function LiveRecentPopularTabs({setIsPopular}) {
 
   return (
     <View style={styles.wrapper}>
-      <View
-        style={{ height: 30,  flexDirection:'row', justifyContent:'flex-end'}}>
+      <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
         {filterButtons.map((filterbutton, index) => (
           <View
             key={index}
@@ -53,6 +46,7 @@ export default LiveRecentPopularTabs;
 
 const styles = StyleSheet.create({
   wrapper: {
+    height: '5%',
     width: '100%',
   },
 
@@ -61,7 +55,7 @@ const styles = StyleSheet.create({
     height: 25,
     color: '#FF5F5F',
     fontSize: 13,
-    paddingHorizontal:3,
+    paddingHorizontal: 3,
   },
 
   notActive: {

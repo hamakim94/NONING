@@ -19,11 +19,12 @@ export default function BoardHeader({board, navigation}) {
 
 const styles = StyleSheet.create({
   liveContainer: {
-    height: '13%',
+    flex: 1.2,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    margin: '1%',
+    paddingHorizontal: '3%',
+    paddingTop: '2%',
   },
   liveButton: (live) => ({
     width: 40,
@@ -33,15 +34,12 @@ const styles = StyleSheet.create({
     borderWidth: live ? 2 : 1,
     fontWeight: 'bold',
     fontSize: 12,
-    margin: 2,
     textAlign: 'center',
     textAlignVertical: 'center',
   }),
   detail: (user_vote) => ({
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 1,
-    marginHorizontal: 5,
     color: user_vote > 0 ? '#c9c9c9' : '#ffffff',
   }),
 });

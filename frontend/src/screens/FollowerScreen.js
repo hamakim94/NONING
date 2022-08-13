@@ -27,27 +27,23 @@ function FollowerScreen({route, navigation}) {
     UseAxios.get(`/follows/list/${id}`)
       .then((res) => {
         setFollowData(res.data);
-        console.log(followData);
-        console.log('페이지 주인:' + id);
+        console.log('useEffect 페이지 주인:' + id);
       })
       .then(console.log(followData));
   }, [isFocused, fake]);
 
   const followDelete = (userId) => {
-    console.log('팔취');
+    console.log('팔로우삭제');
     UseAxios.post(`/follows/followers/delete`, {
       userId: userData.userId,
       targetUserId: userId,
     })
-      .then((res) => {
-        console.log(res.headers);
-        console.log(followData.followers);
-        console.log(userId);
+      .then(() => {
+        setFake(!fake);
       })
       .catch((err) => {
         console.log(err);
       });
-    [isFocused];
   };
 
   const remove = (userId) => {
@@ -58,7 +54,7 @@ function FollowerScreen({route, navigation}) {
         {
           text: '삭제',
           onPress: () => {
-            [fakeFollowDelete(userId), followDelete(userId), setFake(!fake)];
+            [followDelete(userId)];
           },
         },
         {text: '취소', onPress: () => {}},
@@ -68,13 +64,6 @@ function FollowerScreen({route, navigation}) {
         onDismiss: () => {},
       },
     );
-  };
-
-  const fakeFollowDelete = (userId) => {
-    setFollowData({
-      ...followData,
-      followers: followData.followers.filter((e) => e !== userId),
-    });
   };
 
   const ItemView = ({item}) => {

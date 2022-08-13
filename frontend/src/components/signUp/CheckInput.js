@@ -1,7 +1,8 @@
 import {Text, View, TextInput, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {Controller} from 'react-hook-form';
 import UseAxios from '../../util/UseAxios';
+import UserContext from '../../util/UserContext';
 
 function CheckInput({
   control,
@@ -14,8 +15,10 @@ function CheckInput({
   inputRef,
   errorMessage,
   index,
+  edit,
 }) {
   const blank = /\s/g;
+  const {userData} = useContext(UserContext);
   return (
     <>
       <Controller
@@ -70,6 +73,22 @@ function CheckInput({
                           alert('사용 중인 이메일입니다.');
                           setCheck(false);
                         })
+                    : edit
+                    ? value === !userData.nickname
+                      ? UseAxios.post('/users/duplications/check', null, {
+                          params: {
+                            nickname: value,
+                          },
+                        })
+                          .then(() => {
+                            alert('확인되었습니다.');
+                            setCheck(true);
+                          })
+                          .catch(() => {
+                            alert('사용 중인 별명입니다.');
+                            setCheck(false);
+                          })
+                      : setCheck(true)
                     : UseAxios.post('/users/duplications/check', null, {
                         params: {
                           nickname: value,

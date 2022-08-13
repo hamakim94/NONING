@@ -13,7 +13,7 @@ const LoginScreen = ({navigation}) => (
       </View>
       <LoginForm navigation={navigation}></LoginForm>
       <View style={styles.passwordSignupContainer}>
-        <View style={{flex: 1, alignItems: 'center', paddingLeft: '5%'}}>
+        <View style={{flex: 1, alignItems: 'center'}}>
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('PasswordFindScreen', {
@@ -24,7 +24,7 @@ const LoginScreen = ({navigation}) => (
           </TouchableOpacity>
         </View>
 
-        <View style={{flex: 1, alignItems: 'center', paddingRight: '5%'}}>
+        <View style={{flex: 1, alignItems: 'center'}}>
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('SignUpNav', {screen: 'SignUpNav'})
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    paddingHorizontal: 0,
+    paddingHorizontal: 16,
   },
   logoContainer: {
     flex: 1,
@@ -60,8 +60,8 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   logo: {
-    width: 140,
-    height: 110,
+    width: 135,
+    height: 105,
   },
 });
 

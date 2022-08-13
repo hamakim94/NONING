@@ -10,7 +10,7 @@ import React, {useContext} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import UserContext from '../../util/UserContext';
 
-export default function LiveFooter({live, setLives}) {
+export default function LiveFooter({live, setLives, navigation}) {
   const {userData} = useContext(UserContext);
 
   const like = () => {
@@ -43,7 +43,7 @@ export default function LiveFooter({live, setLives}) {
   return (
     <View style={styles.footerContainer}>
       <View style={styles.writerContainer}>
-        <Text style={{color: '#000000'}}>호스트 : </Text>
+        {/* <Text style={{color: '#000000'}}>호스트 : </Text> */}
         <TouchableOpacity
           style={{flexDirection: 'row', alignItems: 'center'}}
           onPress={() => {
@@ -60,22 +60,32 @@ export default function LiveFooter({live, setLives}) {
                 ? {uri: live.writerImg}
                 : require('../../assets/DefaultProfile.jpg')
             }></Image>
-          <Text style={{paddingLeft: 5, color: '#000000'}}>
+          <Text style={{paddingLeft: 5, color: '#000000', fontSize: 13}}>
             {live.writerNickname}{' '}
           </Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.numberLikeContainer}>
-        <Text style={{color: 'rgba(255,95,95,1)', fontWeight: 'bold'}}>
-          {live.opt1Selected}{' '}
+        <Text
+          style={{
+            color: 'rgba(255,95,95,1)',
+            fontWeight: 'bold',
+            fontSize: 13,
+          }}>
+          {live.liveOpt1Selected}{' '}
         </Text>
         <Text style={{color: '#000000'}}>vs </Text>
-        <Text style={{color: 'rgba(73, 211, 202,1)', fontWeight: 'bold'}}>
-          {live.opt2Selected}{' '}
+        <Text
+          style={{
+            color: 'rgba(73, 211, 202,1)',
+            fontWeight: 'bold',
+            fontSize: 13,
+          }}>
+          {live.liveOpt2Selected}{' '}
         </Text>
-        <Text style={{paddingRight: 5, color: '#000000'}}>
-          ({live.opt1Selected + live.opt2Selected})
+        <Text style={{paddingRight: 5, color: '#000000', fontSize: 13}}>
+          ({live.liveOpt1Selected + live.liveOpt2Selected})
         </Text>
         <TouchableOpacity
           style={{margin: 1}}
@@ -87,7 +97,7 @@ export default function LiveFooter({live, setLives}) {
           <AntDesign
             style={styles.iconColor(live.userLike)}
             name="heart"
-            size={20}
+            size={17}
           />
         </TouchableOpacity>
       </View>
