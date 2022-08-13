@@ -3,29 +3,29 @@ import express from 'express';
 // import { createServer } from "http";
 import { Server } from "socket.io";
 import fs from "fs";
-import path from "path";
-import HTTPS from 'https';
+// import path from "path";
+import https from 'https';
 // const fs = require('fs');
 // const path = require('path');
 // const HTTPS = require('https');
 
 const app = express();
 var domain = 'i7a202.p.ssafy.io';
-const sslport = 443; 
+// const sslport = process.env.PORT || 443; 
 var io;
 
 try {
   const option = {
-    ca: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/fullchain.pem'),
-    key: fs.readFileSync(path.resolve(process.cwd(), '/etc/letsencrypt/live/' + domain + '/privkey.pem'), 'utf8').toString(),
-    cert: fs.readFileSync(path.resolve(process.cwd(), '/etc/letsencrypt/live/' + domain + '/cert.pem'), 'utf8').toString(),
+    // ca: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/fullchain.pem'),
+    key: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/cert.pem'),
   };
 
-  HTTPS.createServer(option, app).listen(sslport, () => {
+  https.createServer(option, app).listen(3000, () => {
     console.log("[HTTPS] server started : server listening on port : 3000");
   });
 
-  io = new Server(HTTPS);
+  io = new Server(https);
 } catch (error){
   console.log("[HTTPS] server failed");
   console.log(error);
