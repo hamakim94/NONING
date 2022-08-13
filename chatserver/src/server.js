@@ -3,7 +3,7 @@ import express from 'express';
 // import { createServer } from "http";
 import { Server } from "socket.io";
 import fs from "fs";
-import "path";
+import path from "path";
 import HTTPS from 'https';
 // const fs = require('fs');
 // const path = require('path');
