@@ -48,7 +48,7 @@ function UserSearchScreen({navigation}) {
 
   const ItemView = ({item}) => {
     return (
-      <View>
+      <View style={{}}>
         <TouchableOpacity
           style={{flexDirection: 'row', flex: 1.5}}
           onPress={() =>

@@ -8,6 +8,8 @@ import YourPageScreen from '../screens/YourPageScreen';
 import FollowerScreen from '../screens/FollowerScreen';
 import FollowingScreen from '../screens/FollowingScreen';
 import LoginNav from './LoginNav';
+import FlowBlank from '../components/flow/FlowBlank';
+import PlusScreen from '../screens/bottomTab/PlusScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +62,16 @@ export default function FlowNav() {
           headerBackTitleVisible: false,
           headerShown: false,
         }}
+      />
+      <Stack.Screen
+        name="FlowBlank"
+        component={FlowBlank}
+        options={{title: '플로우공백페이지', headerShown: false}}
+      />
+      <Stack.Screen
+        name="PlusScreen"
+        component={PlusScreen}
+        options={{title: '등록페이지', headerShown: false}}
       />
     </Stack.Navigator>
   );
