@@ -16,13 +16,13 @@ var io;
 
 try {
   const option = {
-    // ca: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/fullchain.pem'),
+    ca: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/fullchain.pem'),
     key: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/privkey.pem'),
     cert: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/cert.pem'),
   };
 
   https.createServer(option, app).listen(3000, () => {
-    console.log("[HTTPS] server started : server listening on port : 3000");
+    console.log("[HTTPS] server started (server listening on port : 3000)");
   });
 
   io = new Server(https);
