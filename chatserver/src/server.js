@@ -1,14 +1,43 @@
 import UseAxios from './UseAxios.js';
 import express from 'express';
-import { createServer } from "http";
+// import { createServer } from "http";
 import { Server } from "socket.io";
-const app = express();
-const http = createServer(app);
-const io = new Server(http);
+import fs from "fs";
+import "path";
+import HTTPS from 'https';
+// const fs = require('fs');
+// const path = require('path');
+// const HTTPS = require('https');
 
-http.listen(3000, () => {
-  console.log('server listening on port : 3000');
-});
+const app = express();
+var domain = 'i7a202.p.ssafy.io';
+const sslport = 443; 
+var io;
+
+try {
+  const option = {
+    ca: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/fullchain.pem'),
+    key: fs.readFileSync(path.resolve(process.cwd(), '/etc/letsencrypt/live/' + domain + '/privkey.pem'), 'utf8').toString(),
+    cert: fs.readFileSync(path.resolve(process.cwd(), '/etc/letsencrypt/live/' + domain + '/cert.pem'), 'utf8').toString(),
+  };
+
+  HTTPS.createServer(option, app).listen(sslport, () => {
+    console.log("[HTTPS] server started : server listening on port : 3000");
+  });
+
+  io = new Server(HTTPS);
+} catch (error){
+  console.log("[HTTPS] server failed");
+  console.log(error);
+}
+
+// const http = createServer(app);
+// const io = new Server(http);
+
+
+// http.listen(3000, () => {
+//   console.log('server listening on port : 3000');
+// });
 
 let userList = new Map();
 
