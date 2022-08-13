@@ -32,6 +32,7 @@ export default function ChatScreen({route, navigation}) {
   const [userList, setUserList] = useState(users);
   const [boardData, setBoardData] = useState(route.params.data);
   const [messageList, setMessageList] = useState(messages);
+  const [waitButton, setWaitButton] = useState(false);
   const [msg, setMsg] = useState();
   const {userData} = useContext(UserContext);
   const chatRef = useRef(null);
@@ -82,12 +83,12 @@ export default function ChatScreen({route, navigation}) {
       });
 
       socket.on('send', (userVoteData, msg, reg) => {
-        console.log(reg.slice(0, -3));
         const msgData = {
           nickname: userVoteData.nickname,
           userVote: userVoteData.userVote,
           msgId: chatRef.current,
           msg: msg,
+          reg: reg,
         };
         setMessageList((messageList) => [...messageList, msgData]);
       });
@@ -114,6 +115,7 @@ export default function ChatScreen({route, navigation}) {
           msgId: chatRef.current,
           msg: userVoteData.nickname + ' 님이 배신하셨습니다.',
           betray: true,
+          userVote: userVoteData.userVote,
         };
 
         setMessageList((messageList) => [...messageList, msgData]);
@@ -123,7 +125,7 @@ export default function ChatScreen({route, navigation}) {
         console.log(err.message);
       });
 
-      socket.on('left', (userVoteData, userCnt) => {
+      socket.on('left', (userVoteData) => {
         const msgData = {
           msgId: chatRef.current,
           msg: userVoteData.nickname + ' 님이 퇴장하셨습니다. ',
@@ -176,6 +178,8 @@ export default function ChatScreen({route, navigation}) {
   };
 
   const betray = () => {
+    // 쿨타임 먼저 줘버리기
+    setWaitButton(true);
     // 먼저 http 통신 관련 처리
     UseAxios.put(`/chats/${boardData.boardId}/betray`, {
       userId: userData.userId,
@@ -189,6 +193,8 @@ export default function ChatScreen({route, navigation}) {
           ...boardData,
           userVote: boardData.userVote == 1 ? 2 : 1,
         }));
+
+        setTimeout(() => setWaitButton(false), 60000);
       })
       .catch((err) => {
         console.log(err);
@@ -207,11 +213,12 @@ export default function ChatScreen({route, navigation}) {
         </View>
         <View
           style={{
-            // flex: 0.6,
-            flex: 0.6,
+            flex: 0.8,
             borderBottomWidth: 1,
+            borderBottomColor: '#A6A6A6',
             paddingHorizontal: '5%',
-            minHeight: 30,
+            paddingBottom: '1%',
+            minHeight: 50,
             maxHeight: 70,
           }}>
           <FlatList
@@ -221,14 +228,22 @@ export default function ChatScreen({route, navigation}) {
             keyExtractor={userKey}></FlatList>
         </View>
         <View
-          style={{flex: 0.9, minHeight: 50, maxHeight: 80, marginBottom: '5%'}}>
-          <ChatBar betray={betray} boardData={boardData} />
+          style={{
+            flex: 0.9,
+            marginVertical: '2.5%',
+            minHeight: 60,
+            maxHeight: 100,
+          }}>
+          <ChatBar
+            betray={betray}
+            boardData={boardData}
+            waitButton={waitButton}
+          />
         </View>
-        <View style={{flex: 4.2, paddingHorizontal: '5%'}}>
+        <View style={{flex: 3.9, paddingHorizontal: '5%', minHeight: 0}}>
           <FlatList
             ref={scrollRef}
             onContentSizeChange={() => {
-              // setTimeout(() => , 500);
               scrollRef.current.scrollToEnd();
             }}
             data={messageList}
@@ -236,19 +251,47 @@ export default function ChatScreen({route, navigation}) {
             keyExtractor={msgKey}></FlatList>
         </View>
       </View>
-      <View style={{borderWidth: 1, flexDirection: 'row', maxHeight: 40}}>
-        <View style={{flex: 0.7, justifyContent: 'center', borderWidth: 1}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          maxHeight: 40,
+          borderTopWidth: 0.5,
+          borderColor: '#A6A6A6',
+          paddingHorizontal: 9,
+        }}>
+        <View
+          style={{
+            flex: 0.7,
+            justifyContent: 'center',
+          }}>
           <Text style={{textAlign: 'center'}}>버튼</Text>
         </View>
-        <View style={{flex: 4.5}}>
+        <View
+          style={{
+            flex: 4.5,
+            justifyContent: 'center',
+          }}>
           <TextInput
             onChangeText={(e) => onChange(e)}
+            style={{paddingVertical: 5}}
             value={msg}
-            onSubmitEditing={onSubmit}></TextInput>
+            onSubmitEditing={onSubmit}
+            selectionColor={'#FF5F5F'}
+            placeholder={'채팅을 입력해주세요.'}></TextInput>
         </View>
-        <View style={{flex: 0.8, justifyContent: 'center', borderWidth: 1}}>
+        <View
+          style={{
+            flex: 0.8,
+            justifyContent: 'center',
+          }}>
           <TouchableOpacity onPress={onSubmit}>
-            <Text style={{textAlign: 'center'}}>전송</Text>
+            <Text
+              style={{
+                textAlign: 'center',
+                color: '#FF5F5F',
+              }}>
+              전송
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

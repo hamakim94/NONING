@@ -16,9 +16,9 @@ io.on('connection', (socket) => {
   console.log('connected');
 
   // 채팅 대기방 입장
-  socket.on('wait', () => {
-    let userDataList = Array.from(
-      userList.get(boardData.boardId),
+  socket.on('wait', (boardId) => {
+    let userDataList = userList.get(boardId) == undefined ? null : Array.from(
+      userList.get(boardId),
       (socket) => socket.userVoteData,
     );
     socket.emit('wait', userDataList);
@@ -68,7 +68,7 @@ io.on('connection', (socket) => {
 
   socket.on('send', (msg) => {
     const userVoteData = socket.userVoteData;
-    const reg = new Date().toLocaleTimeString();
+    const reg = new Date().toLocaleTimeString('ko-KR');
     io.to(socket.boardId).emit('send', userVoteData, msg, reg);
   });
 

@@ -1,17 +1,37 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 
-export default function ChatBar({betray, boardData, waitButton}) {
+export default function ChatInfoBar({navigation, boardData}) {
   return (
-    <View style={{flex: 1, paddingHorizontal: 50}}>
+    <View
+      style={{
+        flex: 1,
+        paddingHorizontal: 16,
+      }}>
       <View
         style={{
-          flex: 4,
+          flex: 3,
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          marginBottom: 30,
+        }}>
+        <Text
+          style={{
+            color: '#000000',
+            fontWeight: 'bold',
+            fontSize: 20,
+            textAlign: 'center',
+          }}>
+          {boardData.title}
+        </Text>
+      </View>
+      <View
+        style={{
+          flex: 1.7,
           flexDirection: 'row',
           minHeight: 50,
           maxHeight: 50,
-          marginTop: '2%',
-          marginBottom: '2%',
+          marginBottom: 20,
         }}>
         <View style={[styles.barLeftContainer(boardData)]}>
           <Text style={styles.barLeftText(boardData)}>{boardData.opt1}</Text>
@@ -38,26 +58,22 @@ export default function ChatBar({betray, boardData, waitButton}) {
       </View>
       <View
         style={{
-          flex: 2,
+          flex: 1.2,
           justifyContent: 'center',
           alignSelf: 'center',
+          marginBottom: 40,
         }}>
         <TouchableOpacity
-          style={{
-            borderWidth: 1,
-            height: 25,
-            justifyContent: 'center',
-            borderRadius: 5,
-          }}
-          onPress={
-            waitButton ? () => alert('60초 뒤에 다시 사용가능합니다.') : betray
-          }>
+          style={{borderRadius: 3, borderWidth: 1, backgroundColor: '#FFFFFF'}}
+          onPress={() => navigation.navigate('ChatScreen', {data: boardData})}>
           <Text
             style={{
               textAlign: 'center',
               marginHorizontal: 7,
+              marginVertical: 5,
+              color: '#000000',
             }}>
-            배신하기
+            채팅방 입장
           </Text>
         </TouchableOpacity>
       </View>
