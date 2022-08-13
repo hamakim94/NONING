@@ -2,6 +2,14 @@ package com.fivenonjangi.noning.data.repository.live;
 
 import com.fivenonjangi.noning.data.dto.board.BoardResponseDTO;
 import com.fivenonjangi.noning.data.dto.live.LiveResponseDTO;
+import com.fivenonjangi.noning.data.entity.board.QBoard;
+import com.fivenonjangi.noning.data.entity.board.QBoardData;
+import com.fivenonjangi.noning.data.entity.board.QBoardLike;
+import com.fivenonjangi.noning.data.entity.board.QBoardVote;
+import com.fivenonjangi.noning.data.entity.chat.QChatRoom;
+import com.fivenonjangi.noning.data.entity.comment.QComment;
+import com.fivenonjangi.noning.data.entity.user.QUser;
+import com.fivenonjangi.noning.data.entity.user.QUserData;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
@@ -28,6 +36,13 @@ public class LiveRepositoryImpl implements LiveRepositoryCustom{
         this.queryFactory = queryFactory;
     }
 
+    QBoard board = QBoard.board;
+    QBoardData boardData = QBoardData.boardData;
+    QBoardLike boardLike = QBoardLike.boardLike;
+    QBoardVote boardVote = QBoardVote.boardVote;
+    QUserData userData = QUserData.userData;
+    QChatRoom chatRoom = QChatRoom.chatRoom;
+
     @Override
     public List<LiveResponseDTO> findByUserIdAndCateCode(long userId, String categoryCode) {
         List<Tuple> tuples = queryFactory.select(board.id, board.title, board.opt1, board.opt2, board.categoryCode, board.reg, board.isLive, board.liveId, board.writer.id,
@@ -50,12 +65,12 @@ public class LiveRepositoryImpl implements LiveRepositoryCustom{
                 .leftJoin(userData)
                 .on(board.writer.id.eq(userData.user.id))
                 .leftJoin(boardLike)
-                .on(board.id.eq(boardLike.board.id).and(boardLike.user.id.eq(userId)))
+                .on(board.id.eq(boardLike.board.id).and(board.isLive.eq(true)).and(boardLike.user.id.eq(userId)))
                 .leftJoin(boardVote)
                 .on(board.id.eq(boardVote.board.id).and(boardVote.user.id.eq(userId)))
                 .leftJoin(chatRoom)
                 .on(board.id.eq(chatRoom.board.id))
-                .where(board.isDeleted.eq(false).and(categoryFilter(categoryCode)))
+                .where(board.isDeleted.eq(false).and(board.isLive.eq(true)).and(categoryFilter(categoryCode)))
                 .fetch();
 
         List<LiveResponseDTO> result = new ArrayList<LiveResponseDTO>();
@@ -77,8 +92,10 @@ public class LiveRepositoryImpl implements LiveRepositoryCustom{
                     .opt1Selected(tuple.get(boardData.opt1Selected))
                     .opt2Selected(tuple.get(boardData.opt2Selected))
                     .likes(tuple.get(boardData.likes))
-                    .userLike(tuple.get(15, Boolean.class))
-                    .userVote(tuple.get(16, Byte.class))
+                    .liveOpt1Selected(tuple.get(chatRoom.opt1Selected) == null ? 0 : tuple.get(chatRoom.opt1Selected))
+                    .liveOpt2Selected(tuple.get(chatRoom.opt2Selected) == null ? 0 : tuple.get(chatRoom.opt2Selected))
+                    .userLike(tuple.get(17, Boolean.class))
+                    .userVote(tuple.get(18, Byte.class))
                     .build();
 
             result.add(liveResponseDTO);

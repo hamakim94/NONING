@@ -18,9 +18,17 @@ public class ChatServiceImpl implements ChatService{
     public ChatRoomResponseDTO enterRoom(long boardId, byte vote) {
         Board board = boardRepository.getReferenceById(boardId);
         ChatRoom chatRoom = chatRoomRepository.findByBoardIdEquals(boardId);
-        if (chatRoom==null) chatRoom = ChatRoom.builder().board(board).build();
+        boolean isNew = false;
+        if (chatRoom==null) {
+            chatRoom = ChatRoom.builder().board(board).build();
+            isNew = true;
+        }
         chatRoom.enter(vote);
         chatRoom = chatRoomRepository.save(chatRoom);
+        if (isNew) {
+            board.openLive(chatRoom.getId());
+            boardRepository.save(board);
+        }
         return ChatRoomResponseDTO.builder()
                 .opt1Selected(chatRoom.getOpt1Selected())
                 .opt2Selected(chatRoom.getOpt2Selected())
@@ -54,5 +62,8 @@ public class ChatServiceImpl implements ChatService{
     @Override
     public void deleteRoom(long boardId) {
         chatRoomRepository.deleteByBoardId(boardId);
+        Board board = boardRepository.findById(boardId).get();
+        board.closeLive();
+        boardRepository.save(board);
     }
 }
