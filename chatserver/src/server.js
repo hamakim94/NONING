@@ -21,11 +21,11 @@ try {
     cert: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/cert.pem'),
   };
 
-  https.createServer(option, app).listen(3000, () => {
+  const httpsServer = https.createServer(option, app).listen(3000, () => {
     console.log("[HTTPS] server started (server listening on port : 3000)");
   });
 
-  io = new Server(https);
+  io = new Server(httpsServer);
 } catch (error){
   console.log("[HTTPS] server failed");
   console.log(error);
