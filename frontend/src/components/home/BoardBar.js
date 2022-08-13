@@ -1,9 +1,11 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useContext} from 'react';
 import UserContext from '../../util/UserContext';
+import DetailContext from '../boardDetail/DetailContext';
 // 투표 : /api/boards/{boardid}/vote
 export default function BoardBar({board, setBoards, navigation}) {
   const {userData, setUserData} = useContext(UserContext);
+  const {setParticipants} = useContext(DetailContext);
   // 이제 여기서 props로 넣어줄거야, 그래서 voted가 1 이상이면 터치 못 하게 해야해
   const opt1_ratio = Math.round(
     (board.opt1Selected / (board.opt1Selected + board.opt2Selected)) * 100,

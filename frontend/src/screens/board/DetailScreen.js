@@ -17,7 +17,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import UseAxios from '../../util/UseAxios';
 import {Avatar} from '@rneui/themed';
 
-const renderTabBar = props => (
+const renderTabBar = (props) => (
   <TabBar
     {...props}
     indicatorStyle={{
@@ -83,17 +83,19 @@ export default function DetailScreen({navigation, route}) {
   useEffect(() => {
     if (isFocused) {
       UseAxios.get(`/boards/${boardId}`)
-        .then(res => {
+        .then((res) => {
           setBoard(res.data);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
       UseAxios.get(`/boards/${boardId}/users`)
-        .then(res => {
+        .then((res) => {
+          console.log('참여자');
+          console.log(res.data);
           setParticipants(res.data);
         })
-        .catch(err => {});
+        .catch((err) => {});
     }
   }, [isFocused]);
 
@@ -103,19 +105,19 @@ export default function DetailScreen({navigation, route}) {
         userId: userData.userId,
       },
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
   const unlike = () => {
     UseAxios.delete(`/boards/${board.boardId}/unlike?userId=${userData.userId}`)
-      .then(res => {
+      .then((res) => {
         console.log(res);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -129,7 +131,7 @@ export default function DetailScreen({navigation, route}) {
       userId: userData.userId,
       vote: board.userVote == 1 ? 2 : 1,
     })
-      .then(res => {
+      .then((res) => {
         setBoard({
           ...board,
           opt1Selected: res.data.opt1,
@@ -137,25 +139,25 @@ export default function DetailScreen({navigation, route}) {
           userVote: board.userVote == 1 ? 2 : 1,
         });
         setParticipants(
-          participants.map(it =>
+          participants.map((it) =>
             it.id === userData.userId
               ? {...it, vote: it.vote == 1 ? 2 : 1}
               : it,
           ),
         );
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
   const deleteBoard = () => {
     if (userData.userId === board.writerId)
       UseAxios.put(`/boards/${boardId}/delete`)
-        .then(res => {
-          navigation.navigate(route.name);
+        .then((res) => {
+          navigation.goBack();
           console.log(res);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     else {
@@ -163,7 +165,7 @@ export default function DetailScreen({navigation, route}) {
     }
   };
   return (
-    <DetailContext.Provider value={{boardId, participants}}>
+    <DetailContext.Provider value={{boardId, participants, setParticipants}}>
       <View style={styles.container}>
         <View style={{flex: 2.4, alignItems: 'center'}}>
           <View style={styles.titleContainer}>
@@ -295,7 +297,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  iconColor: userLike => ({
+  iconColor: (userLike) => ({
     color: userLike ? '#FF5F5F' : '#A6A6A6',
   }),
   avartarContainer: {
