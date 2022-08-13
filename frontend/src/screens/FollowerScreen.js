@@ -74,7 +74,7 @@ function FollowerScreen({route, navigation}) {
             style={{flexDirection: 'row', flex: 1.5, margin: '1%'}}
             navigation={navigation}
             onPress={() =>
-              navigation.navigate('YourPageScreen', {id: item.userId})
+              navigation.push('YourPageScreen', {id: item.userId})
             }>
             <View
               style={{

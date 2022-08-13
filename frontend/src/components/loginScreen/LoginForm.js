@@ -102,7 +102,7 @@ export default function LoginForm({navigation}) {
           login={true}
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
-          placeholder={'비밀번호 : 8~16자 영문, 숫자, 특수문자'}></NoCheckInput>
+          placeholder={'8~16자 영문, 숫자, 특수문자'}></NoCheckInput>
       </View>
       <View style={{alignItems: 'center', marginVertical: '3%'}}>
         <TouchableOpacity

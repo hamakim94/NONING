@@ -20,7 +20,7 @@ const renderTabBar = (props) => (
   <TabBar
     {...props}
     indicatorStyle={{
-      backgroundColor: '#FF5A6E',
+      backgroundColor: '#FF5F5F',
       width: '8%',
       marginHorizontal: '7%',
     }}
@@ -42,7 +42,7 @@ const renderTabBar = (props) => (
         style={
           focused
             ? {
-                color: '#FF5A6E',
+                color: '#FF5F5F',
                 margin: 0,
                 padding: 0,
                 fontWeight: 'bold',
@@ -190,7 +190,7 @@ export default function YourPageScreen({route, navigation}) {
             <View style={styles.follows}>
               <TouchableOpacity
                 onPress={() =>
-                  navigation.navigate('FollowerScreen', {
+                  navigation.push('FollowerScreen', {
                     id: yourPageData.user.userId,
                   })
                 }>
@@ -211,7 +211,7 @@ export default function YourPageScreen({route, navigation}) {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() =>
-                  navigation.navigate('FollowingScreen', {
+                  navigation.push('FollowingScreen', {
                     id: yourPageData.user.userId,
                   })
                 }>
