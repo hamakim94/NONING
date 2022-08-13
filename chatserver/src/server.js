@@ -16,9 +16,9 @@ var io;
 
 try {
   const option = {
-    ca: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/fullchai.pem'),
-    key: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/privke.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/cer.pem'),
+    // ca: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/fullchain.pem'),
+    key: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/cert.pem'),
   };
 
   const httpsServer = https.createServer(option, app).listen(3000, () => {
