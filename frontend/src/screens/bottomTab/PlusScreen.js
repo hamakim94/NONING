@@ -96,7 +96,7 @@ export default function PlusScreen({navigation}) {
           </View>
           <InputLabel name="논쟁" star="*" />
           <NoCheckInputText
-            // placeholder='논쟁을 입력해주세요'
+            //placeholder="논쟁 제목을 입력해 주세요"
             control={control}
             style={titleStyle}
             setStyle={setTitleStyle}
@@ -199,7 +199,7 @@ export default function PlusScreen({navigation}) {
                   borderBottomLeftRadius: 5,
                   borderWidth: 1,
                   width: '55%',
-                  backgroundColor: 'rgba(255,90,110,0.2)',
+                  backgroundColor: 'rgba(255,95,95,0.2)',
                   justifyContent: 'center',
                 }}>
                 <Text
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   errorText: {
-    color: '#FF7171',
+    color: '#FF5F5F',
     fontSize: 10,
     fontWeight: 'bold',
     marginLeft: '1%',
@@ -320,9 +320,10 @@ const styles = StyleSheet.create({
   },
   checkButton: {
     marginBottom: '5%',
-    width: '23%',
+    height: 40,
+    width: '100%',
     color: 'white',
-    backgroundColor: '#FF7171',
+    backgroundColor: '#FF5F5F',
     borderRadius: 6,
     justifyContent: 'center',
     padding: '2.5%',

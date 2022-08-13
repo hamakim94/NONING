@@ -59,7 +59,7 @@ function HomeScreen({navigation}) {
   };
   const onRefresh = () => {
     if (!refreshing) {
-      getData();
+      getData(), [isFocused];
     }
   };
   useEffect(() => getData(), [filterName, userData, isPopular, isFocused]);

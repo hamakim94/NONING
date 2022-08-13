@@ -99,7 +99,7 @@ export default function VoteWrite({navigation, id, myPageData}) {
                   style={styles.detail}
                   onPress={() =>
                     navigation.push('DetailScreen', {
-                      screen: 'DetailScreen',
+                      boardId: item.boardId,
                     })
                   }>
                   <Feather
