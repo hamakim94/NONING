@@ -20,19 +20,22 @@ function AnalysisScreen({board}) {
       : userAnalysis.push('여자');
     switch (userData.ageRangeCode) {
       case 'A0101':
-        userAnalysis.push('10대');
+        userAnalysis.push('10대미만');
         break;
       case 'A0102':
-        userAnalysis.push('20대');
+        userAnalysis.push('10대');
         break;
       case 'A0103':
-        userAnalysis.push('30대');
+        userAnalysis.push('20대');
         break;
       case 'A0104':
-        userAnalysis.push('40대');
+        userAnalysis.push('30대');
         break;
       case 'A0105':
-        userAnalysis.push('50대이상');
+        userAnalysis.push('40대');
+        break;
+      default:
+        userAnalysis.pust('50대이상');
         break;
     }
     userData.mbti1Code == 'M0101' ? (mbti += 'E') : (mbti += 'I');
@@ -58,7 +61,7 @@ function AnalysisScreen({board}) {
           <FlatList
             data={analysisData}
             renderItem={renderItem}
-            keyExtractor={info => info.id}
+            keyExtractor={(info) => info.id}
           />
         ) : (
           <Text>투표를 해야만 분석을 볼 수 있습니다.</Text>

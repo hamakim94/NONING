@@ -4,24 +4,24 @@ import {View, StyleSheet, Text} from 'react-native';
 function AnalysisList({info, myData}) {
   return (
     <View style={styles.container}>
-      {info.total > 0 ? (
-        <View style={styles.barContainer}>
-          <View style={styles.leftContainer}>
-            <Text
-              style={[
-                styles.leftText,
-                myData.includes(info.name) ? {color: '#FF5F5F'} : '',
-              ]}>
-              {info.name}
-            </Text>
-          </View>
-          <View style={{flex: 5, paddingHorizontal: '5%'}}>
+      <View style={styles.barContainer}>
+        <View style={styles.leftContainer}>
+          <Text
+            style={[
+              styles.leftText,
+              myData.includes(info.name) ? {color: '#FF5F5F'} : '',
+            ]}>
+            {info.name}
+          </Text>
+        </View>
+        <View style={styles.rightContainer}>
+          {info.total > 0 ? (
             <View
               style={{
                 flexDirection: 'row',
                 borderWidth: 2,
                 borderRadius: 3,
-                height: '110%',
+                height: '100%',
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
@@ -30,6 +30,7 @@ function AnalysisList({info, myData}) {
                   flex: 6.001 * (info.opt1 / info.total),
                   // borderRightWidth: 1,
                   backgroundColor: '#FF5F5F',
+                  justifyContent: 'center',
                   width: '100%',
                   height: '100%',
                 }}>
@@ -66,11 +67,11 @@ function AnalysisList({info, myData}) {
                 </Text>
               </View>
             </View>
-          </View>
+          ) : (
+            <Text>참여자가 존재하지 않습니다.</Text>
+          )}
         </View>
-      ) : (
-        ''
-      )}
+      </View>
     </View>
   );
 }
@@ -101,12 +102,12 @@ const styles = StyleSheet.create({
     marginTop: '4.3%',
   },
   leftContainer: {
-    flex: 1,
+    flex: 1.5,
     paddingLeft: '7%',
     paddingTop: '1%',
   },
   rightContainer: {
-    flex: 5,
+    flex: 4.5,
     paddingHorizontal: '5%',
   },
   leftText: {
@@ -121,24 +122,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-const barStyles = (opt1, total) =>
-  StyleSheet.create({
-    leftBar: {
-      flex: 6 * (opt1 / total),
-      borderRightWidth: 2,
-      backgroundColor: '#FF5F5F',
-      borderBottomLeftRadius: 1,
-      borderTopLeftRadius: 1,
-      width: '100%',
-    },
-    rightBar: {
-      flex: 6 - 6 * (opt1 / total),
-      backgroundColor: '#49D3CA',
-      borderBottomRightRadius: 1,
-      borderTopRightRadius: 1,
-      width: '100%',
-    },
-  });
 
 export default AnalysisList;
