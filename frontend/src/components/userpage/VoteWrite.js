@@ -18,7 +18,7 @@ export default function VoteWrite({navigation, id, myPageData}) {
 
   const keyExtractor = (item) => item.boardId;
   const renderItem = ({item}) => (
-    <View style={{borderBottomWidth: 0.3}}>
+    <View style={{borderBottomWidth: 0.3, borderBottomColor: '#A6A6A6'}}>
       <View
         style={{
           flex: 1.2,

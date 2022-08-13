@@ -5,7 +5,7 @@ import React, {useState} from 'react';
 export default function LiveHeader({live, navigation}) {
   return (
     <View style={styles.liveContainer}>
-      <Text style={styles.liveButton(live.isLive)}>LIVE</Text>
+      <Text style={styles.liveButton(live.live)}>LIVE</Text>
       <TouchableOpacity
         style={{marginHorizontal: 6}}
         disabled={live.userVote === 0}
@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    margin: '1%',
+    paddingHorizontal: '3%',
+    paddingTop: '2%',
   },
   liveButton: (live) => ({
     width: 40,
@@ -41,7 +42,6 @@ const styles = StyleSheet.create({
     borderWidth: live ? 2 : 1,
     fontWeight: 'bold',
     fontSize: 12,
-    margin: 2,
     textAlign: 'center',
     textAlignVertical: 'center',
   }),
