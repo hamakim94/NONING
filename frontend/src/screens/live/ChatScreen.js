@@ -42,7 +42,7 @@ export default function ChatScreen({route, navigation}) {
   useEffect(() => {
     if (isFocused) {
       // socket = io(`http://10.0.2.2:3000`, {
-      socket = io(`https://i7a202.p.ssafy.io/`, {
+      socket = io(`https://i7a202.p.ssafy.io`, {
         transports: ['websocket'], // you need to explicitly tell it to use websockets
       });
 
