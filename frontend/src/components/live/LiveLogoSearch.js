@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     height: '7%',
-    padding: '3%',
+    paddingHorizontal: 16,
   },
   logo: {
     width: 70,
