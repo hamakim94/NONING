@@ -7,7 +7,7 @@ export default UseAxios = axios.create({
 });
 
 UseAxios.interceptors.request.use(
-  async config => {
+  async (config) => {
     const accesstoken = await AsyncStorage.getItem('accesstoken');
     const refreshtoken = await AsyncStorage.getItem('refreshtoken');
     if (accesstoken && refreshtoken) {
@@ -17,16 +17,16 @@ UseAxios.interceptors.request.use(
     }
     return config;
   },
-  error => {
+  (error) => {
     return Promise.reject(error);
   },
 );
 
 UseAxios.interceptors.response.use(
-  response => {
+  (response) => {
     return response;
   },
-  async error => {
+  async (error) => {
     const {
       config,
       response: {status},

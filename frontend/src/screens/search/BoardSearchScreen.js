@@ -65,7 +65,10 @@ function BoardSearchScreen({navigation}) {
         {item ? (
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate('DetailScreen', {boardId: item.boardId})
+              navigation.navigate('DetailNav', {
+                screens: 'DetailScreen',
+                params: {boardId: item.boardId},
+              })
             }>
             <View style={{height: 65, justifyContent: 'center'}}>
               <Text style={styles.itemStyle}>{item.title.toUpperCase()}</Text>

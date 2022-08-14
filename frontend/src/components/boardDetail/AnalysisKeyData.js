@@ -1,5 +1,5 @@
 export default function AnalysisKeyData(data, defaultData) {
-  let objKey = [...defaultData];
+  let objKey = defaultData;
   for (let i = 0; i < data.length; i++) {
     switch (data[i].vote) {
       case 1:
@@ -338,6 +338,5 @@ export default function AnalysisKeyData(data, defaultData) {
         break; //case 2
     }
   }
-  console.log('계산');
   return objKey;
 }

@@ -103,7 +103,7 @@ export default function VoteDo({navigation, myPageData}) {
                         <TouchableOpacity
                           style={styles.detail}
                           onPress={() =>
-                            navigation.push('DetailScreen', {
+                            navigation.push('DetailNav', {
                               screen: 'DetailScreen',
                             })
                           }>

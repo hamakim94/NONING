@@ -1,48 +1,41 @@
+import {StyleSheet} from 'react-native';
 import React, {useContext} from 'react';
-import HomeScreen from '../screens/bottomTab/HomeScreen';
-import DetailNav from '../navigations/DetailNav';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import LoginNav from './LoginNav';
-import SearchNav from './SearchNav';
-import UserContext from '../util/UserContext';
+import DetailScreen from '../screens/board/DetailScreen';
 import YourPageScreen from '../screens/YourPageScreen';
 import FollowerScreen from '../screens/FollowerScreen';
 import FollowingScreen from '../screens/FollowingScreen';
+import ChatScreen from '../screens/live/ChatScreen';
+import ChatInfoScreen from '../screens/live/ChatInfoScreen';
+import UserContext from '../util/UserContext';
+import LoginNav from './LoginNav';
 
 const Stack = createNativeStackNavigator();
-const Tab = createMaterialTopTabNavigator();
-
-function HomeStack() {
-  const {userData, setUserData} = useContext(UserContext);
+export default function DetailNav() {
+  const {userData} = useContext(UserContext);
   return (
     <Stack.Navigator>
       {userData === null ? ( // 로그인 X
         <>
           <Stack.Screen
-            name="HomeScreen"
-            component={HomeScreen}
+            name="DetailScreen"
+            component={DetailScreen}
             options={{headerShown: false}}
           />
           <Stack.Screen
-            name="LoginNav"
-            component={LoginNav}
-            options={{title: '로그인', headerShown: false}}
-          />
-          <Stack.Screen
-            name="SearchNav"
-            component={LoginNav}
-            options={{title: '검색', headerShown: false}}
-          />
-          <Stack.Screen
-            name="DetailNav"
-            component={DetailNav}
-            options={{title: '디테일'}}
-          />
-          <Stack.Screen
             name="YourPageScreen"
-            component={YourPageScreen}
-            options={{title: '유저페이지'}}
+            component={LoginNav}
+            options={{title: '유저페이지', headerShown: false}}
+          />
+          <Stack.Screen
+            name="ChatScreen"
+            component={LoginNav}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="ChatInfoScreen"
+            component={LoginNav}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="FollowerScreen"
@@ -58,24 +51,24 @@ function HomeStack() {
       ) : (
         <>
           <Stack.Screen
-            name="HomeScreen"
-            component={HomeScreen}
+            name="DetailScreen"
+            component={DetailScreen}
             options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="SearchNav"
-            component={SearchNav}
-            options={{title: '검색', headerShown: false}}
-          />
-          <Stack.Screen
-            name="DetailNav"
-            component={DetailNav}
-            options={{title: '디테일'}}
           />
           <Stack.Screen
             name="YourPageScreen"
             component={YourPageScreen}
             options={{title: '유저페이지', headerShown: false}}
+          />
+          <Stack.Screen
+            name="ChatScreen"
+            component={ChatScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="ChatInfoScreen"
+            component={ChatInfoScreen}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="FollowerScreen"
@@ -93,4 +86,12 @@ function HomeStack() {
   );
 }
 
-export default HomeStack;
+const styles = StyleSheet.create({
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+    width: 300,
+    marginTop: 16,
+  },
+});

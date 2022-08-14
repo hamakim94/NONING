@@ -45,7 +45,7 @@ export default function FlowBottom({setBoards, board, navigation}) {
         <TouchableOpacity
           style={styles.clickDetail}
           onPress={() =>
-            navigation.push('DetailScreen', {screen: 'DetailScreen'})
+            navigation.push('DetailNav', {screen: 'DetailScreen'})
           }>
           <MaterialCommunityIcons
             name={'text-box-search-outline'}

@@ -2,12 +2,11 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Flows from '../components/flow/Flows';
 import FlowScreen from '../screens/bottomTab/FlowScreen';
-import DetailScreen from '../screens/board/DetailScreen';
+import DetailNav from './DetailNav';
 import UserPageScreen from '../screens/bottomTab/UserPageScreen';
 import YourPageScreen from '../screens/YourPageScreen';
 import FollowerScreen from '../screens/FollowerScreen';
 import FollowingScreen from '../screens/FollowingScreen';
-import LoginNav from './LoginNav';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,8 +24,8 @@ export default function FlowNav() {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="DetailScreen"
-        component={DetailScreen}
+        name="DetailNav"
+        component={DetailNav}
         options={{headerBackVisible: true, headerBackTitleVisible: false}}
       />
       <Stack.Screen
