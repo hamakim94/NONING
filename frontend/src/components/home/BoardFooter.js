@@ -9,6 +9,7 @@ import {
 import React, {useContext} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import UserContext from '../../util/UserContext';
+import LoginAlert from '../../util/LoginAlert';
 
 export default function BoardFooter({board, setBoards, navigation}) {
   const {userData} = useContext(UserContext);
@@ -48,7 +49,9 @@ export default function BoardFooter({board, setBoards, navigation}) {
         <TouchableOpacity
           style={{flexDirection: 'row', alignItems: 'center'}}
           onPress={() =>
-            navigation.push('YourPageScreen', {id: board.writerId})
+            userData === null
+              ? LoginAlert(navigation)
+              : navigation.push('YourPageScreen', {id: board.writerId})
           }>
           <Image
             style={{width: 15, height: 15, borderRadius: 50}}
@@ -71,7 +74,7 @@ export default function BoardFooter({board, setBoards, navigation}) {
           style={{margin: 1}}
           onPress={() => {
             userData === null
-              ? navigation.navigate('LoginNav', {screen: 'LoginNav'})
+              ? LoginAlert(navigation)
               : [toggleLike(), board.userLike ? unlike() : like()];
           }}>
           <AntDesign
