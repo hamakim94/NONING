@@ -11,7 +11,6 @@ export default function DeleteModal({
   const deviceHeight = require('react-native-extra-dimensions-android').get(
     'REAL_WINDOW_HEIGHT',
   );
-
   return (
     <>
       <Modal

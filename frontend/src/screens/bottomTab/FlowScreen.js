@@ -1,26 +1,20 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {
-  View,
-  FlatList,
-  Dimensions,
-  Text,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useContext,
+} from 'react';
+import {View, FlatList, Text, TouchableOpacity, Image} from 'react-native';
 import Flows from '../../components/flow/Flows';
 import UseAxios from '../../util/UseAxios';
 import {useIsFocused} from '@react-navigation/native';
-import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
-
-const windowHeight = require('react-native-extra-dimensions-android').get(
-  'REAL_WINDOW_HEIGHT',
-);
+import UserContext from '../../util/UserContext';
 
 function FlowScreen({navigation}) {
   const [boards, setBoards] = useState([]);
+  const {realHeight} = useContext(UserContext);
   const isFocused = useIsFocused();
-  const tabBarHeight = useBottomTabBarHeight();
-  const realHeight = windowHeight - tabBarHeight * 3;
 
   useEffect(() => {
     UseAxios.get('/boards/flow').then((res) => {
@@ -46,6 +40,7 @@ function FlowScreen({navigation}) {
       Array.from(Array(boards.length)).map((_, index) => index * realHeight),
     [boards],
   );
+
   return boards.length !== 0 ? (
     <View style={{flex: 1}}>
       <FlatList
