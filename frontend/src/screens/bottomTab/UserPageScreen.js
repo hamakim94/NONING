@@ -15,7 +15,7 @@ import UseAxios from '../../util/UseAxios';
 import UserContext from '../../util/UserContext';
 import {useIsFocused} from '@react-navigation/native';
 
-const renderTabBar = props => (
+const renderTabBar = (props) => (
   <TabBar
     {...props}
     indicatorStyle={{
@@ -86,7 +86,7 @@ export default function UserPageScreen({navigation}) {
   };
 
   useEffect(() => {
-    UseAxios.get(`/users/${userData.userId}/page`).then(res => {
+    UseAxios.get(`/users/${userData.userId}/page`).then((res) => {
       setMyPageData(res.data);
     });
   }, [isFocused]);

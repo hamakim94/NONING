@@ -94,6 +94,16 @@ export default function FlowNav() {
           headerShadowVisible: false,
         }}
       />
+      <Stack.Screen
+        name="FlowBlank"
+        component={FlowBlank}
+        options={{title: '플로우공백페이지', headerShown: false}}
+      />
+      <Stack.Screen
+        name="PlusScreen"
+        component={PlusScreen}
+        options={{title: '등록페이지', headerShown: false}}
+      />
     </Stack.Navigator>
   );
 }

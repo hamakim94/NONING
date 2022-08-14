@@ -176,16 +176,20 @@ function FollowingScreen({route, navigation}) {
                 textAlignVertical: 'center',
                 borderRadius: 10,
                 backgroundColor: myData.followingIdList
-                  ? myData.followingIdList.indexOf(item.userId) >= 0
-                    ? '#c9c9c9'
-                    : 'rgba(255,95,95,1)'
+                  ? item.userId !== userData.userId
+                    ? myData.followingIdList.indexOf(item.userId) >= 0
+                      ? '#c9c9c9'
+                      : 'rgba(255,95,95,1)'
+                    : '#FFFFFF'
                   : '#FFFFFF',
                 color: '#FFFFFF',
               }}>
               {myData.followingIdList
-                ? myData.followingIdList.indexOf(item.userId) >= 0
-                  ? '팔로잉'
-                  : '팔로우'
+                ? item.userId !== userData.userId
+                  ? myData.followingIdList.indexOf(item.userId) >= 0
+                    ? '팔로잉'
+                    : '팔로우'
+                  : ''
                 : ''}
             </Text>
           </TouchableOpacity>
