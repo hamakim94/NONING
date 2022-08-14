@@ -266,11 +266,16 @@ export default function ChatScreen({route, navigation}) {
 
       const transport = device.createRecvTransport(data);
       transport.on('connect', ({dtlsParameters}, callback, errback) => {
-        socket
-          .emit('connectConsumerTransport', {
-            transportId: transport.id,
-            dtlsParameters,
-          })
+        new Promise((resolve) =>
+          socket.emit(
+            'connectConsumerTransport',
+            {
+              transportId: transport.id,
+              dtlsParameters,
+            },
+            resolve,
+          ),
+        )
           .then(callback)
           .catch(errback);
       });
