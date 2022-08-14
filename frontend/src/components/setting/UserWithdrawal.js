@@ -61,12 +61,14 @@ const UserWithdrawal = ({navigation}) => {
       <View
         style={{
           flexDirection: 'row',
+          padding: 0,
         }}>
         <CheckBox
           disabled={false}
           value={toggleCheckBox}
           onValueChange={(newValue) => setToggleCheckBox(newValue)}
-          tintColors={{true: '#FF7171'}}
+          tintColors={{true: '#FF5F5F'}}
+          style={{margin: 0}}
         />
         <Text
           style={{
@@ -92,24 +94,17 @@ const UserWithdrawal = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-  },
   wrapper: {
-    margin: '10%',
+    margin: 16,
   },
   loginButton: (bool) => ({
-    paddingVertical: '1%',
     borderRadius: 6,
-    backgroundColor: bool ? '#FF7171' : '#808080',
-    marginHorizontal: '1%',
-    width: 80,
-    height: 30,
+    backgroundColor: bool ? '#FF5F5F' : '#808080',
+    width: '100%',
+    height: 40,
     borderWidth: 1,
-    borderColor: bool ? '#FF7171' : '#808080',
+    borderColor: bool ? '#FF5F5F' : '#808080',
+    justifyContent: 'center',
   }),
   loginText: {
     fontWeight: 'bold',

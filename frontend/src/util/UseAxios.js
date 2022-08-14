@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {DevSettings} from 'react-native';
 
 export default UseAxios = axios.create({
-  baseURL: 'http://i7a202.p.ssafy.io:8888/api',
+  baseURL: 'https://i7a202.p.ssafy.io/api',
 });
 
 UseAxios.interceptors.request.use(
@@ -37,7 +37,7 @@ UseAxios.interceptors.response.use(
       const refreshtoken = await AsyncStorage.getItem('refreshtoken');
       // token refresh 요청
       const response = await axios.post(
-        `http://i7a202.p.ssafy.io:8888/api/users/reissue`, // token refresh api
+        `https://i7a202.p.ssafy.io/api/users/reissue`, // token refresh api
         {},
         {
           headers: {ACCESSTOKEN: accesstoken, REFRESHTOKEN: refreshtoken},

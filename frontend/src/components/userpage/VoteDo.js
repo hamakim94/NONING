@@ -16,7 +16,7 @@ export default function VoteDo({navigation, myPageData}) {
           <View
             style={
               item.userVote !== 0
-                ? {borderBottomWidth: 0.3}
+                ? {borderBottomWidth: 0.3, borderBottomColor: '#A6A6A6'}
                 : {borderBottomWidth: 0}
             }>
             <View
@@ -103,8 +103,8 @@ export default function VoteDo({navigation, myPageData}) {
                         <TouchableOpacity
                           style={styles.detail}
                           onPress={() =>
-                            navigation.push('DetailNav', {
-                              screen: 'DetailScreen',
+                            navigation.push('DetailScreen', {
+                              boardId: item.boardId,
                             })
                           }>
                           <Feather

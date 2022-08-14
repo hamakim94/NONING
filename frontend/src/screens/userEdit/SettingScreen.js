@@ -47,6 +47,7 @@ function SettingScreen({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Divider width={0.5}></Divider>
       <TouchableOpacity
         style={styles.menuContainer}
         onPress={() =>
@@ -98,7 +99,7 @@ function SettingScreen({navigation}) {
         }>
         <Text style={styles.menuText}> 회원탈퇴 </Text>
       </TouchableOpacity>
-      <Divider width={1}></Divider>
+      <Divider width={0.5}></Divider>
     </SafeAreaView>
   );
 }

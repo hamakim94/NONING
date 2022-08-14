@@ -99,7 +99,7 @@ function ProfileEditScreen({navigation}) {
     const newData = {
       userId: userData.userId,
       nickname: data.nickname,
-      img: userData.img,
+      img: data.img,
       genderCode: userData.genderCode,
       mbti1Code: data.mbti1Code,
       mbti2Code: data.mbti2Code,
@@ -141,6 +141,12 @@ function ProfileEditScreen({navigation}) {
   const modalOpen = () => {
     setModalVisible(true); // visible = true
   };
+
+  const uriImg = imgSource
+    ? imgSource
+    : userData.img
+    ? {uri: userData.writerImg}
+    : require('../../assets/DefaultProfile.jpg');
   return (
     <View style={styles.container}>
       <View style={styles.imgContainer}>
@@ -161,9 +167,15 @@ function ProfileEditScreen({navigation}) {
               borderColor: '#808080',
               marginBottom: '5%',
             }}
-            source={{
-              uri: imgSource ? imgSource : userData.img,
-            }}
+            source={
+              imgSource
+                ? {
+                    uri: imgSource,
+                  }
+                : userData.img
+                ? {uri: userData.img}
+                : require('../../assets/DefaultProfile.jpg')
+            }
           />
         </TouchableOpacity>
       </View>
@@ -305,7 +317,7 @@ const styles = StyleSheet.create({
   },
   mbtiNameContainer: {
     position: 'absolute',
-    top: 200,
+    top: 215,
     left: 16,
     right: 16,
   },
