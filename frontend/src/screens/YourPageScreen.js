@@ -20,7 +20,7 @@ const renderTabBar = (props) => (
   <TabBar
     {...props}
     indicatorStyle={{
-      backgroundColor: '#FF5A6E',
+      backgroundColor: '#FF5F5F',
       width: '8%',
       marginHorizontal: '7%',
     }}
@@ -42,7 +42,7 @@ const renderTabBar = (props) => (
         style={
           focused
             ? {
-                color: '#FF5A6E',
+                color: '#FF5F5F',
                 margin: 0,
                 padding: 0,
                 fontWeight: 'bold',
@@ -146,11 +146,11 @@ export default function YourPageScreen({route, navigation}) {
   return (
     <View style={styles.container}>
       {id === userData.userId ? (
-        <View style={{flex: 0.07, alignSelf: 'flex-end'}}>
+        <View style={{flex: 0.07, alignSelf: 'flex-end', marginTop: 16}}>
           <TouchableOpacity
-            style={styles.button}
+            style={[styles.button]}
             onPress={() =>
-              navigation.push('SettingNav', {screen: 'SettingNav'})
+              navigation.push('SettingScreen', {screen: 'SettingScreen'})
             }>
             <Ionicons name={'settings'} size={28} color={'#A6A6A6'} />
           </TouchableOpacity>
@@ -187,49 +187,51 @@ export default function YourPageScreen({route, navigation}) {
           </View>
           {/* 팔로우/팔로워 */}
           <View style={styles.followsBox}>
-            <View style={styles.follows}>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate('FollowerScreen', {
-                    id: yourPageData.user.userId,
-                  })
-                }>
-                <Text style={{color: '#000000', fontWeight: '500'}}>
-                  {' '}
-                  follower
-                </Text>
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    color: '#000000',
-                    fontWeight: '500',
-                  }}>
-                  {yourPageData.followerIdList
-                    ? yourPageData['followerIdList'].length
-                    : ''}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate('FollowingScreen', {
-                    id: yourPageData.user.userId,
-                  })
-                }>
-                <Text style={{color: '#000000', fontWeight: '500'}}>
-                  {' '}
-                  following
-                </Text>
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    color: '#000000',
-                    fontWeight: '500',
-                  }}>
-                  {yourPageData.followingIdList
-                    ? yourPageData['followingIdList'].length
-                    : ''}
-                </Text>
-              </TouchableOpacity>
+            <View style={{flex: 1}}>
+              <View style={styles.follows}>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.push('FollowerScreen', {
+                      id: yourPageData.user.userId,
+                    })
+                  }>
+                  <Text style={{color: '#000000', fontWeight: '500'}}>
+                    {' '}
+                    follower
+                  </Text>
+                  <Text
+                    style={{
+                      alignSelf: 'center',
+                      color: '#000000',
+                      fontWeight: '500',
+                    }}>
+                    {yourPageData.followerIdList
+                      ? yourPageData['followerIdList'].length
+                      : ''}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.push('FollowingScreen', {
+                      id: yourPageData.user.userId,
+                    })
+                  }>
+                  <Text style={{color: '#000000', fontWeight: '500'}}>
+                    {' '}
+                    following
+                  </Text>
+                  <Text
+                    style={{
+                      alignSelf: 'center',
+                      color: '#000000',
+                      fontWeight: '500',
+                    }}>
+                    {yourPageData.followingIdList
+                      ? yourPageData['followingIdList'].length
+                      : ''}
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
@@ -355,7 +357,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 16,
+    paddingHorizontal: 16,
     backgroundColor: '#FFFFFF',
   },
   profileImageBox: {

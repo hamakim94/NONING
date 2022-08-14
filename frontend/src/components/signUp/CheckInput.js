@@ -16,6 +16,7 @@ function CheckInput({
   errorMessage,
   index,
   edit,
+  placeholder,
 }) {
   const blank = /\s/g;
   const {userData} = useContext(UserContext);
@@ -52,6 +53,7 @@ function CheckInput({
               }
               selectionColor={'#FF7171'}
               autoFocus={index == 0 ? true : false}
+              placeholder={placeholder}
             />
             <TouchableOpacity
               style={
