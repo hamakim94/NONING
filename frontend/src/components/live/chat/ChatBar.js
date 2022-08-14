@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function ChatBar({betray, boardData, waitButton}) {
   return (
-    <View style={{flex: 1, paddingHorizontal: 50}}>
+    <View style={{flex: 1}}>
       <View
         style={{
           flex: 4,
@@ -12,6 +12,7 @@ export default function ChatBar({betray, boardData, waitButton}) {
           maxHeight: 50,
           marginTop: '2%',
           marginBottom: '2%',
+          paddingHorizontal: 50,
         }}>
         <View style={[styles.barLeftContainer(boardData)]}>
           <Text style={styles.barLeftText(boardData)}>{boardData.opt1}</Text>

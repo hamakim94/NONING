@@ -8,6 +8,8 @@ import UseAxios from './util/UseAxios';
 
 export default function App() {
   const [userData, setUserData] = useState(null);
+  const [realHeight, setRealHeight] = useState(0);
+
   useEffect(() => {
     const getData = async () => {
       const value = await AsyncStorage.getItem('userId');
@@ -23,7 +25,8 @@ export default function App() {
   }, []);
 
   return (
-    <UserContext.Provider value={{userData, setUserData}}>
+    <UserContext.Provider
+      value={{userData, setUserData, realHeight, setRealHeight}}>
       <NavigationContainer>
         <BottomTabsNav />
       </NavigationContainer>

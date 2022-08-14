@@ -39,7 +39,7 @@ function UserPageNav() {
       <Stack.Screen
         name="DetailNav"
         component={DetailNav}
-        options={HeaderOptions('상세페이지')}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="YourPageScreen"

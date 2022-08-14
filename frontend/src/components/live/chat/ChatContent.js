@@ -31,9 +31,13 @@ function ChatContent({data, userList}) {
                 borderColor: data.userVote == 1 ? '#FF5F5F' : '#49D3CA',
               },
             ]}
-            source={{
-              uri: userList.find((e) => e.nickname == data.nickname).img,
-            }}
+            source={
+              userList.find((e) => e.nickname == data.nickname).img
+                ? {
+                    uri: userList.find((e) => e.nickname == data.nickname).img,
+                  }
+                : require('../../../assets/DefaultProfile.jpg')
+            }
           />
         </TouchableOpacity>
       </View>

@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Divider} from '@rneui/base/dist/Divider';
-import {View, SafeAreaView, FlatList} from 'react-native';
+import {View, SafeAreaView, FlatList, Dimensions} from 'react-native';
 import LogoSearch from '../../components/home/LogoSearch';
 import FilterButtonTabs from '../../components/home/FilterButtonTabs';
 import Boards from '../../components/home/Boards';
@@ -14,7 +14,7 @@ function HomeScreen({navigation}) {
   const [filterName, setFilterName] = useState('전체');
   const [boards, setBoards] = useState([]);
   const [isPopular, setIsPopular] = useState('최신');
-  const {userData} = useContext(UserContext);
+  const {userData, realHeight, setRealHeight} = useContext(UserContext);
   const [refreshing, setRefreshing] = useState(false);
   const isFocused = useIsFocused();
   const filterToCode = {
@@ -68,9 +68,14 @@ function HomeScreen({navigation}) {
     <Boards board={item} navigation={navigation}></Boards>
   );
   const keyExtractor = (item) => item.boardId;
-
+  const onLayout = (event) => {
+    const {height} = event.nativeEvent.layout;
+    setRealHeight(height);
+  };
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
+    <SafeAreaView
+      style={{flex: 1, backgroundColor: '#FFFFFF'}}
+      onLayout={onLayout}>
       <View style={{flex: 1}}>
         <LogoSearch navigation={navigation}></LogoSearch>
         <Divider width={0.5} color={'#A6A6A6'}></Divider>

@@ -1,20 +1,14 @@
-import {StyleSheet, Text, View, Dimensions} from 'react-native';
-import React, {useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import React, {useState, useContext} from 'react';
 import FlowBar from './FlowBar';
 import FlowBottom from './FlowBottom';
 import FireAnimation from '../animations/Fire';
 import WaveAnimation from '../animations/Wave';
-import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
-
-const windowHeight = require('react-native-extra-dimensions-android').get(
-  'REAL_WINDOW_HEIGHT',
-);
+import UserContext from '../../util/UserContext';
 
 function Flows({board, navigation}) {
   const [boardData, setBoardData] = useState(board);
-  const tabBarHeight = useBottomTabBarHeight();
-  const realHeight = windowHeight - tabBarHeight * 3;
-  console.log(realHeight);
+  const {realHeight} = useContext(UserContext);
   return boardData.length === 0 ? (
     <View>
       {' '}
