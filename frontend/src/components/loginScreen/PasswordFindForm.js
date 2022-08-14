@@ -59,9 +59,9 @@ export default function PasswordFindForm({navigation}) {
   return (
     <View
       style={{
-        flex: 2,
+        flex: 1,
       }}>
-      <View style={{paddingHorizontal: '5%'}}>
+      <View>
         <InputLabel name="이메일"></InputLabel>
         <NoCheckInput
           control={control}
@@ -71,9 +71,10 @@ export default function PasswordFindForm({navigation}) {
           errorMessage={errors.email ? errors.email.message : ''}
           styles={styles}
           inputRef={inputRef}
-          index={0}></NoCheckInput>
+          index={0}
+          placeholder={'이메일'}></NoCheckInput>
       </View>
-      <View style={{paddingHorizontal: '5%'}}>
+      <View>
         <InputLabel name="이름"></InputLabel>
         <NoCheckInput
           control={control}
@@ -86,9 +87,10 @@ export default function PasswordFindForm({navigation}) {
           index={1}
           login={true}
           handleSubmit={handleSubmit}
-          onSubmit={onSubmit}></NoCheckInput>
+          onSubmit={onSubmit}
+          placeholder={'회원 이름'}></NoCheckInput>
       </View>
-      <View style={{alignItems: 'center', marginVertical: '3%'}}>
+      <View style={{alignItems: 'center'}}>
         <TouchableOpacity
           index={1}
           style={
@@ -109,22 +111,21 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderColor: 'black',
     paddingHorizontal: '1%',
-    height: '70%',
+    height: '80%',
     borderRadius: 4,
     borderWidth: 1.5,
   },
   blurInput: {
     width: '100%',
     borderColor: '#808080',
-    paddingHorizontal: '1%',
-    height: '70%',
+    height: '80%',
     borderRadius: 4,
     borderWidth: 1,
   },
   button: {
     marginBottom: '5%',
-    width: '90%',
-    color: 'white',
+    width: '100%',
+    color: '#FFFFFF',
     height: 40,
     backgroundColor: 'rgba(255, 95, 95, 0.4)',
     borderRadius: 6,
@@ -132,8 +133,8 @@ const styles = StyleSheet.create({
   },
   checkButton: {
     marginBottom: '5%',
-    width: '90%',
-    color: 'white',
+    width: '100%',
+    color: '#FFFFFF',
     height: 40,
     backgroundColor: '#FF5F5F',
     borderRadius: 6,

@@ -31,7 +31,7 @@ function NoCheckInput({
                   borderColor:
                     Object.keys(errorMessage).length == 0
                       ? style.borderColor
-                      : '#FF7171',
+                      : '#FF5F5F',
                 },
               ]}
               placeholder={placeholder}
@@ -59,7 +59,7 @@ function NoCheckInput({
                         : inputRef.current[index + 1].focus()
               }
               secureTextEntry={blind}
-              selectionColor={'#FF7171'}
+              selectionColor={'#FF5F5F'}
             />
           </View>
         )}
