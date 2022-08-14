@@ -15,9 +15,11 @@ import UserContext from '../../util/UserContext';
 import BoardBar from '../../components/home/BoardBar';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import UseAxios from '../../util/UseAxios';
+import Entypo from 'react-native-vector-icons/Entypo';
 import {Avatar} from '@rneui/themed';
+import BoardModal from '../../components/boardDetail/BoardModal';
 
-const renderTabBar = props => (
+const renderTabBar = (props) => (
   <TabBar
     {...props}
     indicatorStyle={{
@@ -25,19 +27,15 @@ const renderTabBar = props => (
       width: '20%',
       marginHorizontal: '9.5%',
     }}
-    tabStyle={{
-      paddingBottom: '6%',
-      paddingTop: '1%',
-    }}
+    tabStyle={{justifyContent: 'center'}}
     pressColor={'transparent'}
     style={{
       backgroundColor: '#FFFFFF',
       shadowColor: '#FFFFFF',
-      borderBottomWidth: 0.3,
-      borderBottomColor: '#808080',
-      borderTopWidth: 0.3,
-      borderTopColor: '#808080',
-      height: '13%',
+      borderBottomWidth: 0.5,
+      borderBottomColor: '#A6A6A6',
+      borderTopWidth: 0.5,
+      borderTopColor: '#A6A6A6',
     }}
     renderLabel={({route, focused}) => (
       <Text
@@ -83,17 +81,18 @@ export default function DetailScreen({navigation, route}) {
   useEffect(() => {
     if (isFocused) {
       UseAxios.get(`/boards/${boardId}`)
-        .then(res => {
+        .then((res) => {
+          console.log(res.data);
           setBoard(res.data);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
       UseAxios.get(`/boards/${boardId}/users`)
-        .then(res => {
+        .then((res) => {
           setParticipants(res.data);
         })
-        .catch(err => {});
+        .catch((err) => {});
     }
   }, [isFocused]);
 
@@ -103,19 +102,19 @@ export default function DetailScreen({navigation, route}) {
         userId: userData.userId,
       },
     })
-      .then(res => {
+      .then((res) => {
         console.log(res);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
   const unlike = () => {
     UseAxios.delete(`/boards/${board.boardId}/unlike?userId=${userData.userId}`)
-      .then(res => {
+      .then((res) => {
         console.log(res);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -129,7 +128,7 @@ export default function DetailScreen({navigation, route}) {
       userId: userData.userId,
       vote: board.userVote == 1 ? 2 : 1,
     })
-      .then(res => {
+      .then((res) => {
         setBoard({
           ...board,
           opt1Selected: res.data.opt1,
@@ -137,35 +136,37 @@ export default function DetailScreen({navigation, route}) {
           userVote: board.userVote == 1 ? 2 : 1,
         });
         setParticipants(
-          participants.map(it =>
-            it.id === userData.userId
-              ? {...it, vote: it.vote == 1 ? 2 : 1}
-              : it,
+          participants.map((user) =>
+            user.userId === userData.userId
+              ? {...user, vote: user.vote == 1 ? 2 : 1}
+              : user,
           ),
         );
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
-  const deleteBoard = () => {
-    if (userData.userId === board.writerId)
-      UseAxios.put(`/boards/${boardId}/delete`)
-        .then(res => {
-          navigation.navigate(route.name);
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    else {
-      alert('본인 글만 삭제할 수 있습니다.');
-    }
+  const onLive = () => {
+    if (!board.live) {
+      navigation.navigate('ChatInfoScreen', {id: board.boardId});
+    } else navigation.navigate('ChatScreen', {data: board});
   };
   return (
-    <DetailContext.Provider value={{boardId, participants}}>
+    <DetailContext.Provider
+      value={{
+        boardId,
+        participants,
+        setParticipants,
+      }}>
       <View style={styles.container}>
-        <View style={{flex: 2.4, alignItems: 'center'}}>
+        <View
+          style={{
+            flex: 2.4,
+            alignItems: 'center',
+            paddingTop: 16,
+            paddingHorizontal: 16,
+          }}>
           <View style={styles.titleContainer}>
             <Text style={styles.titleText}>{board ? board.title : ''}</Text>
           </View>
@@ -226,11 +227,13 @@ export default function DetailScreen({navigation, route}) {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={{flex: 0.3, justifyContent: 'flex-end'}}>
-          <View style={{flexDirection: 'row'}}>
-            <View>
-              <Text style={{color: '#000000'}}>작성자 :</Text>
-            </View>
+        <View
+          style={{
+            flex: 0.3,
+            justifyContent: 'flex-end',
+            paddingHorizontal: 16,
+          }}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <View>
               <TouchableOpacity>
                 <View style={{flexDirection: 'row'}}>
@@ -247,15 +250,30 @@ export default function DetailScreen({navigation, route}) {
                     }
                   />
                   <Text style={{color: '#000000'}}>
-                    {board ? board.writerNickname : ''}
+                    {board
+                      ? board.writerNickname
+                        ? board.writerNickname
+                        : '탈퇴한논장이'
+                      : ''}
                   </Text>
                 </View>
               </TouchableOpacity>
             </View>
-            <View style={{flex: 1}}>
-              <TouchableOpacity onPress={deleteBoard}>
-                <Text>삭제</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <TouchableOpacity onPress={onLive}>
+                <Text style={styles.liveButton(board ? board.live : '')}>
+                  LIVE
+                </Text>
               </TouchableOpacity>
+              {board ? (
+                <BoardModal data={board} navigation={navigation}></BoardModal>
+              ) : (
+                ''
+              )}
             </View>
           </View>
         </View>
@@ -277,8 +295,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingTop: '1%',
-    paddingHorizontal: '7%',
     backgroundColor: '#FFFFFF',
   },
   titleText: {
@@ -295,7 +311,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  iconColor: userLike => ({
+  liveButton: (live) => ({
+    width: 40,
+    borderColor: live ? '#FF5F5F' : '#808080',
+    borderRadius: 5,
+    color: live ? '#FF5F5F' : '#808080',
+    borderWidth: live ? 2 : 1,
+    fontWeight: 'bold',
+    fontSize: 12,
+    margin: 2,
+    marginRight: 5,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+  }),
+  iconColor: (userLike) => ({
     color: userLike ? '#FF5F5F' : '#A6A6A6',
   }),
   avartarContainer: {

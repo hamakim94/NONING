@@ -2,7 +2,7 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Flows from '../components/flow/Flows';
 import FlowScreen from '../screens/bottomTab/FlowScreen';
-import DetailScreen from '../screens/board/DetailScreen';
+import DetailNav from './DetailNav';
 import UserPageScreen from '../screens/bottomTab/UserPageScreen';
 import YourPageScreen from '../screens/YourPageScreen';
 import FollowerScreen from '../screens/FollowerScreen';

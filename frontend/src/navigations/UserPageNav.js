@@ -1,8 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import UserPageScreen from '../screens/bottomTab/UserPageScreen';
-import DetailScreen from '../screens/board/DetailScreen';
 import SettingNav from './SettingNav';
 import FollowerScreen from '../screens/FollowerScreen';
 import FollowingScreen from '../screens/FollowingScreen';

@@ -4,30 +4,23 @@ import Modal from 'react-native-modal';
 import Entypo from 'react-native-vector-icons/Entypo';
 import DeleteModal from './DeleteModal';
 import UserContext from '../../util/UserContext';
-import DetailContext from './DetailContext';
-import CommentContext from './CommentContext';
+import DetailContext from '../../components/boardDetail/DetailContext';
 
-export default function CommentModal({data, setReplys, replys}) {
+export default function BoardModal({data, navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const {userData} = useContext(UserContext);
   const {boardId} = useContext(DetailContext);
-  const {setComments, comments} = useContext(CommentContext);
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
-  const deleteComment = () => {
+  const deleteBoard = () => {
     setDeleteModal(false);
     if (data.writerId == userData.userId)
-      UseAxios.put(`/boards/${boardId}/comments/${data.commentId}/delete`)
+      UseAxios.put(`/boards/${boardId}/delete`)
         .then((res) => {
+          navigation.goBack();
           console.log(res);
-          setComments(
-            comments.filter((comment) => data.commentId !== comment.commentId),
-          );
-          setReplys(
-            replys.filter((comment) => data.commentId !== comment.commentId),
-          );
         })
         .catch((err) => {
           console.log(err);
@@ -36,7 +29,6 @@ export default function CommentModal({data, setReplys, replys}) {
       alert('본인 글만 삭제할 수 있습니다.');
     }
   };
-
   return (
     <View>
       <TouchableOpacity onPress={toggleModal}>
@@ -70,9 +62,9 @@ export default function CommentModal({data, setReplys, replys}) {
       <DeleteModal
         deleteModal={deleteModal}
         setDeleteModal={setDeleteModal}
-        comment={'작성한 댓글(대댓글 포함)이 삭제 됩니다'}
+        comment={'작성한 게시글(댓글 포함)이 삭제 됩니다'}
         data={data}
-        deleteBtn={deleteComment}
+        deleteBtn={deleteBoard}
       />
     </View>
   );

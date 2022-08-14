@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import HomeScreen from '../screens/bottomTab/HomeScreen';
-import DetailScreen from '../screens/board/DetailScreen';
+import DetailNav from '../navigations/DetailNav';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LoginNav from './LoginNav';
