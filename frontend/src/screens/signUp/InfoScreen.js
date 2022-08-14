@@ -123,7 +123,7 @@ function InfoScreen({navigation}) {
             '\n' +
             '발송되었습니다.' +
             '\n' +
-            '인증을 완료 후 로그인해주세요!.',
+            '인증을 완료 후 로그인해주세요!',
         );
         navigation.navigate('CompleteScreen');
       })
