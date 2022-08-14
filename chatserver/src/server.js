@@ -37,7 +37,7 @@ try {
   console.log('[HTTPS] server failed');
   console.log(error);
 }
-async () => {
+(async () => {
   worker = mediasoup.createWorker({
     logLevel: config.mediasoup.worker.logLevel,
     logTags: config.mediasoup.worker.logTags,
@@ -55,7 +55,7 @@ async () => {
 
   const mediaCodecs = config.mediasoup.router.mediaCodecs;
   mediasoupRouter = worker.createRouter({mediaCodecs});
-};
+})();
 
 // const http = createServer(app);
 // const io = new Server(http);
