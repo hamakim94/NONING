@@ -49,7 +49,7 @@ function HomeStack() {
             options={HeaderOptions('로그인')}
           />
           <Stack.Screen
-            name="DetailScreen"
+            name="DetailNav"
             component={LoginNav}
             options={HeaderOptions('로그인')}
           />
@@ -72,8 +72,8 @@ function HomeStack() {
             options={HeaderOptions('검색')}
           />
           <Stack.Screen
-            name="DetailScreen"
-            component={DetailScreen}
+            name="DetailNav"
+            component={DetailNav}
             options={HeaderOptions('상세페이지')}
           />
           <Stack.Screen

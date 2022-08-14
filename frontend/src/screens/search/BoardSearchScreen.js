@@ -1,10 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {
-  SafeAreaView,
   View,
   StyleSheet,
-  FlatList,
   Text,
   TextInput,
   TouchableOpacity,
@@ -20,7 +18,6 @@ function BoardSearchScreen({navigation}) {
   const [boards, setBoards] = useState([]);
   const [filterdData, setfilterdData] = useState([]);
   const [search, setSearch] = useState('');
-
   useEffect(() => {
     UseAxios.get('/boards/list', {
       params: {categorycode: 0},
@@ -66,7 +63,7 @@ function BoardSearchScreen({navigation}) {
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('DetailNav', {
-                screens: 'DetailScreen',
+                screen: 'DetailScreen',
                 params: {boardId: item.boardId},
               })
             }>

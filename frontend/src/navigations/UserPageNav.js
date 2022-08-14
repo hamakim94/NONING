@@ -1,11 +1,10 @@
 import React, {useContext, useEffect} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import SettingNav from './SettingNav';
+import DetailNav from './DetailNav';
 import FollowerScreen from '../screens/FollowerScreen';
 import FollowingScreen from '../screens/FollowingScreen';
 import YourPageScreen from '../screens/YourPageScreen';
-import LoginNav from './LoginNav';
 import UserContext from '../util/UserContext';
 import SettingScreen from '../screens/userEdit/SettingScreen';
 import ProfileEditScreen from '../screens/userEdit/ProfileEditScreen';
@@ -38,8 +37,8 @@ function UserPageNav() {
       /> */}
 
       <Stack.Screen
-        name="DetailScreen"
-        component={DetailScreen}
+        name="DetailNav"
+        component={DetailNav}
         options={HeaderOptions('상세페이지')}
       />
       <Stack.Screen

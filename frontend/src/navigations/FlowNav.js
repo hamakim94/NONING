@@ -2,16 +2,16 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Flows from '../components/flow/Flows';
 import FlowScreen from '../screens/bottomTab/FlowScreen';
-import DetailNav from './DetailNav';
-import UserPageScreen from '../screens/bottomTab/UserPageScreen';
 import YourPageScreen from '../screens/YourPageScreen';
 import FollowerScreen from '../screens/FollowerScreen';
 import FollowingScreen from '../screens/FollowingScreen';
-import LoginNav from './LoginNav';
+import FlowBlank from '../components/flow/FlowBlank';
+import PlusScreen from '../screens/bottomTab/PlusScreen';
 import HeaderOptions from '../util/HeaderOptions';
 import SettingScreen from '../screens/userEdit/SettingScreen';
 import ProfileEditScreen from '../screens/userEdit/ProfileEditScreen';
 import PasswordEditScreen from '../screens/userEdit/PasswordEditScreen';
+import DetailNav from './DetailNav';
 import InquiryScreen from '../screens/userEdit/InquiryScreen';
 import TosScreen from '../screens/userEdit/TosScreen';
 import PrivacyScreen from '../screens/userEdit/PrivacyScreen';
@@ -33,8 +33,8 @@ export default function FlowNav() {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="DetailScreen"
-        component={DetailScreen}
+        name="DetailNav"
+        component={DetailNav}
         options={HeaderOptions('상세페이지')}
       />
       <Stack.Screen
