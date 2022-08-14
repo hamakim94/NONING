@@ -9,14 +9,15 @@ import UserContext from '../util/UserContext';
 import YourPageScreen from '../screens/YourPageScreen';
 import FollowerScreen from '../screens/FollowerScreen';
 import FollowingScreen from '../screens/FollowingScreen';
+import Feather from 'react-native-vector-icons/Feather';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
 function HomeStack() {
-  const {userData, setUserData} = useContext(UserContext);
+  const {userData} = useContext(UserContext);
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{headerShadowVisible: false}}>
       {userData === null ? ( // 로그인 X
         <>
           <Stack.Screen
@@ -27,32 +28,28 @@ function HomeStack() {
           <Stack.Screen
             name="LoginNav"
             component={LoginNav}
-            options={{title: '로그인', headerShown: false}}
+            options={{
+              title: '로그인',
+              headerShown: false,
+              headerBackImageSource: (
+                <Feather name="chevron-left" size={30} color="#000000" />
+              ),
+            }}
           />
           <Stack.Screen
             name="SearchNav"
             component={LoginNav}
-            options={{title: '검색', headerShown: false}}
+            options={HeaderOptions('로그인')}
           />
           <Stack.Screen
             name="DetailScreen"
             component={DetailScreen}
-            options={{title: '디테일'}}
+            options={HeaderOptions('상세페이지')}
           />
           <Stack.Screen
             name="YourPageScreen"
-            component={YourPageScreen}
-            options={{title: '유저페이지'}}
-          />
-          <Stack.Screen
-            name="FollowerScreen"
-            component={FollowerScreen}
-            options={{title: '팔로워페이지', headerShown: false}}
-          />
-          <Stack.Screen
-            name="FollowingScreen"
-            component={FollowingScreen}
-            options={{title: '팔로잉페이지', headerShown: false}}
+            component={LoginNav}
+            options={HeaderOptions('로그인')}
           />
         </>
       ) : (
@@ -65,27 +62,27 @@ function HomeStack() {
           <Stack.Screen
             name="SearchNav"
             component={SearchNav}
-            options={{title: '검색', headerShown: false}}
+            options={HeaderOptions('검색')}
           />
           <Stack.Screen
             name="DetailScreen"
             component={DetailScreen}
-            options={{title: '디테일'}}
+            options={HeaderOptions('상세페이지')}
           />
           <Stack.Screen
             name="YourPageScreen"
             component={YourPageScreen}
-            options={{title: '유저페이지', headerShown: false}}
+            options={HeaderOptions('유저페이지')}
           />
           <Stack.Screen
             name="FollowerScreen"
             component={FollowerScreen}
-            options={{title: '팔로워페이지', headerShown: false}}
+            options={HeaderOptions('Follower')}
           />
           <Stack.Screen
             name="FollowingScreen"
             component={FollowingScreen}
-            options={{title: '팔로잉페이지', headerShown: false}}
+            options={HeaderOptions('Following')}
           />
         </>
       )}

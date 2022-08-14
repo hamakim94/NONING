@@ -9,7 +9,7 @@ import FollowingScreen from '../screens/FollowingScreen';
 const Stack = createNativeStackNavigator();
 export default function LiveNav() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{headerShadowVisible: false}}>
       <Stack.Screen
         name="LiveScreen"
         component={LiveScreen}
@@ -23,17 +23,17 @@ export default function LiveNav() {
       <Stack.Screen
         name="YourPageScreen"
         component={YourPageScreen}
-        options={{title: '유저페이지', headerShown: false}}
+        options={HeaderOptions('유저페이지')}
       />
       <Stack.Screen
         name="FollowerScreen"
         component={FollowerScreen}
-        options={{title: '팔로워페이지', headerShown: false}}
+        options={HeaderOptions('Follower')}
       />
       <Stack.Screen
         name="FollowingScreen"
         component={FollowingScreen}
-        options={{title: '팔로잉페이지', headerShown: false}}
+        options={HeaderOptions('Following')}
       />
     </Stack.Navigator>
   );

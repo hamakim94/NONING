@@ -12,8 +12,12 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 export default function SettingNav() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="SettingScreen" component={SettingScreen} />
+    <Stack.Navigator screenOptions={{headerShadowVisible: false}}>
+      <Stack.Screen
+        name="SettingScreen"
+        component={SettingScreen}
+        options={{headerShown: false}}
+      />
       <Stack.Screen name="ProfileEditScreen" component={ProfileEditScreen} />
       <Stack.Screen name="PasswordEditScreen" component={PasswordEditScreen} />
       <Stack.Screen name="InquiryScreen" component={InquiryScreen} />

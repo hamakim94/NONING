@@ -8,12 +8,13 @@ import YourPageScreen from '../screens/YourPageScreen';
 import FollowerScreen from '../screens/FollowerScreen';
 import FollowingScreen from '../screens/FollowingScreen';
 import LoginNav from './LoginNav';
+import HeaderOptions from '../util/HeaderOptions';
 
 const Stack = createNativeStackNavigator();
 
 export default function FlowNav() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{headerShadowVisible: false}}>
       <Stack.Screen
         name="FlowScreen"
         component={FlowScreen}
@@ -27,39 +28,22 @@ export default function FlowNav() {
       <Stack.Screen
         name="DetailScreen"
         component={DetailScreen}
-        options={{headerBackVisible: true, headerBackTitleVisible: false}}
-      />
-      <Stack.Screen
-        name="UserPageScreen"
-        component={UserPageScreen}
-        options={{headerBackVisible: true, headerBackTitleVisible: false}}
+        options={HeaderOptions('상세페이지')}
       />
       <Stack.Screen
         name="YourPageScreen"
         component={YourPageScreen}
-        options={{
-          headerBackVisible: true,
-          headerBackTitleVisible: false,
-          headerShown: false,
-        }}
+        options={HeaderOptions('유저페이지')}
       />
       <Stack.Screen
         name="FollowerScreen"
         component={FollowerScreen}
-        options={{
-          headerBackVisible: true,
-          headerBackTitleVisible: false,
-          headerShown: false,
-        }}
+        options={HeaderOptions('Follower')}
       />
       <Stack.Screen
         name="FollowingScreen"
         component={FollowingScreen}
-        options={{
-          headerBackVisible: true,
-          headerBackTitleVisible: false,
-          headerShown: false,
-        }}
+        options={HeaderOptions('Following')}
       />
     </Stack.Navigator>
   );
