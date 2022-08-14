@@ -21,14 +21,24 @@ import ChatHeader from '../../components/live/chat/ChatHeader';
 import ChatContent from '../../components/live/chat/ChatContent';
 import UserContext from '../../util/UserContext';
 import {useIsFocused} from '@react-navigation/native';
-import webRTC from 'react-native-webrtc';
-import mediasoup from 'mediasoup-client';
+import {
+  RTCPeerConnection,
+  RTCIceCandidate,
+  RTCSessionDescription,
+  RTCView,
+  MediaStream,
+  MediaStreamTrack,
+  mediaDevices,
+  registerGlobals,
+} from 'react-native-webrtc';
+const mediasoup = require('mediasoup-client');
 
 const users = [];
 const messages = [];
 const io = require('socket.io/client-dist/socket.io');
 let socket;
-webRTC.registerGlobals();
+// webRTC.registerGlobals();
+registerGlobals();
 
 export default function ChatScreen({route, navigation}) {
   const [userList, setUserList] = useState(users);
@@ -41,11 +51,11 @@ export default function ChatScreen({route, navigation}) {
   const scrollRef = useRef(null);
   const isFocused = useIsFocused();
   useEffect(() => {
+    let device;
+    let producer;
     if (isFocused) {
-      let device;
-      let producer;
       // socket = io(`http://10.0.2.2:3000`, {
-      socket = io(`https://i7a202.p.ssafy.io:3000`, {
+      socket = io(`https://i7a202.p.ssafy.io:3001`, {
         transports: ['websocket'], // you need to explicitly tell it to use websockets
       });
 
@@ -130,7 +140,9 @@ export default function ChatScreen({route, navigation}) {
 
         setMessageList((messageList) => [...messageList, msgData]);
       });
-
+      socket.on('newProducer', async () => {
+        subscribe();
+      });
       socket.on('connect_error', (err) => {
         console.log(err.message);
       });
@@ -160,7 +172,8 @@ export default function ChatScreen({route, navigation}) {
             console.error('brower not supported');
           }
         }
-        await device.load({routerRtpCapabilities});
+        console.log(routerRtpCapabilities);
+        await device.load({routerRtpCapabilities: routerRtpCapabilities});
       }
       async function publish() {
         const data = await new Promise((resolve) =>
@@ -173,12 +186,11 @@ export default function ChatScreen({route, navigation}) {
             resolve,
           ),
         );
-
+        console.log(data);
         if (data.error) {
           console.error(data.error);
           return;
         }
-
         const transport = device.createSendTransport(data);
         transport.on('connect', async ({dtlsParameters}, callback, errback) => {
           new Promise((resolve) =>
@@ -187,7 +199,6 @@ export default function ChatScreen({route, navigation}) {
             .then(callback)
             .catch(errback);
         });
-
         transport.on(
           'produce',
           async ({kind, rtpParameters}, callback, errback) => {
@@ -213,7 +224,8 @@ export default function ChatScreen({route, navigation}) {
         let stream;
         try {
           stream = await getUserMedia(transport);
-          const track = stream.getAutioTracks()[0];
+
+          const track = stream.getAudioTracks()[0];
           const params = {track};
           producer = await transport.produce(params);
         } catch (err) {
