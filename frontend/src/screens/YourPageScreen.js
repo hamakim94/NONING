@@ -312,6 +312,7 @@ export default function YourPageScreen({route, navigation}) {
                 marginTop: '2.5%',
                 alignContent: 'center',
                 marginStart: '2.5%',
+                paddingVertical: '2.5%',
               }}
               onPress={() => {
                 yourPageData.followerIdList.indexOf(userData.userId) >= 0
@@ -321,9 +322,10 @@ export default function YourPageScreen({route, navigation}) {
               <Text
                 style={{
                   color: '#FFFFFF',
-                  alignSelf: 'center',
-                  paddingVertical: '3.5%',
+                  textAlign: 'center',
+
                   fontWeight: 'bold',
+                  textAlignVertical: 'center',
                 }}>
                 {yourPageData.followerIdList
                   ? yourPageData.followerIdList.indexOf(userData.userId) >= 0
