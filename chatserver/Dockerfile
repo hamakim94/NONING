@@ -3,6 +3,7 @@
  WORKDIR /var/app
 
  COPY package.json .
+ RUN npm install mediasoup@3 --save
  RUN npm install
  COPY . .
 

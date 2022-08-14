@@ -2,40 +2,42 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {Avatar} from '@rneui/themed';
 import React from 'react';
 
-function ChatHeaderUser({user}) {
+export default function ChatInfoUser(user) {
   return (
-    <View style={{flex: 1, justifyContent: 'flex-end'}}>
+    <View
+      style={{
+        flexDirection: 'row',
+        marginTop: 15,
+        alignItems: 'center',
+      }}>
       <TouchableOpacity>
         <Avatar
-          size={40}
+          size={45}
           rounded
           containerStyle={[
             {
               backgroundColor: '#FFFFFF',
               borderWidth: 2.5,
-              marginHorizontal: 5,
-              marginBottom: 2,
+              marginHorizontal: 10,
             },
             {
               borderColor: user.userVote == 1 ? '#FF5F5F' : '#49D3CA',
             },
           ]}
-          source={{uri: user.img}}
+          source={{uri: user.user.img}}
         />
       </TouchableOpacity>
       <Text
         style={{
-          textAlign: 'center',
-          fontSize: 10,
+          fontSize: 16,
           fontWeight: 'bold',
-          marginTop: 1,
+          marginLeft: 5,
+          color: '#000000',
         }}>
-        {user.nickname}
+        {user.user.nickname}
       </Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({});
-
-export default ChatHeaderUser;

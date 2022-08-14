@@ -1,14 +1,44 @@
 import UseAxios from './UseAxios.js';
 import express from 'express';
-import { createServer } from "http";
+// import { createServer } from "http";
 import { Server } from "socket.io";
-const app = express();
-const http = createServer(app);
-const io = new Server(http);
+import fs from "fs";
+// import path from "path";
+import https from 'https';
+// const fs = require('fs');
+// const path = require('path');
+// const HTTPS = require('https');
 
-http.listen(3000, () => {
-  console.log('server listening on port : 3000');
-});
+const app = express();
+var domain = 'i7a202.p.ssafy.io';
+// const sslport = process.env.PORT || 443; 
+var io;
+
+try {
+  const option = {
+    // ca: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/fullchain.pem'),
+    key: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/cert.pem'),
+  };
+
+  const httpsServer = https.createServer(option, app);
+
+  io = new Server(httpsServer);
+  httpsServer.listen(3000, () => {
+      console.log("[HTTPS] server started (server listening on port : 3000)");
+  });
+} catch (error){
+  console.log("[HTTPS] server failed");
+  console.log(error);
+}
+
+// const http = createServer(app);
+// const io = new Server(http);
+
+
+// http.listen(3000, () => {
+//   console.log('server listening on port : 3000');
+// });
 
 let userList = new Map();
 
@@ -16,9 +46,9 @@ io.on('connection', (socket) => {
   console.log('connected');
 
   // 채팅 대기방 입장
-  socket.on('wait', () => {
-    let userDataList = Array.from(
-      userList.get(boardData.boardId),
+  socket.on('wait', (boardId) => {
+    let userDataList = userList.get(boardId) == undefined ? null : Array.from(
+      userList.get(boardId),
       (socket) => socket.userVoteData,
     );
     socket.emit('wait', userDataList);
@@ -68,7 +98,7 @@ io.on('connection', (socket) => {
 
   socket.on('send', (msg) => {
     const userVoteData = socket.userVoteData;
-    const reg = new Date().toLocaleTimeString();
+    const reg = new Date().toLocaleTimeString('ko-KR');
     io.to(socket.boardId).emit('send', userVoteData, msg, reg);
   });
 
