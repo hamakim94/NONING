@@ -50,8 +50,8 @@ function HomeStack() {
           />
           <Stack.Screen
             name="DetailScreen"
-            component={DetailScreen}
-            options={HeaderOptions('상세페이지')}
+            component={LoginNav}
+            options={HeaderOptions('로그인')}
           />
           <Stack.Screen
             name="YourPageScreen"
