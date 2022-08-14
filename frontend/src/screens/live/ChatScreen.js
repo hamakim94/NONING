@@ -20,111 +20,206 @@ import ChatBar from '../../components/live/chat/ChatBar';
 import ChatHeader from '../../components/live/chat/ChatHeader';
 import ChatContent from '../../components/live/chat/ChatContent';
 import UserContext from '../../util/UserContext';
+import {useIsFocused} from '@react-navigation/native';
 
-const user = [
-  {userId: 1, nickname: '김토마', userVote: 1},
-  {userId: 2, nickname: '토마토', userVote: 2},
-  {userId: 3, nickname: '박토토', userVote: 1},
-  {userId: 4, nickname: '박토마', userVote: 1},
-  {userId: 5, nickname: '적토마', userVote: 1},
-  {userId: 6, nickname: '맛토맛', userVote: 2},
-  {userId: 7, nickname: '심깻잎', userVote: 2},
-  {userId: 8, nickname: 'test08', userVote: 2},
-];
-const messageList = [
-  {
-    msgId: 1,
-    msg: '아무리 그래도 토맛을 먹는건 좀...',
-    nickname: '김토마',
-    userVote: 1,
-    reg: '오후 10:49',
-  },
-  {
-    msgId: 2,
-    msg: '그럴거면 토마토맛토를 먹지',
-    nickname: '적토마',
-    userVote: 1,
-    reg: '오후 10:49',
-  },
-  {
-    msgId: 3,
-    msg: '아무리 그래도 토를 먹는건 좀...',
-    nickname: '토마토',
-    userVote: 2,
-    reg: '오후 10:49',
-  },
-  {
-    msgId: 4,
-    msg: '토 먹으면서 맛있는 척 가능?',
-    nickname: '맛토맛',
-    userVote: 2,
-    reg: '오후 10:49',
-  },
-  {msgId: 5, msg: '김토마님이 배신하였습니다.', betray: true},
-  {
-    msgId: 6,
-    msg: '누가 배신했냐?',
-    nickname: '김토마',
-    userVote: 1,
-    reg: '오후 10:49',
-  },
-  {msgId: 7, msg: '적토마님이 입장하였습니다.', betray: false},
-];
+const users = [];
+const messages = [];
 
-export default function ChatScreen({route}) {
-  const [userList, setUserList] = useState([]);
-  const [boardData, setboardData] = useState(route.params.data);
-  const [messageData, setMessageData] = useState(null);
+const io = require('socket.io/client-dist/socket.io');
+let socket;
+
+export default function ChatScreen({route, navigation}) {
+  const [userList, setUserList] = useState(users);
+  const [boardData, setBoardData] = useState(route.params.data);
+  const [messageList, setMessageList] = useState(messages);
+  const [waitButton, setWaitButton] = useState(false);
   const [msg, setMsg] = useState();
   const {userData} = useContext(UserContext);
   const chatRef = useRef(null);
+  const scrollRef = useRef(null);
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    setUserList(user);
-    setMessageData(messageList);
-  }, []);
+    if (isFocused) {
+      // socket = io(`http://10.0.2.2:3000`, {
+      socket = io(`https://i7a202.p.ssafy.io`, {
+        transports: ['websocket'], // you need to explicitly tell it to use websockets
+      });
+
+      socket.on('connect', () => {
+        console.log(userData.nickname + ' connect');
+        socket.emit('enter', boardData, userData, () => {
+          socket.disconnect();
+          navigation.goBack();
+        });
+      });
+
+      socket.on('welcome', (userVoteData) => {
+        // user update
+        // front단의 userlist update
+        // 상단 userlist
+        setUserList((userList) => [...userList, userVoteData]);
+
+        // 입장 메세지 보냄
+        const msgData = {
+          msgId: chatRef.current,
+          msg: userVoteData.nickname + ' 님이 입장하셨습니다. ',
+          betray: false,
+        };
+        setMessageList((messageList) => [...messageList, msgData]);
+      });
+
+      socket.on('user_enter', (initUsers) => {
+        // 본인한테만
+        setUserList(initUsers);
+
+        // 입장 메세지 보냄
+        const msgData = {
+          msgId: chatRef.current,
+          msg: userData.nickname + ' 님이 입장하셨습니다. ',
+          betray: false,
+        };
+        setMessageList((messageList) => [...messageList, msgData]);
+      });
+
+      socket.on('send', (userVoteData, msg, reg) => {
+        const msgData = {
+          nickname: userVoteData.nickname,
+          userVote: userVoteData.userVote,
+          msgId: chatRef.current,
+          msg: msg,
+          reg: reg,
+        };
+        setMessageList((messageList) => [...messageList, msgData]);
+      });
+
+      socket.on('betray', (userVoteData, opt1Cnt, opt2Cnt) => {
+        // 배신 후 opt1, opt2 수 업데이트
+        setBoardData((boardData) => ({
+          ...boardData,
+          opt1Selected: opt1Cnt,
+          opt2Selected: opt2Cnt,
+        }));
+
+        // 해당 user의 vote 변경
+        setUserList((userList) => {
+          const index = userList.findIndex(
+            (user) => user.userId == userVoteData.userId,
+          );
+          userList[index].userVote = userVoteData.userVote;
+          return [...userList];
+        });
+
+        // 배신 메세지 전달
+        const msgData = {
+          msgId: chatRef.current,
+          msg: userVoteData.nickname + ' 님이 배신하셨습니다.',
+          betray: true,
+          userVote: userVoteData.userVote,
+        };
+
+        setMessageList((messageList) => [...messageList, msgData]);
+      });
+
+      socket.on('connect_error', (err) => {
+        console.log(err.message);
+      });
+
+      socket.on('left', (userVoteData) => {
+        const msgData = {
+          msgId: chatRef.current,
+          msg: userVoteData.nickname + ' 님이 퇴장하셨습니다. ',
+          betray: false,
+        };
+        setMessageList((messageList) => [...messageList, msgData]);
+        setUserList((userList) => {
+          const index = userList.findIndex(
+            (user) => user.userId == userVoteData.userId,
+          );
+          userList.splice(index, 1);
+          return [...userList];
+        });
+      });
+    }
+
+    return () => {
+      console.log('end');
+      if (socket) socket.disconnect();
+    };
+  }, [isFocused]);
+
   useEffect(() => {
     chatRef.current =
-      messageData != null ? messageData[messageData.length - 1].msgId + 1 : '';
-  }, [messageData]);
+      messageList.length !== 0
+        ? messageList[messageList.length - 1].msgId + 1
+        : 1;
+  }, [messageList]);
 
   const userRender = ({item}) => <ChatHeaderUser user={item}></ChatHeaderUser>;
 
   const userMemoized = useMemo(() => userRender, [userList]);
 
-  const userKey = useCallback(item => item.userId, []);
+  const userKey = useCallback((item) => item.userId, []);
 
-  const msgRender = ({item}) => <ChatContent data={item} />;
+  const msgRender = ({item}) => <ChatContent data={item} userList={userList} />;
 
-  const msgMemoized = useMemo(() => msgRender, [messageData]);
+  const msgMemoized = useMemo(() => msgRender, [messageList]);
 
-  const msgKey = useCallback(item => item.msgId, []);
+  const msgKey = useCallback((item) => item.msgId, []);
 
-  const onChange = e => {
+  const onChange = (e) => {
     setMsg(e);
   };
 
   const onSubmit = () => {
-    const data = {
-      msgId: chatRef.current,
-      msg: msg,
-      nickname: userData.nickname,
-      userVote: boardData.userVote,
-    };
-    setMessageData([...messageData, data]);
+    socket.emit('send', msg);
     setMsg('');
     Keyboard.dismiss();
   };
+
+  const betray = () => {
+    // 쿨타임 먼저 줘버리기
+    setWaitButton(true);
+    // 먼저 http 통신 관련 처리
+    UseAxios.put(`/chats/${boardData.boardId}/betray`, {
+      userId: userData.userId,
+      vote: boardData.userVote == 1 ? 2 : 1,
+    })
+      .then((res) => {
+        socket.emit('betray', res.data.opt1, res.data.opt2);
+
+        // 본인 정보 바꾸기
+        setBoardData((boardData) => ({
+          ...boardData,
+          userVote: boardData.userVote == 1 ? 2 : 1,
+        }));
+
+        setTimeout(() => setWaitButton(false), 60000);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <View style={{flex: 1, backgroundColor: '#FFFFFF'}}>
       <View style={{flex: 1}}>
         <View style={{flex: 0.4}}>
-          <ChatHeader title={boardData.title} />
+          <ChatHeader
+            title={boardData.title}
+            userCnt={userList ? userList.length : 0}
+            navigation={navigation}
+          />
         </View>
         <View
           style={{
-            flex: 0.6,
+            flex: 0.8,
             borderBottomWidth: 1,
+            borderBottomColor: '#A6A6A6',
             paddingHorizontal: '5%',
+            paddingBottom: '1%',
+            minHeight: 50,
+            maxHeight: 70,
           }}>
           <FlatList
             horizontal={true}
@@ -132,29 +227,71 @@ export default function ChatScreen({route}) {
             renderItem={userMemoized}
             keyExtractor={userKey}></FlatList>
         </View>
-        <View style={{flex: 0.8}}>
-          <ChatBar />
+        <View
+          style={{
+            flex: 0.9,
+            marginVertical: '2.5%',
+            minHeight: 60,
+            maxHeight: 100,
+          }}>
+          <ChatBar
+            betray={betray}
+            boardData={boardData}
+            waitButton={waitButton}
+          />
         </View>
-        <View style={{flex: 4.2, paddingHorizontal: '5%'}}>
+        <View style={{flex: 3.9, paddingHorizontal: '5%', minHeight: 0}}>
           <FlatList
-            data={messageData}
+            ref={scrollRef}
+            onContentSizeChange={() => {
+              scrollRef.current.scrollToEnd();
+            }}
+            data={messageList}
             renderItem={msgMemoized}
             keyExtractor={msgKey}></FlatList>
         </View>
       </View>
-      <View style={{borderWidth: 1, flexDirection: 'row'}}>
-        <View style={{flex: 0.7, justifyContent: 'center', borderWidth: 1}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          maxHeight: 40,
+          borderTopWidth: 0.5,
+          borderColor: '#A6A6A6',
+          paddingHorizontal: 9,
+        }}>
+        <View
+          style={{
+            flex: 0.7,
+            justifyContent: 'center',
+          }}>
           <Text style={{textAlign: 'center'}}>버튼</Text>
         </View>
-        <View style={{flex: 4.5}}>
+        <View
+          style={{
+            flex: 4.5,
+            justifyContent: 'center',
+          }}>
           <TextInput
-            onChangeText={e => onChange(e)}
+            onChangeText={(e) => onChange(e)}
+            style={{paddingVertical: 5}}
             value={msg}
-            onSubmitEditing={onSubmit}></TextInput>
+            onSubmitEditing={onSubmit}
+            selectionColor={'#FF5F5F'}
+            placeholder={'채팅을 입력해주세요.'}></TextInput>
         </View>
-        <View style={{flex: 0.8, justifyContent: 'center', borderWidth: 1}}>
+        <View
+          style={{
+            flex: 0.8,
+            justifyContent: 'center',
+          }}>
           <TouchableOpacity onPress={onSubmit}>
-            <Text style={{textAlign: 'center'}}>전송</Text>
+            <Text
+              style={{
+                textAlign: 'center',
+                color: '#FF5F5F',
+              }}>
+              전송
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

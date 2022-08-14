@@ -2,7 +2,7 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {Avatar} from '@rneui/themed';
 import React from 'react';
 
-export default function ChatContent({data}) {
+function ChatContent({data, userList}) {
   return data.betray == null ? (
     <View
       style={{
@@ -11,14 +11,19 @@ export default function ChatContent({data}) {
         marginBottom: '5%',
       }}>
       <View
-        style={{flex: 0.9, justifyContent: 'flex-start', alignItems: 'center'}}>
+        style={{
+          flex: 0.9,
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          marginHorizontal: 5,
+        }}>
         <TouchableOpacity>
           <Avatar
-            size={40}
+            size={45}
             rounded
             containerStyle={[
               {
-                borderWidth: 3,
+                borderWidth: 2.5,
                 backgroundColor: '#FFFFFF',
                 marginTop: '1%',
               },
@@ -26,6 +31,9 @@ export default function ChatContent({data}) {
                 borderColor: data.userVote == 1 ? '#FF5F5F' : '#49D3CA',
               },
             ]}
+            source={{
+              uri: userList.find((e) => e.nickname == data.nickname).img,
+            }}
           />
         </TouchableOpacity>
       </View>
@@ -44,7 +52,7 @@ export default function ChatContent({data}) {
           style={{
             color: '#000000',
             textAlign: data.userVote == 1 ? 'left' : 'right',
-            backgroundColor: '#C9C9C9',
+            backgroundColor: '#EAEAEA',
             borderRadius: 7,
             paddingHorizontal: '4%',
             paddingVertical: '1%',
@@ -56,12 +64,12 @@ export default function ChatContent({data}) {
       <View style={{flex: 0.9, justifyContent: 'flex-end'}}>
         <Text
           style={{
-            color: '#C9C9C9',
+            color: '#808080',
             textAlign: data.userVote == 1 ? 'left' : 'right',
             fontSize: 9,
             marginHorizontal: '6%',
           }}>
-          {data.reg}
+          {data.reg.slice(0, data.reg.length - 3)}
         </Text>
       </View>
     </View>
@@ -76,7 +84,11 @@ export default function ChatContent({data}) {
       <Text
         style={{
           fontWeight: 'bold',
-          color: data.betray ? '#FF5F5F' : '#000000',
+          color: data.betray
+            ? data.userVote == 1
+              ? '#49D3CA'
+              : '#FF5F5F'
+            : '#000000',
         }}>
         {data.msg}
       </Text>
@@ -85,3 +97,5 @@ export default function ChatContent({data}) {
 }
 
 const styles = StyleSheet.create({});
+
+export default React.memo(ChatContent);

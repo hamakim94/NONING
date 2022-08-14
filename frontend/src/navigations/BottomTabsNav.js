@@ -24,6 +24,7 @@ function BottomTabsNav() {
       screenOptions={{
         tabBarActiveTintColor: '#FF7171',
         tabBarHideOnKeyboard: true,
+        tabBarStyle: {borderTopColor: '#A6A6A6'},
       }}>
       {userData === null ? ( // 로그인 x
         <>
