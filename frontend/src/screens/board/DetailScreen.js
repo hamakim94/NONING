@@ -148,9 +148,16 @@ export default function DetailScreen({navigation, route}) {
       });
   };
   const onLive = () => {
-    if (!board.live) {
-      navigation.navigate('ChatInfoScreen', {id: board.boardId});
-    } else navigation.navigate('ChatScreen', {data: board});
+    if (board.live) {
+      navigation.navigate('ChatNav', {
+        screen: 'ChatInfoScreen',
+        params: {id: board.boardId},
+      });
+    } else
+      navigation.navigate('ChatNav', {
+        screen: 'ChatScreen',
+        params: {data: board},
+      });
   };
   return (
     <DetailContext.Provider

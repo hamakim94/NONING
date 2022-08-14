@@ -4,20 +4,24 @@ import FlowBar from './FlowBar';
 import FlowBottom from './FlowBottom';
 import FireAnimation from '../animations/Fire';
 import WaveAnimation from '../animations/Wave';
+import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 
-const windowHeight = Dimensions.get('window').height * 0.934;
+const windowHeight = require('react-native-extra-dimensions-android').get(
+  'REAL_WINDOW_HEIGHT',
+);
 
 function Flows({board, navigation}) {
   const [boardData, setBoardData] = useState(board);
-  console.log('boardData' + boardData);
-
+  const tabBarHeight = useBottomTabBarHeight();
+  const realHeight = windowHeight - tabBarHeight * 3;
+  console.log(realHeight);
   return boardData.length === 0 ? (
     <View>
       {' '}
       <Text> Fffffffffffff</Text>
     </View>
   ) : (
-    <View style={styles.mainContainer}>
+    <View style={styles.mainContainer(realHeight)}>
       <WaveAnimation />
       <FireAnimation />
       <View style={styles.container}>
@@ -35,10 +39,10 @@ function Flows({board, navigation}) {
 }
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    height: windowHeight,
+  mainContainer: (realHeight) => ({
     backgroundColor: '#FFFFFF',
-  },
+    height: realHeight,
+  }),
   container: {
     alignSelf: 'center',
     width: '100%',

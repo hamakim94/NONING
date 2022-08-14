@@ -10,12 +10,17 @@ import {
 import Flows from '../../components/flow/Flows';
 import UseAxios from '../../util/UseAxios';
 import {useIsFocused} from '@react-navigation/native';
+import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 
-const windowHeight = Dimensions.get('window').height * 0.934;
+const windowHeight = require('react-native-extra-dimensions-android').get(
+  'REAL_WINDOW_HEIGHT',
+);
 
 function FlowScreen({navigation}) {
   const [boards, setBoards] = useState([]);
   const isFocused = useIsFocused();
+  const tabBarHeight = useBottomTabBarHeight();
+  const realHeight = windowHeight - tabBarHeight * 3;
 
   useEffect(() => {
     UseAxios.get('/boards/flow').then((res) => {
@@ -38,7 +43,7 @@ function FlowScreen({navigation}) {
 
   const snapToOffsets = useMemo(
     () =>
-      Array.from(Array(boards.length)).map((_, index) => index * windowHeight),
+      Array.from(Array(boards.length)).map((_, index) => index * realHeight),
     [boards],
   );
   return boards.length !== 0 ? (
