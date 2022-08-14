@@ -179,6 +179,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('getRouterRtpCapabilities', (callback) => {
+    console.log(mediasoupRouter.rtpCapabilities);
     callback(mediasoupRouter.rtpCapabilities);
   });
   socket.on('createProducerTransport', async (data, callback) => {
