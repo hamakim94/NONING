@@ -98,8 +98,9 @@ export default function VoteWrite({navigation, id, myPageData}) {
                 <TouchableOpacity
                   style={styles.detail}
                   onPress={() =>
-                    navigation.push('DetailScreen', {
+                    navigation.push('DetailNav', {
                       screen: 'DetailScreen',
+                      params: {boardId: item.boardId},
                     })
                   }>
                   <Feather

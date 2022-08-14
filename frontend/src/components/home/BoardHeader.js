@@ -9,7 +9,10 @@ export default function BoardHeader({board, navigation}) {
       <TouchableOpacity
         style={{marginHorizontal: 6}}
         onPress={() =>
-          navigation.navigate('DetailScreen', {boardId: board.boardId})
+          navigation.navigate('DetailNav', {
+            screen: 'DetailScreen',
+            params: {boardId: board.boardId},
+          })
         }>
         <Feather style={styles.detail(1)} name="chevrons-right" size={25} />
       </TouchableOpacity>

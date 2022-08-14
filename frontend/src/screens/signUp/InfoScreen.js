@@ -195,7 +195,8 @@ function InfoScreen({navigation}) {
           errorMessage={errors.email ? errors.email.message : ''}
           styles={styles}
           inputRef={inputRef}
-          index={0}></CheckInput>
+          index={0}
+          placeholder={'이메일'}></CheckInput>
         <InputLabel name="비밀번호" star="*"></InputLabel>
         <NoCheckInput
           control={control}
@@ -206,7 +207,8 @@ function InfoScreen({navigation}) {
           styles={styles}
           inputRef={inputRef}
           index={1}
-          blind={true}></NoCheckInput>
+          blind={true}
+          placeholder={'비밀번호'}></NoCheckInput>
         <NoCheckInput
           control={control}
           style={pwConfirmStyle}
@@ -218,7 +220,8 @@ function InfoScreen({navigation}) {
           styles={styles}
           inputRef={inputRef}
           index={2}
-          blind={true}></NoCheckInput>
+          blind={true}
+          placeholder={'비밀번호 확인'}></NoCheckInput>
         <InputLabel name="닉네임" star="*"></InputLabel>
         <CheckInput
           control={control}
@@ -230,7 +233,8 @@ function InfoScreen({navigation}) {
           errorMessage={errors.nickname ? errors.nickname.message : ''}
           styles={styles}
           inputRef={inputRef}
-          index={3}></CheckInput>
+          index={3}
+          placeholder={'닉네임'}></CheckInput>
         <View style={{flexDirection: 'row'}}>
           <View style={{flex: 1}}>
             <InputLabel name="이름" star="*"></InputLabel>
@@ -242,7 +246,8 @@ function InfoScreen({navigation}) {
               errorMessage={errors.name ? errors.name.message : ''}
               styles={styles}
               inputRef={inputRef}
-              index={4}></NoCheckInput>
+              index={4}
+              placeholder={'이름'}></NoCheckInput>
             <InputLabel name="나이" star="*"></InputLabel>
             <NoCheckInput
               control={control}
@@ -252,7 +257,8 @@ function InfoScreen({navigation}) {
               errorMessage={errors.age ? errors.age.message : ''}
               styles={styles}
               inputRef={inputRef}
-              index={5}></NoCheckInput>
+              index={5}
+              placeholder={'나이(숫자)'}></NoCheckInput>
           </View>
           <View style={{flex: 1, paddingLeft: '15%'}}>
             <InputLabel name="성별" star="*"></InputLabel>

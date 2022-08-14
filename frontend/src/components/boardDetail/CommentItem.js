@@ -15,24 +15,27 @@ function CommentItem({
   setCommentIsopened,
   isReply,
   setNested,
+  replys,
+  setReplys,
 }) {
   const {boardId} = useContext(DetailContext);
   const {setParentComment} = useContext(CommentContext);
+
   const likeAxios = (setter, likeCheck) => {
     UseAxios.put(
       `/boards/${boardId}/comments/${commentData.commentId}/${likeCheck}`,
     )
-      .then(res => {
+      .then((res) => {
         setter;
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         alert('다시 한번 눌러주세요!');
       });
   };
 
   const setLikeData = () => {
-    setCommentData(commentData => ({
+    setCommentData((commentData) => ({
       ...commentData,
       userLike: !commentData.userLike,
       userDislike: commentData.userDislike
@@ -48,7 +51,7 @@ function CommentItem({
   };
 
   const setdisLikeData = () => {
-    setCommentData(commentData => ({
+    setCommentData((commentData) => ({
       ...commentData,
       userLike: commentData.userLike
         ? !commentData.userLike
@@ -112,13 +115,19 @@ function CommentItem({
             size={40}
             rounded
             containerStyle={avaStyles(writerData[0].vote).avartarContainer}
-            source={{uri: writerData[0].img ? writerData[0].img : ''}}
+            source={
+              writerData[0].img
+                ? {uri: writerData[0].img}
+                : require('../../assets/DefaultProfile.jpg')
+            }
           />
         </TouchableOpacity>
       </View>
       <View style={commentStyles(isReply).secondContainer}>
         <View>
-          <Text style={styles.nickNameText}>{writerData[0].nickname}</Text>
+          <Text style={styles.nickNameText}>
+            {writerData[0].nickname ? writerData[0].nickname : '탈퇴한논장이'}
+          </Text>
         </View>
         <View>
           <Text style={styles.contentText}>{commentData.content}</Text>
@@ -154,26 +163,30 @@ function CommentItem({
             <>
               <TouchableOpacity
                 style={{marginLeft: '3%'}}
-                onPress={() => setCommentIsopened(prev => !prev)}>
-                <Text
-                  style={{fontSize: 12, color: '#808080', fontWeight: 'bold'}}>
-                  {commentIsopened ? '답글 숨기기' : '답글 보기'}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{marginLeft: '3%'}}
                 onPress={nestOnPress}>
                 <Text
                   style={{fontSize: 12, color: '#808080', fontWeight: 'bold'}}>
                   답글 달기
                 </Text>
               </TouchableOpacity>
+              <TouchableOpacity
+                style={{marginLeft: '3%'}}
+                onPress={() => setCommentIsopened((prev) => !prev)}>
+                <Text
+                  style={{fontSize: 12, color: '#808080', fontWeight: 'bold'}}>
+                  {commentIsopened ? '답글 숨기기' : '답글 보기'}
+                </Text>
+              </TouchableOpacity>
             </>
           )}
         </View>
       </View>
-      <View style={{flex: 0.5, justifyContent: 'center'}}>
-        <CommentModal data={commentData}></CommentModal>
+      <View
+        style={{flex: 0.5, justifyContent: 'center', alignItems: 'flex-end'}}>
+        <CommentModal
+          data={commentData}
+          replys={replys}
+          setReplys={setReplys}></CommentModal>
       </View>
     </View>
   ) : (
@@ -201,7 +214,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const commentStyles = isReply =>
+const commentStyles = (isReply) =>
   StyleSheet.create({
     firstContainer: {
       flex: isReply ? 0.9 : 1,
@@ -214,7 +227,7 @@ const commentStyles = isReply =>
     },
   });
 
-const avaStyles = writerVote =>
+const avaStyles = (writerVote) =>
   StyleSheet.create({
     avartarContainer: {
       backgroundColor: '#FFFFFF',

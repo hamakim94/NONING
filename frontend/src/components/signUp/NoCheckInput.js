@@ -15,6 +15,7 @@ function NoCheckInput({
   login,
   handleSubmit,
   onSubmit,
+  placeholder,
 }) {
   const blank = /\s/g;
   return (
@@ -30,11 +31,12 @@ function NoCheckInput({
                   borderColor:
                     Object.keys(errorMessage).length == 0
                       ? style.borderColor
-                      : '#FF7171',
+                      : '#FF5F5F',
                 },
               ]}
+              placeholder={placeholder}
               blurOnSubmit={false}
-              ref={el => (inputRef.current[index] = el)}
+              ref={(el) => (inputRef.current[index] = el)}
               onFocus={() =>
                 index < 3
                   ? setStyle(styles.focusInput)
@@ -45,7 +47,7 @@ function NoCheckInput({
                   ? setStyle(styles.blurInput)
                   : setStyle(styles.blurHalfInput)
               }
-              onChangeText={value => onChange(value.replace(blank, ''))}
+              onChangeText={(value) => onChange(value.replace(blank, ''))}
               value={value}
               returnKeyType={login ? '' : 'next'}
               onSubmitEditing={
@@ -57,7 +59,7 @@ function NoCheckInput({
                         : inputRef.current[index + 1].focus()
               }
               secureTextEntry={blind}
-              selectionColor={'#FF7171'}
+              selectionColor={'#FF5F5F'}
             />
           </View>
         )}

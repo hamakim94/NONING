@@ -84,7 +84,8 @@ export default function LoginForm({navigation}) {
           errorMessage={errors.email ? errors.email.message : ''}
           styles={styles}
           inputRef={inputRef}
-          index={0}></NoCheckInput>
+          index={0}
+          placeholder={'이메일'}></NoCheckInput>
       </View>
       <View>
         <InputLabel name="비밀번호"></InputLabel>
@@ -100,7 +101,8 @@ export default function LoginForm({navigation}) {
           blind={true}
           login={true}
           handleSubmit={handleSubmit}
-          onSubmit={onSubmit}></NoCheckInput>
+          onSubmit={onSubmit}
+          placeholder={'8~16자 영문, 숫자, 특수문자'}></NoCheckInput>
       </View>
       <View style={{alignItems: 'center', marginVertical: '3%'}}>
         <TouchableOpacity
