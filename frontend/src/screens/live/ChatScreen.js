@@ -21,12 +21,14 @@ import ChatHeader from '../../components/live/chat/ChatHeader';
 import ChatContent from '../../components/live/chat/ChatContent';
 import UserContext from '../../util/UserContext';
 import {useIsFocused} from '@react-navigation/native';
+import webRTC from 'react-native-webrtc';
+import mediasoup from 'mediasoup-client';
 
 const users = [];
 const messages = [];
-
 const io = require('socket.io/client-dist/socket.io');
 let socket;
+webRTC.registerGlobals();
 
 export default function ChatScreen({route, navigation}) {
   const [userList, setUserList] = useState(users);
@@ -38,20 +40,28 @@ export default function ChatScreen({route, navigation}) {
   const chatRef = useRef(null);
   const scrollRef = useRef(null);
   const isFocused = useIsFocused();
-
   useEffect(() => {
     if (isFocused) {
+      let device;
+      let producer;
       // socket = io(`http://10.0.2.2:3000`, {
-      socket = io(`https://i7a202.p.ssafy.io`, {
+      socket = io(`https://i7a202.p.ssafy.io:3000`, {
         transports: ['websocket'], // you need to explicitly tell it to use websockets
       });
 
-      socket.on('connect', () => {
+      socket.on('connect', async () => {
         console.log(userData.nickname + ' connect');
         socket.emit('enter', boardData, userData, () => {
           socket.disconnect();
           navigation.goBack();
         });
+
+        const data = await new Promise((resolve) =>
+          socket.emit('getRouterRtpCapabilities', resolve),
+        );
+        await loadDevice(data);
+        await publish();
+        await subscribe();
       });
 
       socket.on('welcome', (userVoteData) => {
@@ -140,6 +150,141 @@ export default function ChatScreen({route, navigation}) {
           return [...userList];
         });
       });
+      // WebRTC - mediasoup
+
+      async function loadDevice(routerRtpCapabilities) {
+        try {
+          device = new mediasoup.Device();
+        } catch (error) {
+          if (error.name === 'UnsupportedError') {
+            console.error('brower not supported');
+          }
+        }
+        await device.load({routerRtpCapabilities});
+      }
+      async function publish() {
+        const data = await new Promise((resolve) =>
+          socket.emit(
+            'createProducerTransport',
+            {
+              forceTcp: false,
+              rtpCapabilities: device.rtpCapabilities,
+            },
+            resolve,
+          ),
+        );
+
+        if (data.error) {
+          console.error(data.error);
+          return;
+        }
+
+        const transport = device.createSendTransport(data);
+        transport.on('connect', async ({dtlsParameters}, callback, errback) => {
+          new Promise((resolve) =>
+            socket.emit('connectProducerTransport', {dtlsParameters}, resolve),
+          )
+            .then(callback)
+            .catch(errback);
+        });
+
+        transport.on(
+          'produce',
+          async ({kind, rtpParameters}, callback, errback) => {
+            try {
+              const {id} = await new Promise((resolve) =>
+                socket.emit(
+                  'produce',
+                  {
+                    transportId: transport.id,
+                    kind,
+                    rtpParameters,
+                  },
+                  resolve,
+                ),
+              );
+              callback({id});
+            } catch (err) {
+              errback(err);
+            }
+          },
+        );
+
+        let stream;
+        try {
+          stream = await getUserMedia(transport);
+          const track = stream.getAutioTracks()[0];
+          const params = {track};
+          producer = await transport.produce(params);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    }
+
+    async function getUserMedia(transport) {
+      if (!device.canProduce('video')) {
+        console.error('cannot produce video');
+        return;
+      }
+
+      let stream;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({audio: true});
+      } catch (err) {
+        console.error('getUserMedia() failed:', err.message);
+        throw err;
+      }
+      return stream;
+    }
+    async function subscribe() {
+      const data = await new Promise((resolve) =>
+        socket.emit(
+          'createConsumerTransport',
+          {
+            forceTcp: false,
+          },
+          resolve,
+        ),
+      );
+      if (data.error) {
+        console.error(data.error);
+        return;
+      }
+
+      const transport = device.createRecvTransport(data);
+      transport.on('connect', ({dtlsParameters}, callback, errback) => {
+        socket
+          .emit('connectConsumerTransport', {
+            transportId: transport.id,
+            dtlsParameters,
+          })
+          .then(callback)
+          .catch(errback);
+      });
+
+      const stream = consume(transport);
+    }
+
+    async function consume(transport) {
+      const {rtpCapabilities} = device;
+      const data = await new Promise((resolve) =>
+        socket.emit('consume', {rtpCapabilities}, resolve),
+      );
+
+      const {producerId, id, kind, rtpParameters} = data;
+
+      let codecOptions = {};
+      const consumer = await transport.consume({
+        id,
+        producerId,
+        kind,
+        rtpParameters,
+        codecOptions,
+      });
+      const stream = new MediaStream();
+      stream.addTrack(consumer.track);
+      return stream;
     }
 
     return () => {
