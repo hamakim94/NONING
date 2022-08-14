@@ -208,26 +208,7 @@ function FollowingScreen({route, navigation}) {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
-      <View style={{flex: 0.5, flexDirection: 'row', marginVertical: '3%'}}>
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <TouchableOpacity style={{}} onPress={() => navigation.pop()}>
-            <Feather name="chevron-left" size={30} color="#000000" />
-          </TouchableOpacity>
-        </View>
-        <View style={{flex: 4, justifyContent: 'center'}}>
-          <Text
-            style={{
-              fontWeight: 'bold',
-              fontSize: 18,
-              color: '#000000',
-              textAlign: 'center',
-            }}>
-            Following
-          </Text>
-        </View>
-        <View style={{flex: 1}}></View>
-      </View>
-      <View style={{flex: 5.5}}>
+      <View style={{flex: 1}}>
         <FlatList
           navigation={navigation}
           data={followData.followings}

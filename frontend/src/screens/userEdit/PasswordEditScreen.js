@@ -5,18 +5,12 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Alert,
-  Dimensions,
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import UserContext from '../../util/UserContext';
 import UseAxios from '../../util/UseAxios';
-
-const screenHeight = Dimensions.get('window').height;
-const screenWidth = Dimensions.get('window').width;
 
 function PasswordEditScreen({navigation}) {
   const {userData} = useContext(UserContext);
@@ -62,35 +56,28 @@ function PasswordEditScreen({navigation}) {
   const blank = /\s/g;
 
   const onSubmit = (data) => {
-    Alert.alert('비밀번호 변경', '변경하시겠습니까?', [
-      {
-        text: '확인',
-        onPress: () => {
-          UseAxios.put('/users/passwords/edit', {
-            password: data.password,
-            newPassword: data.newPassword,
-            userId: userData.userId,
-          })
-            .then(() => {
-              navigation.navigate('HomeStack');
-            })
-            .catch((err) => {
-              console.log(err);
-              Alert.alert('비밀번호 오류', '비밀번호가 일치하지 않습니다', {
-                text: '확인',
-              });
-            });
-        },
-      },
-      {
-        text: '취소',
-        onPress: () => {},
-      },
-      // console.log('취소버튼'), style: 'cancel'},
-    ]);
+    UseAxios.put('/users/passwords/edit', {
+      password: data.password,
+      newPassword: data.newPassword,
+      userId: userData.userId,
+    })
+      .then(() => {
+        navigation.navigate('HomeStack');
+      })
+      .catch(() => {
+        alert('비밀번호 오류');
+      });
   };
-
-  console.log(errors);
+  // Alert.alert('비밀번호 변경', '변경하시겠습니까?', [
+  //   {
+  //     text: '확인',
+  //     onPress: () => ,
+  //   },
+  //   {
+  //     text: '취소',
+  //     onPress: () => {},
+  //   },
+  // console.log('취소버튼'), style: 'cancel'},
 
   return (
     <View style={styles.container}>

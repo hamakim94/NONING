@@ -104,8 +104,9 @@ export default function VoteLike({navigation, myPageData}) {
                         <TouchableOpacity
                           style={styles.detail}
                           onPress={() =>
-                            navigation.push('DetailScreen', {
+                            navigation.push('DetailNav', {
                               screen: 'DetailScreen',
+                              params: {boardId: item.boardId},
                             })
                           }>
                           <Feather

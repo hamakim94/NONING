@@ -1,9 +1,11 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useContext} from 'react';
 import UserContext from '../../util/UserContext';
+import DetailContext from '../boardDetail/DetailContext';
 // 투표 : /api/boards/{boardid}/vote
 export default function BoardBar({board, setBoards, navigation}) {
   const {userData, setUserData} = useContext(UserContext);
+  const {participants, setParticipants} = useContext(DetailContext);
   // 이제 여기서 props로 넣어줄거야, 그래서 voted가 1 이상이면 터치 못 하게 해야해
   const opt1_ratio = Math.round(
     (board.opt1Selected / (board.opt1Selected + board.opt2Selected)) * 100,
@@ -14,9 +16,37 @@ export default function BoardBar({board, setBoards, navigation}) {
 
   const setOpt1Selected = () => {
     setBoards({...board, opt1Selected: board.opt1Selected + 1, userVote: 1});
+    const newUser = {
+      userId: userData.userId,
+      nickname: userData.nickname,
+      img: userData.img,
+      mbti1Code: userData.mbti1Code,
+      mbti2Code: userData.mbti2Code,
+      mbti3Code: userData.mbti3Code,
+      mbti4Code: userData.mbti4Code,
+      genderCode: userData.genderCode,
+      age: userData.age,
+      ageRangeCode: userData.ageRangeCode,
+      vote: 1,
+    };
+    setParticipants(participants.concat(newUser));
   };
   const setOpt2Selected = () => {
     setBoards({...board, opt2Selected: board.opt2Selected + 1, userVote: 2});
+    const newUser = {
+      userId: userData.userId,
+      nickname: userData.nickname,
+      img: userData.img,
+      mbti1Code: userData.mbti1Code,
+      mbti2Code: userData.mbti2Code,
+      mbti3Code: userData.mbti3Code,
+      mbti4Code: userData.mbti4Code,
+      genderCode: userData.genderCode,
+      age: userData.age,
+      ageRangeCode: userData.ageRangeCode,
+      vote: 2,
+    };
+    setParticipants(participants.concat(newUser));
   };
 
   const posting = (num) => {

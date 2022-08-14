@@ -31,13 +31,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    paddingHorizontal: 0,
+    paddingHorizontal: 16,
   },
   logoContainer: {
     flex: 1,
-
     alignItems: 'center',
-    marginVertical: '10%',
+    marginVertical: 20,
   },
   logoImageContainer: {
     width: 100,

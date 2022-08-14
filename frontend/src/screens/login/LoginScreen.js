@@ -6,6 +6,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 const LoginScreen = ({navigation}) => (
   <View style={styles.container}>
     <KeyboardAwareScrollView keyboardShouldPersistTaps={'handled'}>
+      <View style={{height: 25}}></View>
       <View style={styles.logoContainer}>
         <Image
           style={styles.logo}
@@ -42,6 +43,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   logoContainer: {
     flex: 1,
