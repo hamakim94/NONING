@@ -54,7 +54,7 @@ try {
   });
 
   const mediaCodecs = config.mediasoup.router.mediaCodecs;
-  mediasoupRouter = worker.createRouter({mediaCodecs});
+  mediasoupRouter = await worker.createRouter({mediaCodecs});
 })();
 
 // const http = createServer(app);
@@ -179,7 +179,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('getRouterRtpCapabilities', (callback) => {
-    console.log(mediasoupRouter.rtpCapabilities);
     callback(mediasoupRouter.rtpCapabilities);
   });
   socket.on('createProducerTransport', async (data, callback) => {
