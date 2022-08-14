@@ -38,7 +38,7 @@ try {
   console.log(error);
 }
 (async () => {
-  worker = mediasoup.createWorker({
+  worker = await mediasoup.createWorker({
     logLevel: config.mediasoup.worker.logLevel,
     logTags: config.mediasoup.worker.logTags,
     rtcMinPort: config.mediasoup.worker.rtcMinPort,
