@@ -17,37 +17,41 @@ export default function BoardBar({board, setBoards, navigation}) {
 
   const setOpt1Selected = () => {
     setBoards({...board, opt1Selected: board.opt1Selected + 1, userVote: 1});
-    const newUser = {
-      userId: userData.userId,
-      nickname: userData.nickname,
-      img: userData.img,
-      mbti1Code: userData.mbti1Code,
-      mbti2Code: userData.mbti2Code,
-      mbti3Code: userData.mbti3Code,
-      mbti4Code: userData.mbti4Code,
-      genderCode: userData.genderCode,
-      age: userData.age,
-      ageRangeCode: userData.ageRangeCode,
-      vote: 1,
-    };
-    setParticipants(participants.concat(newUser));
+    if (participants) {
+      const newUser = {
+        userId: userData.userId,
+        nickname: userData.nickname,
+        img: userData.img,
+        mbti1Code: userData.mbti1Code,
+        mbti2Code: userData.mbti2Code,
+        mbti3Code: userData.mbti3Code,
+        mbti4Code: userData.mbti4Code,
+        genderCode: userData.genderCode,
+        age: userData.age,
+        ageRangeCode: userData.ageRangeCode,
+        vote: 1,
+      };
+      setParticipants(participants.concat(newUser));
+    }
   };
   const setOpt2Selected = () => {
     setBoards({...board, opt2Selected: board.opt2Selected + 1, userVote: 2});
-    const newUser = {
-      userId: userData.userId,
-      nickname: userData.nickname,
-      img: userData.img,
-      mbti1Code: userData.mbti1Code,
-      mbti2Code: userData.mbti2Code,
-      mbti3Code: userData.mbti3Code,
-      mbti4Code: userData.mbti4Code,
-      genderCode: userData.genderCode,
-      age: userData.age,
-      ageRangeCode: userData.ageRangeCode,
-      vote: 2,
-    };
-    setParticipants(participants.concat(newUser));
+    if (participants) {
+      const newUser = {
+        userId: userData.userId,
+        nickname: userData.nickname,
+        img: userData.img,
+        mbti1Code: userData.mbti1Code,
+        mbti2Code: userData.mbti2Code,
+        mbti3Code: userData.mbti3Code,
+        mbti4Code: userData.mbti4Code,
+        genderCode: userData.genderCode,
+        age: userData.age,
+        ageRangeCode: userData.ageRangeCode,
+        vote: 2,
+      };
+      setParticipants(participants.concat(newUser));
+    }
   };
 
   const posting = (num) => {
