@@ -15,6 +15,7 @@ function FlowScreen({navigation}) {
   const [boards, setBoards] = useState([]);
   const {realHeight} = useContext(UserContext);
   const isFocused = useIsFocused();
+  const [empty, setEmpty] = useState(false);
 
   useEffect(() => {
     UseAxios.get('/boards/flow').then((res) => {
@@ -24,6 +25,9 @@ function FlowScreen({navigation}) {
         if (a.boardId < b.boardId) return 1;
       });
       setBoards(res.data);
+      if (res.data.length === 0) {
+        setEmpty(true);
+      }
     });
   }, [isFocused]);
 
@@ -41,7 +45,7 @@ function FlowScreen({navigation}) {
     [boards],
   );
 
-  return boards.length !== 0 ? (
+  return !empty ? (
     <View style={{flex: 1}}>
       <FlatList
         showsVerticalScrollIndicator={false}

@@ -2,6 +2,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useContext} from 'react';
 import UserContext from '../../util/UserContext';
 import DetailContext from '../boardDetail/DetailContext';
+import LoginAlert from '../../util/LoginAlert';
 // 투표 : /api/boards/{boardid}/vote
 export default function BoardBar({board, setBoards, navigation}) {
   const {userData, setUserData} = useContext(UserContext);
@@ -66,7 +67,7 @@ export default function BoardBar({board, setBoards, navigation}) {
         disabled={board.userVote > 0}
         onPress={() => {
           userData === null
-            ? navigation.navigate('LoginNav', {screen: 'LoginNav'})
+            ? LoginAlert(navigation)
             : [setOpt1Selected(), posting(1)];
         }}>
         <Text style={styles.leftInnerText(board.userVote)}>{board.opt1}</Text>
@@ -79,7 +80,7 @@ export default function BoardBar({board, setBoards, navigation}) {
         disabled={board.userVote > 0}
         onPress={() => {
           userData === null
-            ? navigation.navigate('LoginNav', {screen: 'LoginNav'})
+            ? LoginAlert(navigation)
             : [setOpt2Selected(), posting(2)];
         }}>
         <Text style={styles.rightInnerText(board.userVote)}>{board.opt2}</Text>

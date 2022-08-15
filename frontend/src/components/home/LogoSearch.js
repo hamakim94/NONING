@@ -1,8 +1,12 @@
 import {Image, StyleSheet, View, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import UserContext from '../../util/UserContext';
+import LoginAlert from '../../util/LoginAlert';
 
 export default function LogoSearch({navigation}) {
+  const {userData} = useContext(UserContext);
+
   return (
     <View style={styles.container}>
       <TouchableOpacity>
@@ -14,7 +18,9 @@ export default function LogoSearch({navigation}) {
       <View style={styles.iconsContainer}>
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate('SearchNav', {screen: 'SearchNav'})
+            userData === null
+              ? LoginAlert(navigation)
+              : navigation.navigate('SearchNav', {screen: 'SearchNav'})
           }>
           <Ionicons
             name={'search'}
