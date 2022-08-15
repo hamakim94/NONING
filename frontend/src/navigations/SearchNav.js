@@ -14,12 +14,15 @@ function SearchNav() {
         tabBarActiveTintColor: '#FF7171',
         tabBarInactiveTintColor: '#808080',
         tabBarPressColor: '#C9C9C9',
-        tabBarIndicatorStyle: {backgroundColor: '#FF7171', width: '25%', marginHorizontal: '7%'},
+        tabBarIndicatorStyle: {
+          backgroundColor: '#FF7171',
+          width: '25%',
+          marginHorizontal: '7%',
+        },
         tabBarLabelStyle: {fontSize: 15},
         tabBarStyle: {
           backgroundColor: '#FFFFFF',
           marginHorizontal: 20,
-          marginTop: 5,
           marginBottom: 10,
           shadowColor: '#FFFFFF',
           borderBottomColor: '#808080',
