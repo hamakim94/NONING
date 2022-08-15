@@ -31,7 +31,7 @@ import {
   mediaDevices,
   registerGlobals,
 } from 'react-native-webrtc';
-const mediasoup = require('mediasoup-client');
+const mediasoupClient = require('mediasoup-client');
 
 const users = [];
 const messages = [];
