@@ -24,7 +24,7 @@ export default function BoardFooter({board, setBoards, navigation}) {
         // console.log(res);
       })
       .then((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
   const unlike = () => {
@@ -33,7 +33,7 @@ export default function BoardFooter({board, setBoards, navigation}) {
         // console.log(res);
       })
       .then((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 

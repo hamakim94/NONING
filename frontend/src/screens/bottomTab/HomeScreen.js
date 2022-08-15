@@ -20,7 +20,7 @@ function HomeScreen({navigation}) {
   const [filterName, setFilterName] = useState('전체');
   const [boards, setBoards] = useState([]);
   const [isPopular, setIsPopular] = useState('최신');
-  const {userData, realHeight, setRealHeight} = useContext(UserContext);
+  const {userData} = useContext(UserContext);
   const [refreshing, setRefreshing] = useState(false);
   const isFocused = useIsFocused();
   const filterToCode = {
@@ -99,14 +99,9 @@ function HomeScreen({navigation}) {
     <Boards board={item} navigation={navigation}></Boards>
   );
   const keyExtractor = (item) => item.boardId;
-  const onLayout = (event) => {
-    const {height} = event.nativeEvent.layout;
-    setRealHeight(height);
-  };
+
   return (
-    <SafeAreaView
-      style={{flex: 1, backgroundColor: '#FFFFFF'}}
-      onLayout={onLayout}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
       <View style={{flex: 1}}>
         <LogoSearch navigation={navigation}></LogoSearch>
         <Divider width={0.5} color={'#A6A6A6'}></Divider>

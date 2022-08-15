@@ -30,7 +30,7 @@ function CommentItem({
         setter;
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         alert('다시 한번 눌러주세요!');
       });
   };

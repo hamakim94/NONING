@@ -1,6 +1,6 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {DevSettings} from 'react-native';
+import {Alert, DevSettings} from 'react-native';
 
 export default UseAxios = axios.create({
   baseURL: 'https://i7a202.p.ssafy.io/api',
@@ -48,7 +48,7 @@ UseAxios.interceptors.response.use(
         originalRequest.headers['ACCESSTOKEN'] = response.headers.accesstoken;
         return axios(originalRequest);
       } else {
-        alert('세션이 만료되었습니다. 다시 로그인해주세요.');
+        Alert.alert('', '세션이 만료되었습니다. 다시 로그인해주세요.');
         AsyncStorage.clear();
         DevSettings.reload();
       }

@@ -5,6 +5,7 @@ import {
   Dimensions,
   Text,
   TouchableOpacity,
+  Keyboard,
 } from 'react-native';
 import {TabView, TabBar} from 'react-native-tab-view';
 import CommentScreen from './CommentScreen';
@@ -60,6 +61,7 @@ const initialLayout = {width: Dimensions.get('window').width};
 
 export default function DetailScreen({navigation, route}) {
   const [index, setIndex] = useState(0);
+  const [onFocus, setOnFocus] = useState(false);
   const [routes] = useState([
     {key: 0, title: '댓글'},
     {key: 1, title: '분석'},
@@ -72,20 +74,23 @@ export default function DetailScreen({navigation, route}) {
   const renderScene = ({route}) => {
     switch (route.key) {
       case 0:
-        return <CommentScreen board={board} />;
+        return <CommentScreen board={board} focusInput={focusInput} />;
       case 1:
         return <AnalysisScreen board={board} />;
     }
+  };
+  const focusInput = () => {
+    setOnFocus(!onFocus);
   };
   useEffect(() => {
     if (isFocused) {
       UseAxios.get(`/boards/${boardId}`)
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           setBoard(res.data);
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
       UseAxios.get(`/boards/${boardId}/users`)
         .then((res) => {
@@ -94,7 +99,18 @@ export default function DetailScreen({navigation, route}) {
         .catch((err) => {});
     }
   }, [isFocused]);
-
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
+      setOnFocus(true);
+    });
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+      setOnFocus(false);
+    });
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
   const like = () => {
     UseAxios.post(`/boards/${board.boardId}/like`, null, {
       params: {
@@ -102,19 +118,19 @@ export default function DetailScreen({navigation, route}) {
       },
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
   const unlike = () => {
     UseAxios.delete(`/boards/${board.boardId}/unlike?userId=${userData.userId}`)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -143,7 +159,7 @@ export default function DetailScreen({navigation, route}) {
         );
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
   const onLive = () => {
@@ -241,68 +257,75 @@ export default function DetailScreen({navigation, route}) {
             ''
           )}
         </View>
-        <View
-          style={{
-            flex: 0.3,
-            justifyContent: 'flex-end',
-            paddingHorizontal: 16,
-          }}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <View>
-              <TouchableOpacity
-                disabled={board ? (board.writerNickname ? false : true) : true}
-                onPress={() =>
-                  navigation.push('YourPageScreen', {id: board.writerId})
-                }>
-                <View style={{flexDirection: 'row'}}>
-                  <Avatar
-                    size={19}
-                    rounded
-                    containerStyle={styles.avartarContainer}
-                    source={
-                      board
-                        ? board.writerImg
-                          ? {uri: board.writerImg}
-                          : require('../../assets/DefaultProfile.jpg')
-                        : ''
-                    }
-                  />
-                  <Text style={{color: '#000000'}}>
-                    {board
-                      ? board.writerNickname
-                        ? board.writerNickname
-                        : '탈퇴한논장이'
-                      : ''}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
+        {onFocus ? (
+          ''
+        ) : (
+          <View
+            style={{
+              flex: 0.3,
+              justifyContent: 'flex-end',
+              paddingHorizontal: 16,
+            }}>
             <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              {board ? (
-                board.userVote == 0 ? (
-                  ''
-                ) : (
-                  <TouchableOpacity onPress={onLive}>
-                    <Text style={styles.liveButton(board ? board.live : '')}>
-                      LIVE
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <View>
+                <TouchableOpacity
+                  disabled={
+                    board ? (board.writerNickname ? false : true) : true
+                  }
+                  onPress={() =>
+                    navigation.push('YourPageScreen', {id: board.writerId})
+                  }>
+                  <View style={{flexDirection: 'row'}}>
+                    <Avatar
+                      size={19}
+                      rounded
+                      containerStyle={styles.avartarContainer}
+                      source={
+                        board
+                          ? board.writerImg
+                            ? {uri: board.writerImg}
+                            : require('../../assets/DefaultProfile.jpg')
+                          : ''
+                      }
+                    />
+                    <Text style={{color: '#000000'}}>
+                      {board
+                        ? board.writerNickname
+                          ? board.writerNickname
+                          : '탈퇴한논장이'
+                        : ''}
                     </Text>
-                  </TouchableOpacity>
-                )
-              ) : (
-                ''
-              )}
-              {board ? (
-                <BoardModal data={board} navigation={navigation}></BoardModal>
-              ) : (
-                ''
-              )}
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                {board ? (
+                  board.userVote == 0 ? (
+                    ''
+                  ) : (
+                    <TouchableOpacity onPress={onLive}>
+                      <Text style={styles.liveButton(board ? board.live : '')}>
+                        LIVE
+                      </Text>
+                    </TouchableOpacity>
+                  )
+                ) : (
+                  ''
+                )}
+                {board ? (
+                  <BoardModal data={board} navigation={navigation}></BoardModal>
+                ) : (
+                  ''
+                )}
+              </View>
             </View>
           </View>
-        </View>
+        )}
         <View style={{flex: 3.3, marginTop: '1%'}}>
           <TabView
             navigationState={{index, routes}}

@@ -18,14 +18,14 @@ export default function DetailNav() {
         options={HeaderOptions('상세페이지')}
       />
       <Stack.Screen
-        name="YourPageScreen"
-        component={YourPageScreen}
-        options={HeaderOptions('유저페이지')}
-      />
-      <Stack.Screen
         name="ChatNav"
         component={ChatNav}
         options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="YourPageScreen"
+        component={YourPageScreen}
+        options={HeaderOptions('유저페이지')}
       />
       <Stack.Screen
         name="FollowerScreen"

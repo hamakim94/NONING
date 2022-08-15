@@ -20,10 +20,10 @@ export default function BoardModal({data, navigation}) {
       UseAxios.put(`/boards/${boardId}/delete`)
         .then((res) => {
           navigation.goBack();
-          console.log(res);
+          // console.log(res);
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     else {
       alert('본인 글만 삭제할 수 있습니다.');

@@ -30,7 +30,7 @@ export default function FlowBlank({navigation}) {
         <View style={{margin: 10}}>
           <TouchableOpacity
             style={{
-              backgroundColor: '#FF7171',
+              backgroundColor: '#FF5F5F',
               width: 200,
               padding: 10,
               borderRadius: 10,

@@ -15,7 +15,7 @@ import UseAxios from '../../util/UseAxios';
 import Feather from 'react-native-vector-icons/Feather';
 import CommentContext from '../../components/boardDetail/CommentContext';
 
-function CommentScreen({board}) {
+function CommentScreen({board, focusInput}) {
   const isFocused = useIsFocused();
   const [comments, setComments] = useState([]);
   const {boardId, participants} = useContext(DetailContext);
@@ -65,11 +65,11 @@ function CommentScreen({board}) {
       parentId: nested ? parentComment : 0,
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         SetCheckWrite(!checkWrite);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
     setContent('');
     Keyboard.dismiss();

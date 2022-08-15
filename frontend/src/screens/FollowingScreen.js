@@ -26,44 +26,46 @@ function FollowingScreen({route, navigation}) {
     UseAxios.get(`/follows/list/${id}`)
       .then((res) => {
         setFollowData(res.data);
-        console.log(followData);
-        console.log('페이지 주인:' + id);
+        // console.log(followData);
+        // console.log('페이지 주인:' + id);
       })
-      .then(console.log(followData));
+      .catch((err) => {
+        // console.log(followData)
+      });
   }, [isFocused, fake]);
 
   useEffect(() => {
     UseAxios.get(`/users/${userData.userId}/page`).then((res) => {
       setMyData(res.data);
-      console.log(myData);
+      // console.log(myData);
     });
   }, [isFocused]);
 
   const follow = (item) => {
-    console.log('팔');
+    // console.log('팔');
     UseAxios.post(`/follows/add`, {
       userId: userData.userId,
       targetUserId: item.userId,
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
   const unfollow = (item) => {
-    console.log('언팔');
+    // console.log('언팔');
     UseAxios.post(`/follows/delete`, {
       userId: userData.userId,
       targetUserId: item.userId,
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
