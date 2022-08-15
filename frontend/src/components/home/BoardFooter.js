@@ -47,6 +47,7 @@ export default function BoardFooter({board, setBoards, navigation}) {
       <View style={styles.writerContainer}>
         {/* <Text style={{color: '#000000'}}>작성자 : </Text> */}
         <TouchableOpacity
+          disabled={board.writerNickname === null ? true : false}
           style={{flexDirection: 'row', alignItems: 'center'}}
           onPress={() =>
             userData === null
@@ -61,7 +62,9 @@ export default function BoardFooter({board, setBoards, navigation}) {
                 : require('../../assets/DefaultProfile.jpg')
             }></Image>
           <Text style={{paddingLeft: 5, color: '#000000', fontSize: 13}}>
-            {board.writerNickname}{' '}
+            {board.writerNickname === null
+              ? '탈퇴한논장이'
+              : board.writerNickname}{' '}
           </Text>
         </TouchableOpacity>
       </View>

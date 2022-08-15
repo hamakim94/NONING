@@ -15,7 +15,7 @@ export default function VoteLike({navigation, myPageData}) {
         renderItem={({item}) => (
           <View
             style={
-              item.userLike !== false
+              item.userLike !== 'false'
                 ? {borderBottomWidth: 0.3, borderBottomColor: '#A6A6A6'}
                 : {borderBottomWidth: 0}
             }>

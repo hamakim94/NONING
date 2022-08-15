@@ -80,6 +80,7 @@ function BottomTabsNav() {
         name="LiveNav"
         component={LiveNav}
         options={{
+          unmountOnBlur: true,
           tabBarShowLabel: false,
           headerShown: false,
           tabBarIcon: ({color, size}) => (

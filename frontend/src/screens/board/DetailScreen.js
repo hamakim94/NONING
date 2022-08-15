@@ -250,6 +250,7 @@ export default function DetailScreen({navigation, route}) {
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <View>
               <TouchableOpacity
+                disabled={board ? (board.writerNickname ? false : true) : true}
                 onPress={() =>
                   navigation.push('YourPageScreen', {id: board.writerId})
                 }>
