@@ -164,7 +164,7 @@ io.on('connection', (socket) => {
     io.to(socket.boardId).emit('betray', user, opt1Cnt, opt2Cnt);
   });
   socket.on('mute', () => {
-    producers = removeItems(producers, socket.id, 'producer');
+    socket.emit('mute', {});
   });
   socket.on('unmute', () => {
     socket.emit('unmute', {});
@@ -332,7 +332,7 @@ io.on('connection', (socket) => {
   // see client's socket.emit('transport-produce', ...)
   socket.on(
     'transport-produce',
-    async ({kind, rtpParameters, appData, isMute}, callback) => {
+    async ({kind, rtpParameters, appData}, callback) => {
       // call produce based on the prameters from the client
       const producer = await getTransport(socket.id).produce({
         kind,
@@ -358,7 +358,6 @@ io.on('connection', (socket) => {
         id: producer.id,
         producersExist: producers.length > 1 ? true : false,
       });
-      if (isMute) removeItems(producers, socket.id, 'producer');
     },
   );
 
