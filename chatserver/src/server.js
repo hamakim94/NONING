@@ -163,12 +163,17 @@ io.on('connection', (socket) => {
     // 본인 포함 방 안의 모든 사람들에게 전달
     io.to(socket.boardId).emit('betray', user, opt1Cnt, opt2Cnt);
   });
-
+  socket.on('mute', () => {
+    producers = removeItems(producers, socket.id, 'producer');
+  });
+  socket.on('unmute', () => {
+    socket.emit('unmute', {});
+  });
   socket.on('disconnecting', () => {
     if (socket.boardId) {
       userList.get(socket.boardId).delete(socket);
-      consumers = removeItems(consumers, socket.id, 'consumers');
-      producers = removeItems(producers, socket.id, 'producers');
+      consumers = removeItems(consumers, socket.id, 'consumer');
+      producers = removeItems(producers, socket.id, 'producer');
       transports = removeItems(transports, socket.id, 'transport');
       const {roomName} = peers[socket.id];
       delete peers[socket.id];
@@ -355,6 +360,11 @@ io.on('connection', (socket) => {
       });
     },
   );
+  socket.on('producerExist', (done) => {
+    done({
+      producerExist: producers.length > 0 ? true : false,
+    });
+  });
 
   // see client's socket.emit('transport-recv-connect', ...)
   socket.on(
