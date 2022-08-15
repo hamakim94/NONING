@@ -46,7 +46,6 @@ function CommentScreen({board}) {
       );
     }
   }, [parentComment]);
-  console.log(writerNickname);
 
   const renderItem = ({item}) => (
     <CommentList
