@@ -332,7 +332,7 @@ io.on('connection', (socket) => {
   // see client's socket.emit('transport-produce', ...)
   socket.on(
     'transport-produce',
-    async ({kind, rtpParameters, appData}, callback) => {
+    async ({kind, rtpParameters, appData, isMute}, callback) => {
       // call produce based on the prameters from the client
       const producer = await getTransport(socket.id).produce({
         kind,
@@ -358,13 +358,9 @@ io.on('connection', (socket) => {
         id: producer.id,
         producersExist: producers.length > 1 ? true : false,
       });
+      if (isMute) removeItems(producers, socket.id, 'producer');
     },
   );
-  socket.on('producerExist', (done) => {
-    done({
-      producerExist: producers.length > 0 ? true : false,
-    });
-  });
 
   // see client's socket.emit('transport-recv-connect', ...)
   socket.on(
