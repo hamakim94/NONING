@@ -50,14 +50,15 @@ export default function ChatScreen({route, navigation}) {
   const chatRef = useRef(null);
   const scrollRef = useRef(null);
   const isFocused = useIsFocused();
+  const isMute = useRef(true);
+  let device;
+  let rtpCapabilities;
+  let producerTransport;
+  let consumerTransports = [];
+  let audioProducer;
+  let audioParams;
+  let consumingTransports = [];
   useEffect(() => {
-    let device;
-    let rtpCapabilities;
-    let producerTransport;
-    let consumerTransports = [];
-    let audioProducer;
-    let audioParams;
-    let consumingTransports = [];
     if (isFocused) {
       // socket = io(`http://10.0.2.2:3000`, {
       socket = io(`https://i7a202.p.ssafy.io:3002`, {
@@ -151,9 +152,6 @@ export default function ChatScreen({route, navigation}) {
 
         setMessageList((messageList) => [...messageList, msgData]);
       });
-      socket.on('newProducer', async () => {
-        subscribe();
-      });
       socket.on('connect_error', (err) => {
         console.log(err.message);
       });
@@ -173,21 +171,20 @@ export default function ChatScreen({route, navigation}) {
           return [...userList];
         });
       });
+
       // WebRTC - mediasoup
+      socket.on('unmute', () => {
+        console.log('unmute');
+        audioParams.track.enabled = true;
+      });
+      socket.on('mute', () => {
+        console.log('mute');
+        audioParams.track.enabled = false;
+      });
+
       const streamSuccess = (stream) => {
         audioParams = {track: stream.getAudioTracks()[0], ...audioParams};
-      };
-
-      const joinRoom = () => {
-        socket.emit('joinRoom', {roomName}, (data) => {
-          console.log(`Router RTP Capabilities... ${data.rtpCapabilities}`);
-          // we assign to local variable and will be used when
-          // loading the client Device (see createDevice above)
-          rtpCapabilities = data.rtpCapabilities;
-
-          // once we have rtpCapabilities from the Router, create Device
-          createDevice();
-        });
+        audioParams.track.enabled = false;
       };
 
       const getLocalStream = () => {
@@ -268,7 +265,7 @@ export default function ChatScreen({route, navigation}) {
             'produce',
             async (parameters, callback, errback) => {
               console.log(parameters);
-
+              console.log(8);
               try {
                 // tell the server to create a Producer
                 // with the following parameters and produce
@@ -305,9 +302,9 @@ export default function ChatScreen({route, navigation}) {
         // to send media to the Router
         // https://mediasoup.org/documentation/v3/mediasoup-client/api/#transport-produce
         // this action will trigger the 'connect' and 'produce' events above
-
+        console.log(9);
         audioProducer = await producerTransport.produce(audioParams);
-
+        console.log(7);
         audioProducer.on('trackended', () => {
           console.log('audio track ended');
 
@@ -652,6 +649,17 @@ export default function ChatScreen({route, navigation}) {
         console.log(err);
       });
   };
+  let mute = () => {
+    if (!isMute.current) {
+      console.log(123);
+      isMute.current = true;
+
+      socket.emit('mute', {});
+    } else {
+      isMute.current = false;
+      socket.emit('unmute', {});
+    }
+  };
 
   return (
     <View style={{flex: 1, backgroundColor: '#FFFFFF'}}>
@@ -716,7 +724,9 @@ export default function ChatScreen({route, navigation}) {
             flex: 0.7,
             justifyContent: 'center',
           }}>
-          <Text style={{textAlign: 'center'}}>버튼</Text>
+          <TouchableOpacity onPress={mute}>
+            <Text style={{textAlign: 'center'}}>버튼</Text>
+          </TouchableOpacity>
         </View>
         <View
           style={{
