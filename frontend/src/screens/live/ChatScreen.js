@@ -52,26 +52,37 @@ export default function ChatScreen({route, navigation}) {
   const isFocused = useIsFocused();
   useEffect(() => {
     let device;
-    let producer;
+    let rtpCapabilities;
+    let producerTransport;
+    let consumerTransports = [];
+    let audioProducer;
+    let audioParams;
+    let consumingTransports = [];
     if (isFocused) {
       // socket = io(`http://10.0.2.2:3000`, {
-      socket = io(`https://i7a202.p.ssafy.io:3001`, {
+      socket = io(`https://i7a202.p.ssafy.io:3002`, {
         transports: ['websocket'], // you need to explicitly tell it to use websockets
       });
 
       socket.on('connect', async () => {
         console.log(userData.nickname + ' connect');
-        socket.emit('enter', boardData, userData, () => {
-          socket.disconnect();
-          navigation.goBack();
+        getLocalStream();
+        socket.emit('enter', boardData, userData, (data) => {
+          if (data) {
+            rtpCapabilities = data.rtpCapabilities;
+            createDevice();
+          } else {
+            socket.disconnect();
+            navigation.goBack();
+          }
         });
 
-        const data = await new Promise((resolve) =>
-          socket.emit('getRouterRtpCapabilities', resolve),
-        );
-        await loadDevice(data);
-        await publish();
-        await subscribe();
+        // const data = await new Promise((resolve) =>
+        //   socket.emit('getRouterRtpCapabilities', resolve),
+        // );
+        // await loadDevice(data);
+        // await publish();
+        // await subscribe();
       });
 
       socket.on('welcome', (userVoteData) => {
@@ -163,146 +174,425 @@ export default function ChatScreen({route, navigation}) {
         });
       });
       // WebRTC - mediasoup
+      const streamSuccess = (stream) => {
+        audioParams = {track: stream.getAudioTracks()[0], ...audioParams};
+      };
 
-      async function loadDevice(routerRtpCapabilities) {
-        try {
-          device = new mediasoup.Device();
-        } catch (error) {
-          if (error.name === 'UnsupportedError') {
-            console.error('brower not supported');
-          }
-        }
-        console.log(routerRtpCapabilities);
-        await device.load({routerRtpCapabilities: routerRtpCapabilities});
-      }
-      async function publish() {
-        const data = await new Promise((resolve) =>
-          socket.emit(
-            'createProducerTransport',
-            {
-              forceTcp: false,
-              rtpCapabilities: device.rtpCapabilities,
-            },
-            resolve,
-          ),
-        );
-        console.log(data);
-        if (data.error) {
-          console.error(data.error);
-          return;
-        }
-        const transport = device.createSendTransport(data);
-        transport.on('connect', async ({dtlsParameters}, callback, errback) => {
-          new Promise((resolve) =>
-            socket.emit('connectProducerTransport', {dtlsParameters}, resolve),
-          )
-            .then(callback)
-            .catch(errback);
+      const joinRoom = () => {
+        socket.emit('joinRoom', {roomName}, (data) => {
+          console.log(`Router RTP Capabilities... ${data.rtpCapabilities}`);
+          // we assign to local variable and will be used when
+          // loading the client Device (see createDevice above)
+          rtpCapabilities = data.rtpCapabilities;
+
+          // once we have rtpCapabilities from the Router, create Device
+          createDevice();
         });
-        transport.on(
-          'produce',
-          async ({kind, rtpParameters}, callback, errback) => {
-            try {
-              const {id} = await new Promise((resolve) =>
-                socket.emit(
-                  'produce',
+      };
+
+      const getLocalStream = () => {
+        navigator.mediaDevices
+          .getUserMedia({
+            audio: true,
+          })
+          .then(streamSuccess)
+          .catch((error) => {
+            console.log(error.message);
+          });
+      };
+
+      // A device is an endpoint connecting to a Router on the
+      // server side to send/recive media
+      const createDevice = async () => {
+        try {
+          device = new mediasoupClient.Device();
+
+          // https://mediasoup.org/documentation/v3/mediasoup-client/api/#device-load
+          // Loads the device with RTP capabilities of the Router (server side)
+          await device.load({
+            // see getRtpCapabilities() below
+            routerRtpCapabilities: rtpCapabilities,
+          });
+
+          console.log('Device RTP Capabilities', device.rtpCapabilities);
+
+          // once the device loads, create transport
+          createSendTransport();
+        } catch (error) {
+          console.log(error);
+          if (error.name === 'UnsupportedError')
+            console.warn('browser not supported');
+        }
+      };
+
+      const createSendTransport = () => {
+        // see server's socket.on('createWebRtcTransport', sender?, ...)
+        // this is a call from Producer, so sender = true
+        socket.emit('createWebRtcTransport', {consumer: false}, ({params}) => {
+          // The server sends back params needed
+          // to create Send Transport on the client side
+          if (params.error) {
+            console.log(params.error);
+            return;
+          }
+
+          console.log(params);
+
+          // creates a new WebRTC Transport to send media
+          // based on the server's producer transport params
+          // https://mediasoup.org/documentation/v3/mediasoup-client/api/#TransportOptions
+          producerTransport = device.createSendTransport(params);
+
+          // https://mediasoup.org/documentation/v3/communication-between-client-and-server/#producing-media
+          // this event is raised when a first call to transport.produce() is made
+          // see connectSendTransport() below
+          producerTransport.on(
+            'connect',
+            async ({dtlsParameters}, callback, errback) => {
+              try {
+                // Signal local DTLS parameters to the server side transport
+                // see server's socket.on('transport-connect', ...)
+                await socket.emit('transport-connect', {
+                  dtlsParameters,
+                });
+
+                // Tell the transport that parameters were transmitted.
+                callback();
+              } catch (error) {
+                errback(error);
+              }
+            },
+          );
+
+          producerTransport.on(
+            'produce',
+            async (parameters, callback, errback) => {
+              console.log(parameters);
+
+              try {
+                // tell the server to create a Producer
+                // with the following parameters and produce
+                // and expect back a server side producer id
+                // see server's socket.on('transport-produce', ...)
+                await socket.emit(
+                  'transport-produce',
                   {
-                    transportId: transport.id,
-                    kind,
-                    rtpParameters,
+                    kind: parameters.kind,
+                    rtpParameters: parameters.rtpParameters,
+                    appData: parameters.appData,
                   },
-                  resolve,
-                ),
-              );
-              callback({id});
-            } catch (err) {
-              errback(err);
+                  ({id, producersExist}) => {
+                    // Tell the transport that parameters were transmitted and provide it with the
+                    // server side producer's id.
+                    callback({id});
+
+                    // if producers exist, then join room
+                    if (producersExist) getProducers();
+                  },
+                );
+              } catch (error) {
+                errback(error);
+              }
+            },
+          );
+
+          connectSendTransport();
+        });
+      };
+
+      const connectSendTransport = async () => {
+        // we now call produce() to instruct the producer transport
+        // to send media to the Router
+        // https://mediasoup.org/documentation/v3/mediasoup-client/api/#transport-produce
+        // this action will trigger the 'connect' and 'produce' events above
+
+        audioProducer = await producerTransport.produce(audioParams);
+
+        audioProducer.on('trackended', () => {
+          console.log('audio track ended');
+
+          // close audio track
+        });
+
+        audioProducer.on('transportclose', () => {
+          console.log('audio transport ended');
+
+          // close audio track
+        });
+      };
+
+      const signalNewConsumerTransport = async (remoteProducerId) => {
+        //check if we are already consuming the remoteProducerId
+        if (consumingTransports.includes(remoteProducerId)) return;
+        consumingTransports.push(remoteProducerId);
+
+        await socket.emit(
+          'createWebRtcTransport',
+          {consumer: true},
+          ({params}) => {
+            // The server sends back params needed
+            // to create Send Transport on the client side
+            if (params.error) {
+              console.log(params.error);
+              return;
             }
+            console.log(`PARAMS... ${params}`);
+
+            let consumerTransport;
+            try {
+              consumerTransport = device.createRecvTransport(params);
+            } catch (error) {
+              // exceptions:
+              // {InvalidStateError} if not loaded
+              // {TypeError} if wrong arguments.
+              console.log(error);
+              return;
+            }
+
+            consumerTransport.on(
+              'connect',
+              async ({dtlsParameters}, callback, errback) => {
+                try {
+                  // Signal local DTLS parameters to the server side transport
+                  // see server's socket.on('transport-recv-connect', ...)
+                  await socket.emit('transport-recv-connect', {
+                    dtlsParameters,
+                    serverConsumerTransportId: params.id,
+                  });
+
+                  // Tell the transport that parameters were transmitted.
+                  callback();
+                } catch (error) {
+                  // Tell the transport that something was wrong
+                  errback(error);
+                }
+              },
+            );
+
+            connectRecvTransport(
+              consumerTransport,
+              remoteProducerId,
+              params.id,
+            );
           },
         );
+      };
 
-        let stream;
-        try {
-          stream = await getUserMedia(transport);
+      // server informs the client of a new producer just joined
+      socket.on('new-producer', ({producerId}) =>
+        signalNewConsumerTransport(producerId),
+      );
 
-          const track = stream.getAudioTracks()[0];
-          const params = {track};
-          producer = await transport.produce(params);
-        } catch (err) {
-          console.error(err);
-        }
-      }
-    }
+      const getProducers = () => {
+        socket.emit('getProducers', (producerIds) => {
+          console.log(producerIds);
+          // for each of the producer create a consumer
+          // producerIds.forEach(id => signalNewConsumerTransport(id))
+          producerIds.forEach(signalNewConsumerTransport);
+        });
+      };
 
-    async function getUserMedia(transport) {
-      if (!device.canProduce('video')) {
-        console.error('cannot produce video');
-        return;
-      }
-
-      let stream;
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({audio: true});
-      } catch (err) {
-        console.error('getUserMedia() failed:', err.message);
-        throw err;
-      }
-      return stream;
-    }
-    async function subscribe() {
-      const data = await new Promise((resolve) =>
-        socket.emit(
-          'createConsumerTransport',
+      const connectRecvTransport = async (
+        consumerTransport,
+        remoteProducerId,
+        serverConsumerTransportId,
+      ) => {
+        // for consumer, we need to tell the server first
+        // to create a consumer based on the rtpCapabilities and consume
+        // if the router can consume, it will send back a set of params as below
+        await socket.emit(
+          'consume',
           {
-            forceTcp: false,
+            rtpCapabilities: device.rtpCapabilities,
+            remoteProducerId,
+            serverConsumerTransportId,
           },
-          resolve,
-        ),
-      );
-      if (data.error) {
-        console.error(data.error);
-        return;
-      }
+          async ({params}) => {
+            if (params.error) {
+              console.log('Cannot Consume');
+              return;
+            }
 
-      const transport = device.createRecvTransport(data);
-      transport.on('connect', ({dtlsParameters}, callback, errback) => {
-        new Promise((resolve) =>
-          socket.emit(
-            'connectConsumerTransport',
-            {
-              transportId: transport.id,
-              dtlsParameters,
-            },
-            resolve,
-          ),
-        )
-          .then(callback)
-          .catch(errback);
+            console.log(`Consumer Params ${params}`);
+            // then consume with the local consumer transport
+            // which creates a consumer
+            const consumer = await consumerTransport.consume({
+              id: params.id,
+              producerId: params.producerId,
+              kind: params.kind,
+              rtpParameters: params.rtpParameters,
+            });
+
+            consumerTransports = [
+              ...consumerTransports,
+              {
+                consumerTransport,
+                serverConsumerTransportId: params.id,
+                producerId: remoteProducerId,
+                consumer,
+              },
+            ];
+
+            socket.emit('consumer-resume', {
+              serverConsumerId: params.serverConsumerId,
+            });
+          },
+        );
+      };
+
+      socket.on('producer-closed', ({remoteProducerId}) => {
+        // server notification is received when a producer is closed
+        // we need to close the client-side consumer and associated transport
+        const producerToClose = consumerTransports.find(
+          (transportData) => transportData.producerId === remoteProducerId,
+        );
+        producerToClose.consumerTransport.close();
+        producerToClose.consumer.close();
+
+        // remove the consumer transport from the list
+        consumerTransports = consumerTransports.filter(
+          (transportData) => transportData.producerId !== remoteProducerId,
+        );
       });
+      // async function loadDevice(routerRtpCapabilities) {
+      //   try {
+      //     device = new mediasoup.Device();
+      //   } catch (error) {
+      //     if (error.name === 'UnsupportedError') {
+      //       console.error('brower not supported');
+      //     }
+      //   }
+      //   console.log(routerRtpCapabilities);
+      //   await device.load({routerRtpCapabilities: routerRtpCapabilities});
+      // }
+      // async function publish() {
+      //   const data = await new Promise((resolve) =>
+      //     socket.emit(
+      //       'createProducerTransport',
+      //       {
+      //         forceTcp: false,
+      //         rtpCapabilities: device.rtpCapabilities,
+      //       },
+      //       resolve,
+      //     ),
+      //   );
+      //   console.log(data);
+      //   if (data.error) {
+      //     console.error(data.error);
+      //     return;
+      //   }
+      //   const transport = device.createSendTransport(data);
+      //   transport.on('connect', async ({dtlsParameters}, callback, errback) => {
+      //     new Promise((resolve) =>
+      //       socket.emit('connectProducerTransport', {dtlsParameters}, resolve),
+      //     )
+      //       .then(callback)
+      //       .catch(errback);
+      //   });
+      //   transport.on(
+      //     'produce',
+      //     async ({kind, rtpParameters}, callback, errback) => {
+      //       try {
+      //         const {id} = await new Promise((resolve) =>
+      //           socket.emit(
+      //             'produce',
+      //             {
+      //               transportId: transport.id,
+      //               kind,
+      //               rtpParameters,
+      //             },
+      //             resolve,
+      //           ),
+      //         );
+      //         callback({id});
+      //       } catch (err) {
+      //         errback(err);
+      //       }
+      //     },
+      //   );
 
-      const stream = consume(transport);
+      //   let stream;
+      //   try {
+      //     stream = await getUserMedia(transport);
+
+      //     const track = stream.getAudioTracks()[0];
+      //     const params = {track};
+      //     producer = await transport.produce(params);
+      //   } catch (err) {
+      //     console.error(err);
+      //   }
+      // }
     }
 
-    async function consume(transport) {
-      const {rtpCapabilities} = device;
-      const data = await new Promise((resolve) =>
-        socket.emit('consume', {rtpCapabilities}, resolve),
-      );
+    // async function getUserMedia(transport) {
+    //   if (!device.canProduce('video')) {
+    //     console.error('cannot produce video');
+    //     return;
+    //   }
 
-      const {producerId, id, kind, rtpParameters} = data;
+    //   let stream;
+    //   try {
+    //     stream = await navigator.mediaDevices.getUserMedia({audio: true});
+    //   } catch (err) {
+    //     console.error('getUserMedia() failed:', err.message);
+    //     throw err;
+    //   }
+    //   return stream;
+    // }
+    // async function subscribe() {
+    //   const data = await new Promise((resolve) =>
+    //     socket.emit(
+    //       'createConsumerTransport',
+    //       {
+    //         forceTcp: false,
+    //       },
+    //       resolve,
+    //     ),
+    //   );
+    //   if (data.error) {
+    //     console.error(data.error);
+    //     return;
+    //   }
 
-      let codecOptions = {};
-      const consumer = await transport.consume({
-        id,
-        producerId,
-        kind,
-        rtpParameters,
-        codecOptions,
-      });
-      const stream = new MediaStream();
-      stream.addTrack(consumer.track);
-      return stream;
-    }
+    //   const transport = device.createRecvTransport(data);
+    //   transport.on('connect', ({dtlsParameters}, callback, errback) => {
+    //     new Promise((resolve) =>
+    //       socket.emit(
+    //         'connectConsumerTransport',
+    //         {
+    //           transportId: transport.id,
+    //           dtlsParameters,
+    //         },
+    //         resolve,
+    //       ),
+    //     )
+    //       .then(callback)
+    //       .catch(errback);
+    //   });
+
+    //   const stream = consume(transport);
+    // }
+
+    // async function consume(transport) {
+    //   const {rtpCapabilities} = device;
+    //   const data = await new Promise((resolve) =>
+    //     socket.emit('consume', {rtpCapabilities}, resolve),
+    //   );
+
+    //   const {producerId, id, kind, rtpParameters} = data;
+
+    //   let codecOptions = {};
+    //   const consumer = await transport.consume({
+    //     id,
+    //     producerId,
+    //     kind,
+    //     rtpParameters,
+    //     codecOptions,
+    //   });
+    //   const stream = new MediaStream();
+    //   stream.addTrack(consumer.track);
+    //   return stream;
+    // }
 
     return () => {
       console.log('end');
