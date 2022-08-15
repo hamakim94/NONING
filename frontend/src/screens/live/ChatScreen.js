@@ -87,6 +87,7 @@ export default function ChatScreen({route, navigation}) {
           nickname: userVoteData.nickname,
           userVote: userVoteData.userVote,
           msgId: chatRef.current,
+          img: userVoteData.img,
           msg: msg,
           reg: reg,
         };

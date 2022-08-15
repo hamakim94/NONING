@@ -15,7 +15,6 @@ import UserContext from '../../util/UserContext';
 import BoardBar from '../../components/home/BoardBar';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import UseAxios from '../../util/UseAxios';
-import Entypo from 'react-native-vector-icons/Entypo';
 import {Avatar} from '@rneui/themed';
 import BoardModal from '../../components/boardDetail/BoardModal';
 
@@ -217,22 +216,30 @@ export default function DetailScreen({navigation, route}) {
               />
             </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            style={{
-              borderWidth: 1,
-              borderRadius: 5,
-            }}
-            onPress={betray}>
-            <Text
-              style={{
-                color: '#000000',
-                fontWeight: 'bold',
-                marginHorizontal: 10,
-                marginVertical: 2,
-              }}>
-              배신하기
-            </Text>
-          </TouchableOpacity>
+          {board ? (
+            board.userVote == 0 ? (
+              ''
+            ) : (
+              <TouchableOpacity
+                style={{
+                  borderWidth: 1,
+                  borderRadius: 5,
+                }}
+                onPress={betray}>
+                <Text
+                  style={{
+                    color: '#000000',
+                    fontWeight: 'bold',
+                    marginHorizontal: 10,
+                    marginVertical: 2,
+                  }}>
+                  배신하기
+                </Text>
+              </TouchableOpacity>
+            )
+          ) : (
+            ''
+          )}
         </View>
         <View
           style={{
@@ -274,11 +281,19 @@ export default function DetailScreen({navigation, route}) {
                 flexDirection: 'row',
                 alignItems: 'center',
               }}>
-              <TouchableOpacity onPress={onLive}>
-                <Text style={styles.liveButton(board ? board.live : '')}>
-                  LIVE
-                </Text>
-              </TouchableOpacity>
+              {board ? (
+                board.userVote == 0 ? (
+                  ''
+                ) : (
+                  <TouchableOpacity onPress={onLive}>
+                    <Text style={styles.liveButton(board ? board.live : '')}>
+                      LIVE
+                    </Text>
+                  </TouchableOpacity>
+                )
+              ) : (
+                ''
+              )}
               {board ? (
                 <BoardModal data={board} navigation={navigation}></BoardModal>
               ) : (
