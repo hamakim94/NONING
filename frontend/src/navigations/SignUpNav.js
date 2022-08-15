@@ -35,7 +35,7 @@ function SignUpNav() {
           tabBarLabel: '약관동의',
         }}
         listeners={{
-          tabPress: e => {
+          tabPress: (e) => {
             e.preventDefault();
           },
         }}
@@ -45,7 +45,7 @@ function SignUpNav() {
         component={InfoScreen}
         options={{tabBarLabel: '회원정보'}}
         listeners={{
-          tabPress: e => {
+          tabPress: (e) => {
             e.preventDefault();
           },
         }}
@@ -55,7 +55,7 @@ function SignUpNav() {
         component={CompleteScreen}
         options={{tabBarLabel: '가입완료'}}
         listeners={{
-          tabPress: e => {
+          tabPress: (e) => {
             e.preventDefault();
           },
         }}

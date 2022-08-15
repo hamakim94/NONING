@@ -242,7 +242,10 @@ export default function DetailScreen({navigation, route}) {
           }}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <View>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.push('YourPageScreen', {id: board.writerId})
+                }>
                 <View style={{flexDirection: 'row'}}>
                   <Avatar
                     size={19}

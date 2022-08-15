@@ -6,6 +6,7 @@ import CommentModal from './CommnetModal';
 import UseAxios from '../../util/UseAxios';
 import DetailContext from './DetailContext';
 import CommentContext from './CommentContext';
+import {useNavigation} from '@react-navigation/native';
 
 function CommentItem({
   commentData,
@@ -20,7 +21,7 @@ function CommentItem({
 }) {
   const {boardId} = useContext(DetailContext);
   const {setParentComment} = useContext(CommentContext);
-
+  const navigation = useNavigation();
   const likeAxios = (setter, likeCheck) => {
     UseAxios.put(
       `/boards/${boardId}/comments/${commentData.commentId}/${likeCheck}`,
@@ -110,7 +111,10 @@ function CommentItem({
     <View style={styles.container}>
       {isReply ? <View style={styles.blankContainer} /> : ''}
       <View style={commentStyles(isReply).firstContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.push('YourPageScreen', {id: commentData.writerId})
+          }>
           <Avatar
             size={40}
             rounded
@@ -218,7 +222,6 @@ const commentStyles = (isReply) =>
   StyleSheet.create({
     firstContainer: {
       flex: isReply ? 0.9 : 1,
-      justifyContent: 'center',
       alignItems: 'center',
     },
     secondContainer: {
