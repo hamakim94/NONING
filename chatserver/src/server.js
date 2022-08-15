@@ -20,9 +20,6 @@ let producers = [];
 let consumers = [];
 let transports = [];
 const mediaCodecs = config.mediasoup.router.mediaCodecs;
-let producerTransport;
-let consumerTransport;
-let mediasoupRouter;
 
 try {
   const option = {
@@ -68,17 +65,6 @@ try {
 //   console.log('server listening on port : 3000');
 // });
 
-const removeItems = (items, socketId, type) => {
-  items.forEach((item) => {
-    if (item.socketId === socket.id) {
-      item[type].close();
-    }
-  });
-  items = items.filter((item) => item.socketId !== socket.id);
-
-  return items;
-};
-
 let userList = new Map();
 
 io.on('connection', (socket) => {
@@ -92,7 +78,16 @@ io.on('connection', (socket) => {
         : Array.from(userList.get(boardId), (socket) => socket.userVoteData);
     socket.emit('wait', userDataList);
   });
+  const removeItems = (items, socketId, type) => {
+    items.forEach((item) => {
+      if (item.socketId === socket.id) {
+        item[type].close();
+      }
+    });
+    items = items.filter((item) => item.socketId !== socket.id);
 
+    return items;
+  };
   // 실시간 음성채팅방 입장
   socket.on('enter', (boardData, userData, done) => {
     UseAxios.post('/chats/enter', null, {
