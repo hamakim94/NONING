@@ -28,12 +28,12 @@ function UserPageNav() {
         options={{
           headerShown: false,
         }}
-        initialParams={{id: userData.userId}}
+        initialParams={{id: userData ? userData.userId : ''}}
       />
       {/* <Stack.Screen
-        name="SettingNav"
-        component={SettingNav}
-        options={HeaderOptions('설정')}
+        name="BottomTabsNav"
+        component={BottomTabsNav}
+        options={{headerShown: false}}
       /> */}
 
       <Stack.Screen
