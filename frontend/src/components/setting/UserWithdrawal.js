@@ -28,11 +28,9 @@ const UserWithdrawal = ({navigation}) => {
               params: {userId: userData.userId},
             })
               .then(() => {
+                navigation.navigate('HomeStack');
                 AsyncStorage.clear();
                 setUserData(null);
-              })
-              .then(() => {
-                navigation.navigate('HomeStack');
               })
               .catch((err) => console.log(err));
           },

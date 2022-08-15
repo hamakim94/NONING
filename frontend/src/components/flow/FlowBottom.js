@@ -66,6 +66,7 @@ export default function FlowBottom({setBoards, board, navigation}) {
           />
         </TouchableOpacity>
         <TouchableOpacity
+          disabled={board ? (board.writerNickname ? false : true) : true}
           style={{flexDirection: 'row'}}
           onPress={() =>
             navigation.push('YourPageScreen', {id: board.writerId})
