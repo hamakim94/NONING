@@ -1,9 +1,9 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
 import React from 'react';
 
 export default function ChatBar({betray, boardData, waitButton}) {
   return (
-    <View style={{flex: 1, paddingHorizontal: 50}}>
+    <View style={{flex: 1}}>
       <View
         style={{
           flex: 4,
@@ -12,6 +12,7 @@ export default function ChatBar({betray, boardData, waitButton}) {
           maxHeight: 50,
           marginTop: '2%',
           marginBottom: '2%',
+          paddingHorizontal: 50,
         }}>
         <View style={[styles.barLeftContainer(boardData)]}>
           <Text style={styles.barLeftText(boardData)}>{boardData.opt1}</Text>
@@ -50,7 +51,9 @@ export default function ChatBar({betray, boardData, waitButton}) {
             borderRadius: 5,
           }}
           onPress={
-            waitButton ? () => alert('60초 뒤에 다시 사용가능합니다.') : betray
+            waitButton
+              ? () => Alert.alert('', '60초 뒤에 다시 사용가능합니다.')
+              : betray
           }>
           <Text
             style={{

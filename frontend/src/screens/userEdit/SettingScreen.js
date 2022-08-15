@@ -24,12 +24,12 @@ function SettingScreen({navigation}) {
           onPress: () => {
             UseAxios.get('/users/logout')
               .then((res) => {
-                navigation.navigate('HomeScreen');
+                navigation.navigate('HomeStack');
                 AsyncStorage.clear();
                 setUserData(null);
               })
               .catch((err) => {
-                console.log(err);
+                // console.log(err);
               });
           },
         },
@@ -47,37 +47,32 @@ function SettingScreen({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Divider width={0.5}></Divider>
       <TouchableOpacity
         style={styles.menuContainer}
         onPress={() =>
           navigation.push('ProfileEditScreen', {screen: 'ProfileEditScreen'})
         }>
-        <Text style={styles.menuText}> 프로필 편집 </Text>
+        <Text style={styles.menuText}>프로필 편집 </Text>
       </TouchableOpacity>
-      <Divider width={0.5}></Divider>
       <TouchableOpacity
         style={styles.menuContainer}
         onPress={() =>
           navigation.push('PasswordEditScreen', {screen: 'PasswordEditScreen'})
         }>
-        <Text style={styles.menuText}> 비밀번호 변경 </Text>
+        <Text style={styles.menuText}>비밀번호 변경 </Text>
       </TouchableOpacity>
-      <Divider width={0.5}></Divider>
       <TouchableOpacity
         style={styles.menuContainer}
         onPress={() =>
           navigation.push('InquiryScreen', {screen: 'InquiryScreen'})
         }>
-        <Text style={styles.menuText}> 문의하기 </Text>
+        <Text style={styles.menuText}>문의하기 </Text>
       </TouchableOpacity>
-      <Divider width={0.5}></Divider>
       <TouchableOpacity
         style={styles.menuContainer}
         onPress={() => navigation.push('TosScreen', {screen: 'TosScreen'})}>
-        <Text style={styles.menuText}> 서비스 이용약관 </Text>
+        <Text style={styles.menuText}>서비스 이용약관 </Text>
       </TouchableOpacity>
-      <Divider width={0.5}></Divider>
       <TouchableOpacity
         style={styles.menuContainer}
         onPress={() =>
@@ -85,11 +80,9 @@ function SettingScreen({navigation}) {
         }>
         <Text style={styles.menuText}>개인정보 처리방침</Text>
       </TouchableOpacity>
-      <Divider width={0.5}></Divider>
       <TouchableOpacity style={styles.menuContainer} onPress={showAlert}>
-        <Text style={styles.menuText}> 로그아웃 </Text>
+        <Text style={styles.menuText}>로그아웃 </Text>
       </TouchableOpacity>
-      <Divider width={0.5}></Divider>
       <TouchableOpacity
         style={styles.menuContainer}
         onPress={() =>
@@ -97,9 +90,8 @@ function SettingScreen({navigation}) {
             screen: 'UserWithdrawalScreen',
           })
         }>
-        <Text style={styles.menuText}> 회원탈퇴 </Text>
+        <Text style={styles.menuText}>회원탈퇴 </Text>
       </TouchableOpacity>
-      <Divider width={0.5}></Divider>
     </SafeAreaView>
   );
 }
@@ -107,17 +99,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
+    paddingTop: 16,
     backgroundColor: '#ffffff',
   },
   menuContainer: {
-    flexDirection: 'row',
-    flex: 0.85,
-    paddingHorizontal: 20,
-    margin: 10,
-    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#A6A6A6',
   },
   menuText: {
     fontSize: 18,
+    fontWeight: 'bold',
     color: '#000000',
   },
 });

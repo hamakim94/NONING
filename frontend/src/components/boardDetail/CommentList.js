@@ -22,11 +22,11 @@ function CommentList({comment, setNested, nested, checkWrite}) {
   useEffect(() => {
     UseAxios.get(`/boards/${boardId}/comments/${commentData.commentId}/list`)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setReplys(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }, [checkWrite]);
   const renderItem = ({item}) => (

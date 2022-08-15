@@ -18,7 +18,7 @@ export default function ChatHeader({title, userCnt, navigation}) {
       }}>
       <View style={{flex: 0.7, alignItems: 'center'}}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Feather name="chevron-left" size={30} color="#000000" />
+          <Feather name="arrow-left" size={25} color="#000000" />
         </TouchableOpacity>
       </View>
       <View

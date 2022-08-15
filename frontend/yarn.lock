@@ -6778,11 +6778,6 @@
     "jscodeshift" "^0.13.1"
     "nullthrows" "^1.1.1"
 
-"react-native-extra-dimensions-android@^1.2.5":
-  "integrity" "sha512-eorFo9X1vEqAWUkgcZ300yKBG1wtgNeE7tdWAH2CE+P50FGTniJg5Sr6l1iPWG8ZskQOuF+KeiSTFlDa4vLfMw=="
-  "resolved" "https://registry.npmjs.org/react-native-extra-dimensions-android/-/react-native-extra-dimensions-android-1.2.5.tgz"
-  "version" "1.2.5"
-
 "react-native-gesture-handler@^2.5.0", "react-native-gesture-handler@>= 1.0.0":
   "integrity" "sha512-djZdcprFf08PZC332D+AeG5wcGeAPhzfCJtB3otUgOgTlvjVXmg/SLFdPJSpzLBqkRAmrC77tM79QgKbuLxkfw=="
   "resolved" "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.5.0.tgz"

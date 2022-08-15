@@ -11,6 +11,7 @@ function SignUpNav() {
     <Tab.Navigator
       style={{backgroundColor: '#FFFFFF'}}
       initialRouteName="ApproveScreen"
+      backBehavior="none"
       screenOptions={{
         tabBarActiveTintColor: '#FF5F5F',
         tabBarInactiveTintColor: '#808080',
@@ -35,7 +36,7 @@ function SignUpNav() {
           tabBarLabel: '약관동의',
         }}
         listeners={{
-          tabPress: e => {
+          tabPress: (e) => {
             e.preventDefault();
           },
         }}
@@ -45,7 +46,7 @@ function SignUpNav() {
         component={InfoScreen}
         options={{tabBarLabel: '회원정보'}}
         listeners={{
-          tabPress: e => {
+          tabPress: (e) => {
             e.preventDefault();
           },
         }}
@@ -55,7 +56,7 @@ function SignUpNav() {
         component={CompleteScreen}
         options={{tabBarLabel: '가입완료'}}
         listeners={{
-          tabPress: e => {
+          tabPress: (e) => {
             e.preventDefault();
           },
         }}

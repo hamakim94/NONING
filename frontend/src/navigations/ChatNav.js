@@ -4,15 +4,19 @@ import ChatInfoScreen from '../screens/live/ChatInfoScreen';
 import DetailScreen from '../screens/board/DetailScreen';
 import ChatScreen from '../screens/live/ChatScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import HeaderOptions from '../util/HeaderOptions';
+import YourPageScreen from '../screens/YourPageScreen';
+import FollowerScreen from '../screens/FollowerScreen';
+import FollowingScreen from '../screens/FollowingScreen';
 
 const Stack = createNativeStackNavigator();
 export default function ChatNav() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{headerShadowVisible: false}}>
       <Stack.Screen
         name="ChatInfoScreen"
         component={ChatInfoScreen}
-        options={{headerShown: false}}
+        options={HeaderOptions('채팅대기방')}
       />
       <Stack.Screen
         name="ChatBoardDetailScreen"
@@ -25,6 +29,21 @@ export default function ChatNav() {
         options={{
           headerShown: false,
         }}
+      />
+      <Stack.Screen
+        name="YourPageScreen"
+        component={YourPageScreen}
+        options={HeaderOptions('유저페이지')}
+      />
+      <Stack.Screen
+        name="FollowerScreen"
+        component={FollowerScreen}
+        options={HeaderOptions('Follower')}
+      />
+      <Stack.Screen
+        name="FollowingScreen"
+        component={FollowingScreen}
+        options={HeaderOptions('Following')}
       />
     </Stack.Navigator>
   );

@@ -1,6 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Divider} from '@rneui/base/dist/Divider';
-import {View, SafeAreaView, FlatList} from 'react-native';
+import {
+  View,
+  SafeAreaView,
+  FlatList,
+  BackHandler,
+  ToastAndroid,
+} from 'react-native';
 import LogoSearch from '../../components/home/LogoSearch';
 import FilterButtonTabs from '../../components/home/FilterButtonTabs';
 import Boards from '../../components/home/Boards';
@@ -29,6 +35,31 @@ function HomeScreen({navigation}) {
     갈등: 'B0108',
     기타: 'B0199',
   };
+  useEffect(() => {
+    let exitApp = false;
+    const backAction = () => {
+      if (!exitApp) {
+        ToastAndroid.show(
+          "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.",
+          ToastAndroid.SHORT,
+        );
+        exitApp = true;
+        setTimeout(() => {
+          exitApp = false;
+        }, 2000);
+      } else {
+        BackHandler.exitApp();
+      }
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   const getData = () => {
     setRefreshing(true);

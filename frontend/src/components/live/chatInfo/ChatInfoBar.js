@@ -64,13 +64,18 @@ export default function ChatInfoBar({navigation, boardData}) {
           marginBottom: 40,
         }}>
         <TouchableOpacity
-          style={{borderRadius: 3, borderWidth: 1, backgroundColor: '#FFFFFF'}}
+          style={{
+            borderRadius: 3,
+            borderWidth: 1,
+            backgroundColor: '#FFFFFF',
+            width: 80,
+            height: 30,
+            justifyContent: 'center',
+          }}
           onPress={() => navigation.navigate('ChatScreen', {data: boardData})}>
           <Text
             style={{
               textAlign: 'center',
-              marginHorizontal: 7,
-              marginVertical: 5,
               color: '#000000',
             }}>
             채팅방 입장

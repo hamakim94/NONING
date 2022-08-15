@@ -42,12 +42,12 @@ export default function ChatScreen({route, navigation}) {
   useEffect(() => {
     if (isFocused) {
       // socket = io(`http://10.0.2.2:3000`, {
-      socket = io(`https://i7a202.p.ssafy.io`, {
+      socket = io(`https://i7a202.p.ssafy.io:3000`, {
         transports: ['websocket'], // you need to explicitly tell it to use websockets
       });
 
       socket.on('connect', () => {
-        console.log(userData.nickname + ' connect');
+        // console.log(userData.nickname + ' connect');
         socket.emit('enter', boardData, userData, () => {
           socket.disconnect();
           navigation.goBack();
@@ -87,6 +87,7 @@ export default function ChatScreen({route, navigation}) {
           nickname: userVoteData.nickname,
           userVote: userVoteData.userVote,
           msgId: chatRef.current,
+          img: userVoteData.img,
           msg: msg,
           reg: reg,
         };
@@ -122,7 +123,7 @@ export default function ChatScreen({route, navigation}) {
       });
 
       socket.on('connect_error', (err) => {
-        console.log(err.message);
+        // console.log(err.message);
       });
 
       socket.on('left', (userVoteData) => {
@@ -143,7 +144,7 @@ export default function ChatScreen({route, navigation}) {
     }
 
     return () => {
-      console.log('end');
+      // console.log('end');
       if (socket) socket.disconnect();
     };
   }, [isFocused]);
@@ -197,7 +198,7 @@ export default function ChatScreen({route, navigation}) {
         setTimeout(() => setWaitButton(false), 60000);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 

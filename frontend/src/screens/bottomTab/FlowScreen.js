@@ -1,22 +1,28 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useContext,
+} from 'react';
 import {
   View,
   FlatList,
-  Dimensions,
   Text,
   TouchableOpacity,
   Image,
+  Dimensions,
 } from 'react-native';
 import Flows from '../../components/flow/Flows';
 import UseAxios from '../../util/UseAxios';
 import {useIsFocused} from '@react-navigation/native';
-
-const windowHeight = Dimensions.get('window').height * 0.934;
+import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 
 function FlowScreen({navigation}) {
   const [boards, setBoards] = useState([]);
   const isFocused = useIsFocused();
-
+  const [empty, setEmpty] = useState(false);
+  const realHeight = Dimensions.get('window').height - useBottomTabBarHeight();
   useEffect(() => {
     UseAxios.get('/boards/flow').then((res) => {
       res.data.sort(function (a, b) {
@@ -25,6 +31,9 @@ function FlowScreen({navigation}) {
         if (a.boardId < b.boardId) return 1;
       });
       setBoards(res.data);
+      if (res.data.length === 0) {
+        setEmpty(true);
+      }
     });
   }, [isFocused]);
 
@@ -38,17 +47,18 @@ function FlowScreen({navigation}) {
 
   const snapToOffsets = useMemo(
     () =>
-      Array.from(Array(boards.length)).map((_, index) => index * windowHeight),
+      Array.from(Array(boards.length)).map((_, index) => index * realHeight),
     [boards],
   );
-  return boards.length !== 0 ? (
+
+  return !empty ? (
     <View style={{flex: 1}}>
       <FlatList
         showsVerticalScrollIndicator={false}
         removeClippedSubviews={true}
         legacyImplementation={true}
-        maxToRenderPerBatch={1}
-        initialNumToRender={1}
+        maxToRenderPerBatch={3}
+        initialNumToRender={3}
         windowSize={2}
         data={boards}
         renderItem={memoizedItem}
@@ -77,7 +87,7 @@ function FlowScreen({navigation}) {
         <View style={{margin: 10}}>
           <TouchableOpacity
             style={{
-              backgroundColor: '#FF7171',
+              backgroundColor: '#FF5F5F',
               width: 200,
               padding: 10,
               borderRadius: 10,

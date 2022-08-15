@@ -4,7 +4,6 @@ import UseAxios from '../../util/UseAxios';
 import {useIsFocused} from '@react-navigation/native';
 import ChatInfoUser from '../../components/live/chatInfo/ChatInfoUser';
 import ChatInfoBar from '../../components/live/chatInfo/ChatInfoBar';
-import Feather from 'react-native-vector-icons/Feather';
 
 const io = require('socket.io/client-dist/socket.io');
 let socket;
@@ -14,11 +13,11 @@ export default function ChatInfoScreen({navigation, route}) {
   const [userList, setUserList] = useState();
   const [boardData, setBoardData] = useState({});
   const boardId = route.params.id;
-  console.log(userList);
+  // console.log(userList);
   useEffect(() => {
     if (isFocused) {
       // socket = io(`http://10.0.2.2:3000`, {
-      socket = io(`https://i7a202.p.ssafy.io`, {
+      socket = io(`https://i7a202.p.ssafy.io:3000`, {
         transports: ['websocket'], // you need to explicitly tell it to use websockets
       });
 
@@ -39,7 +38,9 @@ export default function ChatInfoScreen({navigation, route}) {
     };
   }, [isFocused]);
 
-  const userRender = ({item}) => <ChatInfoUser user={item}></ChatInfoUser>;
+  const userRender = ({item}) => (
+    <ChatInfoUser user={item} navigation={navigation}></ChatInfoUser>
+  );
 
   const userMemoized = useMemo(() => userRender, [userList]);
 
@@ -47,11 +48,6 @@ export default function ChatInfoScreen({navigation, route}) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={{marginTop: 15, marginLeft: 10}}
-        onPress={() => navigation.pop()}>
-        <Feather name="chevron-left" size={30} color="#000000" />
-      </TouchableOpacity>
       <View style={styles.mainContainer}>
         <View style={styles.topContainer}>
           <View style={styles.topInnerContainer}>

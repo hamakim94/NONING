@@ -9,6 +9,7 @@ import {
 import React, {useContext} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import UserContext from '../../util/UserContext';
+import LoginAlert from '../../util/LoginAlert';
 
 export default function BoardFooter({board, setBoards, navigation}) {
   const {userData} = useContext(UserContext);
@@ -23,7 +24,7 @@ export default function BoardFooter({board, setBoards, navigation}) {
         // console.log(res);
       })
       .then((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
   const unlike = () => {
@@ -32,7 +33,7 @@ export default function BoardFooter({board, setBoards, navigation}) {
         // console.log(res);
       })
       .then((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -46,9 +47,12 @@ export default function BoardFooter({board, setBoards, navigation}) {
       <View style={styles.writerContainer}>
         {/* <Text style={{color: '#000000'}}>작성자 : </Text> */}
         <TouchableOpacity
+          disabled={board.writerNickname === null ? true : false}
           style={{flexDirection: 'row', alignItems: 'center'}}
           onPress={() =>
-            navigation.push('YourPageScreen', {id: board.writerId})
+            userData === null
+              ? LoginAlert(navigation)
+              : navigation.push('YourPageScreen', {id: board.writerId})
           }>
           <Image
             style={{width: 15, height: 15, borderRadius: 50}}
@@ -58,7 +62,9 @@ export default function BoardFooter({board, setBoards, navigation}) {
                 : require('../../assets/DefaultProfile.jpg')
             }></Image>
           <Text style={{paddingLeft: 5, color: '#000000', fontSize: 13}}>
-            {board.writerNickname}{' '}
+            {board.writerNickname === null
+              ? '탈퇴한논장이'
+              : board.writerNickname}{' '}
           </Text>
         </TouchableOpacity>
       </View>
@@ -71,7 +77,7 @@ export default function BoardFooter({board, setBoards, navigation}) {
           style={{margin: 1}}
           onPress={() => {
             userData === null
-              ? navigation.navigate('LoginNav', {screen: 'LoginNav'})
+              ? LoginAlert(navigation)
               : [toggleLike(), board.userLike ? unlike() : like()];
           }}>
           <AntDesign

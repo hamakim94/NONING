@@ -15,19 +15,19 @@ export default function FlowBottom({setBoards, board, navigation}) {
       },
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .then((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
   const unlike = () => {
     UseAxios.delete(`/boards/${board.boardId}/unlike?userId=${userData.userId}`)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .then((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -66,6 +66,7 @@ export default function FlowBottom({setBoards, board, navigation}) {
           />
         </TouchableOpacity>
         <TouchableOpacity
+          disabled={board ? (board.writerNickname ? false : true) : true}
           style={{flexDirection: 'row'}}
           onPress={() =>
             navigation.push('YourPageScreen', {id: board.writerId})
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
     marginTop: '3%',
   },
   iconColor: (userLike) => ({
-    color: userLike ? '#FF7171' : '#c9c9c9',
+    color: userLike ? '#FF5F5F' : '#c9c9c9',
   }),
   clickWriter: {
     width: 30,

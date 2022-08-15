@@ -27,7 +27,6 @@ export default function PlusScreen({navigation}) {
   const [argu2Style, setArgu2Style] = useState(styles.blurInput);
   const isFocused = useIsFocused();
 
-  //console.log({errors});
   const {
     handleSubmit,
     control,
@@ -50,7 +49,7 @@ export default function PlusScreen({navigation}) {
     UseAxios.post(`/boards/write`, data)
       .then(navigation.navigate('HomeScreen'))
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
     [isFocused];
   };

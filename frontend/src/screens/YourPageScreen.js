@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {TabView, TabBar} from 'react-native-tab-view';
-import {USER} from '../data/user';
 import VoteLike from '../components/userpage/VoteLike';
 import VoteDo from '../components/userpage/VoteDo';
 import VoteWrite from '../components/userpage/VoteWrite';
@@ -47,6 +46,7 @@ const renderTabBar = (props) => (
                 padding: 0,
                 fontWeight: 'bold',
                 fontSize: 15,
+                width: '110%',
               }
             : {margin: 0, padding: 0, color: '#000000', fontSize: 15}
         }>
@@ -64,12 +64,20 @@ export default function YourPageScreen({route, navigation}) {
   const id = route.params.id;
   const isFocused = useIsFocused();
   const {userData} = useContext(UserContext);
-  const [active, setActive] = useState(false);
 
   const [routes] = useState([
-    {key: 0, title: userData.userId === id ? '내찜논' : '얘찜논'},
-    {key: 1, title: userData.userId === id ? '내참논' : '얘참논'},
-    {key: 2, title: userData.userId === id ? '내만논' : '얘만논'},
+    {
+      key: 0,
+      title: userData ? (userData.userId === id ? '내찜논' : '얘찜논') : '',
+    },
+    {
+      key: 1,
+      title: userData ? (userData.userId === id ? '내참논' : '얘참논') : '',
+    },
+    {
+      key: 2,
+      title: userData ? (userData.userId === id ? '내만논' : '얘만논') : '',
+    },
   ]);
 
   const renderScene = ({route}) => {
@@ -94,37 +102,37 @@ export default function YourPageScreen({route, navigation}) {
   useEffect(() => {
     UseAxios.get(`/users/${id}/page`).then((res) => {
       setYourPageData(res.data);
-      console.log(
-        '데이터 ---------------------------------------- : \n' + res.data,
-      );
+      // console.log(
+      //   '데이터 ---------------------------------------- : \n' + res.data,
+      // );
     });
   }, [isFocused]);
 
   const follow = () => {
-    console.log('팔');
+    // console.log('팔');
     UseAxios.post(`/follows/add`, {
       userId: userData.userId,
       targetUserId: id,
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
   const unfollow = () => {
-    console.log('언팔');
+    // console.log('언팔');
     UseAxios.post(`/follows/delete`, {
       userId: userData.userId,
       targetUserId: id,
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -145,18 +153,22 @@ export default function YourPageScreen({route, navigation}) {
 
   return (
     <View style={styles.container}>
-      {id === userData.userId ? (
-        <View style={{flex: 0.07, alignSelf: 'flex-end', marginTop: 16}}>
-          <TouchableOpacity
-            style={[styles.button]}
-            onPress={() =>
-              navigation.push('SettingScreen', {screen: 'SettingScreen'})
-            }>
-            <Ionicons name={'settings'} size={28} color={'#A6A6A6'} />
-          </TouchableOpacity>
-        </View>
+      {userData ? (
+        id === userData.userId ? (
+          <View style={{flex: 0.07, alignSelf: 'flex-end', marginTop: 16}}>
+            <TouchableOpacity
+              style={[styles.button]}
+              onPress={() =>
+                navigation.push('SettingScreen', {screen: 'SettingScreen'})
+              }>
+              <Ionicons name={'settings'} size={28} color={'#A6A6A6'} />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={{flex: 0.07, alignSelf: 'flex-end'}} />
+        )
       ) : (
-        <View style={{flex: 0.07, alignSelf: 'flex-end'}} />
+        ''
       )}
 
       <View style={{flex: 0.26}}>
@@ -298,44 +310,48 @@ export default function YourPageScreen({route, navigation}) {
           </View>
         </View>
         <View style={{flex: 2}}>
-          {userData.userId === id ? (
-            <></>
-          ) : (
-            <TouchableOpacity
-              style={{
-                backgroundColor: yourPageData.followerIdList
-                  ? yourPageData.followerIdList.indexOf(userData.userId) >= 0
-                    ? '#c9c9c9'
-                    : 'rgba(255,95,95,1)'
-                  : '#FFFFFF',
-                borderRadius: 10,
-                width: '80%',
-                height: '50%',
-                marginTop: '2.5%',
-                alignContent: 'center',
-                marginStart: '2.5%',
-                paddingVertical: '2.5%',
-              }}
-              onPress={() => {
-                yourPageData.followerIdList.indexOf(userData.userId) >= 0
-                  ? [unfollow(), fakeUnFollow(userData.userId)]
-                  : [follow(), fakeFollow(userData.userId)];
-              }}>
-              <Text
+          {userData ? (
+            userData.userId === id ? (
+              <></>
+            ) : (
+              <TouchableOpacity
                 style={{
-                  color: '#FFFFFF',
-                  textAlign: 'center',
-
-                  fontWeight: 'bold',
-                  textAlignVertical: 'center',
+                  backgroundColor: yourPageData.followerIdList
+                    ? yourPageData.followerIdList.indexOf(userData.userId) >= 0
+                      ? '#c9c9c9'
+                      : 'rgba(255,95,95,1)'
+                    : '#FFFFFF',
+                  borderRadius: 10,
+                  width: '80%',
+                  height: '50%',
+                  marginTop: '2.5%',
+                  alignContent: 'center',
+                  marginStart: '2.5%',
+                  paddingVertical: '2.5%',
+                }}
+                onPress={() => {
+                  yourPageData.followerIdList.indexOf(userData.userId) >= 0
+                    ? [unfollow(), fakeUnFollow(userData.userId)]
+                    : [follow(), fakeFollow(userData.userId)];
                 }}>
-                {yourPageData.followerIdList
-                  ? yourPageData.followerIdList.indexOf(userData.userId) >= 0
-                    ? '팔로잉'
-                    : '팔로우'
-                  : ''}
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  style={{
+                    color: '#FFFFFF',
+                    textAlign: 'center',
+
+                    fontWeight: 'bold',
+                    textAlignVertical: 'center',
+                  }}>
+                  {yourPageData.followerIdList
+                    ? yourPageData.followerIdList.indexOf(userData.userId) >= 0
+                      ? '팔로잉'
+                      : '팔로우'
+                    : ''}
+                </Text>
+              </TouchableOpacity>
+            )
+          ) : (
+            ''
           )}
         </View>
       </View>

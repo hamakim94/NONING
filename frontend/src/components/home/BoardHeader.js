@@ -1,18 +1,23 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import React from 'react';
+import React, {useContext} from 'react';
+import LoginAlert from '../../util/LoginAlert';
+import UserContext from '../../util/UserContext';
 
 export default function BoardHeader({board, navigation}) {
+  const {userData} = useContext(UserContext);
   return (
     <View style={styles.liveContainer}>
       <Text style={styles.liveButton(board.live)}>LIVE</Text>
       <TouchableOpacity
         style={{marginHorizontal: 6}}
         onPress={() =>
-          navigation.navigate('DetailNav', {
-            screen: 'DetailScreen',
-            params: {boardId: board.boardId},
-          })
+          userData === null
+            ? LoginAlert(navigation)
+            : navigation.navigate('DetailNav', {
+                screen: 'DetailScreen',
+                params: {boardId: board.boardId},
+              })
         }>
         <Feather style={styles.detail(1)} name="chevrons-right" size={25} />
       </TouchableOpacity>

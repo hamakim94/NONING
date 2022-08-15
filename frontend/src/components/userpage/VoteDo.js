@@ -5,11 +5,12 @@ import Feather from 'react-native-vector-icons/Feather';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
 export default function VoteDo({navigation, myPageData}) {
+  const keyExtractor = (item) => item.boardId;
   return (
     <View style={{flex: 1}}>
       <FlatList
         style={{paddingVertical: '1%'}}
-        keyExtractor={(item) => item.boardId}
+        keyExtractor={keyExtractor}
         data={myPageData.boardList}
         navigation={navigation}
         renderItem={({item}) => (

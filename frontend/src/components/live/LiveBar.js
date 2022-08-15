@@ -9,8 +9,8 @@ export default function LiveBar({live, setLives}) {
     (live.opt1Selected / (live.opt1Selected + live.opt2Selected)) * 100,
   );
   const opt2_ratio = 100 - opt1_ratio;
-  const leftSize = opt1_ratio + '%';
-  const rightSize = opt2_ratio + '%';
+  const leftSize = opt1_ratio;
+  const rightSize = opt2_ratio;
 
   const setOpt1Selected = () => {
     setLives({...live, opt1Selected: live.opt1Selected + 1, userVote: 1});
@@ -41,7 +41,9 @@ export default function LiveBar({live, setLives}) {
         }}>
         <Text style={styles.leftInnerText(live.userVote)}>{live.opt1}</Text>
         {live.userVote > 0 && (
-          <Text style={styles.leftInnerText(live.userVote)}>{leftSize}</Text>
+          <Text style={styles.leftInnerText(live.userVote)}>
+            {leftSize + '%'}
+          </Text>
         )}
       </TouchableOpacity>
       <TouchableOpacity
@@ -54,7 +56,9 @@ export default function LiveBar({live, setLives}) {
         }}>
         <Text style={styles.rightInnerText(live.userVote)}>{live.opt2}</Text>
         {live.userVote > 0 && (
-          <Text style={styles.rightInnerText(live.userVote)}>{rightSize}</Text>
+          <Text style={styles.rightInnerText(live.userVote)}>
+            {rightSize + '%'}
+          </Text>
         )}
       </TouchableOpacity>
     </View>
@@ -69,19 +73,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   leftBar: (userVote, leftSize) => ({
-    width: userVote === 0 ? '50%' : leftSize,
-    borderWidth: 1,
+    width: userVote === 0 ? '50%' : leftSize + '%',
+    borderWidth: userVote > 0 && leftSize == 0 ? 0 : 1,
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
+    borderRadius: userVote > 0 && leftSize == 100 ? 5 : 0,
     justifyContent: 'center',
     backgroundColor:
       userVote === 1 ? 'rgba(255,95,95,1)' : 'rgba(255,95,95,0.2)',
   }),
   rightBar: (userVote, rightSize) => ({
-    width: userVote === 0 ? '50%' : rightSize,
-    borderWidth: 1,
+    width: userVote === 0 ? '50%' : rightSize + '%',
+    borderWidth: userVote > 0 && rightSize == 0 ? 0 : 1,
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
+    borderRadius: userVote > 0 && rightSize == 100 ? 5 : 0,
     justifyContent: 'center',
     backgroundColor:
       userVote === 2 ? 'rgba(73, 211, 202,1)' : 'rgba(73,211,202,0.2)',
