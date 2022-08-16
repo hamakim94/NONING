@@ -16,23 +16,23 @@ export default function AnalysisKeyData(data, defaultData) {
 
         switch (data[i].ageRangeCode) {
           case 'A0101':
-            objKey[2].opt2 = objKey[2].opt2 + 1;
+            objKey[2].opt1 = objKey[2].opt1 + 1;
             objKey[2].total = objKey[2].total + 1;
             break;
           case 'A0102':
-            objKey[3].opt2 = objKey[3].opt2 + 1;
+            objKey[3].opt1 = objKey[3].opt1 + 1;
             objKey[3].total = objKey[3].total + 1;
             break;
           case 'A0103':
-            objKey[4].opt2 = objKey[4].opt2 + 1;
+            objKey[4].opt1 = objKey[4].opt1 + 1;
             objKey[4].total = objKey[4].total + 1;
             break;
           case 'A0104':
-            objKey[5].opt2 = objKey[5].opt2 + 1;
+            objKey[5].opt1 = objKey[5].opt1 + 1;
             objKey[5].total = objKey[5].total + 1;
             break;
           case 'A0105':
-            objKey[6].opt2 = objKey[6].opt2 + 1;
+            objKey[6].opt1 = objKey[6].opt1 + 1;
             objKey[6].total = objKey[6].total + 1;
             break;
           case 'A0106':
@@ -203,11 +203,11 @@ export default function AnalysisKeyData(data, defaultData) {
             objKey[6].total = objKey[6].total + 1;
             break;
           case 'A0106':
-            objKey[7].opt1 = objKey[7].opt1 + 1;
+            objKey[7].opt2 = objKey[7].opt2 + 1;
             objKey[7].total = objKey[7].total + 1;
             break;
           case 'A0107':
-            objKey[7].opt1 = objKey[7].opt1 + 1;
+            objKey[7].opt2 = objKey[7].opt2 + 1;
             objKey[7].total = objKey[7].total + 1;
             break;
         }
