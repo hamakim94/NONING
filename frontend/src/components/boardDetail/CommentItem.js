@@ -141,9 +141,9 @@ function CommentItem({
             style={{paddingTop: '1.5%', marginRight: '1%'}}
             onPress={() => likeOnPress(commentData.userLike, 'like')}>
             {commentData.userLike ? (
-              <Icon name="like1" color="#FF5F5F" size={11} />
+              <Icon name="like1" color="#FF5F5F" size={12} />
             ) : (
-              <Icon name="like2" color="#808080" size={11} />
+              <Icon name="like2" color="#808080" size={12} />
             )}
           </TouchableOpacity>
           <Text style={{fontSize: 12, color: '#000000'}}>
@@ -153,9 +153,9 @@ function CommentItem({
             style={{paddingTop: '1.5%', marginRight: '1%', marginLeft: '3%'}}
             onPress={() => likeOnPress(commentData.userDislike, 'dislike')}>
             {commentData.userDislike ? (
-              <Icon name="dislike1" color="#49D3CA" size={11} />
+              <Icon name="dislike1" color="#49D3CA" size={12} />
             ) : (
-              <Icon name="dislike2" color="#808080" size={11} />
+              <Icon name="dislike2" color="#808080" size={12} />
             )}
           </TouchableOpacity>
           <Text style={{fontSize: 12, color: '#000000'}}>
@@ -173,14 +173,26 @@ function CommentItem({
                   답글 달기
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={{marginLeft: '3%'}}
-                onPress={() => setCommentIsopened((prev) => !prev)}>
-                <Text
-                  style={{fontSize: 12, color: '#808080', fontWeight: 'bold'}}>
-                  {commentIsopened ? '답글 숨기기' : '답글 보기'}
-                </Text>
-              </TouchableOpacity>
+              {replys ? (
+                replys.length > 0 ? (
+                  <TouchableOpacity
+                    style={{marginLeft: '3%'}}
+                    onPress={() => setCommentIsopened((prev) => !prev)}>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        color: '#808080',
+                        fontWeight: 'bold',
+                      }}>
+                      {commentIsopened ? '답글 숨기기' : '답글 보기'}
+                    </Text>
+                  </TouchableOpacity>
+                ) : (
+                  ''
+                )
+              ) : (
+                ''
+              )}
             </>
           )}
         </View>
@@ -223,6 +235,7 @@ const commentStyles = (isReply) =>
     firstContainer: {
       flex: isReply ? 0.9 : 1,
       alignItems: 'center',
+      paddingTop: 2,
     },
     secondContainer: {
       flex: isReply ? 3.8 : 4.5,

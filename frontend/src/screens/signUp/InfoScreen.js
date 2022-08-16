@@ -16,6 +16,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import UploadModeModal from '../../components/signUp/UploadModeModal';
 import UseAxios from '../../util/UseAxios';
 import mime from 'mime';
+import SignLoading from '../../components/signUp/SignLoading';
 
 const MbtiGroup = [
   'ENFJ',
@@ -62,6 +63,7 @@ function InfoScreen({navigation}) {
   const [nickNameCheck, setNickNameCheck] = useState(false);
   const [imgSource, setImageSource] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [isModal, setIsModal] = useState(false);
 
   const {
     handleSubmit,
@@ -88,6 +90,7 @@ function InfoScreen({navigation}) {
   });
 
   const onSubmit = (data) => {
+    setIsModal(true);
     const formdata = new FormData();
     const filename = imgSource !== null ? imgSource.split('/').pop() : null;
     const imgData = {
@@ -116,7 +119,7 @@ function InfoScreen({navigation}) {
       headers: {'Content-Type': `multipart/form-data;charset=UTF-8`},
     })
       .then((res) => {
-        // console.log(res);
+        setIsModal(false);
         Alert.alert(
           '',
           data.email +
@@ -128,7 +131,9 @@ function InfoScreen({navigation}) {
         );
         navigation.navigate('CompleteScreen');
       })
-      .catch((err) => {});
+      .catch((err) => {
+        setIsModal(false);
+      });
   };
 
   const onLaunchCamera = () => {
@@ -388,10 +393,12 @@ function InfoScreen({navigation}) {
                 : () => {
                     Alert.alert('', '입력을 확인해주세요.');
                   }
-            }>
+            }
+            disabled={isModal}>
             <Text style={styles.buttonText}>회원가입</Text>
           </TouchableOpacity>
         </View>
+        <SignLoading isModal={isModal}></SignLoading>
       </KeyboardAwareScrollView>
     </View>
   );

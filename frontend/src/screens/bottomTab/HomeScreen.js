@@ -6,6 +6,9 @@ import {
   FlatList,
   BackHandler,
   ToastAndroid,
+  Image,
+  Text,
+  TouchableOpacity,
 } from 'react-native';
 import LogoSearch from '../../components/home/LogoSearch';
 import FilterButtonTabs from '../../components/home/FilterButtonTabs';
@@ -22,6 +25,7 @@ function HomeScreen({navigation}) {
   const [isPopular, setIsPopular] = useState('최신');
   const {userData} = useContext(UserContext);
   const [refreshing, setRefreshing] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(false);
   const isFocused = useIsFocused();
   const filterToCode = {
     전체: 0,
@@ -36,30 +40,32 @@ function HomeScreen({navigation}) {
     기타: 'B0199',
   };
   useEffect(() => {
-    let exitApp = false;
-    const backAction = () => {
-      if (!exitApp) {
-        ToastAndroid.show(
-          "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.",
-          ToastAndroid.SHORT,
-        );
-        exitApp = true;
-        setTimeout(() => {
-          exitApp = false;
-        }, 2000);
-      } else {
-        BackHandler.exitApp();
-      }
-      return true;
-    };
+    if (isFocused) {
+      let exitApp = false;
+      const backAction = () => {
+        if (!exitApp) {
+          ToastAndroid.show(
+            "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.",
+            ToastAndroid.SHORT,
+          );
+          exitApp = true;
+          setTimeout(() => {
+            exitApp = false;
+          }, 2000);
+        } else {
+          BackHandler.exitApp();
+        }
+        return true;
+      };
 
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        backAction,
+      );
 
-    return () => backHandler.remove();
-  }, []);
+      return () => backHandler.remove();
+    }
+  }, [isFocused]);
 
   const getData = () => {
     setRefreshing(true);
@@ -84,9 +90,15 @@ function HomeScreen({navigation}) {
             if (a.boardId < b.boardId) return 1;
           });
         }
+        if (res.data.length == 0) {
+          setIsEmpty(true);
+        } else {
+          setIsEmpty(false);
+        }
         setBoards(res.data);
+        setRefreshing(false);
       })
-      .then(() => setRefreshing(false));
+      .catch((err) => setRefreshing(false));
   };
   const onRefresh = () => {
     if (!refreshing) {
@@ -110,18 +122,61 @@ function HomeScreen({navigation}) {
         <RecentPopularTabs setIsPopular={setIsPopular}></RecentPopularTabs>
         <Divider width={0.5} color={'#A6A6A6'}></Divider>
         <View style={{flex: 1, paddingHorizontal: 16}}>
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            removeClippedSubviews={true}
-            legacyImplementation={true}
-            data={boards}
-            renderItem={renderItem}
-            keyExtractor={keyExtractor}
-            maxToRenderPerBatch={10}
-            initialNumToRender={10}
-            disableVirtualization={true}
-            onRefresh={onRefresh}
-            refreshing={refreshing}></FlatList>
+          {!isEmpty ? (
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              removeClippedSubviews={true}
+              legacyImplementation={true}
+              data={boards}
+              renderItem={renderItem}
+              keyExtractor={keyExtractor}
+              maxToRenderPerBatch={10}
+              initialNumToRender={10}
+              disableVirtualization={true}
+              onRefresh={onRefresh}
+              refreshing={refreshing}></FlatList>
+          ) : (
+            <View style={{flex: 1, backgroundColor: '#FFFFFF'}}>
+              <View style={{flex: 0.6, justifyContent: 'center'}}>
+                <Image
+                  style={{height: 105, width: 135, alignSelf: 'center'}}
+                  source={require('../../components/common/header-logo.png')}></Image>
+              </View>
+              <View styel={{flex: 1.2}}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    color: '#000000',
+                    fontSize: 17,
+                    fontWeight: 'bold',
+                    marginBottom: 15,
+                  }}>
+                  텅~ 더 이상 투표할 논쟁이 없어요
+                </Text>
+                <View style={{margin: 10}}>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: '#FF5F5F',
+                      width: 200,
+                      padding: 10,
+                      borderRadius: 10,
+                      alignSelf: 'center',
+                    }}
+                    onPress={() => navigation.navigate('PlusScreen')}>
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        color: '#FFFFFF',
+                        fontSize: 15,
+                        justifyContent: 'center',
+                      }}>
+                      새로운 논쟁 만들기
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          )}
         </View>
       </View>
     </SafeAreaView>

@@ -3,13 +3,7 @@ import {View, StyleSheet} from 'react-native';
 import CommentItem from './CommentItem';
 import DetailContext from './DetailContext';
 
-function ReplyList({
-  reply,
-  commentIsopened,
-  setCommentIsopened,
-  setReplys,
-  replys,
-}) {
+function ReplyList({reply, setReplys, replys}) {
   const [replyData, setReplyData] = useState(reply);
   const [writerData, setWriterData] = useState(null);
   const {participants} = useContext(DetailContext);
@@ -26,8 +20,6 @@ function ReplyList({
         commentData={replyData}
         setCommentData={setReplyData}
         writerData={writerData}
-        commentIsopened={commentIsopened}
-        setCommentIsopened={setCommentIsopened}
         isReply={true}
         replys={replys}
         setReplys={setReplys}></CommentItem>

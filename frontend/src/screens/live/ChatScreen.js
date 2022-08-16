@@ -21,16 +21,8 @@ import ChatHeader from '../../components/live/chat/ChatHeader';
 import ChatContent from '../../components/live/chat/ChatContent';
 import UserContext from '../../util/UserContext';
 import {useIsFocused} from '@react-navigation/native';
-import {
-  RTCPeerConnection,
-  RTCIceCandidate,
-  RTCSessionDescription,
-  RTCView,
-  MediaStream,
-  MediaStreamTrack,
-  mediaDevices,
-  registerGlobals,
-} from 'react-native-webrtc';
+import {registerGlobals} from 'react-native-webrtc';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const mediasoupClient = require('mediasoup-client');
 
 const users = [];
@@ -52,6 +44,7 @@ export default function ChatScreen({route, navigation}) {
   const isFocused = useIsFocused();
   const isMute = useRef(true);
   const [onFocus, setOnFocus] = useState(false);
+  const [muteBtn, setMuteBtn] = useState(true);
   let device;
   let rtpCapabilities;
   let producerTransport;
@@ -59,6 +52,7 @@ export default function ChatScreen({route, navigation}) {
   let audioProducer;
   let audioParams;
   let consumingTransports = [];
+
   useEffect(() => {
     if (isFocused) {
       // socket = io(`http://10.0.2.2:3000`, {
@@ -67,7 +61,7 @@ export default function ChatScreen({route, navigation}) {
       });
 
       socket.on('connect', async () => {
-        console.log(userData.nickname + ' connect');
+        // console.log(userData.nickname + ' connect');
         getLocalStream();
         socket.emit('enter', boardData, userData, (data) => {
           if (data) {
@@ -176,12 +170,14 @@ export default function ChatScreen({route, navigation}) {
 
       // WebRTC - mediasoup
       socket.on('unmute', () => {
-        console.log('unmute');
+        // console.log('unmute');
         audioParams.track.enabled = true;
+        setMuteBtn(false);
       });
       socket.on('mute', () => {
-        console.log('mute');
+        // console.log('mute');
         audioParams.track.enabled = false;
+        setMuteBtn(true);
       });
 
       const streamSuccess = (stream) => {
@@ -196,7 +192,7 @@ export default function ChatScreen({route, navigation}) {
           })
           .then(streamSuccess)
           .catch((error) => {
-            console.log(error.message);
+            // console.log(error.message);
           });
       };
 
@@ -213,12 +209,12 @@ export default function ChatScreen({route, navigation}) {
             routerRtpCapabilities: rtpCapabilities,
           });
 
-          console.log('Device RTP Capabilities', device.rtpCapabilities);
+          // console.log('Device RTP Capabilities', device.rtpCapabilities);
 
           // once the device loads, create transport
           createSendTransport();
         } catch (error) {
-          console.log(error);
+          // console.log(error);
           if (error.name === 'UnsupportedError')
             console.warn('browser not supported');
         }
@@ -231,11 +227,11 @@ export default function ChatScreen({route, navigation}) {
           // The server sends back params needed
           // to create Send Transport on the client side
           if (params.error) {
-            console.log(params.error);
+            // console.log(params.error);
             return;
           }
 
-          console.log(params);
+          // console.log(params);
 
           // creates a new WebRTC Transport to send media
           // based on the server's producer transport params
@@ -266,8 +262,8 @@ export default function ChatScreen({route, navigation}) {
           producerTransport.on(
             'produce',
             async (parameters, callback, errback) => {
-              console.log(parameters);
-              console.log(8);
+              // console.log(parameters);
+              // console.log(8);
               try {
                 // tell the server to create a Producer
                 // with the following parameters and produce
@@ -304,18 +300,16 @@ export default function ChatScreen({route, navigation}) {
         // to send media to the Router
         // https://mediasoup.org/documentation/v3/mediasoup-client/api/#transport-produce
         // this action will trigger the 'connect' and 'produce' events above
-        console.log(9);
+        // console.log(9);
         audioProducer = await producerTransport.produce(audioParams);
-        console.log(7);
+        // console.log(7);
         audioProducer.on('trackended', () => {
-          console.log('audio track ended');
-
+          // console.log('audio track ended');
           // close audio track
         });
 
         audioProducer.on('transportclose', () => {
-          console.log('audio transport ended');
-
+          // console.log('audio transport ended');
           // close audio track
         });
       };
@@ -332,10 +326,10 @@ export default function ChatScreen({route, navigation}) {
             // The server sends back params needed
             // to create Send Transport on the client side
             if (params.error) {
-              console.log(params.error);
+              // console.log(params.error);
               return;
             }
-            console.log(`PARAMS... ${params}`);
+            // console.log(`PARAMS... ${params}`);
 
             let consumerTransport;
             try {
@@ -344,7 +338,7 @@ export default function ChatScreen({route, navigation}) {
               // exceptions:
               // {InvalidStateError} if not loaded
               // {TypeError} if wrong arguments.
-              console.log(error);
+              // console.log(error);
               return;
             }
 
@@ -384,7 +378,7 @@ export default function ChatScreen({route, navigation}) {
 
       const getProducers = () => {
         socket.emit('getProducers', (producerIds) => {
-          console.log(producerIds);
+          // console.log(producerIds);
           // for each of the producer create a consumer
           // producerIds.forEach(id => signalNewConsumerTransport(id))
           producerIds.forEach(signalNewConsumerTransport);
@@ -408,11 +402,11 @@ export default function ChatScreen({route, navigation}) {
           },
           async ({params}) => {
             if (params.error) {
-              console.log('Cannot Consume');
+              // console.log('Cannot Consume');
               return;
             }
 
-            console.log(`Consumer Params ${params}`);
+            // console.log(`Consumer Params ${params}`);
             // then consume with the local consumer transport
             // which creates a consumer
             const consumer = await consumerTransport.consume({
@@ -663,9 +657,7 @@ export default function ChatScreen({route, navigation}) {
   };
   let mute = () => {
     if (!isMute.current) {
-      console.log(123);
       isMute.current = true;
-
       socket.emit('mute', {});
     } else {
       isMute.current = false;
@@ -740,9 +732,20 @@ export default function ChatScreen({route, navigation}) {
           style={{
             flex: 0.7,
             justifyContent: 'center',
+            alignItems: 'center',
           }}>
           <TouchableOpacity onPress={mute}>
-            <Text style={{textAlign: 'center'}}>버튼</Text>
+            {muteBtn ? (
+              <FontAwesome
+                style={{color: '#FF5F5F', paddingRight: 3}}
+                name="microphone-slash"
+                size={18}></FontAwesome>
+            ) : (
+              <FontAwesome
+                style={{color: '#49D3CA', paddingRight: 3}}
+                name="microphone"
+                size={18}></FontAwesome>
+            )}
           </TouchableOpacity>
         </View>
         <View

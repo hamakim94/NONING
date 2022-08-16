@@ -1,8 +1,7 @@
 import {Image, StyleSheet, View, TouchableOpacity} from 'react-native';
 import React from 'react';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function LiveLogoSearch({navigation}) {
+export default function LiveLogoSearch() {
   return (
     <View style={styles.container}>
       <TouchableOpacity>
@@ -10,20 +9,6 @@ export default function LiveLogoSearch({navigation}) {
           style={styles.logo}
           source={require('../common/로공공.png')}></Image>
       </TouchableOpacity>
-
-      <View style={styles.iconsContainer}>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('SearchNav', {screen: 'SearchNav'})
-          }>
-          <Ionicons
-            name={'search'}
-            size={20}
-            color={'#000000'}
-            style={{resizeMode: 'contain'}}
-          />
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }

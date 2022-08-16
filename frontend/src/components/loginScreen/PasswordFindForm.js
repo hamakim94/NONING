@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import InputLabel from '../../components/signUp/InputLabel';
 import NoCheckInput from '../signUp/NoCheckInput';
 import UseAxios from '../../util/UseAxios';
+import SignLoading from '../signUp/SignLoading';
 
 export default function PasswordFindForm({navigation}) {
   const inputRef = useRef([]);
@@ -35,6 +36,7 @@ export default function PasswordFindForm({navigation}) {
     setBtn(true);
     UseAxios.get('/users/passwords/find', {params: data})
       .then(() => {
+        setBtn(false);
         Alert.alert(
           '비밀번호 재전송',
           '해당 이메일로 임시 비밀번호를 보냈습니다, 확인해서 로그인해주세요.',
@@ -105,6 +107,7 @@ export default function PasswordFindForm({navigation}) {
           disabled={btn}>
           <Text style={styles.buttonText}>비밀번호 찾기</Text>
         </TouchableOpacity>
+        <SignLoading isModal={btn}></SignLoading>
       </View>
     </View>
   );

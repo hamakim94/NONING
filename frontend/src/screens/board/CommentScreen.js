@@ -15,15 +15,34 @@ import UseAxios from '../../util/UseAxios';
 import Feather from 'react-native-vector-icons/Feather';
 import CommentContext from '../../components/boardDetail/CommentContext';
 
-function CommentScreen({board, focusInput}) {
+function CommentScreen({board}) {
   const isFocused = useIsFocused();
   const [comments, setComments] = useState([]);
   const {boardId, participants} = useContext(DetailContext);
   const [content, setContent] = useState();
   const [parentComment, setParentComment] = useState();
   const [nested, setNested] = useState(false);
-  const [checkWrite, SetCheckWrite] = useState(false);
+  const [checkWrite, setCheckWrite] = useState(false);
   const [writerNickname, setWriterNickname] = useState();
+  const [replyCheck, setReplyCheck] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const getData = () => {
+    setRefreshing(true);
+    UseAxios.get(`/boards/${boardId}/comments/list`)
+      .then((res) => {
+        setComments(res.data);
+        setRefreshing(false);
+      })
+      .catch((err) => {
+        setRefreshing(false);
+      });
+  };
+  const onRefresh = () => {
+    if (!refreshing) {
+      getData();
+    }
+  };
 
   useEffect(() => {
     if (isFocused) {
@@ -53,6 +72,7 @@ function CommentScreen({board, focusInput}) {
       nested={nested}
       setNested={setNested}
       checkWrite={checkWrite}
+      replyCheck={item.commentId === parentComment ? replyCheck : false}
     />
   );
   const onChange = (e) => {
@@ -65,8 +85,8 @@ function CommentScreen({board, focusInput}) {
       parentId: nested ? parentComment : 0,
     })
       .then((res) => {
-        // console.log(res);
-        SetCheckWrite(!checkWrite);
+        nested ? setReplyCheck(true) : '';
+        setCheckWrite(!checkWrite);
       })
       .catch((err) => {
         // console.log(err);
@@ -90,6 +110,8 @@ function CommentScreen({board, focusInput}) {
                   data={comments}
                   renderItem={renderItem}
                   keyExtractor={(comment) => comment.commentId}
+                  onRefresh={onRefresh}
+                  refreshing={refreshing}
                 />
               )}
             </>
