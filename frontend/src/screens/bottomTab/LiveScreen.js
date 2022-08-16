@@ -98,13 +98,17 @@ function LiveScreen({navigation}) {
               onRefresh={onRefresh}
               refreshing={refreshing}></FlatList>
           ) : (
-            <View style={{flex: 1, backgroundColor: '#FFFFFF'}}>
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: '#FFFFFF',
+              }}>
               <View style={{flex: 0.6, justifyContent: 'center'}}>
                 <Image
                   style={{height: 105, width: 135, alignSelf: 'center'}}
                   source={require('../../components/common/header-logo.png')}></Image>
               </View>
-              <View styel={{flex: 1.2}}>
+              <View>
                 <Text
                   style={{
                     textAlign: 'center',
