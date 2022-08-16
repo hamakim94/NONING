@@ -117,12 +117,16 @@ export default function VoteWrite({navigation, id, myPageData}) {
   );
   return (
     <View style={{flex: 1}}>
-      <FlatList
-        style={{paddingVertical: '1%'}}
-        keyExtractor={keyExtractor}
-        data={filteredData}
-        navigation={navigation}
-        renderItem={renderItem}></FlatList>
+      {filteredData.length === 0 ? (
+        <Text>텅~ 만든 논쟁이 없어요</Text>
+      ) : (
+        <FlatList
+          style={{paddingVertical: '1%'}}
+          keyExtractor={keyExtractor}
+          data={filteredData}
+          navigation={navigation}
+          renderItem={renderItem}></FlatList>
+      )}
     </View>
   );
 }

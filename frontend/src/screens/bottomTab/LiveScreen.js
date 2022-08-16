@@ -1,6 +1,6 @@
-import React, {useContext, useEffect, useState, useCallback} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Divider} from '@rneui/base/dist/Divider';
-import {View, SafeAreaView, FlatList} from 'react-native';
+import {View, SafeAreaView, FlatList, Text, Image} from 'react-native';
 import LiveFilterButtonTabs from '../../components/live/LiveFilterButtonTabs';
 import Lives from '../../components/live/Lives';
 import LiveLogoSearch from '../../components/live/LiveLogoSearch';
@@ -15,6 +15,7 @@ function LiveScreen({navigation}) {
   const [isPopular, setIsPopular] = useState('최신');
   const [lives, setLives] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(false);
   const isFocused = useIsFocused();
 
   const filterToCode = {
@@ -52,6 +53,11 @@ function LiveScreen({navigation}) {
             if (a.liveId < b.liveId) return 1;
           });
         }
+        if (res.data.length == 0) {
+          setIsEmpty(true);
+        } else {
+          setIsEmpty(false);
+        }
         setLives(res.data);
       })
       .then(() => setRefreshing(false));
@@ -72,7 +78,7 @@ function LiveScreen({navigation}) {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
       <View style={{flex: 1}}>
-        <LiveLogoSearch navigation={navigation}></LiveLogoSearch>
+        <LiveLogoSearch></LiveLogoSearch>
         <Divider width={0.5} color={'#A6A6A6'}></Divider>
         <LiveFilterButtonTabs setFilterName={setFilterName} />
         <Divider width={0.5} color={'#A6A6A6'}></Divider>
@@ -80,16 +86,38 @@ function LiveScreen({navigation}) {
           setIsPopular={setIsPopular}></LiveRecentPopularTabs>
         <Divider width={0.5} color={'#A6A6A6'}></Divider>
         <View style={{flex: 1, paddingHorizontal: 16}}>
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            removeClippedSubviews={true}
-            legacyImplementation={true}
-            data={lives}
-            renderItem={renderItem}
-            keyExtractor={keyExtractor}
-            disableVirtualization={true}
-            onRefresh={onRefresh}
-            refreshing={refreshing}></FlatList>
+          {!isEmpty ? (
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              removeClippedSubviews={true}
+              legacyImplementation={true}
+              data={lives}
+              renderItem={renderItem}
+              keyExtractor={keyExtractor}
+              disableVirtualization={true}
+              onRefresh={onRefresh}
+              refreshing={refreshing}></FlatList>
+          ) : (
+            <View style={{flex: 1, backgroundColor: '#FFFFFF'}}>
+              <View style={{flex: 0.6, justifyContent: 'center'}}>
+                <Image
+                  style={{height: 105, width: 135, alignSelf: 'center'}}
+                  source={require('../../components/common/header-logo.png')}></Image>
+              </View>
+              <View styel={{flex: 1.2}}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    color: '#000000',
+                    fontSize: 17,
+                    fontWeight: 'bold',
+                    marginBottom: 15,
+                  }}>
+                  텅~ 실시간으로 진행중인 논쟁이 없어요
+                </Text>
+              </View>
+            </View>
+          )}
         </View>
       </View>
     </SafeAreaView>

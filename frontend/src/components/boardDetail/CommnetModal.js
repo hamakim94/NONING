@@ -40,7 +40,7 @@ export default function CommentModal({data, setReplys, replys}) {
   return (
     <View>
       <TouchableOpacity onPress={toggleModal}>
-        <Entypo name="dots-three-vertical" color="black" size={13} />
+        <Entypo name="dots-three-vertical" color="black" size={14} />
       </TouchableOpacity>
       <Modal
         style={{margin: 0, justifyContent: 'flex-end'}}
@@ -70,7 +70,7 @@ export default function CommentModal({data, setReplys, replys}) {
       <DeleteModal
         deleteModal={deleteModal}
         setDeleteModal={setDeleteModal}
-        comment={'작성한 댓글(대댓글 포함)이 삭제 됩니다'}
+        comment={'작성한 댓글이 삭제 됩니다'}
         data={data}
         deleteBtn={deleteComment}
       />

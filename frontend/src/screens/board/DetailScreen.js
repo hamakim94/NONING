@@ -414,7 +414,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   }),
   iconColor: (userLike) => ({
-    color: userLike ? '#FF5F5F' : '#A6A6A6',
+    color: userLike ? '#FF5F5F' : '#c9c9c9',
   }),
   avartarContainer: {
     backgroundColor: '#FFFFFF',

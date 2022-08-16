@@ -5,10 +5,10 @@ import ReplyList from './ReplyList';
 import DetailContext from './DetailContext';
 import UseAxios from '../../util/UseAxios';
 
-function CommentList({comment, setNested, nested, checkWrite}) {
+function CommentList({comment, setNested, checkWrite, replyCheck}) {
   const [commentIsopened, setCommentIsopened] = useState(false);
   const [commentData, setCommentData] = useState(comment);
-  const [replys, setReplys] = useState([]);
+  const [replys, setReplys] = useState(null);
   const [writerData, setWriterData] = useState(null);
   const {boardId, participants} = useContext(DetailContext);
 
@@ -29,14 +29,13 @@ function CommentList({comment, setNested, nested, checkWrite}) {
         // console.log(err);
       });
   }, [checkWrite]);
+  useEffect(() => {
+    if (replyCheck) {
+      setCommentIsopened(true);
+    }
+  }, [replyCheck]);
   const renderItem = ({item}) => (
-    <ReplyList
-      reply={item}
-      commentIsopened={commentIsopened}
-      setCommentIsopened={setCommentIsopened}
-      replys={replys}
-      setReplys={setReplys}
-    />
+    <ReplyList reply={item} replys={replys} setReplys={setReplys} />
   );
 
   return (
@@ -49,6 +48,7 @@ function CommentList({comment, setNested, nested, checkWrite}) {
           commentIsopened={commentIsopened}
           setCommentIsopened={setCommentIsopened}
           setNested={setNested}
+          replys={replys}
           isReply={false}></CommentItem>
       </View>
       {commentIsopened ? (

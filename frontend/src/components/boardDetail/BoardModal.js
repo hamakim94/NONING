@@ -32,7 +32,7 @@ export default function BoardModal({data, navigation}) {
   return (
     <View>
       <TouchableOpacity onPress={toggleModal}>
-        <Entypo name="dots-three-vertical" color="black" size={13} />
+        <Entypo name="dots-three-vertical" color="black" size={14} />
       </TouchableOpacity>
       <Modal
         style={{margin: 0, justifyContent: 'flex-end'}}
