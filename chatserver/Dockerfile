@@ -8,7 +8,6 @@ RUN \
 WORKDIR /var/app
 COPY package.json .
 RUN npm install
-RUN apk add g++ make python3 linux-headers
 COPY . .
 COPY /src/UseAxios.js .
 COPY /src/config.js .
