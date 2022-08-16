@@ -67,8 +67,18 @@ SSAFY 7기 2학기 공통프로젝트 - NONING
 - DB : 10.3.34-MariaDB
 
 **Frontend**
-- Visual Studio Code IDE
-- React Native
+- Visual Studio Code IDE 1.69.0
+- react-native : ^0.69.2
+- socket.io : ^4.5.1
+
+**Chat**
+- express : ^4.18.1
+- fs: ^0.0.1-security
+- https: ^1.0.0
+- mediasoup : ^3.10.5
+- path: ^0.12.7
+- socket.io ^4.5.1
+- ws: ^8.8.1
 
 **CI/CD**
 - Server : AWS EC2 Ubuntu 20.04 LTS
@@ -126,6 +136,7 @@ SSAFY 7기 2학기 공통프로젝트 - NONING
 - [API명세서](doc/API명세서.xlsx)
 - [ERD](doc/ERD.jpg)
 - [Git](doc/git.md)
+- [테스트케이스](doc/noning_테스트케이스.xlsx)
 
 ## :heavy_check_mark: 프로젝트 결과물
 ---
