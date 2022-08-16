@@ -5,12 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-@EnableJpaAuditing
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.TimeZone;
 
+@EnableJpaAuditing
 @SpringBootApplication
 public class NoningApplication {
 
