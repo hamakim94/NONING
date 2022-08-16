@@ -175,16 +175,17 @@ io.on('connection', (socket) => {
       consumers = removeItems(consumers, socket.id, 'consumer');
       producers = removeItems(producers, socket.id, 'producer');
       transports = removeItems(transports, socket.id, 'transport');
-      const {roomName} = peers[socket.id];
+      const roomName = peers[socket.id].roomName;
       delete peers[socket.id];
-
-      // remove socket from room
-      rooms[roomName] = {
-        router: rooms[roomName].router,
-        peers: rooms[roomName].peers.filter(
-          (socketId) => socketId !== socket.id,
-        ),
-      };
+      if(roomName) {
+        // remove socket from room
+        rooms[roomName] = {
+          router: rooms[roomName].router,
+          peers: rooms[roomName].peers.filter(
+              (socketId) => socketId !== socket.id,
+          ),
+        };
+      }
       if (userList.get(socket.boardId).size == 0) {
         UseAxios.post('/chats/delete', null, {
           params: {
