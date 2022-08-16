@@ -5,7 +5,7 @@ FROM node:17-alpine3.12
 #  && apt-get update \
 #  && apt-get install -y net-tools build-essential python3 python3-pip valgrind zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev g++ make
 
-WORKDIR /var/app
+WORKDIR ./
 COPY package.json .
 COPY . .
 COPY /src/UseAxios.js .
