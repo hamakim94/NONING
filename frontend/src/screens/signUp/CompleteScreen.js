@@ -23,11 +23,6 @@ function CompleteScreen({navigation}) {
         </Text>
         <View style={{flexDirection: 'row', marginTop: '10%'}}>
           <TouchableOpacity
-            style={styles.homeButton}
-            onPress={() => navigation.navigate('HomeStack')}>
-            <Text style={styles.homeText}>홈으로</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
             style={styles.loginButton(true)}
             onPress={() => navigation.navigate('LoginScreen')}>
             <Text style={styles.loginText}>로그인</Text>
@@ -81,11 +76,10 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: bool ? '#FF5F5F' : '#808080',
     height: 40,
-    width: (windowWidth - 32) / 2 - 8,
+    width: '100%',
     borderWidth: 1,
     borderColor: bool ? '#FF5F5F' : '#808080',
     justifyContent: 'center',
-    marginLeft: 16,
   }),
   homeButton: {
     marginLeft: 0,
