@@ -99,7 +99,7 @@ function ProfileEditScreen({navigation}) {
     const newData = {
       userId: userData.userId,
       nickname: data.nickname,
-      img: data.img,
+      img: data.img ? data.img : userData.img,
       genderCode: userData.genderCode,
       mbti1Code: data.mbti1Code,
       mbti2Code: data.mbti2Code,
@@ -142,11 +142,6 @@ function ProfileEditScreen({navigation}) {
     setModalVisible(true); // visible = true
   };
 
-  const uriImg = imgSource
-    ? imgSource
-    : userData.img
-    ? {uri: userData.writerImg}
-    : require('../../assets/DefaultProfile.jpg');
   return (
     <View style={styles.container}>
       <View style={styles.imgContainer}>

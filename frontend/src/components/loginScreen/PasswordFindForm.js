@@ -11,6 +11,7 @@ export default function PasswordFindForm({navigation}) {
   const inputRef = useRef([]);
   const [emailStyle, setEmailStyle] = useState(styles.blurInput);
   const [nameStyle, setNameStyle] = useState(styles.blurInput);
+  const [btn, setBtn] = useState(false);
   const schema = yup.object({
     email: yup
       .string()
@@ -31,13 +32,14 @@ export default function PasswordFindForm({navigation}) {
     resolver: yupResolver(schema),
   });
   const onSubmit = (data) => {
+    setBtn(true);
     UseAxios.get('/users/passwords/find', {params: data})
       .then(() => {
         Alert.alert(
           '비밀번호 재전송',
           '해당 이메일로 임시 비밀번호를 보냈습니다, 확인해서 로그인해주세요.',
           [
-            {text: '획인', onPress: () => navigation.goBack()},
+            {text: '확인', onPress: () => navigation.goBack()},
             {
               text: '취소',
               style: 'cancel',
@@ -49,6 +51,7 @@ export default function PasswordFindForm({navigation}) {
         );
       })
       .catch((err) => {
+        setBtn(false);
         Alert.alert(
           '이메일, 이름 확인',
           '이름과 이메일을 다시 한 번 확인해주세요',
@@ -98,7 +101,8 @@ export default function PasswordFindForm({navigation}) {
           }
           onPress={
             Object.keys(errors).length > 0 ? () => '' : handleSubmit(onSubmit)
-          }>
+          }
+          disabled={btn}>
           <Text style={styles.buttonText}>비밀번호 찾기</Text>
         </TouchableOpacity>
       </View>
