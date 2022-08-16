@@ -1,5 +1,7 @@
 FROM node:14
 
+VOLUME /etc/letsencrypt/live/i7a202.p.ssafy.io
+
 RUN \
   set -x \
   && apt-get update \
