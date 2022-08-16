@@ -1,11 +1,14 @@
- FROM node:12
+FROM node:14
 
- WORKDIR /var/app
+RUN \
+  set -x \
+  && apt-get update \
+  && apt-get install -y net-tools build-essential python3 python3-pip valgrind
 
- COPY package.json .
- RUN npm install mediasoup@3 --save
- RUN npm install
- COPY . .
+WORKDIR /var/app
+COPY package.json .
+RUN npm install
+COPY . .
 
- EXPOSE 3000
- CMD [ "npm", "start" ]
+EXPOSE 3000
+CMD [ "npm", "start" ]
