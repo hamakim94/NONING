@@ -7,7 +7,7 @@
 
 
 
-![image](doc/img/논잉앱.png)
+![image](doc/img/논잉어플.jpg)
 <!-- <img src="doc/img/논잉.png" width="300" height="400"/> -->
 
 ## NONING - 배경 
