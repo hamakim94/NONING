@@ -458,10 +458,13 @@ io.on('connection', (socket) => {
 
   socket.on('consumer-resume', async ({serverConsumerId}) => {
     console.log('consumer resume');
-    const {consumer} = consumers.find(
-      (consumerData) => consumerData.consumer.id === serverConsumerId,
+    const tmpConsumerData = consumers.find(
+        (consumerData) => consumerData.consumer.id === serverConsumerId,
     );
-    await consumer.resume();
+    if (tmpConsumerData) {
+      const {consumer} = tmpConsumerData.consumer;
+      await consumer.resume();
+    }
   });
   //================================
   // socket.on('getRouterRtpCapabilities', (callback) => {
