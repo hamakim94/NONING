@@ -1,17 +1,17 @@
 # :fire: NONING(논잉) - 논쟁을 멈추지 마
 - 최신 논쟁에 대해 투표하고, 분석 결과를 보며 댓글과 실시간 채팅을 통해 상대방을 설득하는
   **본격 편가르기 어플**
+- 📜 [노션](https://rainy-ixia-034.notion.site/adcfe6c242624dcd922986681bafe7ba)
+<br/>
+
 
 
 
 ![image](doc/img/논잉앱.png)
 <!-- <img src="doc/img/논잉.png" width="300" height="400"/> -->
 
-📜 [노션](https://rainy-ixia-034.notion.site/adcfe6c242624dcd922986681bafe7ba)
-<br/>
-
 ## NONING - 배경 
-
+---
 깻잎 논쟁, 이성 친구 가능 여부 등 미디어에서 다양한 논쟁주제가 나오면서 실시간으로 토론하고 싶다, 혹은 이 주제에 대해 다른 사람은 어떻게 생각할까 궁금하신 적 있나요?
 
 NONING은 재밌는 논쟁주제를 2가지 선택지로 가볍게 투표하고, 반응과 댓글을 보며, 필요시 채팅방에 입장하여 다른 생각을 하는 사람들을 설득할 수 있는 앱입니다!
@@ -19,6 +19,7 @@ NONING은 재밌는 논쟁주제를 2가지 선택지로 가볍게 투표하고,
 <br/>
 
 ## 프로젝트 진행 기간
+---
 2022.07.11~ 2022.08.19(금) 약 39일간 진행<br/>
 SSAFY 7기 2학기 공통프로젝트 - NONING
 <br/>
@@ -77,36 +78,31 @@ SSAFY 7기 2학기 공통프로젝트 - NONING
 
 <br/>
 
-## :heavy_check_mark: 협업 툴
+## :heavy_check_mark: 협업 툴 / 환경
 ---
-- Git
-- Notion
-- JIRA
-- MatterMost
-- Webex
-
-<br/>
-
-## :heavy_check_mark: 협업 환경
----
-- Gitlab
+- GitLab
   - Git-Flow. develop, FE_develop, BE_develop, CHAT_develop 브랜치를 나누고
   - 각 feature별 브랜치를 따서 작업 진행
   - MR시 Front/Back Maintainer가 확인 후 합병
-- JIRA
-  - 매주 월요일 목표량을 설정하여 Sprint 진행
-  - 업무별 Story Point(1~4)를 설정, In-Progress -> Done 순으로 작업  
-- 회의
-  - 평일 아침 Webex에서 데일리 스크럼 진행
-  - 문제점이 생겼을 때 팀원들에게 직접 소통
 - Notion
   - 회의가 있을때마다 회의록을 기록하여 보관
   - 컨벤션 정리
   - api 문서 관리 등
+- JIRA
+  - 매주 월요일 목표량을 설정하여 Sprint 진행
+  - 업무별 Story Point(1~4)를 설정, In-Progress -> Done 순으로 작업  
+- MatterMost
+  - Gitlab, JIRA 봇 연동하여 실시간으로 협업
+  - Server 연동하여 실시간 에러 처리
+- Webex
+  - 회의 : 평일 아침 Webex에서 데일리 스크럼 진행
+  - 문제점이 생겼을 때 팀원들에게 직접 소통
+
 
 <br/>
 
 ## :heavy_check_mark: 팀원 역할 분배
+---
 - 이승연(Backend / 팀장)
 
 - 이도엽(Frontend / FE maintainer)
@@ -132,13 +128,42 @@ SSAFY 7기 2학기 공통프로젝트 - NONING
 - [Git](doc/git.md)
 
 ## :heavy_check_mark: 프로젝트 결과물
+---
 - [중간발표자료](doc/중간발표자료.pptx)
-- [최종발표자료]
+- [최종발표자료]()
 <br/>
 
 ## :heavy_check_mark: 폴더 구조 - Frontend
 ```
-
+src
+├─assets
+├─components
+│  ├─animations
+│  ├─board
+│  ├─boardDetail
+│  ├─common
+│  ├─flow
+│  ├─follow
+│  ├─home
+│  ├─live
+│  │  ├─chat
+│  │  └─chatInfo
+│  ├─loginScreen
+│  ├─search
+│  ├─setting
+│  ├─signUp
+│  └─userpage
+├─data
+├─navigations
+├─screens
+│  ├─board
+│  ├─bottomTab
+│  ├─live
+│  ├─login
+│  ├─search
+│  ├─signUp
+│  └─userEdit
+└─util
 ```
 
 <br/>
