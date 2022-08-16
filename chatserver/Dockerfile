@@ -9,6 +9,8 @@ WORKDIR /var/app
 COPY package.json .
 RUN npm install
 COPY . .
+COPY /src/UseAxios.js .
+COPY /src/config.js .
 
 EXPOSE 3000
 CMD [ "npm", "start" ]
