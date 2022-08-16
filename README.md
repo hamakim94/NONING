@@ -19,7 +19,7 @@ NONING은 재밌는 논쟁주제를 2가지 선택지로 가볍게 투표하고,
 <br/>
 
 ## 프로젝트 진행 기간
-2022.07.05~ 2022.08.19(금) 약 45일간 진행<br/>
+2022.07.11~ 2022.08.19(금) 약 39일간 진행<br/>
 SSAFY 7기 2학기 공통프로젝트 - NONING
 <br/>
 
@@ -53,7 +53,7 @@ SSAFY 7기 2학기 공통프로젝트 - NONING
     - 팔로우 버튼을 통해 유저페이지 팔로워/팔로잉 탭에서 확인할 수 있고, 원하신다면 언팔로우/팔로잉 취소할 수 있습니다.
     - 사용자가 참여한 찜한, 참여한, 만든 주제를 각각 내/얘찜논, 내/얘참논, 내/얘만논 탭을 통해 확인할 수 있습니다.</br>
 
-## ✔ 주요 기술 
+## :heavy_check_mark: 주요 기술 
 
 ---
 
@@ -77,7 +77,7 @@ SSAFY 7기 2학기 공통프로젝트 - NONING
 
 <br/>
 
-## ✔ 협업 툴
+## :heavy_check_mark: 협업 툴
 ---
 - Git
 - Notion
@@ -87,7 +87,7 @@ SSAFY 7기 2학기 공통프로젝트 - NONING
 
 <br/>
 
-## ✔ 협업 환경
+## :heavy_check_mark: 협업 환경
 ---
 - Gitlab
   - Git-Flow. develop, FE_develop, BE_develop, CHAT_develop 브랜치를 나누고
@@ -106,7 +106,7 @@ SSAFY 7기 2학기 공통프로젝트 - NONING
 
 <br/>
 
-## ✔ 팀원 역할 분배
+## :heavy_check_mark: 팀원 역할 분배
 - 이승연(Backend / 팀장)
 
 - 이도엽(Frontend / FE maintainer)
@@ -115,32 +115,35 @@ SSAFY 7기 2학기 공통프로젝트 - NONING
 
 - 김민균(Frontend / Jira maintainer)
 
-- 이재순(Backend / BE maintainer/ CICD)
+- 이재순(Backend / BE maintainer / CI/CD)
 
 
 <br/>
 
-## ✔ 프로젝트 산출물
+## :heavy_check_mark: 프로젝트 산출물
 ---
 - [기능명세서](doc/기능명세서.xlsx)
+- [스토리보드](https://www.figma.com/file/ddfG9w0OgJWo3ld5uFJQPF/WireFrame-2%EC%A1%B0?node-id=58%3A702)
+- [와이어프레임](https://www.figma.com/file/ddfG9w0OgJWo3ld5uFJQPF/WireFrame-2%EC%A1%B0?node-id=41%3A2)
 - [프로젝트계획서](doc/프로젝트계획서.pdf)
-- [화면설계서](doc/화면설계서.md)
-- [스토리보드](doc/스토리보드.md)
-- [API명세서](doc/API명세서.xlsx)
 - [컨벤션](doc/컨벤션.md)
+- [API명세서](doc/API명세서.xlsx)
+- [ERD](doc/ERD.jpg)
 - [Git](doc/git.md)
 
-
+## :heavy_check_mark: 프로젝트 결과물
+- [중간발표자료](doc/중간발표자료.pptx)
+- [최종발표자료]
 <br/>
 
-## ✔ 폴더 구조 - Frontend
+## :heavy_check_mark: 폴더 구조 - Frontend
 ```
 
 ```
 
 <br/>
 
-## ✔ 폴더 구조 - Backend
+## :heavy_check_mark: 폴더 구조 - Backend
 ```
 
 ```
@@ -148,9 +151,23 @@ SSAFY 7기 2학기 공통프로젝트 - NONING
 <br/>
 
 
-## 페이지 기능 소개 
+## :heavy_check_mark:페이지 기능 소개 
 <br/>
 
+- 로그인 / 비밀번호 찾기
+  
+- 회원가입
 
+- 홈 / 상세페이지
 
+- 플로우
 
+- 라이브
+
+- 검색
+
+- 유저페이지 / 팔로우 / 팔로잉
+
+- 실시간 채팅
+
+- 설정
