@@ -18,7 +18,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import UseAxios from '../../util/UseAxios';
 import {Avatar} from '@rneui/themed';
 import BoardModal from '../../components/boardDetail/BoardModal';
-
+import Modal from 'react-native-modal';
 const renderTabBar = (props) => (
   <TabBar
     {...props}
@@ -57,6 +57,7 @@ const renderTabBar = (props) => (
   />
 );
 
+const deviceHeight = Dimensions.get('window').height;
 const initialLayout = {width: Dimensions.get('window').width};
 
 export default function DetailScreen({navigation, route}) {
@@ -68,6 +69,7 @@ export default function DetailScreen({navigation, route}) {
   ]);
   const [participants, setParticipants] = useState(null);
   const [board, setBoard] = useState(null);
+  const [isModal, setIsModal] = useState(false);
   const {userData} = useContext(UserContext);
   const boardId = route.params.boardId;
   const isFocused = useIsFocused();
@@ -174,6 +176,9 @@ export default function DetailScreen({navigation, route}) {
         params: {data: board},
       });
   };
+  const toggleModal = () => {
+    setIsModal(!isModal);
+  };
   return (
     <DetailContext.Provider
       value={{
@@ -184,7 +189,7 @@ export default function DetailScreen({navigation, route}) {
       <View style={styles.container}>
         <View
           style={{
-            flex: 2.4,
+            flex: 2,
             alignItems: 'center',
             paddingTop: 16,
             paddingHorizontal: 16,
@@ -232,26 +237,31 @@ export default function DetailScreen({navigation, route}) {
               />
             </TouchableOpacity>
           </View>
-          {board ? (
-            board.userVote == 0 ? (
-              ''
-            ) : (
-              <TouchableOpacity
-                style={{
-                  borderWidth: 1,
-                  borderRadius: 5,
-                }}
-                onPress={betray}>
-                <Text
+          {!onFocus ? (
+            board ? (
+              board.userVote == 0 ? (
+                ''
+              ) : (
+                <TouchableOpacity
                   style={{
-                    color: '#000000',
-                    fontWeight: 'bold',
-                    marginHorizontal: 10,
-                    marginVertical: 2,
-                  }}>
-                  배신하기
-                </Text>
-              </TouchableOpacity>
+                    borderWidth: 1,
+                    borderRadius: 5,
+                    position: 'relative',
+                  }}
+                  onPress={betray}>
+                  <Text
+                    style={{
+                      color: '#000000',
+                      fontWeight: 'bold',
+                      marginHorizontal: 10,
+                      marginVertical: 2,
+                    }}>
+                    배신하기
+                  </Text>
+                </TouchableOpacity>
+              )
+            ) : (
+              ''
             )
           ) : (
             ''
@@ -308,7 +318,35 @@ export default function DetailScreen({navigation, route}) {
                   board.userVote == 0 ? (
                     ''
                   ) : (
-                    <TouchableOpacity onPress={onLive}>
+                    <TouchableOpacity
+                      onPress={board.live ? onLive : toggleModal}>
+                      <Modal
+                        style={{justifyContent: 'center'}}
+                        deviceHeight={deviceHeight}
+                        isVisible={isModal}
+                        onBackdropPress={() => setIsModal(false)}
+                        onBackButtonPress={() => setIsModal(false)}
+                        backdropOpacity={0.3}>
+                        <View style={styles.modalContainer}>
+                          <View style={styles.textBox}>
+                            <Text style={styles.modalText}>
+                              채팅방을 생성하시겠습니까?
+                            </Text>
+                          </View>
+                          <View style={styles.bottomModalbox}>
+                            <TouchableOpacity
+                              style={styles.bottomBox}
+                              onPress={() => setIsModal(false)}>
+                              <Text style={styles.modalText}>취소</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                              style={styles.bottomBox}
+                              onPress={onLive}>
+                              <Text style={styles.modalText}>생성</Text>
+                            </TouchableOpacity>
+                          </View>
+                        </View>
+                      </Modal>
                       <Text style={styles.liveButton(board ? board.live : '')}>
                         LIVE
                       </Text>
@@ -354,6 +392,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   titleContainer: {
+    flex: 0.8,
     height: 90,
     width: '100%',
     padding: 5,
@@ -379,5 +418,28 @@ const styles = StyleSheet.create({
   avartarContainer: {
     backgroundColor: '#FFFFFF',
     marginHorizontal: 4,
+  },
+  textBox: {
+    paddingVertical: '5%',
+    width: '100%',
+    alignItems: 'center',
+    marginBottom: '5%',
+  },
+  modalText: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
+  modalContainer: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 7,
+    padding: '5%',
+  },
+  bottomModalbox: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  bottomBox: {
+    marginHorizontal: '10%',
   },
 });

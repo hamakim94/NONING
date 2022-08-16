@@ -165,7 +165,7 @@ export default function YourPageScreen({route, navigation}) {
             </TouchableOpacity>
           </View>
         ) : (
-          <View style={{flex: 0.07, alignSelf: 'flex-end'}} />
+          ''
         )
       ) : (
         ''
@@ -328,6 +328,7 @@ export default function YourPageScreen({route, navigation}) {
                   alignContent: 'center',
                   marginStart: '2.5%',
                   paddingVertical: '2.5%',
+                  justifyContent: 'center',
                 }}
                 onPress={() => {
                   yourPageData.followerIdList.indexOf(userData.userId) >= 0
@@ -338,9 +339,7 @@ export default function YourPageScreen({route, navigation}) {
                   style={{
                     color: '#FFFFFF',
                     textAlign: 'center',
-
                     fontWeight: 'bold',
-                    textAlignVertical: 'center',
                   }}>
                   {yourPageData.followerIdList
                     ? yourPageData.followerIdList.indexOf(userData.userId) >= 0

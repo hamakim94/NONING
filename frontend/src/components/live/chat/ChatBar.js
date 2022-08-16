@@ -1,7 +1,40 @@
 import {StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 
-export default function ChatBar({betray, boardData, waitButton}) {
+function ChatBar({betray, boardData, waitButton, setWaitButton}) {
+  const [number, setNumber] = useState(10);
+  useInterval(
+    () => {
+      if (waitButton) {
+        setNumber(number - 1);
+      }
+    },
+    number == 0 ? null : 1000,
+  );
+
+  function useInterval(callback, delay) {
+    const savedCallback = useRef();
+
+    // Remember the latest function.
+    useEffect(() => {
+      savedCallback.current = callback;
+    }, [callback]);
+
+    // Set up the interval.
+    useEffect(() => {
+      function tick() {
+        savedCallback.current();
+      }
+      if (delay !== null) {
+        let id = setInterval(tick, delay);
+        return () => {
+          setNumber(10);
+          setWaitButton(false);
+          clearInterval(id);
+        };
+      }
+    }, [delay]);
+  }
   return (
     <View style={{flex: 1}}>
       <View
@@ -52,15 +85,18 @@ export default function ChatBar({betray, boardData, waitButton}) {
           }}
           onPress={
             waitButton
-              ? () => Alert.alert('', '60초 뒤에 다시 사용가능합니다.')
+              ? () =>
+                  Alert.alert('', '남은 시간이 지난 뒤에 다시 사용가능합니다.')
               : betray
           }>
           <Text
             style={{
               textAlign: 'center',
               marginHorizontal: 7,
+              fontWeight: 'bold',
+              color: '#000000',
             }}>
-            배신하기
+            {waitButton ? {number} : '배신하기'}
           </Text>
         </TouchableOpacity>
       </View>
@@ -131,3 +167,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   }),
 });
+
+export default React.memo(ChatBar);

@@ -31,13 +31,13 @@ export default function DeleteModal({
             <Text style={styles.modalText}>{comment}</Text>
           </View>
           <View style={styles.bottomModalbox}>
-            <TouchableOpacity style={styles.bottomBox} onPress={deleteBtn}>
-              <Text style={styles.modalText}>삭제</Text>
-            </TouchableOpacity>
             <TouchableOpacity
               style={styles.bottomBox}
               onPress={() => setDeleteModal(false)}>
               <Text style={styles.modalText}>취소</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.bottomBox} onPress={deleteBtn}>
+              <Text style={styles.modalText}>삭제</Text>
             </TouchableOpacity>
           </View>
         </View>

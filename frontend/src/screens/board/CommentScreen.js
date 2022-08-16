@@ -83,11 +83,15 @@ function CommentScreen({board, focusInput}) {
         {board ? (
           board.userVote > 0 ? (
             <>
-              <FlatList
-                data={comments}
-                renderItem={renderItem}
-                keyExtractor={(comment) => comment.commentId}
-              />
+              {comments.length === 0 ? (
+                <Text>작성된 댓글이 없습니다.</Text>
+              ) : (
+                <FlatList
+                  data={comments}
+                  renderItem={renderItem}
+                  keyExtractor={(comment) => comment.commentId}
+                />
+              )}
             </>
           ) : (
             <Text>투표를 해야만 댓글을 볼 수 있습니다.</Text>

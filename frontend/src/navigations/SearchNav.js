@@ -23,7 +23,6 @@ function SearchNav() {
         tabBarStyle: {
           backgroundColor: '#FFFFFF',
           marginHorizontal: 20,
-          marginTop: 5,
           marginBottom: 10,
           shadowColor: '#FFFFFF',
           borderBottomColor: '#808080',
