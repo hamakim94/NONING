@@ -74,7 +74,9 @@ export default function BoardBar({board, setBoards, navigation}) {
             ? LoginAlert(navigation)
             : [setOpt1Selected(), posting(1)];
         }}>
-        <Text style={styles.leftInnerText(board.userVote)}>{board.opt1}</Text>
+        <Text style={styles.leftInnerText(board.userVote)} numberOfLines={1}>
+          {board.opt1}
+        </Text>
         {board.userVote > 0 && (
           <Text style={styles.leftInnerText(board.userVote)}>
             {leftSize + '%'}
@@ -89,7 +91,9 @@ export default function BoardBar({board, setBoards, navigation}) {
             ? LoginAlert(navigation)
             : [setOpt2Selected(), posting(2)];
         }}>
-        <Text style={styles.rightInnerText(board.userVote)}>{board.opt2}</Text>
+        <Text style={styles.rightInnerText(board.userVote)} numberOfLines={1}>
+          {board.opt2}
+        </Text>
         {board.userVote > 0 && (
           <Text style={styles.rightInnerText(board.userVote)}>
             {rightSize + '%'}

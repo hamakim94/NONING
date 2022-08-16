@@ -34,7 +34,9 @@ export default function ChatInfoBar({navigation, boardData}) {
           marginBottom: 20,
         }}>
         <View style={[styles.barLeftContainer(boardData)]}>
-          <Text style={styles.barLeftText(boardData)}>{boardData.opt1}</Text>
+          <Text style={styles.barLeftText(boardData)} numberOfLines={1}>
+            {boardData.opt1}
+          </Text>
           <Text style={styles.barLeftText(boardData)}>
             {Math.round(
               (boardData.opt1Selected /
@@ -45,7 +47,9 @@ export default function ChatInfoBar({navigation, boardData}) {
           </Text>
         </View>
         <View style={[styles.barRightContainer(boardData)]}>
-          <Text style={styles.barRightText(boardData)}>{boardData.opt2}</Text>
+          <Text style={styles.barRightText(boardData)} numberOfLines={1}>
+            {boardData.opt2}
+          </Text>
           <Text style={styles.barRightText(boardData)}>
             {Math.round(
               (boardData.opt2Selected /
