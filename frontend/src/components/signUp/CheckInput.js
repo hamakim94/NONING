@@ -1,4 +1,4 @@
-import {Text, View, TextInput, TouchableOpacity} from 'react-native';
+import {Text, View, TextInput, TouchableOpacity, Alert} from 'react-native';
 import React, {useContext} from 'react';
 import {Controller} from 'react-hook-form';
 import UseAxios from '../../util/UseAxios';
@@ -68,11 +68,11 @@ function CheckInput({
                         },
                       })
                         .then(() => {
-                          alert('확인되었습니다.');
+                          Alert.alert('', '확인되었습니다.');
                           setCheck(true);
                         })
                         .catch(() => {
-                          alert('사용 중인 이메일입니다.');
+                          Alert.alert('', '사용 중인 이메일입니다.');
                           setCheck(false);
                         })
                     : edit
@@ -83,11 +83,11 @@ function CheckInput({
                           },
                         })
                           .then(() => {
-                            alert('확인되었습니다.');
+                            Alert.alert('', '확인되었습니다.');
                             setCheck(true);
                           })
                           .catch(() => {
-                            alert('사용 중인 별명입니다.');
+                            Alert.alert('', '사용 중인 별명입니다.');
                             setCheck(false);
                           })
                       : setCheck(true)
@@ -97,14 +97,14 @@ function CheckInput({
                         },
                       })
                         .then(() => {
-                          alert('확인되었습니다.');
+                          Alert.alert('', '확인되었습니다.');
                           setCheck(true);
                         })
                         .catch(() => {
-                          alert('사용 중인 별명입니다.');
+                          Alert.alert('', '사용 중인 별명입니다.');
                           setCheck(false);
                         })
-                  : alert('올바르지 않은 형식입니다.');
+                  : Alert.alert('', '올바르지 않은 형식입니다.');
               }}>
               <Text style={styles.confirmText}>중복확인</Text>
             </TouchableOpacity>

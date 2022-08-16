@@ -21,7 +21,7 @@ export default function CommentModal({data, setReplys, replys}) {
     if (data.writerId == userData.userId)
       UseAxios.put(`/boards/${boardId}/comments/${data.commentId}/delete`)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           setComments(
             comments.filter((comment) => data.commentId !== comment.commentId),
           );
@@ -30,7 +30,7 @@ export default function CommentModal({data, setReplys, replys}) {
           );
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     else {
       alert('본인 글만 삭제할 수 있습니다.');

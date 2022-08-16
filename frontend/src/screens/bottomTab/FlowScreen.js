@@ -5,18 +5,24 @@ import React, {
   useState,
   useContext,
 } from 'react';
-import {View, FlatList, Text, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  FlatList,
+  Text,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+} from 'react-native';
 import Flows from '../../components/flow/Flows';
 import UseAxios from '../../util/UseAxios';
 import {useIsFocused} from '@react-navigation/native';
-import UserContext from '../../util/UserContext';
+import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 
 function FlowScreen({navigation}) {
   const [boards, setBoards] = useState([]);
-  const {realHeight} = useContext(UserContext);
   const isFocused = useIsFocused();
   const [empty, setEmpty] = useState(false);
-
+  const realHeight = Dimensions.get('window').height - useBottomTabBarHeight();
   useEffect(() => {
     UseAxios.get('/boards/flow').then((res) => {
       res.data.sort(function (a, b) {
@@ -51,8 +57,8 @@ function FlowScreen({navigation}) {
         showsVerticalScrollIndicator={false}
         removeClippedSubviews={true}
         legacyImplementation={true}
-        maxToRenderPerBatch={1}
-        initialNumToRender={1}
+        maxToRenderPerBatch={3}
+        initialNumToRender={3}
         windowSize={2}
         data={boards}
         renderItem={memoizedItem}
@@ -81,7 +87,7 @@ function FlowScreen({navigation}) {
         <View style={{margin: 10}}>
           <TouchableOpacity
             style={{
-              backgroundColor: '#FF7171',
+              backgroundColor: '#FF5F5F',
               width: 200,
               padding: 10,
               borderRadius: 10,

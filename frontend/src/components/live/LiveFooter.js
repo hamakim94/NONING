@@ -20,10 +20,10 @@ export default function LiveFooter({live, setLives, navigation}) {
       },
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .then((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
   const unlike = () => {
@@ -32,7 +32,7 @@ export default function LiveFooter({live, setLives, navigation}) {
         // console.log(res);
       })
       .then((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 

@@ -46,6 +46,7 @@ const renderTabBar = (props) => (
                 padding: 0,
                 fontWeight: 'bold',
                 fontSize: 15,
+                width: '110%',
               }
             : {margin: 0, padding: 0, color: '#000000', fontSize: 15}
         }>
@@ -101,37 +102,37 @@ export default function YourPageScreen({route, navigation}) {
   useEffect(() => {
     UseAxios.get(`/users/${id}/page`).then((res) => {
       setYourPageData(res.data);
-      console.log(
-        '데이터 ---------------------------------------- : \n' + res.data,
-      );
+      // console.log(
+      //   '데이터 ---------------------------------------- : \n' + res.data,
+      // );
     });
   }, [isFocused]);
 
   const follow = () => {
-    console.log('팔');
+    // console.log('팔');
     UseAxios.post(`/follows/add`, {
       userId: userData.userId,
       targetUserId: id,
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
   const unfollow = () => {
-    console.log('언팔');
+    // console.log('언팔');
     UseAxios.post(`/follows/delete`, {
       userId: userData.userId,
       targetUserId: id,
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 

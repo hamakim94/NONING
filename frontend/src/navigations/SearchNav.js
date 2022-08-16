@@ -11,11 +11,11 @@ function SearchNav() {
       style={{backgroundColor: 'white'}}
       initialRouteName="BoardSearchScreen"
       screenOptions={{
-        tabBarActiveTintColor: '#FF7171',
+        tabBarActiveTintColor: '#FF5F5F',
         tabBarInactiveTintColor: '#808080',
         tabBarPressColor: '#C9C9C9',
         tabBarIndicatorStyle: {
-          backgroundColor: '#FF7171',
+          backgroundColor: '#FF5F5F',
           width: '25%',
           marginHorizontal: '7%',
         },

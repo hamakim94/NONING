@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -65,7 +66,7 @@ function PasswordEditScreen({navigation}) {
         navigation.navigate('HomeStack');
       })
       .catch(() => {
-        alert('비밀번호 오류');
+        Alert.alert('', '비밀번호 오류');
       });
   };
   // Alert.alert('비밀번호 변경', '변경하시겠습니까?', [

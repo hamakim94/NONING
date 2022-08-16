@@ -2,7 +2,7 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {Avatar} from '@rneui/themed';
 import React from 'react';
 
-export default function ChatInfoUser(user) {
+export default function ChatInfoUser({user, navigation}) {
   return (
     <View
       style={{
@@ -10,7 +10,8 @@ export default function ChatInfoUser(user) {
         marginTop: 15,
         alignItems: 'center',
       }}>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => navigation.push('YourPageScreen', {id: user.userId})}>
         <Avatar
           size={45}
           rounded
@@ -24,7 +25,7 @@ export default function ChatInfoUser(user) {
               borderColor: user.userVote == 1 ? '#FF5F5F' : '#49D3CA',
             },
           ]}
-          source={{uri: user.user.img}}
+          source={{uri: user.img}}
         />
       </TouchableOpacity>
       <Text
@@ -34,7 +35,7 @@ export default function ChatInfoUser(user) {
           marginLeft: 5,
           color: '#000000',
         }}>
-        {user.user.nickname}
+        {user.nickname}
       </Text>
     </View>
   );

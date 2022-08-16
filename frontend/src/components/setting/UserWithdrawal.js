@@ -32,7 +32,9 @@ const UserWithdrawal = ({navigation}) => {
                 AsyncStorage.clear();
                 setUserData(null);
               })
-              .catch((err) => console.log(err));
+              .catch((err) => {
+                // console.log(err)
+              });
           },
         },
         {

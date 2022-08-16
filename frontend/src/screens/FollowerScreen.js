@@ -27,13 +27,15 @@ function FollowerScreen({route, navigation}) {
     UseAxios.get(`/follows/list/${id}`)
       .then((res) => {
         setFollowData(res.data);
-        console.log('useEffect 페이지 주인:' + id);
+        // console.log('useEffect 페이지 주인:' + id);
       })
-      .then(console.log(followData));
+      .catch((err) => {
+        // console.log(followData)
+      });
   }, [isFocused, fake]);
 
   const followDelete = (userId) => {
-    console.log('팔로우삭제');
+    // console.log('팔로우삭제');
     UseAxios.post(`/follows/followers/delete`, {
       userId: userData.userId,
       targetUserId: userId,
@@ -42,7 +44,7 @@ function FollowerScreen({route, navigation}) {
         setFake(!fake);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 

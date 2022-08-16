@@ -69,7 +69,7 @@ function BottomTabsNav() {
           tabBarIcon: ({size}) => (
             <MaterialCommunityIcons
               name="plus-circle"
-              color="#FF7171"
+              color="#FF5F5F"
               size={size}
             />
           ),

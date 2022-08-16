@@ -49,7 +49,7 @@ export default function PlusScreen({navigation}) {
     UseAxios.post(`/boards/write`, data)
       .then(navigation.navigate('HomeScreen'))
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
     [isFocused];
   };
