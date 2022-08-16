@@ -25,6 +25,9 @@ function BottomTabsNav() {
           }
         : () => navigation.navigate(route.name),
   });
+  const HomeListeners = ({navigation, route}) => ({
+    tabPress: () => navigation.navigate(route.name),
+  });
 
   return (
     <Tab.Navigator
@@ -38,18 +41,20 @@ function BottomTabsNav() {
         name="HomeStack"
         component={HomeStack}
         options={{
+          unmountOnBlur: true,
           headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: ({color, size}) => (
             <AntDesign name="home" color={color} size={size} />
           ),
         }}
-        listeners={tabBarListeners}
+        listeners={HomeListeners}
       />
       <Tab.Screen
         name="FlowNav"
         component={FlowNav}
         options={{
+          unmountOnBlur: true,
           tabBarLabel: 'Flow',
           tabBarShowLabel: false,
           headerShown: false,
@@ -74,6 +79,7 @@ function BottomTabsNav() {
             />
           ),
         }}
+        listeners={tabBarListeners}
       />
 
       <Tab.Screen
@@ -97,6 +103,7 @@ function BottomTabsNav() {
         name="UserPageNav"
         component={UserPageNav}
         options={{
+          unmountOnBlur: true,
           tabBarShowLabel: false,
           headerShown: false,
           tabBarIcon: ({color, size}) => (

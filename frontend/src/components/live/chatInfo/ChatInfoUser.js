@@ -25,7 +25,11 @@ export default function ChatInfoUser({user, navigation}) {
               borderColor: user.userVote == 1 ? '#FF5F5F' : '#49D3CA',
             },
           ]}
-          source={{uri: user.img}}
+          source={
+            user.img
+              ? {uri: user.img}
+              : require('../../../assets/DefaultProfile.jpg')
+          }
         />
       </TouchableOpacity>
       <Text

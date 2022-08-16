@@ -76,8 +76,9 @@ function CheckInput({
                           setCheck(false);
                         })
                     : edit
-                    ? value === !userData.nickname
-                      ? UseAxios.post('/users/duplications/check', null, {
+                    ? value === userData.nickname
+                      ? setCheck(true)
+                      : UseAxios.post('/users/duplications/check', null, {
                           params: {
                             nickname: value,
                           },
@@ -90,7 +91,6 @@ function CheckInput({
                             Alert.alert('', '사용 중인 별명입니다.');
                             setCheck(false);
                           })
-                      : setCheck(true)
                     : UseAxios.post('/users/duplications/check', null, {
                         params: {
                           nickname: value,

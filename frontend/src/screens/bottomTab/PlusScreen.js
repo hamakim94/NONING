@@ -47,7 +47,7 @@ export default function PlusScreen({navigation}) {
     data.categoryCode = nameToCode[data.categoryCode];
     // console.log(data);
     UseAxios.post(`/boards/write`, data)
-      .then(navigation.navigate('HomeScreen'))
+      .then(navigation.navigate('HomeStack'))
       .catch((err) => {
         // console.log(err);
       });
