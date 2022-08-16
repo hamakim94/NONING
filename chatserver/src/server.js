@@ -608,11 +608,17 @@ const createRoom = async (roomName, socketId) => {
   // none of the two are required
   let router1;
   let peers = [];
+  console.log(1);
   if (rooms[roomName]) {
+    console.log("1-1");
     router1 = rooms[roomName].router;
+    console.log("1-2");
     peers = rooms[roomName].peers || [];
+    console.log("1-3");
   } else {
+    console.log(mediaCodecs);
     router1 = await worker.createRouter({mediaCodecs});
+    console.log(2);
   }
 
   console.log(`Router ID: ${router1.id}`, peers.length);
