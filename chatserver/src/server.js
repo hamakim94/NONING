@@ -370,12 +370,15 @@ io.on('connection', (socket) => {
     'transport-recv-connect',
     async ({dtlsParameters, serverConsumerTransportId}) => {
       console.log(`DTLS PARAMS: ${dtlsParameters}`);
-      const consumerTransport = transports.find(
-        (transportData) =>
-          transportData.consumer &&
-          transportData.transport.id == serverConsumerTransportId,
-      ).transport;
-      await consumerTransport.connect({dtlsParameters});
+      const tmpTransport = transports.find(
+          (transportData) =>
+              transportData.consumer &&
+              transportData.transport.id == serverConsumerTransportId,
+      );
+      if (tmpTransport) {
+        const consumerTransport =tmpTransport.transport;
+        await consumerTransport.connect({dtlsParameters});
+      }
     },
   );
 
