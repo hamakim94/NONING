@@ -28,23 +28,23 @@ function UserPageNav() {
         options={{
           headerShown: false,
         }}
-        initialParams={{id: userData.userId}}
+        initialParams={{id: userData ? userData.userId : ''}}
       />
       {/* <Stack.Screen
-        name="SettingNav"
-        component={SettingNav}
-        options={HeaderOptions('설정')}
+        name="BottomTabsNav"
+        component={BottomTabsNav}
+        options={{headerShown: false}}
       /> */}
 
       <Stack.Screen
         name="DetailNav"
         component={DetailNav}
-        options={HeaderOptions('상세페이지')}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="YourPageScreen"
         component={YourPageScreen}
-        options={HeaderOptions('유저페이지')}
+        options={HeaderOptions('')}
       />
       <Stack.Screen
         name="FollowerScreen"

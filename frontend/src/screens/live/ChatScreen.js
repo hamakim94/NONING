@@ -119,6 +119,7 @@ export default function ChatScreen({route, navigation}) {
           nickname: userVoteData.nickname,
           userVote: userVoteData.userVote,
           msgId: chatRef.current,
+          img: userVoteData.img,
           msg: msg,
           reg: reg,
         };
@@ -153,7 +154,7 @@ export default function ChatScreen({route, navigation}) {
         setMessageList((messageList) => [...messageList, msgData]);
       });
       socket.on('connect_error', (err) => {
-        console.log(err.message);
+        // console.log(err.message);
       });
 
       socket.on('left', (userVoteData) => {
@@ -592,11 +593,23 @@ export default function ChatScreen({route, navigation}) {
     // }
 
     return () => {
-      console.log('end');
+      // console.log('end');
       if (socket) socket.disconnect();
     };
   }, [isFocused]);
 
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
+      setOnFocus(true);
+    });
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+      setOnFocus(false);
+    });
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
   useEffect(() => {
     chatRef.current =
       messageList.length !== 0
@@ -642,11 +655,9 @@ export default function ChatScreen({route, navigation}) {
           ...boardData,
           userVote: boardData.userVote == 1 ? 2 : 1,
         }));
-
-        setTimeout(() => setWaitButton(false), 60000);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
   let mute = () => {
@@ -698,9 +709,14 @@ export default function ChatScreen({route, navigation}) {
             betray={betray}
             boardData={boardData}
             waitButton={waitButton}
+            setWaitButton={setWaitButton}
           />
         </View>
-        <View style={{flex: 3.9, paddingHorizontal: '5%', minHeight: 0}}>
+        <View
+          style={{
+            flex: onFocus ? 1.5 : 3.9,
+            paddingHorizontal: '5%',
+          }}>
           <FlatList
             ref={scrollRef}
             onContentSizeChange={() => {

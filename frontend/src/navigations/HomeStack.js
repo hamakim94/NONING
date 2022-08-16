@@ -74,12 +74,12 @@ function HomeStack() {
           <Stack.Screen
             name="DetailNav"
             component={DetailNav}
-            options={HeaderOptions('상세페이지')}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="YourPageScreen"
             component={YourPageScreen}
-            options={HeaderOptions('유저페이지')}
+            options={HeaderOptions('')}
           />
           <Stack.Screen
             name="FollowerScreen"

@@ -20,10 +20,10 @@ export default function LiveFooter({live, setLives, navigation}) {
       },
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .then((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
   const unlike = () => {
@@ -32,7 +32,7 @@ export default function LiveFooter({live, setLives, navigation}) {
         // console.log(res);
       })
       .then((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -45,6 +45,7 @@ export default function LiveFooter({live, setLives, navigation}) {
       <View style={styles.writerContainer}>
         {/* <Text style={{color: '#000000'}}>호스트 : </Text> */}
         <TouchableOpacity
+          disabled={live ? (live.writerNickname ? false : true) : true}
           style={{flexDirection: 'row', alignItems: 'center'}}
           onPress={() => {
             live.writerNickname
@@ -61,7 +62,9 @@ export default function LiveFooter({live, setLives, navigation}) {
                 : require('../../assets/DefaultProfile.jpg')
             }></Image>
           <Text style={{paddingLeft: 5, color: '#000000', fontSize: 13}}>
-            {live.writerNickname}{' '}
+            {live.writerNickname === null
+              ? '탈퇴한논장이'
+              : live.writerNickname}{' '}
           </Text>
         </TouchableOpacity>
       </View>

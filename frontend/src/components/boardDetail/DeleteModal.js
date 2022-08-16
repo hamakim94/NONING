@@ -1,5 +1,11 @@
 import React from 'react';
-import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  Dimensions,
+} from 'react-native';
 import Modal from 'react-native-modal';
 
 export default function DeleteModal({
@@ -8,10 +14,7 @@ export default function DeleteModal({
   comment,
   deleteBtn,
 }) {
-  const deviceHeight = require('react-native-extra-dimensions-android').get(
-    'REAL_WINDOW_HEIGHT',
-  );
-
+  const deviceHeight = Dimensions.get('window').height;
   return (
     <>
       <Modal
@@ -28,13 +31,13 @@ export default function DeleteModal({
             <Text style={styles.modalText}>{comment}</Text>
           </View>
           <View style={styles.bottomModalbox}>
-            <TouchableOpacity style={styles.bottomBox} onPress={deleteBtn}>
-              <Text style={styles.modalText}>삭제</Text>
-            </TouchableOpacity>
             <TouchableOpacity
               style={styles.bottomBox}
               onPress={() => setDeleteModal(false)}>
               <Text style={styles.modalText}>취소</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.bottomBox} onPress={deleteBtn}>
+              <Text style={styles.modalText}>삭제</Text>
             </TouchableOpacity>
           </View>
         </View>

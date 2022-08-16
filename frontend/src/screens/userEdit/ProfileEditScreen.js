@@ -5,7 +5,7 @@ import {
   Platform,
   Text,
   StyleSheet,
-  useWindowDimensions,
+  Alert,
   Dimensions,
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
@@ -109,7 +109,7 @@ function ProfileEditScreen({navigation}) {
     };
     formdata.append('userDTO', JSON.stringify(newData));
 
-    console.log(formdata);
+    // console.log(formdata);
     UseAxios.put('/users/profiles/edit', formdata, {
       headers: {'Content-Type': `multipart/form-data;charset=UTF-8`},
     })
@@ -118,7 +118,7 @@ function ProfileEditScreen({navigation}) {
       })
       .then(() => navigation.goBack())
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -284,7 +284,7 @@ function ProfileEditScreen({navigation}) {
             Object.keys(errors).length === 0 && nickNameCheck
               ? handleSubmit(onSubmit)
               : () => {
-                  alert('입력을 확인해주세요.');
+                  Alert.alert('', '입력을 확인해주세요.');
                 }
           }>
           <View
@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 30,
     color: '#FFFFFF',
-    backgroundColor: '#FF7171',
+    backgroundColor: '#FF5F5F',
     borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
@@ -429,7 +429,7 @@ const styles = StyleSheet.create({
     paddingVertical: '1%',
     height: '100%',
     borderRadius: 6,
-    backgroundColor: '#FF7171',
+    backgroundColor: '#FF5F5F',
     marginHorizontal: '3%',
     width: '22%',
   },

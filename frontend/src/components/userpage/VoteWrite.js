@@ -6,7 +6,6 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {useIsFocused} from '@react-navigation/native';
 
 export default function VoteWrite({navigation, id, myPageData}) {
-  const isFocused = useIsFocused();
   const [filteredData, setFilteredData] = useState([]);
   const isArr = Array.isArray(myPageData.boardList);
   useEffect(() => {
@@ -14,7 +13,7 @@ export default function VoteWrite({navigation, id, myPageData}) {
       ? myPageData.boardList.filter((e) => e.writerId === id)
       : [];
     setFilteredData(data);
-  }, [isArr]);
+  }, [myPageData]);
 
   const keyExtractor = (item) => item.boardId;
   const renderItem = ({item}) => (

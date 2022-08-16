@@ -2,7 +2,7 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {Avatar} from '@rneui/themed';
 import React from 'react';
 
-function ChatContent({data, userList}) {
+function ChatContent({data}) {
   return data.betray == null ? (
     <View
       style={{
@@ -31,9 +31,13 @@ function ChatContent({data, userList}) {
                 borderColor: data.userVote == 1 ? '#FF5F5F' : '#49D3CA',
               },
             ]}
-            source={{
-              uri: userList.find((e) => e.nickname == data.nickname).img,
-            }}
+            source={
+              data.img
+                ? {
+                    uri: data.img,
+                  }
+                : require('../../../assets/DefaultProfile.jpg')
+            }
           />
         </TouchableOpacity>
       </View>

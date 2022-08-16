@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react';
-import {View, TouchableOpacity, Platform, Text} from 'react-native';
+import {View, TouchableOpacity, Platform, Text, Alert} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import schema from '../../components/signUp/Validation';
@@ -116,14 +116,15 @@ function InfoScreen({navigation}) {
       headers: {'Content-Type': `multipart/form-data;charset=UTF-8`},
     })
       .then((res) => {
-        console.log(res);
-        alert(
+        // console.log(res);
+        Alert.alert(
+          '',
           data.email +
             ' 주소로 인증메일이' +
             '\n' +
             '발송되었습니다.' +
             '\n' +
-            '인증을 완료 후 로그인해주세요!.',
+            '인증을 완료 후 로그인해주세요!',
         );
         navigation.navigate('CompleteScreen');
       })
@@ -385,7 +386,7 @@ function InfoScreen({navigation}) {
               Object.keys(errors).length === 0 && emailCheck && nickNameCheck
                 ? handleSubmit(onSubmit)
                 : () => {
-                    alert('입력을 확인해주세요.');
+                    Alert.alert('', '입력을 확인해주세요.');
                   }
             }>
             <Text style={styles.buttonText}>회원가입</Text>

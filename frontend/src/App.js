@@ -8,6 +8,7 @@ import UseAxios from './util/UseAxios';
 
 export default function App() {
   const [userData, setUserData] = useState(null);
+
   useEffect(() => {
     const getData = async () => {
       const value = await AsyncStorage.getItem('userId');
@@ -16,7 +17,9 @@ export default function App() {
           .then((res) => {
             setUserData(res.data);
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            // console.log(err);
+          });
       }
     };
     getData();
