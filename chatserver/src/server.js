@@ -31,7 +31,7 @@ try {
   httpsServer = https.createServer(option, app);
 
   io = new Server(httpsServer);
-  httpsServer.listen(3002, () => {
+  httpsServer.listen(3000, () => {
     console.log('[HTTPS] server started (server listening on port : 3000)');
   });
 } catch (error) {
