@@ -39,14 +39,17 @@ try {
   console.log(error);
 }
 (async () => {
+  console.log(1);
   worker = await mediasoup.createWorker({
     logLevel: config.mediasoup.worker.logLevel,
     logTags: config.mediasoup.worker.logTags,
     rtcMinPort: config.mediasoup.worker.rtcMinPort,
     rtcMaxPort: config.mediasoup.worker.rtcMaxPort,
   });
-
+  console.log(2);
+  console.log(worker);
   worker.on('died', () => {
+    console.log(3);
     console.error(
       'mediasoup worker died, exiting in 2 seconds... [pid:%d]',
       worker.pid,
@@ -608,17 +611,11 @@ const createRoom = async (roomName, socketId) => {
   // none of the two are required
   let router1;
   let peers = [];
-  console.log(1);
   if (rooms[roomName]) {
-    console.log("1-1");
     router1 = rooms[roomName].router;
-    console.log("1-2");
     peers = rooms[roomName].peers || [];
-    console.log("1-3");
   } else {
-    console.log(mediaCodecs);
     router1 = await worker.createRouter({mediaCodecs});
-    console.log(2);
   }
 
   console.log(`Router ID: ${router1.id}`, peers.length);
