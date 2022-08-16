@@ -24,8 +24,8 @@ const mediaCodecs = config.mediasoup.router.mediaCodecs;
 try {
   const option = {
     // ca: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/fullchain.pem'),
-    key: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/privkey.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/' + domain + '/cert.pem'),
+    key: fs.readFileSync('/var/www/' + domain + '/noning/privkey.pem'),
+    cert: fs.readFileSync('/var/www/' + domain + '/noning/cert.pem'),
   };
 
   httpsServer = https.createServer(option, app);
