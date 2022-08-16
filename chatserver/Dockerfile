@@ -7,10 +7,13 @@ RUN \
 
 WORKDIR /var/app
 COPY package.json .
-RUN npm install
 COPY . .
 COPY /src/UseAxios.js .
 COPY /src/config.js .
+RUN apk add --update py3-pip
+RUN npm install
+RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.2/zsh-in-docker.sh)"
+
 
 EXPOSE 3000
 EXPOSE 8500-8700
