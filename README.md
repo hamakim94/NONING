@@ -170,13 +170,56 @@ src
 
 ## :heavy_check_mark: 폴더 구조 - Backend
 ```
-
+src
+├─main
+│  ├─java
+│  │  └─com
+│  │      └─fivenonjangi
+│  │          └─noning
+│  │              ├─config
+│  │              │  └─security
+│  │              ├─controller
+│  │              ├─data
+│  │              │  ├─dto
+│  │              │  │  ├─board
+│  │              │  │  ├─chat
+│  │              │  │  ├─comment
+│  │              │  │  ├─live
+│  │              │  │  └─user
+│  │              │  ├─entity
+│  │              │  │  ├─board
+│  │              │  │  ├─chat
+│  │              │  │  ├─comment
+│  │              │  │  ├─etc
+│  │              │  │  └─user
+│  │              │  └─repository
+│  │              │      ├─board
+│  │              │      ├─chat
+│  │              │      ├─comment
+│  │              │      ├─etc
+│  │              │      ├─live
+│  │              │      └─user
+│  │              ├─service
+│  │              │  ├─board
+│  │              │  ├─chat
+│  │              │  ├─comment
+│  │              │  ├─etc
+│  │              │  ├─live
+│  │              │  └─user
+│  │              ├─Utils
+│  │              └─webhook
+│  └─resources
+└─test
+     └─java
+            └─com
+                └─fivenonjangi
+                    └─noning
 ```
 
 <br/>
 
 
-## :heavy_check_mark:페이지 기능 소개 
+## :heavy_check_mark: 페이지 기능 소개 
 <br/>
 
 - 로그인 / 비밀번호 찾기
