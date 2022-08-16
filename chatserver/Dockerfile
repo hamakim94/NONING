@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:17-alpine3.12
 
 RUN \
   set -x \
@@ -10,7 +10,6 @@ COPY package.json .
 COPY . .
 COPY /src/UseAxios.js .
 COPY /src/config.js .
-RUN apk add --update py3-pip
 RUN npm install
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.2/zsh-in-docker.sh)"
 
