@@ -462,7 +462,7 @@ io.on('connection', (socket) => {
         (consumerData) => consumerData.consumer.id === serverConsumerId,
     );
     if (tmpConsumerData) {
-      const {consumer} = tmpConsumerData.consumer;
+      const consumer = tmpConsumerData.consumer;
       await consumer.resume();
     }
   });
