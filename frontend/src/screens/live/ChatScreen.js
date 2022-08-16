@@ -38,6 +38,7 @@ export default function ChatScreen({route, navigation}) {
   const chatRef = useRef(null);
   const scrollRef = useRef(null);
   const isFocused = useIsFocused();
+  const [onFocus, setOnFocus] = useState(false);
 
   useEffect(() => {
     if (isFocused) {
@@ -150,6 +151,18 @@ export default function ChatScreen({route, navigation}) {
   }, [isFocused]);
 
   useEffect(() => {
+    const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
+      setOnFocus(true);
+    });
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+      setOnFocus(false);
+    });
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+  useEffect(() => {
     chatRef.current =
       messageList.length !== 0
         ? messageList[messageList.length - 1].msgId + 1
@@ -194,8 +207,6 @@ export default function ChatScreen({route, navigation}) {
           ...boardData,
           userVote: boardData.userVote == 1 ? 2 : 1,
         }));
-
-        setTimeout(() => setWaitButton(false), 60000);
       })
       .catch((err) => {
         // console.log(err);
@@ -239,9 +250,14 @@ export default function ChatScreen({route, navigation}) {
             betray={betray}
             boardData={boardData}
             waitButton={waitButton}
+            setWaitButton={setWaitButton}
           />
         </View>
-        <View style={{flex: 3.9, paddingHorizontal: '5%', minHeight: 0}}>
+        <View
+          style={{
+            flex: onFocus ? 1.5 : 3.9,
+            paddingHorizontal: '5%',
+          }}>
           <FlatList
             ref={scrollRef}
             onContentSizeChange={() => {

@@ -28,11 +28,6 @@ export default function DetailNav() {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="YourPageScreen"
-        component={YourPageScreen}
-        options={HeaderOptions('유저페이지')}
-      />
-      <Stack.Screen
         name="FollowerScreen"
         component={FollowerScreen}
         options={HeaderOptions('Follower')}
