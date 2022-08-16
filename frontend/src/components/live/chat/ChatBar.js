@@ -96,7 +96,7 @@ function ChatBar({betray, boardData, waitButton, setWaitButton}) {
               fontWeight: 'bold',
               color: '#000000',
             }}>
-            {waitButton ? {number} : '배신하기'}
+            {waitButton ? number : '배신하기'}
           </Text>
         </TouchableOpacity>
       </View>
