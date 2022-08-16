@@ -39,7 +39,9 @@ export default function LiveBar({live, setLives}) {
             ? navigation.navigate('LoginNav', {screen: 'LoginNav'})
             : [setOpt1Selected(), posting(1)];
         }}>
-        <Text style={styles.leftInnerText(live.userVote)}>{live.opt1}</Text>
+        <Text style={styles.leftInnerText(live.userVote)} numberOfLines={1}>
+          {live.opt1}
+        </Text>
         {live.userVote > 0 && (
           <Text style={styles.leftInnerText(live.userVote)}>
             {leftSize + '%'}
@@ -54,7 +56,9 @@ export default function LiveBar({live, setLives}) {
             ? navigation.navigate('LoginNav', {screen: 'LoginNav'})
             : [setOpt2Selected(), posting(2)];
         }}>
-        <Text style={styles.rightInnerText(live.userVote)}>{live.opt2}</Text>
+        <Text style={styles.rightInnerText(live.userVote)} numberOfLines={1}>
+          {live.opt2}
+        </Text>
         {live.userVote > 0 && (
           <Text style={styles.rightInnerText(live.userVote)}>
             {rightSize + '%'}

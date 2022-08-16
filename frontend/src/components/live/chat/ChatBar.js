@@ -48,7 +48,9 @@ function ChatBar({betray, boardData, waitButton, setWaitButton}) {
           paddingHorizontal: 50,
         }}>
         <View style={[styles.barLeftContainer(boardData)]}>
-          <Text style={styles.barLeftText(boardData)}>{boardData.opt1}</Text>
+          <Text style={styles.barLeftText(boardData)} numberOfLines={1}>
+            {boardData.opt1}
+          </Text>
           <Text style={styles.barLeftText(boardData)}>
             {Math.round(
               (boardData.opt1Selected /
@@ -59,7 +61,9 @@ function ChatBar({betray, boardData, waitButton, setWaitButton}) {
           </Text>
         </View>
         <View style={[styles.barRightContainer(boardData)]}>
-          <Text style={styles.barRightText(boardData)}>{boardData.opt2}</Text>
+          <Text style={styles.barRightText(boardData)} numberOfLines={1}>
+            {boardData.opt2}
+          </Text>
           <Text style={styles.barRightText(boardData)}>
             {Math.round(
               (boardData.opt2Selected /
