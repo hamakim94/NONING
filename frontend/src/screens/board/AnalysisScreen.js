@@ -36,7 +36,7 @@ function AnalysisScreen({board}) {
           userAnalysis.push('40대');
           break;
         default:
-          userAnalysis.pust('50대이상');
+          userAnalysis.push('50대이상');
           break;
       }
       userData.mbti1Code == 'M0101' ? (mbti += 'E') : (mbti += 'I');
