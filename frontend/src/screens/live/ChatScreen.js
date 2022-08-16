@@ -51,6 +51,7 @@ export default function ChatScreen({route, navigation}) {
   const scrollRef = useRef(null);
   const isFocused = useIsFocused();
   const isMute = useRef(true);
+  const [onFocus, setOnFocus] = useState(false);
   let device;
   let rtpCapabilities;
   let producerTransport;
