@@ -165,7 +165,7 @@ export default function YourPageScreen({route, navigation}) {
             </TouchableOpacity>
           </View>
         ) : (
-          <View style={{flex: 0.07, alignSelf: 'flex-end'}} />
+          ''
         )
       ) : (
         ''

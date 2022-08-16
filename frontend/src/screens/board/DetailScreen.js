@@ -184,7 +184,7 @@ export default function DetailScreen({navigation, route}) {
       <View style={styles.container}>
         <View
           style={{
-            flex: 2.4,
+            flex: 2,
             alignItems: 'center',
             paddingTop: 16,
             paddingHorizontal: 16,
@@ -354,6 +354,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   titleContainer: {
+    flex: 0.8,
     height: 90,
     width: '100%',
     padding: 5,
