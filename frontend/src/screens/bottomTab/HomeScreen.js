@@ -142,7 +142,7 @@ function HomeScreen({navigation}) {
                   style={{height: 105, width: 135, alignSelf: 'center'}}
                   source={require('../../components/common/header-logo.png')}></Image>
               </View>
-              <View styel={{flex: 1.2}}>
+              <View>
                 <Text
                   style={{
                     textAlign: 'center',
