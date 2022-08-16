@@ -165,6 +165,7 @@ export default function DetailScreen({navigation, route}) {
       });
   };
   const onLive = () => {
+    setIsModal(false);
     if (board.live) {
       navigation.navigate('ChatNav', {
         screen: 'ChatInfoScreen',
