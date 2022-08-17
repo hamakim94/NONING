@@ -6,6 +6,7 @@ import fs from 'fs';
 import https from 'https';
 import mediasoup from 'mediasoup';
 import config from './config.js';
+import {logPlugin} from "@babel/preset-env/lib/debug.js";
 
 const app = express();
 let domain = 'i7a202.p.ssafy.io';
@@ -54,7 +55,15 @@ try {
       'mediasoup worker died, exiting in 2 seconds... [pid:%d]',
       worker.pid,
     );
-    setTimeout(() => process.exit(1), 2000);
+    setTimeout(async () =>{
+      console.log("worker died");
+      worker = await mediasoup.createWorker({
+        logLevel: config.mediasoup.worker.logLevel,
+        logTags: config.mediasoup.worker.logTags,
+        rtcMinPort: config.mediasoup.worker.rtcMinPort,
+        rtcMaxPort: config.mediasoup.worker.rtcMaxPort,
+      });
+    }, 2000);
   });
 
   // const mediaCodecs = config.mediasoup.router.mediaCodecs;
