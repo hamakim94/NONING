@@ -63,6 +63,11 @@ try {
         rtcMinPort: config.mediasoup.worker.rtcMinPort,
         rtcMaxPort: config.mediasoup.worker.rtcMaxPort,
       });
+      rooms = {};
+      peers = {};
+      producers = [];
+      consumers = [];
+      transports = [];
     }, 2000);
   });
 
