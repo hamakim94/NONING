@@ -231,22 +231,35 @@ src
 
 
 ## :heavy_check_mark: 페이지 기능 소개 
-<br/>
 
-- 로그인 / 비밀번호 찾기
-  
-- 회원가입
+- 홈
+<img src="/doc/img/홈.gif" width='200' height="450" />
 
-- 홈 / 상세페이지
+- 논쟁 등록
+<img src="doc/img/논쟁등록.gif" width="200" height="450">
+
+- 상세페이지
 
 - 플로우
+<img src="/doc/img/플로우.gif" width='200' height="450"/>
+
+- 실시간 채팅
+<img src="doc/img/채팅방생성.gif" width="200" height="450">
 
 - 라이브
 
 - 검색
 
 - 유저페이지 / 팔로우 / 팔로잉
+<img src="doc/img/마이페이지.gif" width="200" height="450">
 
-- 실시간 채팅
+- 설정(프로필 편집)
+<img src="doc/img/프로필편집.gif" width="200" height="450">
 
-- 설정
+- 설정(비밀번호 변경)
+<img src="doc/img/비밀번호변경.gif" width="200" height="450">
+- 설정(약관)
+<img src="doc/img/이용약관개인정보.gif" width="200" height="450">
+- 설정(로그아웃)
+<img src="doc/img/로그아웃.gif" width="200" height="450">
+- 설정(회원탈퇴)
