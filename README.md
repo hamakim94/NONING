@@ -233,33 +233,35 @@ src
 ## :heavy_check_mark: 페이지 기능 소개 
 
 - 홈
-<img src="/doc/img/홈.gif" width='200' height="450" />
+<img src="/uploads/9c9428071e3bbedfc1e2fd0c179886e7/홈.gif" width='200' height="450" />
 
 - 논쟁 등록
-<img src="doc/img/논쟁등록.gif" width="200" height="450">
+<img src="/uploads/b7823910c82f576601c48219656385a0/논쟁등록.gif" width="200" height="450">
 
 - 상세페이지
 
 - 플로우
-<img src="/doc/img/플로우.gif" width='200' height="450"/>
+<img src="/uploads/ccde1d00717024fcaa68c1b1166fbcf5/플로우.gif" width='200' height="450"/>
 
 - 실시간 채팅
-<img src="doc/img/채팅방생성.gif" width="200" height="450">
+<img src="/uploads/977ce654d295584bf9cafc1b25af6cc4/채팅방생성.gif" width="200" height="450">
 
 - 라이브
 
 - 검색
 
-- 유저페이지 / 팔로우 / 팔로잉
-<img src="doc/img/마이페이지.gif" width="200" height="450">
+- 사용자 페이지 / 팔로우 / 팔로잉
+<img src="/uploads/7f597475a2a926fd6856ea4f9c52b76c/마이페이지.gif" width="200" height="450">
 
 - 설정(프로필 편집)
-<img src="doc/img/프로필편집.gif" width="200" height="450">
+<img src="/uploads/2c0a09c2261e872629532b7f72b8ca67/프로필편집.gif" width="200" height="450">
 
 - 설정(비밀번호 변경)
-<img src="doc/img/비밀번호변경.gif" width="200" height="450">
+<img src="/uploads/313b7aef4fb5189b0d16b0c04344a82e/비밀번호변경.gif" width="200" height="450">
+
 - 설정(약관)
-<img src="doc/img/이용약관개인정보.gif" width="200" height="450">
+<img src="/uploads/3d40e56a20e16fdb4d7b7a6a41c2cc74/이용약관개인정보.gif" width="200" height="450">
+
 - 설정(로그아웃)
-<img src="doc/img/로그아웃.gif" width="200" height="450">
+<img src="/uploads/f0e8b4af2a58a12cd62ced4790fb9572/로그아웃.gif" width="200" height="450">
 - 설정(회원탈퇴)
