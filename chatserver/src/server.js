@@ -6,7 +6,6 @@ import fs from 'fs';
 import https from 'https';
 import mediasoup from 'mediasoup';
 import config from './config.js';
-import {logPlugin} from "@babel/preset-env/lib/debug.js";
 
 const app = express();
 let domain = 'i7a202.p.ssafy.io';
@@ -55,8 +54,8 @@ try {
       'mediasoup worker died, exiting in 2 seconds... [pid:%d]',
       worker.pid,
     );
-    setTimeout(async () =>{
-      console.log("worker died");
+    setTimeout(async () => {
+      console.log('worker died');
       worker = await mediasoup.createWorker({
         logLevel: config.mediasoup.worker.logLevel,
         logTags: config.mediasoup.worker.logTags,
@@ -68,6 +67,7 @@ try {
       producers = [];
       consumers = [];
       transports = [];
+      io.broadcast('reconnect', {});
     }, 2000);
   });
 
@@ -105,6 +105,27 @@ io.on('connection', (socket) => {
 
     return items;
   };
+  socket.on('reenter', async (boardData, userData, done) => {
+    if (socket.boardId) {
+      const router1 = await createRoom(socket.boardId, socket.id);
+
+      peers[socket.id] = {
+        socket,
+        roomName: socket.boardId, // Name for the Router this Peer joined
+        transports: [],
+        producers: [],
+        consumers: [],
+        peerDetails: {
+          name: '',
+          isAdmin: false, // Is this Peer the Admin?
+        },
+      };
+
+      // get Router RTP Capabilities
+      const rtpCapabilities = router1.rtpCapabilities;
+      done({rtpCapabilities});
+    }
+  });
   // 실시간 음성채팅방 입장
   socket.on('enter', (boardData, userData, done) => {
     UseAxios.post('/chats/enter', null, {
@@ -195,12 +216,12 @@ io.on('connection', (socket) => {
       if (peers[socket.id]) {
         const roomName = peers[socket.id].roomName;
         delete peers[socket.id];
-        if(roomName) {
+        if (roomName) {
           // remove socket from room
           rooms[roomName] = {
             router: rooms[roomName].router,
             peers: rooms[roomName].peers.filter(
-                (socketId) => socketId !== socket.id,
+              (socketId) => socketId !== socket.id,
             ),
           };
         }
@@ -249,7 +270,7 @@ io.on('connection', (socket) => {
     // get Router (Room) object this peer is in based on RoomName
     const router = rooms[roomName].router;
 
-    createWebRtcTransport(router).then(
+    createWebRtcTransport(router, socket).then(
       (transport) => {
         callback({
           params: {
@@ -387,12 +408,12 @@ io.on('connection', (socket) => {
     async ({dtlsParameters, serverConsumerTransportId}) => {
       console.log(`DTLS PARAMS: ${dtlsParameters}`);
       const tmpTransport = transports.find(
-          (transportData) =>
-              transportData.consumer &&
-              transportData.transport.id == serverConsumerTransportId,
+        (transportData) =>
+          transportData.consumer &&
+          transportData.transport.id == serverConsumerTransportId,
       );
       if (tmpTransport) {
-        const consumerTransport =tmpTransport.transport;
+        const consumerTransport = tmpTransport.transport;
         await consumerTransport.connect({dtlsParameters});
       }
     },
@@ -475,7 +496,7 @@ io.on('connection', (socket) => {
   socket.on('consumer-resume', async ({serverConsumerId}) => {
     console.log('consumer resume');
     const tmpConsumerData = consumers.find(
-        (consumerData) => consumerData.consumer.id === serverConsumerId,
+      (consumerData) => consumerData.consumer.id === serverConsumerId,
     );
     if (tmpConsumerData) {
       const consumer = tmpConsumerData.consumer;
@@ -592,7 +613,7 @@ io.on('connection', (socket) => {
 //     producerPaused: consumers.producerPaused,
 //   };
 // }
-const createWebRtcTransport = async (router) => {
+const createWebRtcTransport = async (router, socket) => {
   return new Promise(async (resolve, reject) => {
     try {
       // https://mediasoup.org/documentation/v3/mediasoup/api/#WebRtcTransportOptions
@@ -621,6 +642,13 @@ const createWebRtcTransport = async (router) => {
 
       resolve(transport);
     } catch (error) {
+      //모두 제거하면 안됨
+      rooms = {};
+      peers = {};
+      producers = [];
+      consumers = [];
+      transports = [];
+      socket.to(socket.boardId).broadcast('reconnect', {});
       reject(error);
     }
   });
