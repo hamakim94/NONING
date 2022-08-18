@@ -72,14 +72,20 @@ export default function ChatScreen({route, navigation}) {
             navigation.goBack();
           }
         });
-
-        // const data = await new Promise((resolve) =>
-        //   socket.emit('getRouterRtpCapabilities', resolve),
-        // );
-        // await loadDevice(data);
-        // await publish();
-        // await subscribe();
       });
+
+      socket.on('reconnect', async () => {
+        console.log(userData.nickname + ' reconnect');
+        getLocalStream();
+        socket.emit('reenter', boardData, userData, (data) => {
+          if (data) {
+            rtpCapabilities = data.rtpCapabilities;
+            createDevice();
+          } else {
+            socket.disconnect();
+            navigation.goBack();
+          }
+      })
 
       socket.on('welcome', (userVoteData) => {
         // user update
@@ -181,8 +187,8 @@ export default function ChatScreen({route, navigation}) {
       });
 
       const streamSuccess = (stream) => {
-        audioParams = {track: stream.getAudioTracks()[0], ...audioParams};
-        audioParams.track.enabled = false;
+        audioParams = { track: stream.getAudioTracks()[0], ...audioParams };
+        if(isMute.current) audioParams.track.enabled = false;
       };
 
       const getLocalStream = () => {
