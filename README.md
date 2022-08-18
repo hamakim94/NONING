@@ -8,7 +8,7 @@
 
 
 <!-- ![image](doc/img/논잉어플.jpg) -->
-<img src="doc/img/noning_logo.png" width="250" height="250"/>
+<img src="doc/img/noning_logo.png" width="200" height="200"/>
 
 ## NONING - 배경 
 ---
