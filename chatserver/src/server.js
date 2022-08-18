@@ -67,7 +67,7 @@ try {
       producers = [];
       consumers = [];
       transports = [];
-      io.broadcast('reconnect', {});
+      io.emit('reconnect', {});
     }, 2000);
   });
 
