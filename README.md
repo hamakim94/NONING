@@ -239,7 +239,7 @@ src
 <img src="/uploads/b7823910c82f576601c48219656385a0/논쟁등록.gif" width="200" height="450">
 
 - 상세페이지
-<img src="/doc/img/상세페이지.gif"  width="200" height="450" >
+<img src="/uploads/3b811237d548a029ab806955d2c3610c/상세페이지.gif"  width="200" height="450" >
 
 - 플로우
 <img src="/uploads/ccde1d00717024fcaa68c1b1166fbcf5/플로우.gif" width='200' height="450"/>
@@ -248,10 +248,10 @@ src
 <img src="/uploads/977ce654d295584bf9cafc1b25af6cc4/채팅방생성.gif" width="200" height="450"/>
 
 - 라이브
-<img src="doc/img/라이브.gif" width="200" height="450"/>
+<img src="/uploads/ee7d653c8fe2d31acc8b675cf34274d8/라이브.gif" width="200" height="450"/>
 
 - 검색
-<img src="/doc/img/검색.gif"  width="200" height="450"/>
+<img src="/uploads/72f70b443cd862d11c0b288c6945ab11/검색.gif"  width="200" height="450"/>
 
 - 사용자 페이지 / 팔로우 / 팔로잉
 <img src="/uploads/7f597475a2a926fd6856ea4f9c52b76c/마이페이지.gif" width="200" height="450">
