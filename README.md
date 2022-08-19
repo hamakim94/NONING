@@ -141,7 +141,7 @@ SSAFY 7기 2학기 공통프로젝트 - NONING
 ## :heavy_check_mark: 프로젝트 결과물
 ---
 - [중간발표자료](doc/중간발표자료.pptx)
-- [최종발표자료]()
+- [최종발표자료](doc/최종발표자료.pptx)
 <br/>
 
 ## :heavy_check_mark: 폴더 구조 - Frontend
