@@ -17,5 +17,5 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
 
 
 EXPOSE 3000
-EXPOSE 8500-8700
+EXPOSE 8400-8880
 CMD [ "npm", "start" ]

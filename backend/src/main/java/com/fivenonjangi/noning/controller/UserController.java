@@ -155,13 +155,15 @@ public class UserController {
         else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @GetMapping("/verify")
-    public ResponseEntity verifyingEmail(@Validated @RequestParam String token) {
+    public void verifyingEmail(@Validated @RequestParam String token, HttpServletResponse response) {
         try {
             userService.verifyEmail(token);
-            return new ResponseEntity<>(HttpStatus.OK);
+            response.sendRedirect("https://i7a202.p.ssafy.io/signup/success.html");
         }
         catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            try {
+            response.sendRedirect("https://i7a202.p.ssafy.io/signup/error.html");
+            }catch (Exception exception){}
         }
     }
     @GetMapping("/passwords/find")
