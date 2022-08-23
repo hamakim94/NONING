@@ -85,7 +85,8 @@ export default function ChatScreen({route, navigation}) {
             socket.disconnect();
             navigation.goBack();
           }
-      })
+        });
+      });
 
       socket.on('welcome', (userVoteData) => {
         // user update
@@ -187,8 +188,8 @@ export default function ChatScreen({route, navigation}) {
       });
 
       const streamSuccess = (stream) => {
-        audioParams = { track: stream.getAudioTracks()[0], ...audioParams };
-        if(isMute.current) audioParams.track.enabled = false;
+        audioParams = {track: stream.getAudioTracks()[0], ...audioParams};
+        if (isMute.current) audioParams.track.enabled = false;
       };
 
       const getLocalStream = () => {
