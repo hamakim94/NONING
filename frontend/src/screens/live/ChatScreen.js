@@ -88,19 +88,6 @@ export default function ChatScreen({route, navigation}) {
         });
       });
 
-      socket.on('reconnect', async () => {
-        console.log(userData.nickname + ' reconnect');
-        getLocalStream();
-        socket.emit('reenter', boardData, userData, (data) => {
-          if (data) {
-            rtpCapabilities = data.rtpCapabilities;
-            createDevice();
-          } else {
-            socket.disconnect();
-            navigation.goBack();
-          }
-      })
-
       socket.on('welcome', (userVoteData) => {
         // user update
         // front단의 userlist update
